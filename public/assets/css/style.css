@@ -1,0 +1,24 @@
+.loginFormButton {
+  @apply flex-1 h-12 py-3 sm:h-14 lg:h-16 bg-black hover:bg-black/90 rounded-xl text-white font-bold text-sm lg:text-base tracking-wider;
+}
+
+.loginForm .ant-input-affix-wrapper,
+.LoginNumberSelect input {
+  @apply !bg-input-box !py-3;
+}
+
+.loginForm input {
+  @apply placeholder:!font-medium;
+}
+
+.LoginNumberSelect .ant-select-selector {
+  @apply !bg-input-box !py-6;
+}
+
+.LoginNumberSelect .ant-select-arrow {
+  @apply !bg-input-box !pt-3;
+}
+
+.ant-form-item-required {
+  @apply font-medium tracking-[1px];
+}

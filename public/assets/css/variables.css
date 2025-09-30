@@ -1,0 +1,13 @@
+:root {
+  --primary: #e76f1d;
+  --primary-light: #feecd7;
+  --bg-light: #fef6e6;
+  --input-box: #F5F5F5;
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-bg-light: var(--bg-light);
+  --color-input-box: var(--input-box);
+}
