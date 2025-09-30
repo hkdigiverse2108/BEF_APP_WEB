@@ -1,3 +1,3 @@
 export const STORAGE_KEYS = {
-
-} as const ;
+  Token: "BEF-Web-Token",
+} as const;

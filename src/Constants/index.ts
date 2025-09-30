@@ -1,8 +1,8 @@
 import { KEYS } from "./Keys";
 import { ROUTES } from "./Routes";
 import { HTTP_STATUS } from "./HttpStatus";
-import { URL } from "./Url";
+import { URL_KEYS } from "./Url";
 import { STORAGE_KEYS } from "./StorageKeys";
 
-export { KEYS, ROUTES, HTTP_STATUS, URL, STORAGE_KEYS }
+export { KEYS, ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS }
 
