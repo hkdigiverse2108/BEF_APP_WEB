@@ -1,24 +1,41 @@
 .loginFormButton {
   @apply flex-1 w-full h-12 py-3 sm:h-14 lg:h-16 bg-black hover:bg-black/90 rounded-xl text-white font-bold text-sm lg:text-base tracking-wider;
 }
-
-.loginForm .ant-input-affix-wrapper,
-.LoginNumberSelect input {
+.loginForm .ant-input-affix-wrapper {
+  @apply !bg-input-box !py-0;
+}
+.ant-input,
+.ant-picker,
+.ant-select-selector {
   @apply !bg-input-box !py-3;
 }
 
-.loginForm input {
-  @apply placeholder:!font-medium;
+input {
+  @apply placeholder:!font-medium placeholder:capitalize;
 }
 
-.LoginNumberSelect .ant-select-selector {
+.ant-select-selector {
   @apply !bg-input-box !py-6;
 }
+.ant-select-arrow {
+  @apply !bg-input-box !pt-4;
+}
 
-.LoginNumberSelect .ant-select-arrow {
+.ant-select-compact-item .ant-select-arrow {
   @apply !bg-input-box !pt-3;
 }
 
-.ant-form-item-required {
+.ant-form-item {
   @apply font-medium tracking-[1px];
+}
+
+.ant-form-item-label {
+  @apply uppercase;
+}
+
+.ant-select-selection-placeholder{
+  @apply !font-medium;
+}
+.ant-form-item-control-input-content .ant-picker{
+  @apply !w-full;
 }
