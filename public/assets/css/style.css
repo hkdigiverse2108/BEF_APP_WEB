@@ -1,5 +1,5 @@
 .loginFormButton {
-  @apply flex-1 h-12 py-3 sm:h-14 lg:h-16 bg-black hover:bg-black/90 rounded-xl text-white font-bold text-sm lg:text-base tracking-wider;
+  @apply flex-1 w-full h-12 py-3 sm:h-14 lg:h-16 bg-black hover:bg-black/90 rounded-xl text-white font-bold text-sm lg:text-base tracking-wider;
 }
 
 .loginForm .ant-input-affix-wrapper,

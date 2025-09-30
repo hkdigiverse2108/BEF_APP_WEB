@@ -1,10 +1,27 @@
-import { Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Space } from "antd";
+import { NavLink } from "react-router-dom";
+import type { LoginForm } from "../../Types";
+import { useLoginMutation } from "../../Api/AuthApi";
 const { Item } = Form;
 const Login = () => {
   const [form] = Form.useForm();
-  const handleFinish = () => {
-    // TODO: integrate submit
+
+  const [login] = useLoginMutation({})
+
+  const handleFormSubmit = async (values: LoginForm) => {
+    try {
+      const payload = {
+        ...values,
+        userType: "user"
+      }
+      const res = await login(payload).unwrap()
+      console.log("form submitted", payload, res)
+    } catch (error) {
+
+    }
+
   };
+
   return (
     <>
       <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
@@ -12,7 +29,7 @@ const Login = () => {
           <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full  h-full z-10 bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
             <div className="w-full p-4 sm:p-8 lg:p-12 ">
               <div className="z-20 text-center w-full 2xl:top-14 flex flex-col gap-3 ">
-                <h1 className="font-bold text-[#060606] text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
+                <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
                   Our Learning
                   <br />
                   Dashboard
@@ -32,35 +49,34 @@ const Login = () => {
                 {/* Header */}
                 <header className="space-y-6 lg:space-y-8">
                   <div className="space-y-3">
-                    <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-[#060606] text-center lg:text-left">Create an Account</h2>
-                    <p className="font-medium text-sm sm:text-base xl:text-sm text-[#060606] text-center lg:text-left opacity-80">Create an account or log in to explore about our website</p>
+                    <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center lg:text-left">Create an Account</h2>
+                    <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center lg:text-left opacity-80">Create an account or log in to explore about our website</p>
                   </div>
                 </header>
-                <span className="border-t border-[#fe690b] flex w-full "></span>
+                <span className="border-t border-primary flex w-full "></span>
                 <Form
                   form={form}
                   layout="vertical"
-                  onFinish={handleFinish}
+                  onFinish={handleFormSubmit}
                   className="loginForm space-y-8 lg:space-y-10"
                   initialValues={{
-                    firstName: "John",
-                    lastName: "John doe",
-                    gender: "Male",
-                    email: "admin123@gmail.com",
-                    city: "Surat",
-                    language: "English",
-                    referralCode: "BEF125",
                     countryCode: "+91",
-                    phoneNumber: "00000 00000",
-                    attemptNumber: "01",
                   }}
                 >
-                  <Form.Item label="PHONE NUMBER" className="LoginNumberSelect" required>
-                    <Input.Group compact>
-                      <Form.Item name="countryCode" noStyle rules={[{ required: true }]}>
+
+                  <Form.Item
+                    label="PHONE NUMBER"
+                    className="LoginNumberSelect"
+                    required
+                  >
+                    <Space.Compact block size="large">
+                      <Form.Item
+                        name="countryCode"
+                        noStyle
+                        rules={[{ required: true }]}
+                      >
                         <Select
                           style={{ width: 100 }}
-                          size="large"
                           options={[
                             { value: "+91", label: "+91" },
                             { value: "+1", label: "+1" },
@@ -68,33 +84,44 @@ const Login = () => {
                           ]}
                         />
                       </Form.Item>
-                      <Form.Item name="phoneNumber" noStyle rules={[{ required: true }]}>
-                        <Input size="large" placeholder="00000 00000" style={{ width: "calc(100% - 100px)" }} />
+
+
+                      <Form.Item
+                        name="uniqueId"
+                        noStyle
+                      // rules={[
+                      //   { required: true, message: "Please enter your phone number" },
+                      //   { len: 10, message: "Phone number must be 10 digits" },
+                      //   { pattern: /^\d+$/, message: "Phone number must contain only numbers" },
+                      // ]}
+                      >
+                        <Input
+                          placeholder="Mobile Number"
+                        // maxLength={10}
+                        // inputMode="numeric"
+                        // pattern="[0-9]*"
+                        />
                       </Form.Item>
-                    </Input.Group>
+                    </Space.Compact>
                   </Form.Item>
                   <Item name="password" label="PASSWORD" rules={[{ required: true, min: 6 }]}>
                     <Input.Password size="large" placeholder="Password" />
                   </Item>
-                  <div className="text-center mb-4"></div>
+                  <span className="border-t border-primary flex w-full "></span>
+                  {/* Footer */}
+                  <footer className="space-y-6 lg:space-y-8">
+                    <p className="text-center text-sm lg:text-base">
+                      <span className="font-medium text-black">ARE YOU NEW HERE? </span>
+                      <NavLink to="/" className="font-bold  cursor-pointer hover:underline !text-primary">SIGN UP</NavLink>
+                    </p>
+                  </footer>
+                  {/* Actions */}
+                  <Form.Item label={null}>
+                    <Button type="primary" htmlType="submit" className="loginFormButton ">
+                      LOGIN
+                    </Button>
+                  </Form.Item>
                 </Form>
-                <span className="border-t border-[#fe690b] flex w-full "></span>
-                {/* Footer */}
-                <footer className="space-y-6 lg:space-y-8">
-                  <p className="text-center text-sm lg:text-base">
-                    <span className="font-medium text-[#060606]">ARE YOU NEW HERE? </span>
-                    <span className="font-bold text-[#fe690b] cursor-pointer hover:underline">SIGN UP</span>
-                  </p>
-                </footer>
-                {/* Actions */}
-                <div className="flex flex-col md:flex-row gap-3 lg:gap-4">
-                  <button type="button" className="loginFormButton ">
-                    LOGIN
-                  </button>
-                  <button type="button" className="loginFormButton ">
-                    SIGN IN
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -104,7 +131,7 @@ const Login = () => {
             </figure>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

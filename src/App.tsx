@@ -1,6 +1,8 @@
 import { RouterProvider } from "react-router-dom";
 import { Router } from "./Routers";
 import { ConfigProvider } from "antd";
+import { Provider } from "react-redux";
+import { Store } from "./Store/Store";
 
 const App = () => {
   return (
@@ -12,7 +14,9 @@ const App = () => {
           },
         }}
       >
-        <RouterProvider router={Router} />
+        <Provider store={Store} >
+          <RouterProvider router={Router} />
+        </Provider>
       </ConfigProvider>
     </>
   );
