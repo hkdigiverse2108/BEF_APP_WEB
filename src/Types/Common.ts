@@ -1,6 +1,6 @@
 export interface FormInputProps {
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   rules?: any[];
   required?: boolean;

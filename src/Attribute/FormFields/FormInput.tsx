@@ -9,6 +9,9 @@ const FormInput: FC<FormInputProps> = ({ name, label, placeholder, rules, requir
         type === "password" ?
         <Input.Password type={type} size="large" placeholder={placeholder || label} />
         :
+        type === "otp" ?
+        <Input.OTP type={type} size="large" />
+        :
         <Input type={type} size="large" placeholder={placeholder || label} />
       }
     </Form.Item>
