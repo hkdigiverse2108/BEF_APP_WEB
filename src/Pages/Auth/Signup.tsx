@@ -45,7 +45,7 @@ const Signup = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ countryCode: "+91" }}>
+          <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ countryCode: "+91" }} className="form-submit">
             <Row gutter={16}>
               <Col span={24} md={{ span: 12 }}>
                 <FormInput name="firstName" label="First Name" required />
@@ -142,10 +142,10 @@ const Signup = () => {
               </Col>
               {/* Actions */}
               <Col span={24}>
-                <Form.Item label={null} className="col-span-2">
-                  <Button type="primary" htmlType="submit" className="loginFormButton ">
-                    SIGN UP NOW
-                  </Button>
+                <Form.Item label={null} className="col-span-2 text-center ">
+                  <button className="button button--mimas w-full">
+                    <span>SIGN UP NOW</span>
+                  </button>
                 </Form.Item>
               </Col>
             </Row>
