@@ -2,17 +2,15 @@ import { Col, Form, Input, Row, Space } from "antd";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
-import { useLoginMutation } from "../../Api/AuthApi";
-import { usePostApiMutation } from "../../Api/CommonApi";
 import { FormInput } from "../../Attribute/FormFields";
 import { ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
+import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 
 const Login = () => {
   const [form] = Form.useForm();
 
-  const [login] = useLoginMutation({});
-  const [PostApi] = usePostApiMutation({});
+  const [PostGlobalApi] = usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -20,13 +18,16 @@ const Login = () => {
         ...values,
         userType: "user",
       };
-      const test = await PostApi({
+      await PostGlobalApi({
         url: URL_KEYS.AUTH.LOGIN,
         data: payload,
       }).unwrap();
-      console.log("form submitted", test, payload);
-    } catch (error) {}
+
+    } catch (error) {
+      console.error(error)
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
@@ -69,11 +70,11 @@ const Login = () => {
                   <Col span={24}>
                     <Form.Item label="PHONE NUMBER" required>
                       <Space.Compact block size="large">
-                        <Form.Item name="countryCode" noStyle rules={[{ required: true, message: "Please select country code" }]}>
+                        <Form.Item name="countryCode" initialValue="IN" noStyle rules={[{ required: true, message: "Please select country code" }]}>
                           <PhoneInput
-                            defaultCountry="IN"
+                            defaultCountry="in"
                             value={form.getFieldValue("countryCode")}
-                            onChange={(phone, { country }) => {
+                            onChange={(_, { country }) => {
                               form.setFieldsValue({ countryCode: `+${country.dialCode}` });
                             }}
                             className="w-[130px] p-2 border border-gray-300 rounded-s-lg bg-input-box"

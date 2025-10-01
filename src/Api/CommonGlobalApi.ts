@@ -1,24 +1,24 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { BaseQueryWithAuth } from "./BaseQueryApi";
+import { RawBaseQuery } from "./BaseQueryApi";
 
-export const CommonApi = createApi({
-    reducerPath: "api",
-    baseQuery: BaseQueryWithAuth,
+export const CommonGlobalApi = createApi({
+    reducerPath: "Globalapi",
+    baseQuery: RawBaseQuery,
     endpoints: (builder) => ({
-        GetApi: builder.query({
+        GetGlobalApi: builder.query({
             query: ({ url }) => ({
                 url,
                 method: "GET"
             })
         }),
-        PostApi: builder.mutation({
+        PostGlobalApi: builder.mutation({
             query: ({ url, data }) => ({
                 url,
                 method: "POST",
                 body: data
             })
         }),
-        DeleteApi: builder.mutation({
+        DeleteGlobalApi: builder.mutation({
             query: ({ url }) => ({
                 url,
                 method: "DELETE"
@@ -27,4 +27,4 @@ export const CommonApi = createApi({
     })
 })
 
-export const { useGetApiQuery, usePostApiMutation, useDeleteApiMutation } = CommonApi;
+export const { useGetGlobalApiQuery, usePostGlobalApiMutation, useDeleteGlobalApiMutation } = CommonGlobalApi;

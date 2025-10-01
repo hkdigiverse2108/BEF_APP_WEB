@@ -1,15 +1,36 @@
-import { Button, Col, Form, Input, Row, Select, Space } from "antd";
+import { Col, Form, Input, Row, Space } from "antd";
 import { NavLink } from "react-router-dom";
 import { FormDatePicker, FormInput, FormSelect } from "../../Attribute/FormFields";
-import { CivilServiceTypeOptions, GenderOptions, LanguageOptions } from "../../Data";
-
-const { Option } = Select;
+import { GenderOptions, LanguageOptions } from "../../Data";
+import { PhoneInput } from "react-international-phone";
+import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
+import { URL_KEYS } from "../../Constants";
+import { RemoveEmptyFields } from "../../Utils";
 
 const Signup = () => {
   const [form] = Form.useForm();
 
-  const handleFinish = (values: any) => {
-    console.log("Form Values:", values);
+  const [PostGlobalApi] = usePostGlobalApiMutation({});
+
+  const handleFormSubmit = async (values: any) => {
+    try {
+      let payload = {
+        ...values,
+        dob: values?.dob ? values?.dob.format("YYYY-MM-DD") : null,
+        examTypeId: [values?.examTypeId]
+      }
+      payload = RemoveEmptyFields(payload)
+      await PostGlobalApi({
+        url: URL_KEYS.AUTH.REGISTER,
+        data: payload,
+      }).unwrap()
+
+      console.log("Form Values:", values, payload);
+    } catch (error) {
+      console.error(error)
+    }
+
+
   };
 
   return (
@@ -45,7 +66,7 @@ const Signup = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
             <Row gutter={16}>
               <Col span={24} md={{ span: 12 }}>
                 <FormInput name="firstName" label="First Name" required />
@@ -60,15 +81,25 @@ const Signup = () => {
                 {/* Phone Number */}
                 <Form.Item label="Phone Number" required>
                   <Space.Compact block size="large">
-                    <Form.Item name="countryCode" noStyle rules={[{ required: true }]}>
-                      <Select style={{ width: 100 }}>
-                        <Option value="+91">+91</Option>
-                        <Option value="+1">+1</Option>
-                        <Option value="+44">+44</Option>
-                      </Select>
-                    </Form.Item>
+                    {/* Nested countryCode inside contact */}
                     <Form.Item
-                      name="phoneNumber"
+                      name={["contact", "countryCode"]}
+                      noStyle
+                      rules={[{ required: true, message: "Please select country code" }]}
+                    >
+                      <PhoneInput
+                        defaultCountry="in"
+                        value={form.getFieldValue("countryCode")}
+                        onChange={(phone, { country }) => {
+                          form.setFieldsValue({ countryCode: `+${country.dialCode}` });
+                        }}
+                        className="w-[130px] p-2 border border-gray-300 rounded-s-lg bg-input-box"
+                      />
+                    </Form.Item>
+
+                    {/* Nested mobile inside contact */}
+                    <Form.Item
+                      name={["contact", "mobile"]}
                       noStyle
                       rules={[
                         { required: true, message: "Please enter your phone number" },
@@ -76,10 +107,14 @@ const Signup = () => {
                         { pattern: /^\d+$/, message: "Phone number must contain only numbers" },
                       ]}
                     >
-                      <Input placeholder="Mobile Number" maxLength={10} />
+                      <Input placeholder="Mobile Number" maxLength={10} inputMode="numeric" pattern="[0-9]*" />
+
                     </Form.Item>
                   </Space.Compact>
                 </Form.Item>
+              </Col>
+              <Col span={24} md={12} >
+                <FormInput name="password" label="password" type="password" rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]} />
               </Col>
               <Col span={24} md={12}>
                 <FormSelect name="gender" label="Gender" options={GenderOptions} />
@@ -99,21 +134,10 @@ const Signup = () => {
               <Col span={24} md={12}>
                 <FormSelect name="language" label="Language" required options={LanguageOptions} />
               </Col>
+
               <Col span={24} md={12}>
                 <FormSelect
-                  name="goal"
-                  label="Goal"
-                  required
-                  options={[
-                    { label: "IAS", value: "ias" },
-                    { label: "IPS", value: "ips" },
-                    { label: "IFS", value: "ifs" },
-                  ]}
-                />
-              </Col>
-              <Col span={24} md={12}>
-                <FormSelect
-                  name="examType"
+                  name="examTypeId"
                   label="Exam Type"
                   required
                   options={[
@@ -123,9 +147,7 @@ const Signup = () => {
                   ]}
                 />
               </Col>
-              <Col span={24}>
-                <FormSelect name="civilServiceType" label="Civil Service Type" required options={CivilServiceTypeOptions} />
-              </Col>
+
               <Col span={24}>
                 <span className="border-t border-primary flex w-full col-span-2 my-4" />
               </Col>
