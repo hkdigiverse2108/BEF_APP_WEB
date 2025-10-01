@@ -1,16 +1,15 @@
-import { Button, Form, Input, Space } from "antd";
+import { Button, Col, Form, Input, Row, Space } from "antd";
 import { NavLink } from "react-router-dom";
 import type { LoginForm } from "../../Types";
 import { useLoginMutation } from "../../Api/AuthApi";
 import { usePostApiMutation } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
-import "react-international-phone/style.css"; // <-- required styles
-import { PhoneInput } from 'react-international-phone';
-
+import "react-international-phone/style.css";
+import { PhoneInput } from "react-international-phone";
+import { FormInput } from "../../Attribute/FormFields";
 
 const Login = () => {
   const [form] = Form.useForm();
-
 
   const [login] = useLoginMutation({});
   const [PostApi] = usePostApiMutation({});
@@ -25,9 +24,8 @@ const Login = () => {
         url: URL_KEYS.AUTH.LOGIN,
         data: payload,
       }).unwrap();
-      console.log("form submitted",test,payload);
-
-    } catch (error) { }
+      console.log("form submitted", test, payload);
+    } catch (error) {}
   };
 
   return (
@@ -42,27 +40,13 @@ const Login = () => {
                 <br />
                 Dashboard
               </h1>
-              <p className="font-medium text-xl leading-relaxed mx-auto">
-                Track your progress, get instant performance insights.
-              </p>
+              <p className="font-medium text-xl leading-relaxed mx-auto">Track your progress, get instant performance insights.</p>
             </div>
-            <img
-              className="w-full absolute left-0 top-0"
-              alt="Group"
-              src="/assets/images/auth/VecrorGroup.png"
-            />
+            <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
             <figure className="absolute inset-x-0 bottom-40 flex justify-center">
-              <img
-                className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10"
-                alt="Group"
-                src="/assets/images/auth/LoginVectorBox.png"
-              />
+              <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/LoginVectorBox.png" />
             </figure>
-            <img
-              className="w-full absolute left-0 bottom-0"
-              alt="Group"
-              src="/assets/images/auth/OrangeFooter.png"
-            />
+            <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
           </div>
         </div>
 
@@ -73,92 +57,64 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center lg:text-left">
-                    Create an Account
-                  </h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center lg:text-left opacity-80">
-                    Create an account or log in to explore about our website
-                  </p>
+                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
+                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
                 </div>
               </header>
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleFormSubmit}
-                className="loginForm space-y-8 lg:space-y-10"
-                initialValues={{
-                  phoneNumber: "",
-                  countryCode: "ua", // default value
-                }}
-              >
-                {/* Phone Number */}
-                <Form.Item
-                  label="PHONE NUMBER"
-                  className="LoginNumberSelect"
-                  required
-                >
-                  <Space.Compact block size="large">
-                    {/* Country Code */}
-                    <Form.Item name="countryCode" noStyle rules={[{ required: true, message: "Please select country code" }]}>
-                      <PhoneInput defaultCountry="IN" value={form.getFieldValue("countryCode")} onChange={(phone, { country }) => {
-                        form.setFieldsValue({ countryCode: `+${country.dialCode}` });
-                      }}
-                        className="w-[120px] px-2 py-1 border border-gray-300 rounded-md"
-                      />
+              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="loginForm space-y-8 lg:space-y-10 form-submit" initialValues={{ phoneNumber: "", countryCode: "ua" }}>
+                <Row gutter={16}>
+                  <Col span={24}>
+                    <Form.Item label="PHONE NUMBER" required>
+                      <Space.Compact block size="large">
+                        <Form.Item name="countryCode" noStyle rules={[{ required: true, message: "Please select country code" }]}>
+                          <PhoneInput
+                            defaultCountry="IN"
+                            value={form.getFieldValue("countryCode")}
+                            onChange={(phone, { country }) => {
+                              form.setFieldsValue({ countryCode: `+${country.dialCode}` });
+                            }}
+                            className="w-[120px] px-2 py-1 border border-gray-300 rounded-md"
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name="phoneNumber"
+                          noStyle
+                          rules={[
+                            { required: true, message: "Please enter your phone number" },
+                            { len: 10, message: "Phone number must be 10 digits" },
+                            { pattern: /^\d+$/, message: "Phone number must contain only numbers" },
+                          ]}
+                        >
+                          <Input placeholder="Mobile Number" maxLength={10} inputMode="numeric" pattern="[0-9]*" />
+                        </Form.Item>
+                      </Space.Compact>
                     </Form.Item>
-                    {/* Phone Number */}
-                    <Form.Item
-                      name="phoneNumber"
-                      noStyle
-                      rules={[
-                        { required: true, message: "Please enter your phone number" },
-                        { len: 10, message: "Phone number must be 10 digits" },
-                        { pattern: /^\d+$/, message: "Phone number must contain only numbers" },
-                      ]}
-                    >
-                      <Input
-                        placeholder="Mobile Number"
-                        maxLength={10}
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                      />
+                  </Col>
+                  <Col span={24}>
+                    <FormInput name="password" label="password" type="password" rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]} />
+                  </Col>
+                  <span className="border-t border-primary flex w-full my-4" />
+                  <Col span={24}>
+                    <footer className="space-y-6 lg:space-y-8 mb-4">
+                      <p className="text-center text-sm lg:text-base">
+                        <span className="font-medium text-black">ARE YOU NEW HERE? </span>
+                        <NavLink to="/" className="font-bold cursor-pointer hover:!underline !text-primary">
+                          SIGN UP
+                        </NavLink>
+                      </p>
+                    </footer>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label={null} className="col-span-2 text-center">
+                      <button className="button button--mimas w-full sm:w-[50%]">
+                        <span>LOGIN</span>
+                      </button>
                     </Form.Item>
-                  </Space.Compact>
-                </Form.Item>
-
-                {/* Password */}
-                <Form.Item
-                  name="password"
-                  label="PASSWORD"
-                  rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]}
-                >
-                  <Input.Password size="large" placeholder="Password" />
-                </Form.Item>
-
-                <span className="border-t border-primary flex w-full"></span>
-
-                {/* Footer */}
-                <footer className="space-y-6 lg:space-y-8">
-                  <p className="text-center text-sm lg:text-base">
-                    <span className="font-medium text-black">ARE YOU NEW HERE? </span>
-                    <NavLink
-                      to="/"
-                      className="font-bold cursor-pointer hover:!underline !text-primary"
-                    >
-                      SIGN UP
-                    </NavLink>
-                  </p>
-                </footer>
-
-                {/* Submit Button */}
-                <Form.Item label={null}>
-                  <Button type="primary" htmlType="submit" className="loginFormButton">
-                    LOGIN
-                  </Button>
-                </Form.Item>
+                  </Col>
+                </Row>
               </Form>
             </div>
           </div>

@@ -142,8 +142,8 @@ const Signup = () => {
               </Col>
               {/* Actions */}
               <Col span={24}>
-                <Form.Item label={null} className="col-span-2 text-center ">
-                  <button className="button button--mimas w-full">
+                <Form.Item label={null} className="col-span-2 text-center">
+                  <button className="button button--mimas w-full sm:w-[50%]">
                     <span>SIGN UP NOW</span>
                   </button>
                 </Form.Item>
