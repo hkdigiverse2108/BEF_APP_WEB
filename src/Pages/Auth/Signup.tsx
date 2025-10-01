@@ -1,5 +1,7 @@
-import { DatePicker, Form, Input, Select, Space, Button, Row, Col } from "antd";
+import { Button, Col, Form, Input, Row, Select, Space } from "antd";
 import { NavLink } from "react-router-dom";
+import { FormDatePicker, FormInput, FormSelect } from "../../Attribute/FormFields";
+import { CivilServiceTypeOptions, GenderOptions, LanguageOptions } from "../../Data";
 
 const { Option } = Select;
 
@@ -46,19 +48,13 @@ const Signup = () => {
           <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ countryCode: "+91" }}>
             <Row gutter={16}>
               <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="firstName" label="First Name" rules={[{ required: true }]}>
-                  <Input size="large" placeholder="First Name" />
-                </Form.Item>
+                <FormInput name="firstName" label="First Name" required />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="lastName" label="Last Name" rules={[{ required: true }]}>
-                  <Input size="large" placeholder="Last Name" />
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormInput name="lastName" label="Last Name" required />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="email" label="Email" rules={[{ required: true, type: "email" }]}>
-                  <Input size="large" placeholder="Email" />
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormInput name="email" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
               </Col>
               <Col span={24} md={{ span: 12 }}>
                 {/* Phone Number */}
@@ -85,68 +81,50 @@ const Signup = () => {
                   </Space.Compact>
                 </Form.Item>
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="gender" label="Gender">
-                  <Select placeholder="Select gender" allowClear>
-                    <Option value="male">Male</Option>
-                    <Option value="female">Female</Option>
-                    <Option value="other">Other</Option>
-                  </Select>
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormSelect name="gender" label="Gender" options={GenderOptions} />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="dob" label="Date of Birth">
-                  <DatePicker className="w-full" />
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormDatePicker name="dob" label="Date of Birth" />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="referralCode" label="Referral Code">
-                  <Input size="large" placeholder="Referral Code" />
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormInput name="referralCode" label="Referral Code" />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="city" label="City">
-                  <Input size="large" placeholder="City" />
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormInput name="city" label="City" />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="upscNumber" label="attempt number UPSC" rules={[{ required: true }]}>
-                  <Input size="large" placeholder="attempt number UPSC" />
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormInput name="upscNumber" label="Attempt number UPSC" required />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="language" label="Language" rules={[{ required: true }]}>
-                  <Select placeholder="Select language" allowClear>
-                    <Option value="hindi">Hindi</Option>
-                    <Option value="english">English</Option>
-                  </Select>
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormSelect name="language" label="Language" required options={LanguageOptions} />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="goal" label="Goal" rules={[{ required: true }]}>
-                  <Select placeholder="Select goal" allowClear>
-                    <Option value="ias">IAS</Option>
-                    <Option value="ips">IPS</Option>
-                    <Option value="ifs">IFS</Option>
-                  </Select>
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormSelect
+                  name="goal"
+                  label="Goal"
+                  required
+                  options={[
+                    { label: "IAS", value: "ias" },
+                    { label: "IPS", value: "ips" },
+                    { label: "IFS", value: "ifs" },
+                  ]}
+                />
               </Col>
-              <Col span={24} md={{ span: 12 }}>
-                <Form.Item name="examType" label="Exam Type" rules={[{ required: true }]}>
-                  <Select placeholder="Select exam type" allowClear>
-                    <Option value="prelims">Prelims</Option>
-                    <Option value="mains">Mains</Option>
-                    <Option value="interview">Interview</Option>
-                  </Select>
-                </Form.Item>
+              <Col span={24} md={12}>
+                <FormSelect
+                  name="examType"
+                  label="Exam Type"
+                  required
+                  options={[
+                    { label: "Prelims", value: "prelims" },
+                    { label: "Mains", value: "mains" },
+                    { label: "Interview", value: "interview" },
+                  ]}
+                />
               </Col>
               <Col span={24}>
-                <Form.Item name="civilServiceType" label="Civil Service Type" rules={[{ required: true }]}>
-                  <Select placeholder="Select civil service type" allowClear>
-                    <Option value="central">Central</Option>
-                    <Option value="state">State</Option>
-                  </Select>
-                </Form.Item>
+                <FormSelect name="civilServiceType" label="Civil Service Type" required options={CivilServiceTypeOptions} />
               </Col>
               <Col span={24}>
                 <span className="border-t border-primary flex w-full col-span-2 my-4" />
