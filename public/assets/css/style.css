@@ -39,3 +39,6 @@ input {
 .ant-form-item-control-input-content .ant-picker{
   @apply !w-full;
 }
+/* .ant-form-item{
+  @apply !mb-0;
+} */
