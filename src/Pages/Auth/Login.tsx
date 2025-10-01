@@ -1,12 +1,12 @@
-import { Button, Col, Form, Input, Row, Space } from "antd";
+import { Col, Form, Input, Row, Space } from "antd";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
-import type { LoginForm } from "../../Types";
 import { useLoginMutation } from "../../Api/AuthApi";
 import { usePostApiMutation } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
-import "react-international-phone/style.css";
-import { PhoneInput } from "react-international-phone";
 import { FormInput } from "../../Attribute/FormFields";
+import { ROUTES, URL_KEYS } from "../../Constants";
+import type { LoginForm } from "../../Types";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -64,7 +64,7 @@ const Login = () => {
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="loginForm space-y-8 lg:space-y-10 form-submit" initialValues={{ phoneNumber: "", countryCode: "ua" }}>
+              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10 form-submit" initialValues={{ phoneNumber: "", countryCode: "ua" }}>
                 <Row gutter={16}>
                   <Col span={24}>
                     <Form.Item label="PHONE NUMBER" required>
@@ -76,7 +76,7 @@ const Login = () => {
                             onChange={(phone, { country }) => {
                               form.setFieldsValue({ countryCode: `+${country.dialCode}` });
                             }}
-                            className="w-[120px] px-2 py-1 border border-gray-300 rounded-md"
+                            className="w-[130px] p-2 border border-gray-300 rounded-s-lg bg-input-box"
                           />
                         </Form.Item>
                         <Form.Item
@@ -101,7 +101,7 @@ const Login = () => {
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
                         <span className="font-medium text-black">ARE YOU NEW HERE? </span>
-                        <NavLink to="/" className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <NavLink to={ROUTES.AUTH.SIGNUP} className="font-bold cursor-pointer hover:!underline !text-primary">
                           SIGN UP
                         </NavLink>
                       </p>

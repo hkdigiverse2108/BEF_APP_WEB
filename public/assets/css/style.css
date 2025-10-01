@@ -1,9 +1,4 @@
-.loginFormButton {
-  @apply flex-1 w-full h-12 py-3 sm:h-14 lg:h-16 bg-black hover:bg-black/90 rounded-xl text-white font-bold text-sm lg:text-base tracking-wider;
-}
-.loginForm .ant-input-affix-wrapper {
-  @apply !bg-input-box !py-0;
-}
+/* ************ form input *********** */
 .ant-input,
 .ant-picker,
 .ant-select-selector {
@@ -43,7 +38,18 @@ input {
 .ant-form-item-control-input-content .ant-picker {
   @apply !w-full;
 }
+.ant-input-affix-wrapper-lg{
+  @apply !bg-input-box !py-0;
+}
 
+.react-international-phone-input-container .react-international-phone-input{
+  @apply !bg-input-box w-14 !border-0 !pe-0 !w-10;
+}
+.react-international-phone-input-container .react-international-phone-country-selector-button{
+  @apply border-0 !bg-input-box;
+}
+
+/* ************ form button *********** */
 .form-submit .button {
   pointer-events: auto;
   cursor: pointer;
