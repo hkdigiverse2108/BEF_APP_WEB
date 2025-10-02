@@ -32,7 +32,16 @@ const Verify = () => {
         navigate(ROUTES.AUTH.RESET_PASSWORD)
       }
 
-    } catch { }
+    } catch (error) {
+      console.error(error);
+      const err = error as { data: { message: string } };
+      form.setFields([
+        {
+          name: "otp",
+          errors: [err.data.message]
+        }
+      ])
+    }
   };
 
   // ⏳ Load timer on mount
@@ -76,7 +85,7 @@ const Verify = () => {
         email,
         role: "user"
       }
-      
+
       const res = await PostGlobalApi({
         url: URL_KEYS.AUTH.RESEND_OTP,
         data: payload,

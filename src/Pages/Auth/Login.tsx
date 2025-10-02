@@ -32,11 +32,10 @@ const Login = () => {
       const err = error as { data: { message: string } };
       form.setFields([
         {
-          name: "uniqueId",
+          name: "password",
           errors: [err.data.message]
         }
       ])
-
     }
   };
 
