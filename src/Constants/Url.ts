@@ -6,6 +6,7 @@ export const URL_KEYS = {
     FORGOT_PASSWORD: "/auth/forgot-password",
     CHANGE_PASSWORD: "/auth/change-password",
     VERIFY_OTP: "/auth/otp/verify",
+    RESEND_OTP: "/auth/resend-otp",
   },
   EXAM_TYPE: {
     EXAM_TYPE: "/exam-type"

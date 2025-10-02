@@ -1,12 +1,42 @@
 import { Col, Form, Row } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
+import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
+import type { LoginForm } from "../../Types";
+import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { Storage } from "../../Utils";
 
 const ResetPassword = () => {
   const [form] = Form.useForm();
 
-  const handleFinish = (values: any) => {
-    console.log("Form Values:", values);
+  const navigate = useNavigate()
+
+  const [PostGlobalApi] = usePostGlobalApiMutation({});
+
+  const handleFormSubmit = async (values: LoginForm) => {
+    try {
+      const uniqueId = Storage.getItem(STORAGE_KEYS.FORGOT_PASSWORD_EMAIL)
+
+      const payload = {
+        ...values,
+        uniqueId,
+        userType: "user",
+      };
+
+      const res = await PostGlobalApi({
+        url: URL_KEYS.AUTH.RESET_PASSWORD,
+        data: payload,
+      }).unwrap();
+
+      if (res?.status === HTTP_STATUS.OK) {
+        Storage.removeItem(STORAGE_KEYS.FORGOT_PASSWORD_EMAIL)
+        navigate(ROUTES.AUTH.LOGIN)
+      }
+
+    } catch (error) {
+      const err = error as { data: { message: string } };
+      console.error("error from forgot :", err.data.message);
+    }
   };
 
   return (
@@ -44,7 +74,7 @@ const ResetPassword = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
             <Row gutter={24}>
               <Col span={24} className="text-center">
                 <FormInput name="password" label="New Password" rules={[{ required: true }]} />
@@ -54,11 +84,11 @@ const ResetPassword = () => {
               </Col>
               <Col span={24}>
                 {/* Footer */}
-                 <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
+                <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                   <p className="text-center text-sm lg:text-base">
                     <span className="font-medium text-black">Already have an account? </span>
                     <NavLink to="/" className="font-bold  cursor-pointer hover:underline !text-primary">
-                       Login
+                      Login
                     </NavLink>
                   </p>
                 </footer>

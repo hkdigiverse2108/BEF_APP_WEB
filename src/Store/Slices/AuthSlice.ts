@@ -19,6 +19,7 @@ const authSlice = createSlice({
       // console.log("user from store", user)
       state.token = user.token;
       state.user = user;
+      state.isAuthenticated = true;
       Storage.setItem(STORAGE_KEYS.TOKEN, user?.token);
       Storage.setItem(STORAGE_KEYS.USER, Stringify(user));
 
@@ -27,7 +28,7 @@ const authSlice = createSlice({
       state.token = "";
       state.isAuthenticated = false;
       state.user = null
-
+      
       Storage.clear();
       window.location.reload()
 

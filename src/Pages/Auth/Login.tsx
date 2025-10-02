@@ -1,5 +1,4 @@
-import { Col, Form, Input, Row, Space } from "antd";
-import { PhoneInput } from "react-international-phone";
+import { Col, Form, Row, } from "antd";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
@@ -26,11 +25,18 @@ const Login = () => {
         url: URL_KEYS.AUTH.LOGIN,
         data: payload,
       }).unwrap();
-      // console.log("res : ", res?.data)
       dispatch(SetUser(res?.data))
 
     } catch (error) {
       console.error(error);
+      const err = error as { data: { message: string } };
+      form.setFields([
+        {
+          name: "uniqueId",
+          errors: [err.data.message]
+        }
+      ])
+
     }
   };
 
@@ -72,35 +78,8 @@ const Login = () => {
 
               <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10 form-submit" >
                 <Row gutter={16}>
-                  {/* <Col span={24}> */}
-                  {/* <Form.Item label="PHONE NUMBER" required>
-                      <Space.Compact block size="large">
-                        <Form.Item name="countryCode" initialValue="IN" noStyle rules={[{ required: true, message: "Please select country code" }]}>
-                          <PhoneInput
-                            defaultCountry="in"
-                            value={form.getFieldValue("countryCode")}
-                            onChange={(_, { country }) => {
-                              form.setFieldsValue({ countryCode: `+${country.dialCode}` });
-                            }}
-                            className="w-[130px] p-2 border border-gray-300 rounded-s-lg bg-input-box"
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          name="uniqueId"
-                          noStyle
-                          rules={[
-                            { required: true, message: "Please enter your phone number" },
-                            { len: 10, message: "Phone number must be 10 digits" },
-                            { pattern: /^\d+$/, message: "Phone number must contain only numbers" },
-                          ]}
-                        >
-                          <Input placeholder="Mobile Number" maxLength={10} inputMode="numeric" pattern="[0-9]*" />
-                        </Form.Item>
-                      </Space.Compact>
-                    </Form.Item> */}
-                  {/* </Col> */}
                   <Col span={24}>
-                    <FormInput name="email" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
+                    <FormInput name="uniqueId" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
                   </Col>
                   <Col span={24}>
                     <FormInput name="password" label="password" type="password" rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]} />
@@ -149,4 +128,3 @@ const Login = () => {
 };
 
 export default Login;
- 

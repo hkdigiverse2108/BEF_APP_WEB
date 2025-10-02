@@ -1,14 +1,46 @@
 import { Col, Form, Row } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
-import { ROUTES } from "../../Constants";
+import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
+import type { LoginForm } from "../../Types";
+import { Storage } from "../../Utils";
 
 const ForgotPassword = () => {
   const [form] = Form.useForm();
 
-  const handleFinish = (values: any) => {
-    console.log("Form Values:", values);
+  const navigate = useNavigate()
+
+  const [PostGlobalApi] = usePostGlobalApiMutation({});
+
+  const handleFormSubmit = async (values: LoginForm) => {
+    try {
+      const payload = {
+        ...values,
+        userType: "user",
+      };
+      console.log(values)
+      const res = await PostGlobalApi({
+        url: URL_KEYS.AUTH.FORGOT_PASSWORD,
+        data: payload,
+      }).unwrap();
+
+      if (res?.status === HTTP_STATUS.OK) {
+        Storage.setItem(STORAGE_KEYS.FORGOT_PASSWORD_EMAIL, values.uniqueId)
+        navigate(ROUTES.AUTH.VERIFY_OTP)
+      }
+
+    } catch (error) {
+      const err = error as { data: { message: string } };
+      form.setFields([
+        {
+          name: "uniqueId",
+          errors: [err.data.message]
+        }
+      ])
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-white relative flex">
@@ -17,7 +49,7 @@ const ForgotPassword = () => {
         <div className="w-full p-4 sm:p-8 lg:p-15 relative bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
           <div className="z-20 text-center w-full flex flex-col gap-3">
             <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
-              Stay Secure 
+              Stay Secure
               <br />
               & Connected
             </h1>
@@ -45,20 +77,20 @@ const ForgotPassword = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
             <Row gutter={24}>
-              <Col span={24} className="text-center">
+              <Col span={24} className="text-center" >
                 <FormInput name="uniqueId" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
               </Col>
               <Col span={24}>
                 <span className="border-t border-primary flex w-full col-span-2 my-4" />
               </Col>
               <Col span={24}>
-                 <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
+                <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                   <p className="text-center text-sm lg:text-base">
                     <span className="font-medium text-black">Already have an account? </span>
                     <NavLink to={ROUTES.AUTH.LOGIN} className="font-bold  cursor-pointer hover:underline !text-primary">
-                       Login
+                      Login
                     </NavLink>
                   </p>
                 </footer>

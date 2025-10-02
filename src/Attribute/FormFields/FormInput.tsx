@@ -4,15 +4,15 @@ import type { FormInputProps } from "../../Types";
 
 const FormInput: FC<FormInputProps> = ({ name, label, placeholder, rules, required, type = "text" }) => {
   return (
-    <Form.Item name={name} label={label} rules={rules || (required ? [{ required: true, message: `${label} is required` }] : [])}>
+    <Form.Item className={`${type === "otp" ? "" : "text-left"}`} name={name} label={label} rules={rules || (required ? [{ required: true, message: `${type === "otp" ? name : label}  is required` }] : [])}>
       {
         type === "password" ?
-        <Input.Password type={type} size="large" placeholder={placeholder || label} />
-        :
-        type === "otp" ?
-        <Input.OTP type={type} size="large" />
-        :
-        <Input type={type} size="large" placeholder={placeholder || label} />
+          <Input.Password type={type} size="large" placeholder={placeholder || label} />
+          :
+          type === "otp" ?
+            <Input.OTP type={type} size="large" />
+            :
+            <Input type={type} size="large" placeholder={placeholder || label} />
       }
     </Form.Item>
   );

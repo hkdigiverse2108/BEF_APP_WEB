@@ -9,31 +9,38 @@ import { GenderOptions, LanguageOptions } from "../../Data";
 import { RemoveEmptyFields } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
 import { SetUser } from "../../Store/Slices/AuthSlice";
+import type { RegisterForm, RegisterPayload } from "../../Types";
 
 const Signup = () => {
   const [form] = Form.useForm();
   const [current, setCurrent] = useState(0);
 
-  const dispatch = useAppDispatch()
+  const [formData, setFormData] = useState<RegisterForm>();
 
+  const dispatch = useAppDispatch()
 
   const [PostGlobalApi] = usePostGlobalApiMutation({});
 
   const { data: examTypeApi } = useGetGlobalApiQuery({ url: URL_KEYS.EXAM_TYPE.EXAM_TYPE })
   let examTypeData = examTypeApi?.data
 
-  const handleFormSubmit = async (values: any) => {
+  const handleFormSubmit = async (values: RegisterForm) => {
     try {
-      let payload = {
-        ...values,
+
+      const mergedData = { ...formData, ...values };
+      let payload: RegisterPayload = {
+        ...mergedData,
         dob: values?.dob ? values?.dob.format("YYYY-MM-DD") : null,
         examTypeId: [values?.examTypeId]
       }
-      payload = RemoveEmptyFields(payload)
+      console.log(payload, values)
+
+      const cleaned = RemoveEmptyFields(payload)
       const res = await PostGlobalApi({
         url: URL_KEYS.AUTH.REGISTER,
-        data: payload,
+        data: cleaned,
       }).unwrap()
+
       dispatch(SetUser(res?.data))
     } catch (error) {
       console.error(error);
@@ -43,15 +50,28 @@ const Signup = () => {
   const next = async () => {
     try {
       await form.validateFields(steps[current].fields);
+      const values = form.getFieldsValue(true);
+
+      const updatedData = { ...formData, ...values };
+      setFormData(updatedData);
+
+      form.setFieldsValue(updatedData);
+
       setCurrent((prev) => prev + 1);
     } catch (e) {
       console.log("Validation failed:", e);
     }
   };
 
-  const prev = () => setCurrent((prev) => prev - 1);
+  const prev = () => {
+    const values = form.getFieldsValue(true);
+    const updatedData = { ...formData, ...values };
+    setFormData(updatedData);
 
-  // Define steps with grouped fields
+    form.setFieldsValue(updatedData);
+    setCurrent((prev) => prev - 1);
+  };
+
   const steps = [
     {
       title: "Your Details",
@@ -95,8 +115,8 @@ const Signup = () => {
                   <PhoneInput
                     defaultCountry="in"
                     value={form.getFieldValue("countryCode")}
-                    onChange={(phone, { country }) => {
-                      form.setFieldsValue({ countryCode: `+${country.dialCode}` });
+                    onChange={(_, { country }) => {
+                      form.setFieldsValue({ contact: { countryCode: `+${country.dialCode}` } });
                     }}
                     className="w-[130px] p-2 border border-gray-300 rounded-s-lg bg-input-box"
                   />
@@ -127,15 +147,16 @@ const Signup = () => {
             <FormInput name="referralCode" label="Referral Code" />
           </Col>
           <Col span={24}>
+
             <FormSelect
               name="examTypeId"
               label="Exam Type"
               required
-              options={[
-                { label: "Prelims", value: "prelims" },
-                { label: "Mains", value: "mains" },
-                { label: "Interview", value: "interview" },
-              ]}
+
+              options={(examTypeData || []).map((type: any) => ({
+                label: type?.name,
+                value: type?._id,
+              }))}
             />
           </Col>
           <Col span={24}>
@@ -181,7 +202,7 @@ const Signup = () => {
           </header>
           <span className="border-t border-primary flex w-full" />
 
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ contact: { countryCode: "+91" } }} className="form-submit">
             <div className="my-6">{steps[current].content}</div>
             <Col span={24}>
               <span className="border-t border-primary flex w-full col-span-2 my-4" />
@@ -197,21 +218,40 @@ const Signup = () => {
                 </p>
               </footer>
             </Col>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               {current > 0 && (
-                <button className="button button--mimas w-full !me-3" onClick={prev}>
+                <button
+                  type="button"
+                  className="button button--mimas w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    prev();
+                  }}
+                >
                   <span>Previous</span>
                 </button>
               )}
+
               {current < steps.length - 1 ? (
-                <button type="button" className="button button--mimas w-full" onClick={next}>
+                <button
+                  type="button"
+                  className="button button--mimas w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    next();
+                  }}
+                >
                   <span>Next</span>
                 </button>
               ) : (
-                <button className="button button--mimas w-full">
+                <button
+                  type="submit"
+                  className="button button--mimas w-full"
+                >
                   <span>Submit</span>
                 </button>
               )}
+
             </div>
           </Form>
         </div>
