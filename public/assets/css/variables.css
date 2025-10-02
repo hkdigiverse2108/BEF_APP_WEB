@@ -2,7 +2,12 @@
   --primary: #e76f1d;
   --primary-light: #feecd7;
   --bg-light: #fef6e6;
-  --input-box: #F5F5F5;
+  --input-box: #f5f5f5;
+  --body-font-size: 14px;
+  --font-nunito: Nunito Sans;
+  --font-serif: sans-serif;
+  --theme-body-font-color: #404040;
+  --box-shadow: 0px 9px 20px rgba(46, 35, 94, 0.07);
 }
 
 @theme {
@@ -10,4 +15,5 @@
   --color-primary-light: var(--primary-light);
   --color-bg-light: var(--bg-light);
   --color-input-box: var(--input-box);
+  --shadow-box-shadow: var(--box-shadow);
 }

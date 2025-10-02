@@ -1,3 +1,10 @@
+body {
+  font-size: var(--body-font-size);
+  overflow-x: hidden;
+  font-family: var(--font-nunito), var(--font-serif);
+  color: var(--theme-body-font-color);
+}
+
 /* ************ form input *********** */
 .ant-input,
 .ant-picker,
@@ -129,7 +136,7 @@ input {
     height: 1px;
     background: rgba(5, 5, 5, 0.06);
     content: "";
-}
+  }
 }
 
 .ant-steps.ant-steps-vertical > .ant-steps-item {
@@ -137,4 +144,31 @@ input {
 }
 .ant-steps .ant-steps-item-icon {
   @apply rounded-md;
+}
+
+/* .offcanvas-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+} */
+
+.offcanvas-backdrop.fade {
+  opacity: 0;
+}
+
+.offcanvas-backdrop.show {
+  opacity: 0.5;
+}
+
+.offcanvas-backdrop {
+  background-color: var(--backdrop);
+  z-index: 1500;
+  cursor: url(../images/cursor-close.svg), auto;
+}
+.offcanvas-backdrop.show {
+  opacity: 1;
 }

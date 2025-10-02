@@ -1,8 +1,13 @@
+import Classic from "./Classic";
+import HeroBanner from "./HeroBanner";
 
 const Home = () => {
   return (
-    <div className=' text-2xl'>Home 1</div>
-  )
-}
+    <div>
+      <HeroBanner />
+      <Classic />
+    </div>
+  );
+};
 
-export default Home
+export default Home;
