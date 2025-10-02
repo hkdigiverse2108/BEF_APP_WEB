@@ -38,14 +38,14 @@ input {
 .ant-form-item-control-input-content .ant-picker {
   @apply !w-full;
 }
-.ant-input-affix-wrapper-lg{
+.ant-input-affix-wrapper-lg {
   @apply !bg-input-box !py-0;
 }
 
-.react-international-phone-input-container .react-international-phone-input{
+.react-international-phone-input-container .react-international-phone-input {
   @apply !bg-input-box w-14 !border-0 !pe-0 !w-10;
 }
-.react-international-phone-input-container .react-international-phone-country-selector-button{
+.react-international-phone-input-container .react-international-phone-country-selector-button {
   @apply border-0 !bg-input-box;
 }
 
@@ -55,7 +55,7 @@ input {
   cursor: pointer;
   background: #e7e7e7;
   border: none;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
   margin: 0;
   font-family: inherit;
   font-size: inherit;
@@ -99,4 +99,42 @@ input {
 
 .form-submit .button--mimas:hover::before {
   transform: translate3d(100%, 0, 0);
+}
+@media (max-width: 575px) {
+  .ant-steps-item {
+    @apply !flex !justify-center !items-center !mb-3;
+  }
+  .ant-steps.ant-steps-vertical {
+    @apply flex-row;
+  }
+  .ant-steps-item-content {
+    @apply !hidden;
+  }
+  .ant-steps .ant-steps-item-title::before {
+    position: absolute;
+    top: 16px;
+    inset-inline-start: 100%;
+    display: block;
+    width: 9999px;
+    height: 1px;
+    background: rgba(5, 5, 5, 0.06);
+    content: "";
+  }
+  .ant-steps .ant-steps-item-title::before {
+    position: absolute;
+    top: 16px;
+    inset-inline-start: 100%;
+    display: block;
+    width: 9999px;
+    height: 1px;
+    background: rgba(5, 5, 5, 0.06);
+    content: "";
+}
+}
+
+.ant-steps.ant-steps-vertical > .ant-steps-item {
+  @apply !pb-0 !mb-3;
+}
+.ant-steps .ant-steps-item-icon {
+  @apply rounded-md;
 }

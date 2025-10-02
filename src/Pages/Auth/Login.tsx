@@ -22,12 +22,10 @@ const Login = () => {
         url: URL_KEYS.AUTH.LOGIN,
         data: payload,
       }).unwrap();
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
-
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
@@ -54,7 +52,7 @@ const Login = () => {
         {/* Right side */}
         <div className="z-10 xl:w-1/2 2xl:w-3/5 w-full h-screen">
           <div className="flex flex-col w-full h-full items-center justify-center p-4 sm:p-8 lg:p-12">
-            <div className="w-full max-w-md space-y-8">
+            <div className="w-full max-w-xl space-y-8">
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
@@ -97,11 +95,20 @@ const Login = () => {
                   <Col span={24}>
                     <FormInput name="password" label="password" type="password" rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]} />
                   </Col>
+                  <Col span={24}>
+                    <footer className="mb-1">
+                      <p className="text-end text-sm lg:text-base">
+                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-bold cursor-pointer hover:!underline !text-primary">
+                          Forgot password ?
+                        </NavLink>
+                      </p>
+                    </footer>
+                  </Col>
                   <span className="border-t border-primary flex w-full my-4" />
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">ARE YOU NEW HERE? </span>
+                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
                         <NavLink to={ROUTES.AUTH.SIGNUP} className="font-bold cursor-pointer hover:!underline !text-primary">
                           SIGN UP
                         </NavLink>
@@ -110,7 +117,7 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <button className="button button--mimas w-full sm:w-[50%]">
+                      <button className="button button--mimas w-full">
                         <span>LOGIN</span>
                       </button>
                     </Form.Item>

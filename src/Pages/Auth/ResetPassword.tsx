@@ -32,7 +32,7 @@ const ResetPassword = () => {
 
       {/* Right Side Form (scrollable) */}
       <div className="flex xl:w-1/2 2xl:w-3/5 w-full h-screen overflow-y-auto justify-center items-center p-4 sm:p-8 lg:p-12 z-10">
-        <div className="w-full max-w-md mx-auto space-y-8">
+        <div className="w-full max-w-xl mx-auto space-y-8">
           {/* Header */}
           <header className="space-y-6 lg:space-y-8">
             <div className="space-y-3">
@@ -66,7 +66,7 @@ const ResetPassword = () => {
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <button className="button button--mimas w-full sm:w-[50%]">
+                  <button className="button button--mimas w-full">
                     <span>CONTINUE</span>
                   </button>
                 </Form.Item>
