@@ -7,4 +7,7 @@ export const URL_KEYS = {
     CHANGE_PASSWORD: "/auth/change-password",
     VERIFY_OTP: "/auth/otp/verify",
   },
+  EXAM_TYPE: {
+    EXAM_TYPE: "/exam-type"
+  }
 } as const;

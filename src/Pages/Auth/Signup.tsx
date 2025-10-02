@@ -2,33 +2,39 @@ import { Col, Form, Input, Row, Space, Steps } from "antd";
 import { useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import { NavLink } from "react-router-dom";
-import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import { FormDatePicker, FormInput, FormSelect } from "../../Attribute/FormFields";
+import { useGetGlobalApiQuery, usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import { URL_KEYS } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
 import { RemoveEmptyFields } from "../../Utils";
+import { useAppDispatch } from "../../Store/hooks";
+import { SetUser } from "../../Store/Slices/AuthSlice";
 
 const Signup = () => {
   const [form] = Form.useForm();
   const [current, setCurrent] = useState(0);
 
+  const dispatch = useAppDispatch()
+
+
   const [PostGlobalApi] = usePostGlobalApiMutation({});
+
+  const { data: examTypeApi } = useGetGlobalApiQuery({ url: URL_KEYS.EXAM_TYPE.EXAM_TYPE })
+  let examTypeData = examTypeApi?.data
 
   const handleFormSubmit = async (values: any) => {
     try {
       let payload = {
         ...values,
         dob: values?.dob ? values?.dob.format("YYYY-MM-DD") : null,
-        examTypeId: [values?.examTypeId],
-      };
-      console.log("Form Submitted:", values);
-      console.log("Form payload:", { payload, ...payload });
-      payload = RemoveEmptyFields(payload);
-
-      await PostGlobalApi({
+        examTypeId: [values?.examTypeId]
+      }
+      payload = RemoveEmptyFields(payload)
+      const res = await PostGlobalApi({
         url: URL_KEYS.AUTH.REGISTER,
         data: payload,
-      }).unwrap();
+      }).unwrap()
+      dispatch(SetUser(res?.data))
     } catch (error) {
       console.error(error);
     }

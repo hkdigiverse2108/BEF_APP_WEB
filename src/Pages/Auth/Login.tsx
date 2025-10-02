@@ -6,9 +6,13 @@ import { FormInput } from "../../Attribute/FormFields";
 import { ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
+import { useAppDispatch } from "../../Store/hooks";
+import { SetUser } from "../../Store/Slices/AuthSlice";
 
 const Login = () => {
   const [form] = Form.useForm();
+
+  const dispatch = useAppDispatch()
 
   const [PostGlobalApi] = usePostGlobalApiMutation({});
 
@@ -18,10 +22,13 @@ const Login = () => {
         ...values,
         userType: "user",
       };
-      await PostGlobalApi({
+      const res = await PostGlobalApi({
         url: URL_KEYS.AUTH.LOGIN,
         data: payload,
       }).unwrap();
+      // console.log("res : ", res?.data)
+      dispatch(SetUser(res?.data))
+
     } catch (error) {
       console.error(error);
     }
@@ -63,10 +70,10 @@ const Login = () => {
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10 form-submit" initialValues={{ phoneNumber: "", countryCode: "ua" }}>
+              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10 form-submit" >
                 <Row gutter={16}>
-                  <Col span={24}>
-                    <Form.Item label="PHONE NUMBER" required>
+                  {/* <Col span={24}> */}
+                  {/* <Form.Item label="PHONE NUMBER" required>
                       <Space.Compact block size="large">
                         <Form.Item name="countryCode" initialValue="IN" noStyle rules={[{ required: true, message: "Please select country code" }]}>
                           <PhoneInput
@@ -79,7 +86,7 @@ const Login = () => {
                           />
                         </Form.Item>
                         <Form.Item
-                          name="phoneNumber"
+                          name="uniqueId"
                           noStyle
                           rules={[
                             { required: true, message: "Please enter your phone number" },
@@ -90,7 +97,10 @@ const Login = () => {
                           <Input placeholder="Mobile Number" maxLength={10} inputMode="numeric" pattern="[0-9]*" />
                         </Form.Item>
                       </Space.Compact>
-                    </Form.Item>
+                    </Form.Item> */}
+                  {/* </Col> */}
+                  <Col span={24}>
+                    <FormInput name="email" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
                   </Col>
                   <Col span={24}>
                     <FormInput name="password" label="password" type="password" rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]} />
@@ -139,3 +149,4 @@ const Login = () => {
 };
 
 export default Login;
+ 

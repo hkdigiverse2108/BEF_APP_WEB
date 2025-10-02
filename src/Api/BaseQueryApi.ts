@@ -6,7 +6,7 @@ import { Storage } from "../Utils";
 export const RawBaseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
   prepareHeaders: (headers) => {
-    const token = Storage.getItem(STORAGE_KEYS.Token);
+    const token = Storage.getItem(STORAGE_KEYS.TOKEN);
     if (token) {
       headers.set("authorization", token);
       headers.set("Cache-Control", "no-cache");
@@ -20,7 +20,7 @@ export const BaseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBa
   const result = await RawBaseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === HTTP_STATUS.UNAUTHORIZED) {
-    Storage.removeItem(STORAGE_KEYS.Token);
+    Storage.removeItem(STORAGE_KEYS.TOKEN);
     // api.dispatch(logout());
   }
 
