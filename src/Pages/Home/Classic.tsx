@@ -1,4 +1,4 @@
-import FormButton from "../../Attribute/FormFields/FormButton";
+import { FormButton } from "../../Attribute/FormFields";
 import { ImagePath } from "../../Constants";
 import { useAppDispatch } from "../../Store/hooks";
 import { setSubjectDrawer } from "../../Store/Slices/DrawerSlice";

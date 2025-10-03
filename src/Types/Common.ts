@@ -1,12 +1,13 @@
-import type { ButtonProps } from "antd";
+import type { ButtonProps, DatePickerProps, FormItemProps, InputProps, SelectProps } from "antd";
 
-export interface FormInputProps {
+export interface FormInputProps extends InputProps{
   name: string;
   label?: string;
   placeholder?: string;
   rules?: any[];
   required?: boolean;
   type?: string;
+  formItemProps?: FormItemProps;
 }
 
 export interface OptionType {
@@ -14,9 +15,9 @@ export interface OptionType {
   value: string;
 }
 
-export interface FormSelectProps {
+export interface FormSelectProps extends SelectProps{
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   options: OptionType[];
   rules?: any[];
@@ -36,4 +37,13 @@ export interface FormButtonProps extends ButtonProps {
   type?: "default" | "primary" | "dashed" | "link" | "text";
   className?: string;
   onClick?: React.MouseEventHandler<HTMLElement>;
+}
+
+export interface FormDateTimeProps extends DatePickerProps {
+  name: string;
+  label?: string;
+  type?: "date" | "time";
+  rules?: any[];
+  required?: boolean;
+  disablePast?: boolean;
 }
