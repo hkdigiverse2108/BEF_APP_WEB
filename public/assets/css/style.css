@@ -4,7 +4,6 @@ body {
   font-family: var(--font-nunito), var(--font-serif);
   color: var(--theme-body-font-color);
 }
-
 /* .offcanvas-backdrop {
   position: fixed;
   top: 0;
@@ -14,105 +13,106 @@ body {
   height: 100vh;
   background-color: #000;
 } */
-
 .offcanvas-backdrop.fade {
   opacity: 0;
 }
-
 .offcanvas-backdrop.show {
   opacity: 0.5;
 }
-
 .offcanvas-backdrop {
   background-color: var(--backdrop);
   z-index: 1500;
   cursor: url(../images/cursor-close.svg), auto;
 }
-
 .offcanvas-backdrop.show {
   opacity: 1;
 }
-
 /* ************ form input *********** */
 .ant-input,
 .ant-picker,
 .ant-select-selector {
   @apply !bg-input-box !py-3;
 }
-
 input {
   @apply placeholder:!font-medium placeholder:capitalize;
 }
-
 .ant-select {
   @apply !h-[50px];
 }
-
 .ant-select-selector {
   @apply !bg-input-box;
 }
-
 .ant-select-arrow {
   @apply !bg-input-box;
 }
-
 .ant-select-compact-item .ant-select-arrow {
   @apply !bg-input-box !pt-3;
 }
-
 .ant-form-item {
   @apply font-medium tracking-[1px];
 }
-
 .ant-form-item-label {
   @apply uppercase;
 }
-
 .ant-select-selection-placeholder {
   @apply !font-medium;
 }
-
 .ant-form-item-control-input-content .ant-picker {
   @apply !w-full;
 }
-
 .ant-input-affix-wrapper-lg {
   @apply !bg-input-box !py-0;
 }
-
 .react-international-phone-input-container .react-international-phone-input {
   @apply !bg-input-box !border-0 !pe-0 !w-10;
 }
-
-.react-international-phone-input-container .react-international-phone-country-selector-button {
+.react-international-phone-input-container
+  .react-international-phone-country-selector-button {
   @apply border-0 !bg-input-box;
 }
-
 .ant-otp {
   @apply !w-full !flex !justify-between;
 }
+
+.ant-tabs-nav-list .ant-tabs-tab {
+  @apply !bg-input-box !text-black !m-0 !rounded-none !border-none !outline-none uppercase font-semibold !px-8 tracking-[1px] ;
+}
+
+.ant-tabs-nav-list .ant-tabs-tab-active {
+  @apply !bg-black !text-white !m-0 !border-none !outline-none;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply !text-white;
+}
+
+.ant-tabs-card.ant-tabs-top .ant-tabs-nav .ant-tabs-tab:first-of-type {
+  @apply !rounded-l-md;
+}
+
+.ant-tabs-card.ant-tabs-top .ant-tabs-nav .ant-tabs-tab:nth-child(2) {
+  @apply !rounded-r-md;
+}
+
 
 @media (max-width: 575px) {
   .ant-steps-item {
     @apply !flex !justify-center !items-center !mb-3;
   }
-
   .ant-steps.ant-steps-vertical {
     @apply flex-row;
   }
-
   .ant-steps-item-content {
     @apply !hidden;
   }
 }
-
 .ant-steps.ant-steps-vertical > .ant-steps-item {
   @apply !pb-0 !mb-3;
 }
-
 .ant-steps .ant-steps-item-icon {
   @apply rounded-md;
 }
+
 
 /* ************ custom button *********** */
 .custom-button.button {
@@ -127,7 +127,6 @@ input {
   position: relative;
   display: inline-block;
 }
-
 .custom-button.button::before,
 .custom-button.button::after {
   position: absolute;
@@ -136,7 +135,6 @@ input {
   width: 100%;
   height: 100%;
 }
-
 .custom-button.button--mimas {
   text-transform: uppercase;
   letter-spacing: 0.05rem;
@@ -147,12 +145,10 @@ input {
   color: #fff !important;
   background: #e7e7e7 !important;
 }
-
 .custom-button.button--mimas span {
   position: relative;
   mix-blend-mode: difference;
 }
-
 .custom-button.button--mimas::before {
   content: "";
   background: #000;
@@ -161,13 +157,10 @@ input {
   transform: skew(30deg);
   transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
 }
-
 .custom-button.button--mimas:hover::before {
   transform: translate3d(100%, 0, 0);
 }
-
 /* ************ custom button *********** */
-
 .ant-drawer-right .ant-drawer-header-title {
   @apply flex-row-reverse;
 }

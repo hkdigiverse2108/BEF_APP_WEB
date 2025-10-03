@@ -1,5 +1,5 @@
 import { IoSearch } from "react-icons/io5";
-import { ImagePath } from "../Constants";
+import { ImagePath, ROUTES } from "../Constants";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
@@ -27,13 +27,14 @@ const Header = () => {
                   </button>
                 </div>
               </li>
+              
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:after:absolute lg:after:bg-black lg:after:w-full lg:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
                 <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
                   HOME
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a href={ROUTES.CONTEST.CONTEST}  className="text-black block text-[15px] font-normal uppercase">
                   MY CONTESTS
                 </a>
               </li>
