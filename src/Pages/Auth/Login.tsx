@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, } from "antd";
+import { Button, Col, Form, Row } from "antd";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
@@ -11,12 +11,13 @@ import { SetUser } from "../../Store/Slices/AuthSlice";
 const Login = () => {
   const [form] = Form.useForm();
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const [PostGlobalApi] = usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
+      console.log("login btn cliked");
       const payload = {
         ...values,
         userType: "user",
@@ -25,17 +26,16 @@ const Login = () => {
         url: URL_KEYS.AUTH.LOGIN,
         data: payload,
       }).unwrap();
-      dispatch(SetUser(res?.data))
-
+      dispatch(SetUser(res?.data));
     } catch (error) {
       console.error(error);
       const err = error as { data: { message: string } };
       form.setFields([
         {
           name: "password",
-          errors: [err.data.message]
-        }
-      ])
+          errors: [err.data.message],
+        },
+      ]);
     }
   };
 
@@ -51,13 +51,27 @@ const Login = () => {
                 <br />
                 Dashboard
               </h1>
-              <p className="font-medium text-xl leading-relaxed mx-auto">Track your progress, get instant performance insights.</p>
+              <p className="font-medium text-xl leading-relaxed mx-auto">
+                Track your progress, get instant performance insights.
+              </p>
             </div>
-            <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
+            <img
+              className="w-full absolute left-0 top-0"
+              alt="Group"
+              src="/assets/images/auth/VecrorGroup.png"
+            />
             <figure className="absolute inset-x-0 bottom-40 flex justify-center">
-              <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/LoginVectorBox.png" />
+              <img
+                className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10"
+                alt="Group"
+                src="/assets/images/auth/LoginVectorBox.png"
+              />
             </figure>
-            <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
+            <img
+              className="w-full absolute left-0 bottom-0"
+              alt="Group"
+              src="/assets/images/auth/OrangeFooter.png"
+            />
           </div>
         </div>
 
@@ -68,25 +82,58 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
+                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                    Create an Account
+                  </h2>
+                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                    Create an account or log in to explore about our website
+                  </p>
                 </div>
               </header>
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10" >
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleFormSubmit}
+                className="space-y-8 lg:space-y-10"
+              >
                 <Row gutter={16}>
                   <Col span={24}>
-                    <FormInput name="uniqueId" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
+                    <FormInput
+                      name="uniqueId"
+                      label="Email"
+                      rules={[
+                        {
+                          required: true,
+                          type: "email",
+                          message: "Invalid email",
+                        },
+                      ]}
+                    />
                   </Col>
                   <Col span={24}>
-                    <FormInput name="password" label="password" type="password" rules={[{ required: true, min: 6, message: "Password must be at least 6 characters" }]} />
+                    <FormInput
+                      name="password"
+                      label="password"
+                      type="password"
+                      rules={[
+                        {
+                          required: true,
+                          min: 6,
+                          message: "Password must be at least 6 characters",
+                        },
+                      ]}
+                    />
                   </Col>
                   <Col span={24}>
                     <footer className="mb-1">
                       <p className="text-end text-sm lg:text-base">
-                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <NavLink
+                          to={ROUTES.AUTH.FORGOT_PASSWORD}
+                          className="font-bold cursor-pointer hover:!underline !text-primary"
+                        >
                           Forgot password ?
                         </NavLink>
                       </p>
@@ -96,8 +143,13 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
-                        <NavLink to={ROUTES.AUTH.SIGNUP} className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <span className="font-medium text-black">
+                          ARE YOU NEW HERE ?{" "}
+                        </span>
+                        <NavLink
+                          to={ROUTES.AUTH.SIGNUP}
+                          className="font-bold cursor-pointer hover:!underline !text-primary"
+                        >
                           SIGN UP
                         </NavLink>
                       </p>
@@ -105,7 +157,10 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <Button className="custom-button button button--mimas w-full !h-auto">
+                      <Button
+                        htmlType="submit"
+                        className="custom-button button button--mimas w-full !h-auto"
+                      >
                         <span>LOGIN</span>
                       </Button>
                     </Form.Item>

@@ -5,66 +5,110 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { BiLogOutCircle } from "react-icons/bi";
+import { useAppDispatch } from "../Store/hooks";
+import { LogOut } from "../Store/Slices/AuthSlice";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <header className="min-h-[60px] tracking-wide relative z-50 shadow-box-shadow">
         <div className="flex flex-wrap items-center justify-between py-3 px-4 sm:px-10 lg:gap-y-4 gap-y-6 gap-x-4">
           <a href="javascript:void(0)">
-            <img src={`${ImagePath}logo/Logo.png`} alt="logo" className="sm:w-[70px] w-[50px]" />
+            <img
+              src={`${ImagePath}logo/Logo.png`}
+              alt="logo"
+              className="sm:w-[70px] w-[50px]"
+            />
           </a>
-          <div id="collapseMenu" className="max-lg:hidden lg:!flex lg:items-center max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-40 max-lg:before:inset-0 max-lg:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
+          <div
+            id="collapseMenu"
+            className="max-lg:hidden lg:!flex lg:items-center max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-40 max-lg:before:inset-0 max-lg:before:z-50"
+            style={{ display: isOpen ? "block" : "none" }}
+          >
             <ul className="lg:!flex lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-[#ffffff] max-lg:w-2/3 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:px-10 max-lg:py-4 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
               <li className="mb-6 hidden max-lg:block">
                 <div className="flex justify-between items-center">
                   <a href="javascript:void(0)">
-                    <img src={`${ImagePath}logo/Logo.png`} alt="logo" className="sm:w-[70px] w-[50px]" />
+                    <img
+                      src={`${ImagePath}logo/Logo.png`}
+                      alt="logo"
+                      className="sm:w-[70px] w-[50px]"
+                    />
                   </a>
-                  <button id="toggleClose" onClick={() => setOpen(!isOpen)} className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer">
+                  <button
+                    id="toggleClose"
+                    onClick={() => setOpen(!isOpen)}
+                    className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer"
+                  >
                     <RxCross2 className="w-5 h-5" />
                   </button>
                 </div>
               </li>
-              
+
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:after:absolute lg:after:bg-black lg:after:w-full lg:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   HOME
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href={ROUTES.CONTEST.CONTEST}  className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href={ROUTES.CONTEST.CONTEST}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   MY CONTESTS
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   FULL FEST RECORDS
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   REFERRAL
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   WINNER
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Workshop
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Course
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Contact
                 </a>
               </li>
@@ -96,24 +140,37 @@ const Header = () => {
             </li> */}
               <li className="group relative py-1 px-1.5 sm:px-2.5 flex justify-between items-center rounded-xl h-10 sm:h-12 bg-input-box lg:hover:after:svg">
                 <div className="flex justify-between items-center gap-3">
-                  <img src={`${ImagePath}user/User1.png`} alt="profile" className="w-8 h-8 rounded-xl" />
+                  <img
+                    src={`${ImagePath}user/User1.png`}
+                    alt="profile"
+                    className="w-8 h-8 rounded-xl"
+                  />
                   <div className="flex-1 hidden xl:block">
-                    <span className="text-md font-bold capitalize">AdminSetting</span>
+                    <span className="text-md font-bold capitalize">
+                      AdminSetting
+                    </span>
                     <p className="capitalize flex text-xs">AdminSetting</p>
                   </div>
                   <IoIosArrowDown className="hidden xl:block " />
                 </div>
                 <ul className="absolute top-17 max-lg:top-10 -left-0 z-50 block space-y-2 shadow-lg rounded-xl bg-white max-h-0 overflow-hidden min-w-[230px] group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all duration-[400ms]">
                   <li className="border-b border-gray-300 py-3">
-                    <a href="javascript:void(0)" className=" text-slate-900 font-normal text-[15px] flex items-center">
-                      <BiLogOutCircle className="pe-2 text-3xl"/>
+                    <p
+                      onClick={() => dispatch(LogOut())}
+                      className=" text-slate-900 font-normal text-[15px] flex items-center"
+                    >
+                      <BiLogOutCircle className="pe-2 text-3xl" />
                       Logout
-                    </a>
+                    </p>
                   </li>
                 </ul>
               </li>
             </ul>
-            <button id="toggleOpen" onClick={() => setOpen(true)} className="lg:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
+            <button
+              id="toggleOpen"
+              onClick={() => setOpen(true)}
+              className="lg:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box"
+            >
               <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
             </button>
           </div>

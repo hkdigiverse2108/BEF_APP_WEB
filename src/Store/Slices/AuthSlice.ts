@@ -26,8 +26,8 @@ const authSlice = createSlice({
     },
     LogOut(state) {
       state.token = "";
-      state.isAuthenticated = false;
       state.user = null
+      state.isAuthenticated = false;
       
       Storage.clear();
       window.location.reload()
@@ -36,5 +36,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { SetUser } = authSlice.actions;
+export const { SetUser ,LogOut } = authSlice.actions;
 export default authSlice.reducer;
