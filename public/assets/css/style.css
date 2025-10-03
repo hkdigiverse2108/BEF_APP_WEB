@@ -13,8 +13,9 @@ body {
 }
 
 input {
-  @apply placeholder:!font-medium placeholder:capitalize;
+  @apply placeholder: !font-medium placeholder:capitalize;
 }
+
 .ant-select {
   @apply !h-[50px];
 }
@@ -42,19 +43,27 @@ input {
 .ant-select-selection-placeholder {
   @apply !font-medium;
 }
+
 .ant-form-item-control-input-content .ant-picker {
   @apply !w-full;
 }
+
 .ant-input-affix-wrapper-lg {
   @apply !bg-input-box !py-0;
 }
 
 .react-international-phone-input-container .react-international-phone-input {
-  @apply !bg-input-box w-14 !border-0 !pe-0 !w-10;
+  @apply !bg-input-box !border-0 !pe-0 !w-10;
 }
+
 .react-international-phone-input-container .react-international-phone-country-selector-button {
   @apply border-0 !bg-input-box;
 }
+
+.ant-otp {
+  @apply !w-full !flex !justify-between
+}
+
 
 /* ************ custom button *********** */
 .custom-button.button {
@@ -107,21 +116,25 @@ input {
 .custom-button.button--mimas:hover::before {
   transform: translate3d(100%, 0, 0);
 }
+
 @media (max-width: 575px) {
   .ant-steps-item {
     @apply !flex !justify-center !items-center !mb-3;
   }
+
   .ant-steps.ant-steps-vertical {
     @apply flex-row;
   }
+
   .ant-steps-item-content {
     @apply !hidden;
   }
 }
 
-.ant-steps.ant-steps-vertical > .ant-steps-item {
+.ant-steps.ant-steps-vertical>.ant-steps-item {
   @apply !pb-0 !mb-3;
 }
+
 .ant-steps .ant-steps-item-icon {
   @apply rounded-md;
 }
@@ -139,6 +152,7 @@ input {
   z-index: 1500;
   cursor: url(../images/cursor-close.svg), auto;
 }
+
 .offcanvas-backdrop.show {
   opacity: 1;
 }

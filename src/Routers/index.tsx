@@ -6,22 +6,27 @@ import Verify from "../Pages/Auth/VerifyOtp";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import ResetPassword from "../Pages/Auth/ResetPassword";
 import Home from "../Pages/Home";
-// import PrivateRoutes from "./PrivateRoutes";
+import PrivateRoutes from "./PrivateRoutes";
 import Layout from "../Layout";
-// import PublicRoutes from "./PublicRoutes";
+import PublicRoutes from "./PublicRoutes";
+import Contest from "../Pages/Contest";
 
 export const Router = createBrowserRouter([
   {
-    // element: <PrivateRoutes/>,
+    element: <PrivateRoutes/>,
     children: [
       {
         element: <Layout />,
-        children: [{ path: ROUTES.HOME, element: <Home /> }],
+        children: [
+          { path: ROUTES.HOME, element: <Home /> },
+          { path: ROUTES.CONTEST.CONTEST, element: <Contest /> },
+          
+        ],
       },
     ],
   },
   {
-    // element: <PublicRoutes />,
+    element: <PublicRoutes />,
     children: [
       { path: ROUTES.HOME, element: <Navigate to={ROUTES.AUTH.LOGIN} replace /> },
       { path: ROUTES.AUTH.LOGIN, element: <Login /> },

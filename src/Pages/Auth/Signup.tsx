@@ -26,14 +26,12 @@ const Signup = () => {
 
   const handleFormSubmit = async (values: RegisterForm) => {
     try {
-
       const mergedData = { ...formData, ...values };
       let payload: RegisterPayload = {
         ...mergedData,
         dob: values?.dob ? values?.dob.format("YYYY-MM-DD") : null,
         examTypeId: [values?.examTypeId]
       }
-      console.log(payload, values)
 
       const cleaned = RemoveEmptyFields(payload)
       const res = await PostGlobalApi({

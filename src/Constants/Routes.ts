@@ -7,4 +7,8 @@ export const ROUTES = {
     FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
   },
+  CONTEST : { 
+    CONTEST : "/contest" ,
+    MEGA_CONTEST : "/mega-contest"
+  }
 } as const;
