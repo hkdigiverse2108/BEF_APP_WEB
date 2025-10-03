@@ -1,4 +1,4 @@
-import { Col, Form, Row, } from "antd";
+import { Button, Col, Form, Row, } from "antd";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
@@ -75,7 +75,7 @@ const Login = () => {
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10 form-submit" >
+              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10" >
                 <Row gutter={16}>
                   <Col span={24}>
                     <FormInput name="uniqueId" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
@@ -105,9 +105,9 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <button className="button button--mimas w-full">
+                      <Button className="custom-button button button--mimas w-full !h-auto">
                         <span>LOGIN</span>
-                      </button>
+                      </Button>
                     </Form.Item>
                   </Col>
                 </Row>

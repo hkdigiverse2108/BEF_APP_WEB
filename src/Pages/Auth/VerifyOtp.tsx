@@ -136,7 +136,7 @@ const Verify = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }}>
             <Row gutter={24}>
               <Col span={24} className="text-center">
                 <FormInput name="otp" type="otp" required />
@@ -166,7 +166,7 @@ const Verify = () => {
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <button className="button button--mimas w-full">
+                  <button className="button button--mimas w-full custom-button">
                     <span>CONTINUE</span>
                   </button>
                 </Form.Item>

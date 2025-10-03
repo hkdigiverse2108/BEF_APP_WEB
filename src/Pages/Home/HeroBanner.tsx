@@ -19,16 +19,16 @@ const HeroBanner = () => {
         onSlideChange={() => console.log("slide change")}
       >
         <SwiperSlide>
-          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full h-[600px]" />
+          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full h-[600px]" />
+          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full h-[600px]" />
+          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full h-[600px]" />
+          <img src={`${ImagePath}banner/Banner1.png`} alt="logo" className="w-full" />
         </SwiperSlide>
       </Swiper>
     </div>

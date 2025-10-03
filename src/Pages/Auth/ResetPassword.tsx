@@ -1,4 +1,4 @@
-import { Col, Form, Row } from "antd";
+import { Button, Col, Form, Row } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
@@ -74,7 +74,7 @@ const ResetPassword = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }}>
             <Row gutter={24}>
               <Col span={24} className="text-center">
                 <FormInput name="password" label="New Password" rules={[{ required: true }]} />
@@ -96,9 +96,9 @@ const ResetPassword = () => {
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <button className="button button--mimas w-full">
+                  <Button className="custom-button button button--mimas w-full !h-auto">
                     <span>CONTINUE</span>
-                  </button>
+                  </Button>
                 </Form.Item>
               </Col>
             </Row>

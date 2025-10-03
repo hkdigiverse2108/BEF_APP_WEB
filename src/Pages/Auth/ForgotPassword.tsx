@@ -1,4 +1,4 @@
-import { Col, Form, Row } from "antd";
+import { Button, Col, Form, Row } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FormInput } from "../../Attribute/FormFields";
 import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
@@ -77,7 +77,7 @@ const ForgotPassword = () => {
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }}>
             <Row gutter={24}>
               <Col span={24} className="text-center" >
                 <FormInput name="uniqueId" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
@@ -98,9 +98,9 @@ const ForgotPassword = () => {
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <button className="button button--mimas w-full">
+                  <Button className="custom-button button button--mimas w-full !h-auto">
                     <span>CONTINUE</span>
-                  </button>
+                  </Button>
                 </Form.Item>
               </Col>
             </Row>

@@ -56,13 +56,13 @@ input {
   @apply border-0 !bg-input-box;
 }
 
-/* ************ form button *********** */
-.form-submit .button {
+/* ************ custom button *********** */
+.custom-button.button {
   pointer-events: auto;
   cursor: pointer;
   background: #e7e7e7;
   border: none;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem !important;
   margin: 0;
   font-family: inherit;
   font-size: inherit;
@@ -70,8 +70,8 @@ input {
   display: inline-block;
 }
 
-.form-submit .button::before,
-.form-submit .button::after {
+.custom-button.button::before,
+.custom-button.button::after {
   position: absolute;
   top: 0;
   left: 0;
@@ -79,23 +79,23 @@ input {
   height: 100%;
 }
 
-.form-submit .button--mimas {
+.custom-button.button--mimas {
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   font-weight: 700;
   font-size: 0.85rem;
   border-radius: 0.5rem;
   overflow: hidden;
-  color: #fff;
-  background: #e7e7e7;
+  color: #fff !important;
+  background: #e7e7e7 !important;
 }
 
-.form-submit .button--mimas span {
+.custom-button.button--mimas span {
   position: relative;
   mix-blend-mode: difference;
 }
 
-.form-submit .button--mimas::before {
+.custom-button.button--mimas::before {
   content: "";
   background: #000;
   width: 120%;
@@ -104,7 +104,7 @@ input {
   transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
 }
 
-.form-submit .button--mimas:hover::before {
+.custom-button.button--mimas:hover::before {
   transform: translate3d(100%, 0, 0);
 }
 @media (max-width: 575px) {
@@ -117,26 +117,6 @@ input {
   .ant-steps-item-content {
     @apply !hidden;
   }
-  .ant-steps .ant-steps-item-title::before {
-    position: absolute;
-    top: 16px;
-    inset-inline-start: 100%;
-    display: block;
-    width: 9999px;
-    height: 1px;
-    background: rgba(5, 5, 5, 0.06);
-    content: "";
-  }
-  .ant-steps .ant-steps-item-title::before {
-    position: absolute;
-    top: 16px;
-    inset-inline-start: 100%;
-    display: block;
-    width: 9999px;
-    height: 1px;
-    background: rgba(5, 5, 5, 0.06);
-    content: "";
-  }
 }
 
 .ant-steps.ant-steps-vertical > .ant-steps-item {
@@ -145,16 +125,6 @@ input {
 .ant-steps .ant-steps-item-icon {
   @apply rounded-md;
 }
-
-/* .offcanvas-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1040;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-} */
 
 .offcanvas-backdrop.fade {
   opacity: 0;

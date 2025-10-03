@@ -202,7 +202,7 @@ const Signup = () => {
           </header>
           <span className="border-t border-primary flex w-full" />
 
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ contact: { countryCode: "+91" } }} className="form-submit">
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ contact: { countryCode: "+91" } }}>
             <div className="my-6">{steps[current].content}</div>
             <Col span={24}>
               <span className="border-t border-primary flex w-full col-span-2 my-4" />
@@ -222,7 +222,7 @@ const Signup = () => {
               {current > 0 && (
                 <button
                   type="button"
-                  className="button button--mimas w-full"
+                  className="button button--mimas w-full custom-button"
                   onClick={(e) => {
                     e.preventDefault();
                     prev();
@@ -235,7 +235,7 @@ const Signup = () => {
               {current < steps.length - 1 ? (
                 <button
                   type="button"
-                  className="button button--mimas w-full"
+                  className="button button--mimas w-full custom-button"
                   onClick={(e) => {
                     e.preventDefault();
                     next();
@@ -246,7 +246,7 @@ const Signup = () => {
               ) : (
                 <button
                   type="submit"
-                  className="button button--mimas w-full"
+                  className="button button--mimas w-full custom-button"
                 >
                   <span>Submit</span>
                 </button>
