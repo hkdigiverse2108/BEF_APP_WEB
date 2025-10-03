@@ -13,7 +13,7 @@ import Contest from "../Pages/Contest";
 
 export const Router = createBrowserRouter([
   {
-    element: <PrivateRoutes/>,
+    // element: <PrivateRoutes/>,
     children: [
       {
         element: <Layout />,
@@ -26,7 +26,7 @@ export const Router = createBrowserRouter([
     ],
   },
   {
-    element: <PublicRoutes />,
+    // element: <PublicRoutes />,
     children: [
       { path: ROUTES.HOME, element: <Navigate to={ROUTES.AUTH.LOGIN} replace /> },
       { path: ROUTES.AUTH.LOGIN, element: <Login /> },

@@ -1,3 +1,5 @@
+import type { ButtonProps } from "antd";
+
 export interface FormInputProps {
   name: string;
   label?: string;
@@ -26,4 +28,12 @@ export interface FormDatePickerProps {
   label: string;
   rules?: any[];
   required?: boolean;
+}
+
+export interface FormButtonProps extends ButtonProps {
+  text: string;
+  htmlType?: "button" | "submit" | "reset";
+  type?: "default" | "primary" | "dashed" | "link" | "text";
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLElement>;
 }

@@ -4,6 +4,7 @@ import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -38,7 +39,7 @@ const Header = () => {
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
                 <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
-                  FULL FEST
+                  FULL FEST RECORDS
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
@@ -49,6 +50,16 @@ const Header = () => {
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
                 <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
                   WINNER
+                </a>
+              </li>
+              <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
+                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                  Workshop
+                </a>
+              </li>
+              <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
+                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                  Course
                 </a>
               </li>
               <li className="max-lg:border-b max-lg:border-gray-300 max-lg:py-3 relative lg:hover:after:absolute lg:after:bg-black lg:after:w-0 lg:hover:after:w-full lg:hover:after:h-[2px] lg:after:block lg:after:-bottom-4 lg:after:transition-all lg:after:duration-300">
@@ -82,7 +93,7 @@ const Header = () => {
                 <span className="absolute left-auto -ml-1 -top-1 rounded-full bg-red-500 px-1 py-0 text-xs text-black">0</span>
               </span>
             </li> */}
-              <li className="relative py-1 px-1.5 sm:px-2.5 flex justify-between items-center rounded-xl h-10 sm:h-12 bg-input-box lg:hover:after:svg">
+              <li className="group relative py-1 px-1.5 sm:px-2.5 flex justify-between items-center rounded-xl h-10 sm:h-12 bg-input-box lg:hover:after:svg">
                 <div className="flex justify-between items-center gap-3">
                   <img src={`${ImagePath}user/User1.png`} alt="profile" className="w-8 h-8 rounded-xl" />
                   <div className="flex-1 hidden xl:block">
@@ -91,6 +102,14 @@ const Header = () => {
                   </div>
                   <IoIosArrowDown className="hidden xl:block " />
                 </div>
+                <ul className="absolute top-17 max-lg:top-10 -left-0 z-50 block space-y-2 shadow-lg rounded-xl bg-white max-h-0 overflow-hidden min-w-[230px] group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all duration-[400ms]">
+                  <li className="border-b border-gray-300 py-3">
+                    <a href="javascript:void(0)" className=" text-slate-900 font-normal text-[15px] flex items-center">
+                      <BiLogOutCircle className="pe-2 text-3xl"/>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
             <button id="toggleOpen" onClick={() => setOpen(true)} className="lg:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
