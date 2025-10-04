@@ -3,7 +3,8 @@ import { Router } from "./Routers";
 import { ConfigProvider } from "antd";
 import { Provider } from "react-redux";
 import { Store } from "./Store/Store";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { GlobalStyles } from "@mui/system";
 
 const theme = createTheme({
   palette: {
@@ -13,6 +14,9 @@ const theme = createTheme({
       dark: "#e76f1d",
       contrastText: "#fff",
     },
+  },
+  typography: {
+    fontFamily: "var(--font-nunito), var(--font-serif)",
   },
 });
 
@@ -26,6 +30,14 @@ const App = () => {
       }}
     >
       <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <GlobalStyles
+          styles={{
+            "*": {
+              fontFamily: "var(--font-nunito), var(--font-serif)",
+            },
+          }}
+        />
         <Provider store={Store}>
           <RouterProvider router={Router} />
         </Provider>

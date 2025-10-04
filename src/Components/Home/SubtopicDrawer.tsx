@@ -1,21 +1,37 @@
-import { Drawer } from "antd";
+import { Drawer, Form } from "antd";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
-import { FormDateTime, FormInput, FormSelect } from "../../Attribute/FormFields";
+import { FormButton, FormInput, FormSelect } from "../../Attribute/FormFields";
 import { GenderOptions } from "../../Data";
 // import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 const SubtopicDrawer = () => {
   const dispatch = useAppDispatch();
   const { isSubtopicDrawer } = useAppSelector((state) => state.drawer);
   // const [value, setValue] = useState<Dayjs | null>(dayjs());
 
+  const [form] = Form.useForm();
+  const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
+
+  // 🔢 Generate stack values like: 1, 11, 21, 31, 41, ...
+  const generateStack = (num: number) => {
+    const list = Array.from({ length: 10 }, (_, i) => num + i * 10);
+    return `2x stack: ${list.join(", ")}`;
+  };
+
+  const handleQuestionClick = (num: number) => {
+    setSelectedQuestion(num);
+    const stack = generateStack(num);
+    form.setFieldValue("stack", stack); // ✅ Update AntD form value
+  };
+
   return (
-    <Drawer title="Select Subtopic" placement="right" size="large" onClose={() => dispatch(setSubtopicDrawer({ open: false }))} open={!isSubtopicDrawer.open}>
+    <Drawer title="Select Subtopic" placement="right" size="large" onClose={() => dispatch(setSubtopicDrawer({ open: false }))} open={isSubtopicDrawer.open}>
       <div className="space-y-6">
         {/* Dropdown */}
         <FormSelect name="gender" placeholder="Select Subtopic" options={GenderOptions} />
@@ -24,71 +40,48 @@ const SubtopicDrawer = () => {
         <div>
           <h2 className="font-semibold text-lg">2x The Stakes, 2x The Thrill</h2>
         </div>
-
+        {isSubtopicDrawer.id}
         {/* Question Numbers */}
-        <div>
+        <Form form={form} className="space-y-6">
           <p className="font-medium mb-2">Select Question No!</p>
           <div className="flex gap-2 flex-wrap">
-            {Array.from({ length: 10 }, (_, i) => (
-              <button key={i} className={`px-3 py-1 border rounded-md ${i === 1 ? "bg-orange-500 text-white border-orange-500" : "border-orange-400 text-orange-500"}`}>
-                {i}
+            {Array.from({ length: 10 }, (_, i) => i).map((num) => (
+              <button key={num} type="button" onClick={() => handleQuestionClick(num)} className={`px-3 py-1 border rounded-md transition-all duration-200 ${selectedQuestion === num ? "bg-orange-500 text-white border-orange-500" : "border-orange-400 text-orange-500 hover:bg-orange-50"}`}>
+                {num}
               </button>
             ))}
           </div>
-        </div>
-        <FormInput name="stack" type="text" disabled defaultValue="2x stack: 1, 11, 21, 31, 41" />
+          <FormInput name="stack" placeholder="Auto generated" disabled />
+        </Form>
 
-        {/* Instruction */}
+        {/* Dynamic Stack Field */}
+        {/* <FormInput name="stack" type="text" disabled defaultValue="2x stack: 1, 11, 21, 31, 41" /> */}
+
         {/* <div className="bg-red-100 text-red-700 border border-red-300 rounded-md px-4 py-2 text-sm">Instruction: Follow the Sample from Word file</div> */}
 
         {/* Calendar */}
         <div>
-          <FormDateTime name="dob" type="date" required disablePast />
-          {/* <FormDateTime name="appointment" label="Appointment Time" type="time" required /> */}
-
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateCalendar defaultValue={dayjs("2022-04-17")} views={["year", "month", "day"]} className="!w-full grid grid-cols-7 gap-2"/>
+            <DateCalendar defaultValue={dayjs("2022-04-17")} views={["year", "month", "day"]} className="full-date" />
           </LocalizationProvider>
-
-          <select className="border rounded px-3 py-2 mb-3">
-            <option>September 2024</option>
-            <option>October 2024</option>
-          </select>
-
-          <div className="border rounded-lg p-4">
-            <h3 className="uppercase font-medium mb-3">January</h3>
-            <div className="grid grid-cols-7 gap-2 text-center text-gray-700">
-              {["M", "T", "W", "T", "F", "S", "S"].map((d) => (
-                <span key={d} className="font-medium">
-                  {d}
-                </span>
-              ))}
-              {Array.from({ length: 31 }, (_, i) => (
-                <div key={i} className={`p-2 rounded ${i + 1 === 2 ? "bg-black text-white font-bold" : "hover:bg-gray-200"}`}>
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Selected Date + Time Slots */}
-        <div className="border rounded-lg p-4">
-          <p className="font-medium">
-            Selected : <span className="text-gray-600">Monday , Sep 18</span>
+        <div className="p-4 bg-input-box border-1 rounded-md border-[#d9d9d9]">
+          <p className="font-semibold text-lg">
+            Selected : <span className="text-black">Monday , Sep 18</span>
           </p>
-          <p className="text-sm text-gray-500 mb-3">Pick Your Time For Playing Quiz</p>
-          <div className="grid grid-cols-4 gap-2">
+          <p className="text-base font-medium text-gray-500 mb-3">Pick Your Time For Playing Quiz</p>
+          <span className="border-t-2 border-[#d9d9d9] flex w-full my-4" />
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
             {["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 AM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 PM", "1:00 AM", "2:00 AM", "3:00 AM"].map((time, i) => (
-              <button key={time} className={`px-2 py-1 rounded-md border text-sm ${[0, 4, 8].includes(i) ? "bg-orange-500 text-white border-orange-500" : "border-gray-300 text-gray-700 hover:bg-gray-100"}`}>
+              <button key={time} className={`p-2 text-sm font-semibold rounded-lg ${[0, 4, 8].includes(i) ? "bg-primary text-white" : "bg-white hover:bg-primary-light"}`}>
                 {time}
               </button>
             ))}
           </div>
         </div>
-
-        {/* Next Button */}
-        <button className="w-full bg-black text-white py-3 rounded-lg font-medium">NEXT</button>
+        <FormButton text="now" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
       </div>
     </Drawer>
   );

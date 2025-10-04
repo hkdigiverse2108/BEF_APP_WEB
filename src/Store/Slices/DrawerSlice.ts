@@ -14,6 +14,7 @@ const DrawerSlice = createSlice({
     },
     setSubtopicDrawer: (state, actions) => {
       state.isSubtopicDrawer = actions.payload;
+      state.isSubjectDrawer = { open: false, id: "" }
     },
   },
 });

@@ -26,7 +26,7 @@ const SubjectDrawer = () => {
               href="#"
               className={`flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border-2 border-gray-200
         ${subjects.length % 2 !== 0 && i === subjects.length - 1 ? "col-span-full" : ""}`}
-              onClick={() => dispatch(setSubtopicDrawer({ open: true, id: "sdfgh" }))}
+              onClick={() => dispatch(setSubtopicDrawer({ open: true, id: `hyy${i}` }))}
             >
               <img className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white" src={s.img} />
               <div className="grid gap-1 w-full">

@@ -31,7 +31,7 @@ const Classic = () => {
                 <p className="text-lg font-normal text-center lg:text-left text-white">Daily quizzes, smart analysis.</p>
               </div>
               <div className="flex items-end-safe">
-                <FormButton text="explore now" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" onClick={() => dispatch(setSubjectDrawer({open:true,id:"sdfgh"}))}/>
+                <FormButton text="explore now" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" onClick={() => dispatch(setSubjectDrawer({open:true,id:"hyy"}))}/>
               </div>
             </div>
           </div>
