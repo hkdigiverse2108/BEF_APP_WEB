@@ -5,11 +5,11 @@ import Signup from "../Pages/Auth/Signup";
 import Verify from "../Pages/Auth/VerifyOtp";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import ResetPassword from "../Pages/Auth/ResetPassword";
-import Home from "../Pages/Home";
 import PrivateRoutes from "./PrivateRoutes";
 import Layout from "../Layout";
 import PublicRoutes from "./PublicRoutes";
 import Contest from "../Pages/Contest";
+import Home from "../Pages/Home";
 
 export const Router = createBrowserRouter([
   {

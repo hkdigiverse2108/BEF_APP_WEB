@@ -1,5 +1,5 @@
-import Classic from "./Classic";
-import HeroBanner from "./HeroBanner";
+import Classic from "../../Components/Home/Classic";
+import HeroBanner from "../../Components/Home/HeroBanner";
 
 const Home = () => {
   return (

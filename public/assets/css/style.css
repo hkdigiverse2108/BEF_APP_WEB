@@ -74,8 +74,16 @@ input {
   @apply !w-full !flex !justify-between;
 }
 
+.ant-tabs-nav-wrap {
+  @apply  flex justify-center mb-6;
+}
+
+.ant-tabs-nav::before {
+  @apply hidden ;
+}
+
 .ant-tabs-nav-list .ant-tabs-tab {
-  @apply !bg-input-box !text-black !m-0 !rounded-none !border-none !outline-none uppercase font-semibold !px-4 md:!px-8 tracking-[1px] ;
+  @apply !bg-input-box !text-black !m-0 !rounded-none !border-none !outline-none uppercase font-semibold !px-4 md:!px-8 tracking-[1px];
 }
 
 .ant-tabs-nav-list .ant-tabs-tab-active {
@@ -94,7 +102,6 @@ input {
   @apply !rounded-r-md;
 }
 
-
 @media (max-width: 575px) {
   .ant-steps-item {
     @apply !flex !justify-center !items-center !mb-3;
@@ -112,7 +119,6 @@ input {
 .ant-steps .ant-steps-item-icon {
   @apply rounded-md;
 }
-
 
 /* ************ custom button *********** */
 .custom-button.button {
