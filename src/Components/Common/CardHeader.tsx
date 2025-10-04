@@ -11,20 +11,22 @@ export const CardHeader: FC<CardHeaderType> = ({
 }) => {
   return (
     <div className="flex justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-2">
-      <section>
+      <section className="flex gap-2">
         {goBack && (
           <NavLink to={goBack}>
             <IoMdArrowRoundBack />
           </NavLink>
         )}
-        <h1>{title}</h1>
+        {title && <h1>{title}</h1>}
       </section>
-      <section className="flex gap-1">
-        <span className="text-primary">{icon}</span>
-        <span className="text-xs md:text-sm xl:text-lg font-semibold ">
-          {time}
-        </span>
-      </section>
+      {icon && time && (
+        <section className="flex gap-1">
+          <span className="text-primary">{icon}</span>
+          <span className="text-xs md:text-sm xl:text-lg font-semibold ">
+            {time}
+          </span>
+        </section>
+      )}
     </div>
   );
 };

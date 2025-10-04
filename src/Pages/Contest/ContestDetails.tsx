@@ -1,7 +1,7 @@
 import { BsFillAlarmFill } from "react-icons/bs";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { Avatar, Button, Progress, Tabs } from "antd";
-import { ImagePath } from "../../Constants";
+import { ImagePath, ROUTES } from "../../Constants";
 import { FaAward } from "react-icons/fa";
 import { IoMdTrophy } from "react-icons/io";
 import { HiCheckBadge } from "react-icons/hi2";
@@ -52,7 +52,7 @@ const prizeData = [
 
 const ContestDetails = () => {
   const onChange = (key: string) => {
-    console.log(key);
+    // console.log(key);
   };
 
   const Winning = () => {
@@ -97,7 +97,7 @@ const ContestDetails = () => {
           title="Mega Contest"
           icon={<BsFillAlarmFill />}
           time="25 Min 10s Left"
-          goBack="go"
+          goBack={ROUTES.CONTEST.CONTEST}
         />
 
         <div className="flex flex-col lg:flex-row gap-4">
@@ -210,7 +210,11 @@ const ContestDetails = () => {
                 {
                   key: "winning",
                   label: "Winning",
-                  children: <>{<Winning />}</>,
+                  children: (
+                    <>
+                      <Winning />
+                    </>
+                  ),
                 },
                 {
                   key: "current-price-pool",
@@ -225,7 +229,9 @@ const ContestDetails = () => {
                   children: (
                     <>
                       <h1>2</h1>
-                      {/* <ContestCards /> */}
+                      <>
+                        <Winning />
+                      </>
                     </>
                   ),
                 },
