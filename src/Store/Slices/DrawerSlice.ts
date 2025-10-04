@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isSubjectDrawer: { open: false, id: "" },
   isSubtopicDrawer: { open: false, id: "" },
+  isConfirmationDrawer: false,
 };
 
 const DrawerSlice = createSlice({
@@ -14,10 +15,13 @@ const DrawerSlice = createSlice({
     },
     setSubtopicDrawer: (state, actions) => {
       state.isSubtopicDrawer = actions.payload;
-      state.isSubjectDrawer = { open: false, id: "" }
+      state.isSubjectDrawer = { open: false, id: "" };
+    },
+    setConfirmationDrawer: (state) => {
+      state.isConfirmationDrawer = !state.isConfirmationDrawer;
     },
   },
 });
 
-export const { setSubjectDrawer, setSubtopicDrawer } = DrawerSlice.actions;
+export const { setSubjectDrawer, setSubtopicDrawer, setConfirmationDrawer } = DrawerSlice.actions;
 export default DrawerSlice.reducer;
