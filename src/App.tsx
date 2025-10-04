@@ -27,6 +27,12 @@ const App = () => {
         token: {
           colorPrimary: "#FE690B",
         },
+        components: {
+          Avatar: {
+            groupOverlapping: -25, 
+          },
+        },
+    
       }}
     >
       <ThemeProvider theme={theme}>

@@ -1,13 +1,29 @@
 import type { FC } from "react";
 import type { CardHeaderType } from "../../Types";
+import { NavLink } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
-export const CardHeader: FC<CardHeaderType> = ({ title, icon, time }) => {
+export const CardHeader: FC<CardHeaderType> = ({
+  title,
+  icon,
+  time,
+  goBack = "",
+}) => {
   return (
-    <div className="flex justify-between text-sm md:text-lg font-semibold items-center flex-wrap gap-2">
-      <h1>{title}</h1>
+    <div className="flex justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-2">
+      <section>
+        {goBack && (
+          <NavLink to={goBack}>
+            <IoMdArrowRoundBack />
+          </NavLink>
+        )}
+        <h1>{title}</h1>
+      </section>
       <section className="flex gap-1">
         <span className="text-primary">{icon}</span>
-        <span className="text-xs md:text-sm font-semibold ">{time}</span>
+        <span className="text-xs md:text-sm xl:text-lg font-semibold ">
+          {time}
+        </span>
       </section>
     </div>
   );

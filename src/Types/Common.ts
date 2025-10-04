@@ -1,7 +1,13 @@
-import type { ButtonProps, DatePickerProps, FormItemProps, InputProps, SelectProps } from "antd";
+import type {
+  ButtonProps,
+  DatePickerProps,
+  FormItemProps,
+  InputProps,
+  SelectProps,
+} from "antd";
 import type { ReactNode } from "react";
 
-export interface FormInputProps extends InputProps{
+export interface FormInputProps extends InputProps {
   name: string;
   label?: string;
   placeholder?: string;
@@ -16,7 +22,7 @@ export interface OptionType {
   value: string;
 }
 
-export interface FormSelectProps extends SelectProps{
+export interface FormSelectProps extends SelectProps {
   name: string;
   label?: string;
   placeholder?: string;
@@ -49,9 +55,9 @@ export interface FormDateTimeProps extends DatePickerProps {
   disablePast?: boolean;
 }
 
-
 export interface CardHeaderType {
   title: string;
   icon: ReactNode;
   time: string;
+  goBack?: string;
 }

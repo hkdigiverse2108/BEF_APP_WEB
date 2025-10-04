@@ -1,7 +1,8 @@
 :root {
-  --primary: #FE690B;
+  --primary: #fe690b;
   --primary-light: #feecd7;
   --bg-light: #fef6e6;
+  --success: #037b3d;
   --input-box: #f5f5f5;
   --body-font-size: 14px;
   --font-nunito: Nunito Sans;
@@ -16,4 +17,5 @@
   --color-bg-light: var(--bg-light);
   --color-input-box: var(--input-box);
   --shadow-box-shadow: var(--box-shadow);
+  --color-success: var(--success);
 }

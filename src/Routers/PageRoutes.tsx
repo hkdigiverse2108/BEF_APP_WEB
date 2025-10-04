@@ -7,11 +7,12 @@ import Login from "../Pages/Auth/Login";
 import Verify from "../Pages/Auth/VerifyOtp";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import ResetPassword from "../Pages/Auth/ResetPassword";
+import ContestDetails from "../Pages/Contest/ContestDetails";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
   { path: ROUTES.CONTEST.CONTEST, element: <Contest /> },
-  { path: ROUTES.CONTEST.CONTEST, element: <Contest /> },
+  { path: ROUTES.CONTEST.CONTEST_DETAILS, element: <ContestDetails /> },
 ];
 
 export const AuthRoutes = [

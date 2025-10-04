@@ -11,7 +11,7 @@ const Contest = () => {
 
   const ContestCards = () => {
     return (
-      <div className="flex flex-col   gap-6">
+      <div className="flex flex-col gap-6">
         <CardHeader
           title="GK Showdown"
           icon={<BsFillAlarmFill />}
@@ -180,9 +180,10 @@ const Contest = () => {
   };
 
   return (
-    <div className="mx-4 md:mx-12">
-      <div className=" flex justify-center mt-12  ">
+    <div className="sub-container">
+      <div className=" mt-12">
         <Tabs
+          className="bg-amber-"
           onChange={onChange}
           type="card"
           items={[

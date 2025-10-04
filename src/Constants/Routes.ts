@@ -9,6 +9,6 @@ export const ROUTES = {
   },
   CONTEST : { 
     CONTEST : "/contest" ,
-    MEGA_CONTEST : "/mega-contest"
+    CONTEST_DETAILS : "/contest/details"
   }
 } as const;
