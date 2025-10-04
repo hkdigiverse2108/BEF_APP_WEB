@@ -75,12 +75,12 @@ const SubtopicDrawer = () => {
           </div>
 
           {/* Selected Date + Time Slots */}
-          <div className="p-4 bg-input-box border-1 rounded-md border-[#d9d9d9]">
+          <div className="p-4 bg-input-box border-1 rounded-md border-card-border">
             <p className="font-semibold text-lg">
               Selected : <span className="text-black">Monday , Sep 18</span>
             </p>
             <p className="text-base font-medium text-gray-500 mb-3">Pick Your Time For Playing Quiz</p>
-            <span className="border-t-2 border-[#d9d9d9] flex w-full my-4" />
+            <span className="border-t-2 border-card-border flex w-full my-4" />
             <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
               {["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 AM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 PM", "1:00 AM", "2:00 AM", "3:00 AM"].map((time, i) => (
                 <button key={time} className={`p-2 text-sm font-semibold rounded-lg ${[0, 4, 8].includes(i) ? "bg-primary text-white" : "bg-white hover:bg-primary-light"}`}>

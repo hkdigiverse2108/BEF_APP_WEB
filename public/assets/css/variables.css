@@ -9,6 +9,7 @@
   --font-nunito: Nunito Sans;
   --font-serif: sans-serif;
   --theme-body-font-color: #404040;
+  --card-border: #d9d9d9;
   --box-shadow: 0px 9px 20px rgba(46, 35, 94, 0.07);
 }
 
@@ -20,4 +21,5 @@
   --color-input-box: var(--input-box);
   --shadow-box-shadow: var(--box-shadow);
   --color-success: var(--success);
+  --color-card-border: var(--card-border);
 }
