@@ -97,7 +97,7 @@ const ContestDetails = () => {
           title="Mega Contest"
           icon={<BsFillAlarmFill />}
           time="25 Min 10s Left"
-          goBack={ROUTES.CONTEST.CONTEST}
+          backButton={ROUTES.CONTEST.CONTEST}
         />
 
         <div className="flex flex-col lg:flex-row gap-4">

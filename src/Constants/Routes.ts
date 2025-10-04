@@ -10,6 +10,8 @@ export const ROUTES = {
   CONTEST: {
     CONTEST: "/contest",
     CONTEST_DETAILS: "/contest/details",
+    CONTEST_WINNERS: "/contest/winners",
+
   },
   EXAM: {
     INSTRUCTION: "/exam/instruction",

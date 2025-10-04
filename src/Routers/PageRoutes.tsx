@@ -9,11 +9,13 @@ import ForgotPassword from "../Pages/Auth/ForgotPassword";
 import ResetPassword from "../Pages/Auth/ResetPassword";
 import ContestDetails from "../Pages/Contest/ContestDetails";
 import Instruction from "../Pages/Exam/Instruction";
+import ContestWinner from "../Pages/Contest/ContestWinner";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
   { path: ROUTES.CONTEST.CONTEST, element: <Contest /> },
   { path: ROUTES.CONTEST.CONTEST_DETAILS, element: <ContestDetails /> },
+  { path: ROUTES.CONTEST.CONTEST_WINNERS, element: <ContestWinner /> },
   { path: ROUTES.EXAM.INSTRUCTION, element: <Instruction /> },
 ];
 

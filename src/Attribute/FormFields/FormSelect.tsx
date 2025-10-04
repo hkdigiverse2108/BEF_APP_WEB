@@ -6,7 +6,7 @@ const FormSelect: FC<FormSelectProps> = ({ name, label, placeholder, options, ru
   return (
     <Form.Item name={name} label={label} rules={rules || (required ? [{ required: true, message: `${label} is required` }] : [])} {...rest}>
       <Select placeholder={placeholder || `Select ${label}`} allowClear size="large">
-        {options.map((opt) => (
+        {options?.map((opt) => (
           <Select.Option key={opt.value} value={opt.value}>
             {opt.label}
           </Select.Option>

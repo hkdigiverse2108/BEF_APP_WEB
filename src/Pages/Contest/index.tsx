@@ -3,7 +3,7 @@ import { BsFillAlarmFill } from "react-icons/bs";
 import { ImagePath, ROUTES } from "../../Constants";
 import { FormButton } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Contest = () => {
   const navigate = useNavigate();

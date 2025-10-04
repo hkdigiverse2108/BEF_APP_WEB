@@ -39,7 +39,7 @@ export interface FormDatePickerProps {
 }
 
 export interface FormButtonProps extends ButtonProps {
-  text: string;
+  text: string  | ReactNode;
   htmlType?: "button" | "submit" | "reset";
   type?: "default" | "primary" | "dashed" | "link" | "text";
   className?: string;
@@ -56,8 +56,13 @@ export interface FormDateTimeProps extends DatePickerProps {
 }
 
 export interface CardHeaderType {
-  title?: string;
-  icon?: ReactNode;
-  time?: string;
-  goBack?: string;
+  title: string;
+  icon: ReactNode;
+  time: string;
+  backButton?: string;
+  pricePool?: { icon: ReactNode; price: string };
+  sliderButton?: {
+    prev: string;
+    next: string;
+  };
 }
