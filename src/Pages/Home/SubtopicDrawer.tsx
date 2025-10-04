@@ -3,10 +3,16 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
 import { FormDateTime, FormInput, FormSelect } from "../../Attribute/FormFields";
 import { GenderOptions } from "../../Data";
+// import dayjs, { Dayjs } from 'dayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import dayjs from "dayjs";
 
 const SubtopicDrawer = () => {
   const dispatch = useAppDispatch();
   const { isSubtopicDrawer } = useAppSelector((state) => state.drawer);
+  // const [value, setValue] = useState<Dayjs | null>(dayjs());
 
   return (
     <Drawer title="Select Subtopic" placement="right" size="large" onClose={() => dispatch(setSubtopicDrawer({ open: false }))} open={!isSubtopicDrawer.open}>
@@ -33,12 +39,17 @@ const SubtopicDrawer = () => {
         <FormInput name="stack" type="text" disabled defaultValue="2x stack: 1, 11, 21, 31, 41" />
 
         {/* Instruction */}
-        <div className="bg-red-100 text-red-700 border border-red-300 rounded-md px-4 py-2 text-sm">Instruction: Follow the Sample from Word file</div>
+        {/* <div className="bg-red-100 text-red-700 border border-red-300 rounded-md px-4 py-2 text-sm">Instruction: Follow the Sample from Word file</div> */}
 
         {/* Calendar */}
         <div>
-          <FormDateTime name="dob" type="date" required disablePast  defaultOpen />
+          <FormDateTime name="dob" type="date" required disablePast />
           {/* <FormDateTime name="appointment" label="Appointment Time" type="time" required /> */}
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar defaultValue={dayjs("2022-04-17")} views={["year", "month", "day"]} className="!w-full grid grid-cols-7 gap-2"/>
+          </LocalizationProvider>
+
           <select className="border rounded px-3 py-2 mb-3">
             <option>September 2024</option>
             <option>October 2024</option>
