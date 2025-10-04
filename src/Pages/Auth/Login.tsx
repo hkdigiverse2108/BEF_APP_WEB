@@ -147,7 +147,7 @@ const Login = () => {
                           ARE YOU NEW HERE ?{" "}
                         </span>
                         <NavLink
-                          to={ROUTES.AUTH.SIGNUP}
+                          to={ROUTES.AUTH.REGISTER}
                           className="font-bold cursor-pointer hover:!underline !text-primary"
                         >
                           SIGN UP

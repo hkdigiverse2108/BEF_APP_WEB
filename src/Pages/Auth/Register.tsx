@@ -11,7 +11,7 @@ import { useAppDispatch } from "../../Store/hooks";
 import { SetUser } from "../../Store/Slices/AuthSlice";
 import type { RegisterForm, RegisterPayload } from "../../Types";
 
-const Signup = () => {
+const Register = () => {
   const [form] = Form.useForm();
   const [current, setCurrent] = useState(0);
 
@@ -263,4 +263,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;
