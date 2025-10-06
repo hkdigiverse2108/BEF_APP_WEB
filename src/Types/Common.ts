@@ -57,8 +57,8 @@ export interface FormDateTimeProps extends DatePickerProps {
 
 export interface CardHeaderType {
   title: string;
-  icon: ReactNode;
-  time: string;
+  icon?: ReactNode;
+  time?: string;
   backButton?: string;
   pricePool?: { icon: ReactNode; price: string };
   sliderButton?: {

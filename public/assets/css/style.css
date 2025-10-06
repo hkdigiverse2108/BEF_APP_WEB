@@ -6,7 +6,7 @@ body {
 }
 
 .sub-container {
-  @apply mx-4 md:mx-12
+  @apply mx-4 md:mx-12;
 }
 
 /* .offcanvas-backdrop {
@@ -79,7 +79,7 @@ input {
 }
 
 .ant-tabs-nav-wrap {
-  @apply flex justify-center ;
+  @apply flex justify-center;
 }
 
 .ant-tabs-nav::before {
@@ -87,7 +87,7 @@ input {
 }
 
 .ContestDetailsTab .ant-tabs-nav-list {
-  @apply flex w-full ;
+  @apply flex w-full;
 }
 .ant-tabs-nav-list .ant-tabs-tab {
   @apply !bg-input-box justify-center !text-black !m-0 !rounded-none !border-none !outline-none uppercase font-semibold !px-4 md:!px-8 tracking-[1px] w-full;
@@ -211,6 +211,40 @@ input {
   @apply !border-0;
 }
 
-.ant-drawer-title{
+.ant-drawer-title {
   @apply !text-lg !font-semibold;
+}
+
+/* ************ question section *********** */
+
+.question-section .ant-select-selector {
+  @apply !bg-white !h-11;
+}
+
+.question-section .ant-select-arrow {
+  @apply !bg-white;
+}
+
+.question-section .ant-select {
+  @apply flex items-center;
+}
+
+.question-section .question .ant-radio ,.question-section .question .ant-checkbox {
+  @apply !hidden;
+}
+
+.question-section .ant-radio-label svg ,.question-section .ant-checkbox-label svg{
+  @apply text-lg;
+}
+
+.answered {
+  @apply rounded-b-md rounded-t-2xl bg-green-200 border-green-600;
+}
+
+.unanswered {
+  @apply rounded-b-2xl rounded-t-md bg-red-200 border-red-600;
+}
+
+.not-visited {
+  @apply rounded-md border-card-border hover:bg-gray-300;
 }
