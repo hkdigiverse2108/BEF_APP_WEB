@@ -10,6 +10,7 @@ import ResetPassword from "../Pages/Auth/ResetPassword";
 import ContestDetails from "../Pages/Contest/ContestDetails";
 import Instruction from "../Pages/Exam/Instruction";
 import ContestWinner from "../Pages/Contest/ContestWinner";
+import Question from "../Pages/Exam/Question";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -17,6 +18,7 @@ export const PageRoutes = [
   { path: ROUTES.CONTEST.CONTEST_DETAILS, element: <ContestDetails /> },
   { path: ROUTES.CONTEST.CONTEST_WINNERS, element: <ContestWinner /> },
   { path: ROUTES.EXAM.INSTRUCTION, element: <Instruction /> },
+  { path: ROUTES.EXAM.QUESTION, element: <Question /> },
 ];
 
 export const AuthRoutes = [
