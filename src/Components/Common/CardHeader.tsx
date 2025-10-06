@@ -1,12 +1,7 @@
 import type { FC } from "react";
 import type { CardHeaderType } from "../../Types";
 import { NavLink } from "react-router-dom";
-import {
-  IoIosArrowBack,
-  IoIosArrowForward,
-  IoMdArrowRoundBack,
-} from "react-icons/io";
-import { FormButton } from "../../Attribute/FormFields";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export const CardHeader: FC<CardHeaderType> = ({
   title,
@@ -14,10 +9,10 @@ export const CardHeader: FC<CardHeaderType> = ({
   time,
   backButton = "",
   pricePool,
-  sliderButton,
+  // sliderButton,
 }) => {
   return (
-    <div className="flex justify-center sm:justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-3">
+    <div className="w-full flex justify-center sm:justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-3">
       <section className="flex gap-2">
         {backButton && (
           <NavLink to={backButton}>
@@ -41,18 +36,20 @@ export const CardHeader: FC<CardHeaderType> = ({
             </span>
           </section>
         )}
-        {sliderButton && (
+        {/* {sliderButton && (
           <div>
             <FormButton
               text={<IoIosArrowBack />}
+              // onClick={() => sliderButton.next.swiperRef?.current?.slidePrev())}
               className="!bg-input-box !border-none !rounded-r-none "
             />
             <FormButton
               text={<IoIosArrowForward />}
+              onClick={() => sliderButton.next.swiperRef?.current?.slideNext()}
               className="!bg-black !text-white !rounded-l-none"
             />
           </div>
-        )}
+        )} */}
       </section>
     </div>
   );
