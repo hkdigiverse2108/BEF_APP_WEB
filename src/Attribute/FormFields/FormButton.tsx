@@ -4,7 +4,7 @@ import type { FormButtonProps } from "../../Types";
 
 const FormButton: FC<FormButtonProps> = ({ text, htmlType = "button", type = "default", className = "", onClick, ...rest }) => {
   return (
-    <Button htmlType={htmlType} type={type} className={className} onClick={onClick} {...rest}>
+    <Button htmlType={htmlType} type={type} className={`outline-none ${className}`} onClick={onClick} {...rest}>
       <span>{text}</span>
     </Button>
   );

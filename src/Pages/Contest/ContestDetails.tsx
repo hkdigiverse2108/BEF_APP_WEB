@@ -5,6 +5,7 @@ import { ImagePath, ROUTES } from "../../Constants";
 import { FaAward } from "react-icons/fa";
 import { IoMdTrophy } from "react-icons/io";
 import { HiCheckBadge } from "react-icons/hi2";
+import { FormButton } from "../../Attribute/FormFields";
 
 const prizeData = [
   {
@@ -177,9 +178,14 @@ const ContestDetails = () => {
               </div>
               <span className=" flex border border-gray-200 w-full my-2  "></span>
               <div className=" py-2 ">
-                <Button className="custom-button button button--mimas w-full !h-auto">
-                  <span className="uppercase">pay - 200.00 </span>
-                </Button>
+                <FormButton
+                  htmlType="submit"
+                  text="pay - 200.00"
+                  className="custom-button button button--mimas w-full !h-auto uppercase"
+                />
+                {/* <Button className="custom-button button button--mimas w-full !h-auto ">
+                  <span className="uppercase"> </span>
+                </Button> */}
               </div>
             </div>
 

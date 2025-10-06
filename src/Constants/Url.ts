@@ -9,6 +9,21 @@ export const URL_KEYS = {
     RESEND_OTP: "/auth/resend-otp",
   },
   EXAM_TYPE: {
-    EXAM_TYPE: "/exam-type"
-  }
+    EXAM_TYPE: "/exam-type",
+  },
+  BANNER: {
+    ALL: "/banner/all",
+  },
+  CLASSES: {
+    ALL: "/classes/all",
+  },
+  SUBJECT: {
+    ALL: "/subject/all",
+  },
+  SUB_TOPIC: {
+    ALL: "/sub-topic/all",
+  },
+  CONTEST: {
+    ALL: "/contest/all",
+  },
 } as const;

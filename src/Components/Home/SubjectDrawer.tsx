@@ -1,40 +1,102 @@
 import { Drawer } from "antd";
-import { ImagePath } from "../../Constants";
-import { setSubjectDrawer, setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
+import { ImagePath, URL_KEYS } from "../../Constants";
+import {
+  setSubjectDrawer,
+  setSubtopicDrawer,
+} from "../../Store/Slices/DrawerSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import SubtopicDrawer from "./SubtopicDrawer";
+import { useGetApiQuery } from "../../Api/CommonApi";
+import { NavLink } from "react-router-dom";
 
 const SubjectDrawer = () => {
   const dispatch = useAppDispatch();
   const { isSubjectDrawer } = useAppSelector((state) => state.drawer);
 
-  const subjects = [
-    { id: 1, img: `${ImagePath}classic/subject/Subject1.png`, title: "Bharat Exam Fest", desc: "Practice full-length quizzes to simulate real exam conditions." },
-    { id: 2, img: `${ImagePath}classic/subject/Subject2.png`, title: "Bharat Exam Fest", desc: "Practice full-length quizzes to simulate real exam conditions." },
-    { id: 3, img: `${ImagePath}classic/subject/Subject3.png`, title: "Bharat Exam Fest", desc: "Practice full-length quizzes to simulate real exam conditions." },
-    { id: 4, img: `${ImagePath}classic/subject/Subject2.png`, title: "Bharat Exam Fest", desc: "Practice full-length quizzes to simulate real exam conditions." },
-    { id: 3, img: `${ImagePath}classic/subject/Subject2.png`, title: "Bharat Exam Fest", desc: "Practice full-length quizzes to simulate real exam conditions." },
-    { id: 3, img: `${ImagePath}classic/subject/Subject2.png`, title: "Bharat Exam Fest", desc: "Practice full-length quizzes to simulate real exam conditions." },
-  ];
+  const { data: SubjectData } = useGetApiQuery({
+    url: `${URL_KEYS.SUBJECT.ALL}?page=1&limit=10`,
+  });
+
+  const subjects = SubjectData?.data.subject_data;
+
+  console.log(subjects);
+
+  // const subjects = [
+  //   {
+  //     id: 1,
+  //     img: `${ImagePath}classic/subject/Subject1.png`,
+  //     title: "Bharat Exam Fest",
+  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
+  //   },
+  //   {
+  //     id: 2,
+  //     img: `${ImagePath}classic/subject/Subject2.png`,
+  //     title: "Bharat Exam Fest",
+  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
+  //   },
+  //   {
+  //     id: 3,
+  //     img: `${ImagePath}classic/subject/Subject3.png`,
+  //     title: "Bharat Exam Fest",
+  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
+  //   },
+  //   {
+  //     id: 4,
+  //     img: `${ImagePath}classic/subject/Subject2.png`,
+  //     title: "Bharat Exam Fest",
+  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
+  //   },
+  //   {
+  //     id: 3,
+  //     img: `${ImagePath}classic/subject/Subject2.png`,
+  //     title: "Bharat Exam Fest",
+  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
+  //   },
+  //   {
+  //     id: 3,
+  //     img: `${ImagePath}classic/subject/Subject2.png`,
+  //     title: "Bharat Exam Fest",
+  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
+  //   },
+  // ];
   return (
     <>
-      <Drawer title="Explore Topics" placement="right" size={"large"} onClose={() => dispatch(setSubjectDrawer({ open: false }))} open={isSubjectDrawer.open}>
+      <Drawer
+        title="Explore Topics"
+        placement="right"
+        size={"large"}
+        onClose={() => dispatch(setSubjectDrawer({ open: false }))}
+        open={isSubjectDrawer.open}
+      >
         <div className="grid gap-3 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center">
-          {subjects.map((s, i) => (
-            <a
-              key={s.id}
-              href="#"
+          {subjects?.map((subject, i) => (
+            <NavLink
+              key={i}
+              to="#"
               className={`flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border-2 border-gray-200
-        ${subjects.length % 2 !== 0 && i === subjects.length - 1 ? "col-span-full" : ""}`}
-              onClick={() => dispatch(setSubtopicDrawer({ open: true, id: `hyy${i}` }))}
+        ${
+          subjects.length % 2 !== 0 && i === subjects.length - 1
+            ? "col-span-full"
+            : ""
+        }`}
+              onClick={() =>
+                dispatch(setSubtopicDrawer({ open: true, id: subject._id }))
+              }
             >
-              <img className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white" src={s.img} />
+              <img
+                className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white"
+                src={subject.image}
+              />
               <div className="grid gap-1 w-full">
-                {isSubjectDrawer.id}
-                <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-black">{s.title}</h3>
-                <p className="text-sm font-normal max-sm:text-center text-left text-gray-600">{s.desc}</p>
+                {/* {isSubjectDrawer.id} */}
+                <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-black">
+                  {subject.name}
+                </h3>
+                <p className="text-sm font-normal max-sm:text-center text-left text-gray-600">
+                  {subject.desc || isSubjectDrawer.id}
+                </p>
               </div>
-            </a>
+            </NavLink>
           ))}
         </div>
       </Drawer>

@@ -1,11 +1,11 @@
-import Classic from "../../Components/Home/Classic";
+import Classes from "../../Components/Home/Classes";
 import HeroBanner from "../../Components/Home/HeroBanner";
 
 const Home = () => {
   return (
     <div>
       <HeroBanner />
-      <Classic />
+      <Classes />
     </div>
   );
 };

@@ -26,6 +26,7 @@ const Header = () => {
                   <a href="javascript:void(0)">
                     <img src={`${ImagePath}logo/Logo.png`} alt="logo" className="sm:w-[70px] w-[50px]" />
                   </a>
+                  
                   <button id="toggleClose" onClick={() => setOpen(!isOpen)} className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer">
                     <RxCross2 className="w-5 h-5" />
                   </button>

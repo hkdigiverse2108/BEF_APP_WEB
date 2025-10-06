@@ -1,7 +1,7 @@
 import { Button, Col, Form, Row } from "antd";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
-import { FormInput } from "../../Attribute/FormFields";
+import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
@@ -157,12 +157,12 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <Button
+                      <FormButton
                         htmlType="submit"
+                        text="LOGIN"
                         className="custom-button button button--mimas w-full !h-auto"
-                      >
-                        <span>LOGIN</span>
-                      </Button>
+                      />
+                     
                     </Form.Item>
                   </Col>
                 </Row>

@@ -200,11 +200,16 @@ const ContestWinner = () => {
             <Swiper
               modules={[A11y, Autoplay]}
               spaceBetween={20}
-              slidesPerView={4}
+              slidesPerView={1}
               pagination={{ clickable: true }}
               className="w-full !px-1"
               onSwiper={(swiper) => {
                 swiperRefs.current[index] = swiper;
+              }}
+              breakpoints={{
+                768: { slidesPerView: 2 }, // md: ≥768px
+                1024: { slidesPerView: 3 }, // lg: ≥1024px
+                1280: { slidesPerView: 4 }, // xl: ≥1280px
               }}
             >
               {section.winners.map((winner, i) => (

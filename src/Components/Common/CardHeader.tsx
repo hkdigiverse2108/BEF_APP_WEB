@@ -9,11 +9,10 @@ export const CardHeader: FC<CardHeaderType> = ({
   time,
   backButton = "",
   pricePool,
-  // sliderButton,
 }) => {
   return (
-    <div className="w-full flex justify-center sm:justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-3">
-      <section className="flex gap-2">
+    <div className="w-full flex justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-3">
+      <section className="flex gap-2 flex-wrap">
         {backButton && (
           <NavLink to={backButton}>
             <IoMdArrowRoundBack />
@@ -36,20 +35,7 @@ export const CardHeader: FC<CardHeaderType> = ({
             </span>
           </section>
         )}
-        {/* {sliderButton && (
-          <div>
-            <FormButton
-              text={<IoIosArrowBack />}
-              // onClick={() => sliderButton.next.swiperRef?.current?.slidePrev())}
-              className="!bg-input-box !border-none !rounded-r-none "
-            />
-            <FormButton
-              text={<IoIosArrowForward />}
-              onClick={() => sliderButton.next.swiperRef?.current?.slideNext()}
-              className="!bg-black !text-white !rounded-l-none"
-            />
-          </div>
-        )} */}
+      
       </section>
     </div>
   );

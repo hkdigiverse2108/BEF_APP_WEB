@@ -1,6 +1,6 @@
 import { Col, Form, Row } from "antd";
 import { useNavigate } from "react-router-dom";
-import { FormInput } from "../../Attribute/FormFields";
+import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import type { LoginForm } from "../../Types";
 import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
@@ -10,9 +10,9 @@ import { Storage } from "../../Utils";
 const Verify = () => {
   const [form] = Form.useForm();
 
-  const [seconds, setSeconds] = useState(120)
+  const [seconds, setSeconds] = useState(120);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [PostGlobalApi] = usePostGlobalApiMutation({});
 
@@ -28,19 +28,18 @@ const Verify = () => {
       }).unwrap();
 
       if (res?.status === HTTP_STATUS.OK) {
-        Storage.removeItem(STORAGE_KEYS.OTP_EXPIRY_KEY)
-        navigate(ROUTES.AUTH.RESET_PASSWORD)
+        Storage.removeItem(STORAGE_KEYS.OTP_EXPIRY_KEY);
+        navigate(ROUTES.AUTH.RESET_PASSWORD);
       }
-
     } catch (error) {
       console.error(error);
       const err = error as { data: { message: string } };
       form.setFields([
         {
           name: "otp",
-          errors: [err.data.message]
-        }
-      ])
+          errors: [err.data.message],
+        },
+      ]);
     }
   };
 
@@ -52,7 +51,7 @@ const Verify = () => {
       const expiryTime = parseInt(savedExpiry, 10);
       const now = Date.now();
       const remaining = Math.floor((expiryTime - now) / 1000);
-      console.log(expiryTime, now, remaining)
+      console.log(expiryTime, now, remaining);
       setSeconds(remaining > 0 ? remaining : 0);
     } else {
       const newExpiry = Date.now() + 120 * 1000;
@@ -65,26 +64,25 @@ const Verify = () => {
     if (seconds <= 0) return;
 
     const timer = setInterval(() => {
-      setSeconds((prev) => prev - 1)
-    }, 1000)
+      setSeconds((prev) => prev - 1);
+    }, 1000);
     return () => clearInterval(timer);
-  }, [seconds])
+  }, [seconds]);
 
   const formatTime = (secs: number) => {
     const minutes = Math.floor(secs / 60);
     const remainingSeconds = secs % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`
-  }
-
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
 
   const handleResend = async () => {
     try {
-      const email = Storage.getItem(STORAGE_KEYS.FORGOT_PASSWORD_EMAIL)
+      const email = Storage.getItem(STORAGE_KEYS.FORGOT_PASSWORD_EMAIL);
 
       const payload = {
         email,
-        role: "user"
-      }
+        role: "user",
+      };
 
       const res = await PostGlobalApi({
         url: URL_KEYS.AUTH.RESEND_OTP,
@@ -96,9 +94,7 @@ const Verify = () => {
         localStorage.setItem(STORAGE_KEYS.OTP_EXPIRY_KEY, newExpiry.toString());
         setSeconds(120);
       }
-
-    } catch { }
-
+    } catch {}
   };
 
   return (
@@ -112,13 +108,27 @@ const Verify = () => {
               <br />
               Quiz again
             </h1>
-            <p className="font-medium text-xl leading-relaxed mx-auto">Continue your learning journey.</p>
+            <p className="font-medium text-xl leading-relaxed mx-auto">
+              Continue your learning journey.
+            </p>
           </div>
-          <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
+          <img
+            className="w-full absolute left-0 top-0"
+            alt="Group"
+            src="/assets/images/auth/VecrorGroup.png"
+          />
           <figure className="absolute inset-x-0 bottom-20 flex justify-center">
-            <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/Verify.png" />
+            <img
+              className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10"
+              alt="Group"
+              src="/assets/images/auth/Verify.png"
+            />
           </figure>
-          <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
+          <img
+            className="w-full absolute left-0 bottom-0"
+            alt="Group"
+            src="/assets/images/auth/OrangeFooter.png"
+          />
         </div>
       </div>
 
@@ -128,15 +138,24 @@ const Verify = () => {
           {/* Header */}
           <header className="space-y-6 lg:space-y-8">
             <div className="space-y-3">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Confirm your Number</h2>
-              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Enter the 6-digit Verification Code</p>
+              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                Confirm your Number
+              </h2>
+              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                Enter the 6-digit Verification Code
+              </p>
             </div>
           </header>
 
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleFormSubmit}
+            initialValues={{ countryCode: "+91" }}
+          >
             <Row gutter={24}>
               <Col span={24} className="text-center">
                 <FormInput name="otp" type="otp" required />
@@ -147,18 +166,21 @@ const Verify = () => {
               <Col span={24}>
                 {/* Footer */}
                 <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
-                  <p className="text-center text-sm lg:text-base">
-                    <span className="font-medium text-black">Didn’t get the code? </span>
+                  <p className="text-center text-sm lg:text-base uppercase">
+                    <span className="font-medium text-black">
+                      Didn’t get the code?{" "}
+                    </span>
                     {seconds > 0 ? (
-                      <span className="font-bold text-primary">Resend in {formatTime(seconds)}</span>
+                      <span className="font-bold text-primary">
+                        Resend in {formatTime(seconds)}
+                      </span>
                     ) : (
-                      <button
-                        type="button"
+                      <FormButton
+                        htmlType="button"
+                        text="Resend Code"
                         onClick={handleResend}
-                        className="font-bold cursor-pointer hover:underline text-primary"
-                      >
-                        Resend Code
-                      </button>
+                        className="!border-none !bg-none !shadow-none !text-primary !font-bold !cursor-pointer hover:!underline "
+                      />
                     )}
                   </p>
                 </footer>
@@ -166,9 +188,11 @@ const Verify = () => {
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <button className="button button--mimas w-full custom-button">
-                    <span>CONTINUE</span>
-                  </button>
+                  <FormButton
+                    htmlType="submit"
+                    text="CONTINUE"
+                    className="custom-button button button--mimas w-full !h-auto"
+                  />
                 </Form.Item>
               </Col>
             </Row>
