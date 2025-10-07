@@ -1,6 +1,6 @@
 import { ImagePath } from "../../Constants";
 import { FaAward } from "react-icons/fa";
-import type { ContestWinnerCardProps } from "../../Types/Contest";
+import type { ContestWinnerCardProps } from "../../Types/";
 import type { FC } from "react";
 
 const ContestWinnerCard: FC<ContestWinnerCardProps> = ({ winner }) => {

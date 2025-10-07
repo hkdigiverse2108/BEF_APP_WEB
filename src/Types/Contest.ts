@@ -1,6 +1,6 @@
 export interface WinnerType {
   name: string;
-  rank: number;
+  rank: string;
   img: string;
   amount: string;
 }

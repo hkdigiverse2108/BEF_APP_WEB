@@ -8,18 +8,19 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import SubtopicDrawer from "./SubtopicDrawer";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { NavLink } from "react-router-dom";
+import type { Subject, SubjectApiResponse } from "../../Types";
 
 const SubjectDrawer = () => {
   const dispatch = useAppDispatch();
   const { isSubjectDrawer } = useAppSelector((state) => state.drawer);
 
-  const { data: SubjectData } = useGetApiQuery({
+  const { data: SubjectData } = useGetApiQuery<SubjectApiResponse>({
     url: `${URL_KEYS.SUBJECT.ALL}?page=1&limit=10`,
   });
 
-  const Subjects = SubjectData?.data.subject_data;
+  const Subjects: Subject[] = SubjectData?.data.subject_data;
 
-  if(Subjects) console.log(Subjects);
+  if (Subjects) console.log(Subjects);
 
   // const subjects = [
   //   {

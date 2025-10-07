@@ -1,7 +1,12 @@
-import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+} from "@reduxjs/toolkit/query";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HTTP_STATUS, STORAGE_KEYS } from "../Constants";
 import { Storage } from "../Utils";
+import { LogOut } from "../Store/Slices/AuthSlice";
 
 export const RawBaseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
@@ -16,12 +21,16 @@ export const RawBaseQuery = fetchBaseQuery({
   },
 });
 
-export const BaseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
+export const BaseQueryWithAuth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
   const result = await RawBaseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === HTTP_STATUS.UNAUTHORIZED) {
     Storage.removeItem(STORAGE_KEYS.TOKEN);
-    // api.dispatch(logout());
+    api.dispatch(LogOut());
   }
 
   return result;

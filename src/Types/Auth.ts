@@ -13,7 +13,7 @@ export interface RegisterForm {
     email: string;
     gender?: string;
 
-    dob?: Dayjs;        // AntD DatePicker returns Dayjs
+    dob?: Dayjs;    
     city?: string;
     language: string;
     contact: {
@@ -22,13 +22,12 @@ export interface RegisterForm {
     };
 
     referralCode?: string;
-    examTypeId: string; // in form it's single value
+    examTypeId: string;
     upscNumber: string;
     password: string;
 }
 
-// Payload after formatting for API
 export interface RegisterPayload extends Omit<RegisterForm, "dob" | "examTypeId"> {
-    dob: string | null;        // formatted to YYYY-MM-DD
-    examTypeId: string[];      // wrapped in array
+    dob: string | null;        
+    examTypeId: string[];    
 }

@@ -31,7 +31,6 @@ const authSlice = createSlice({
       
       Storage.clear();
       window.location.reload()
-
     }
   },
 });

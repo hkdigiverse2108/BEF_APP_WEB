@@ -49,8 +49,8 @@ const prizeData = [
 ];
 
 const ContestDetails = () => {
-  const onChange = (key: string) => {
-    // console.log(key);
+  const onChange = () => {
+    // console.log();
   };
 
   const Winning = () => {

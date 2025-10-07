@@ -1,9 +1,6 @@
-import { Progress } from "antd";
-import React from "react";
 import { BsFillAlarmFill } from "react-icons/bs";
 import { ImagePath, ROUTES } from "../../Constants";
 import { useNavigate } from "react-router-dom";
-import { FormButton } from "../../Attribute/FormFields";
 
 const MyContestCard = () => {
   const navigate = useNavigate();
