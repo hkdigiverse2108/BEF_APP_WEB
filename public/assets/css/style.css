@@ -170,6 +170,14 @@ input {
   transform: skew(30deg);
   transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
 }
+.custom-button.light.button--mimas::before {
+  content: "";
+  background: #ffffff;
+  width: 120%;
+  left: -10%;
+  transform: skew(30deg);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
+}
 .custom-button.button--mimas:hover::before {
   transform: translate3d(100%, 0, 0);
 }
@@ -226,7 +234,7 @@ input {
 }
 
 .question-section .ant-select {
-  @apply flex items-center;
+  @apply flex items-center !w-30;
 }
 
 .question-section .question .ant-radio,
@@ -240,13 +248,35 @@ input {
 }
 
 .answered {
-  @apply rounded-b-md rounded-t-2xl bg-green-200 border-green-600;
+  @apply rounded-b-md rounded-t-2xl bg-green-100 border-green-600;
 }
 
 .unanswered {
-  @apply rounded-b-2xl rounded-t-md bg-red-200 border-red-600;
+  @apply rounded-b-2xl rounded-t-md bg-red-100 border-red-600;
 }
 
 .not-visited {
-  @apply rounded-md border-card-border hover:bg-gray-300;
+  @apply rounded-md border-card-border hover:border-primary;
+}
+
+/* ************ result section *********** */
+
+.result .ant-tabs-nav {
+  @apply w-90 bg-input-box p-4 rounded-2xl;
+}
+
+.result .ant-tabs-nav-list{
+  @apply grid gap-2;
+}
+
+.result .ant-tabs-ink-bar {
+  @apply hidden;
+}
+
+.result .ant-tabs-nav-list .ant-tabs-tab {
+  @apply !border !border-gray-900 !rounded-lg;
+}
+
+.result .ant-tabs-content-holder{
+  @apply border-l-0
 }

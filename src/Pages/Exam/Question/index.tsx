@@ -10,10 +10,14 @@ import { FormButton, FormSelect } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import { LanguageOptions } from "../../../Data";
 import { IoBookmarkOutline } from "react-icons/io5";
+import EndTest from "../../../Components/Exam/Question/EndTest";
+import { setEndTestDrawer } from "../../../Store/Slices/DrawerSlice";
+import { useAppDispatch } from "../../../Store/hooks";
 
 const Question = () => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [isOpen, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const options = ["Both Statement-1 and statement 2 are correct and Statement-2 explains Statement-1", "Both Statement-1 and Statement-2 are correct, but Statement-2 does not explain Statement-1", "Statement-1 is correct, but Statement-2 is incorrect", "Statement-1 is incorrect, but Statement-2 is correct"];
 
@@ -67,6 +71,7 @@ const Question = () => {
           <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
         </button>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full">
         {/* Left Panel */}
         <div className="col-span-4 2xl:col-span-3">
@@ -77,7 +82,7 @@ const Question = () => {
               <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+2.5</span>
               <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">-0.83</span>
               <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                <FormSelect name="Language" placeholder="select Language" options={LanguageOptions} className="!m-0" value="english" />
+                <FormSelect name="Language" placeholder="Language" options={LanguageOptions} className="!m-0" value="english" />
                 <span className="text-sm font-bold  flex flex-nowrap gap-2">
                   <IoBookmarkOutline className="text-xl" />
                   Save
@@ -177,11 +182,12 @@ const Question = () => {
               <span className="px-3 py-2.5 text-sm border-2 border-card-border rounded-lg bg-white">
                 <MdError className="text-2xl" />
               </span>
-              <FormButton text="END TEST" className="custom-button w-full sm:w-30 button button--mimas text-center !p-4 !h-12 uppercase !mt-6 !bg-white !border !border-black" />
+              <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="custom-button w-full sm:w-30 button button--mimas text-center !p-4 !h-12 uppercase !mt-6 !bg-white !border !border-black" />
             </div>
           </div>
         </div>
       </div>
+      <EndTest />
     </div>
   );
 };
