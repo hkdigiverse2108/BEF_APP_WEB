@@ -1,9 +1,6 @@
 import { Drawer } from "antd";
 import { URL_KEYS } from "../../Constants";
-import {
-  setSubjectDrawer,
-  setSubtopicDrawer,
-} from "../../Store/Slices/DrawerSlice";
+import { setSubjectDrawer, setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import SubtopicDrawer from "./SubtopicDrawer";
 import { useGetApiQuery } from "../../Api/CommonApi";
@@ -62,40 +59,21 @@ const SubjectDrawer = () => {
   // ];
   return (
     <>
-      <Drawer
-        title="Explore Topics"
-        placement="right"
-        size={"large"}
-        onClose={() => dispatch(setSubjectDrawer({ open: false }))}
-        open={isSubjectDrawer.open}
-      >
+      <Drawer title="Explore Topics" placement="right" size={"large"} onClose={() => dispatch(setSubjectDrawer({ open: false }))} open={isSubjectDrawer.open}>
         <div className="grid gap-3 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center">
           {Subjects?.map((subject, i) => (
             <NavLink
               key={i}
               to="#"
               className={`flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border-2 border-gray-200
-        ${
-          Subjects.length % 2 !== 0 && i === Subjects.length - 1
-            ? "col-span-full"
-            : ""
-        }`}
-              onClick={() =>
-                dispatch(setSubtopicDrawer({ open: true, id: subject._id }))
-              }
+        ${Subjects.length % 2 !== 0 && i === Subjects.length - 1 ? "col-span-full" : ""}`}
+              onClick={() => dispatch(setSubtopicDrawer({ open: true, id: subject._id }))}
             >
-              <img
-                className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white"
-                src={subject.image}
-              />
+              <img className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white" src={subject.image} />
               <div className="grid gap-1 w-full">
                 {/* {isSubjectDrawer.id} */}
-                <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-black">
-                  {subject.name}
-                </h3>
-                <p className="text-sm font-normal max-sm:text-center text-left text-gray-600">
-                  {subject.desc || isSubjectDrawer.id}
-                </p>
+                <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-black">{subject.name}</h3>
+                <p className="text-sm font-normal max-sm:text-center text-left text-gray-600">{subject.desc || isSubjectDrawer.id}</p>
               </div>
             </NavLink>
           ))}
