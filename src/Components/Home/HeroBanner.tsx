@@ -10,7 +10,7 @@ const HeroBanner = () => {
 
   const Banners = BannersData?.data?.banner_data;
 
-  console.log(BannersData?.data?.banner_data);
+  if(Banners) console.log(Banners);
 
   return (
     <div className="p-5">

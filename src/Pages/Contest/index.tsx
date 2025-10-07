@@ -2,8 +2,8 @@ import { Tabs } from "antd";
 import { BsFillAlarmFill } from "react-icons/bs";
 import { FormButton } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import ContestCard from "../../Components/Common/ContestCard";
-import MyContestCard from "../../Components/Common/MyContestCard";
+import ContestCard from "../../Components/Contest/ContestCard";
+import MyContestCard from "../../Components/Contest/MyContestCard";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
 
@@ -30,7 +30,7 @@ const Contest = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {/* <MyContestCard /> */}
+          <MyContestCard />
           <ContestCard />
           <ContestCard />
           <ContestCard />

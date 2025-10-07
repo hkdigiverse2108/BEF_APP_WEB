@@ -1,5 +1,5 @@
 import { Drawer } from "antd";
-import { ImagePath, URL_KEYS } from "../../Constants";
+import { URL_KEYS } from "../../Constants";
 import {
   setSubjectDrawer,
   setSubtopicDrawer,
@@ -17,9 +17,9 @@ const SubjectDrawer = () => {
     url: `${URL_KEYS.SUBJECT.ALL}?page=1&limit=10`,
   });
 
-  const subjects = SubjectData?.data.subject_data;
+  const Subjects = SubjectData?.data.subject_data;
 
-  console.log(subjects);
+  if(Subjects) console.log(Subjects);
 
   // const subjects = [
   //   {
@@ -69,13 +69,13 @@ const SubjectDrawer = () => {
         open={isSubjectDrawer.open}
       >
         <div className="grid gap-3 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] place-items-center">
-          {subjects?.map((subject, i) => (
+          {Subjects?.map((subject, i) => (
             <NavLink
               key={i}
               to="#"
               className={`flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border-2 border-gray-200
         ${
-          subjects.length % 2 !== 0 && i === subjects.length - 1
+          Subjects.length % 2 !== 0 && i === Subjects.length - 1
             ? "col-span-full"
             : ""
         }`}

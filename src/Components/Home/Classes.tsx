@@ -12,9 +12,9 @@ const Classes = () => {
     url: `${URL_KEYS.CLASSES.ALL}?page=1&limit=10`,
   });
 
-  const classes = ClassesData?.data.classes_data;
+  const Classes = ClassesData?.data.classes_data;
 
-  console.log(classes);
+  if(Classes) console.log(Classes);
 
   return (
     <>

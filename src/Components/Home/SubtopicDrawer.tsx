@@ -6,7 +6,6 @@ import {
 } from "../../Store/Slices/DrawerSlice";
 import { FormButton, FormInput, FormSelect } from "../../Attribute/FormFields";
 import { GenderOptions } from "../../Data";
-// import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
@@ -19,7 +18,6 @@ import { useGetApiQuery } from "../../Api/CommonApi";
 const SubtopicDrawer = () => {
   const dispatch = useAppDispatch();
   const { isSubtopicDrawer } = useAppSelector((state) => state.drawer);
-  // const [value, setValue] = useState<Dayjs | null>(dayjs());
 
   const [form] = Form.useForm();
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
@@ -28,9 +26,9 @@ const SubtopicDrawer = () => {
     url: `${URL_KEYS.SUB_TOPIC.ALL}?page=1&limit=10`,
   });
 
-  const subjects = SubjectData?.data.sub_topic_data;
+  const SubTopic = SubjectData?.data.sub_topic_data;
 
-  console.log(subjects);
+  if (SubTopic) console.log(SubTopic);
 
   // 🔢 Generate stack values like: 1, 11, 21, 31, 41, ...
   const generateStack = (num: number) => {
