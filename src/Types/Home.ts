@@ -5,10 +5,11 @@ export interface Subject {
   image?: string;
 }
 export interface SubjectApiResponse {
+  isLoading: boolean;
   data: {
-    data : {
+    data: {
       subject_data: Subject[];
-    }
+    };
   };
 }
 

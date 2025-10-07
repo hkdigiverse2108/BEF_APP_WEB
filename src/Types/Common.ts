@@ -62,7 +62,9 @@ export interface CardHeaderType {
   backButton?: string;
   pricePool?: { icon: ReactNode; price: string };
   sliderButton?: {
-    prev: { swiperRef: any };
-    next: { swiperRef: any };
+    swiperRefs : any ;
+    index?: number;
+    // prev: { swiperRef: any };
+    // next: { swiperRef: any };
   };
 }

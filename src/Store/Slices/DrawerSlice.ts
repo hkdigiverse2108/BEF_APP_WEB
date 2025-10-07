@@ -16,7 +16,6 @@ const DrawerSlice = createSlice({
     },
     setSubtopicDrawer: (state, actions) => {
       state.isSubtopicDrawer = actions.payload;
-      state.isSubjectDrawer = { open: false, id: "" };
     },
     setConfirmationDrawer: (state) => {
       state.isConfirmationDrawer = !state.isConfirmationDrawer;

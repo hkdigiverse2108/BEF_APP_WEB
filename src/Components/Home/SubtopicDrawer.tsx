@@ -22,13 +22,18 @@ const SubtopicDrawer = () => {
   const [form] = Form.useForm();
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
 
-  const { data: SubjectData } = useGetApiQuery({
-    url: `${URL_KEYS.SUB_TOPIC.ALL}?page=1&limit=10`,
-  });
+  const { data: SubjectData } = useGetApiQuery(
+    {
+      url: `${URL_KEYS.SUB_TOPIC.ALL}?page=1&limit=100&search=${isSubtopicDrawer?.id}`,
+    },
+    {
+      skip: !isSubtopicDrawer.id,
+    }
+  );
 
   const SubTopic = SubjectData?.data.sub_topic_data;
 
-  if (SubTopic) console.log(SubTopic);
+  // if (SubTopic) console.log(SubTopic, "si", isSubtopicDrawer);
 
   // 🔢 Generate stack values like: 1, 11, 21, 31, 41, ...
   const generateStack = (num: number) => {

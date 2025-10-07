@@ -17,62 +17,134 @@ const Header = () => {
       <header className="min-h-[60px] tracking-wide relative z-50 shadow-box-shadow">
         <div className="flex flex-wrap items-center justify-between py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
           <a href="javascript:void(0)">
-            <img src={`${ImagePath}logo/Logo.png`} alt="logo" className="sm:w-[70px] w-[50px]" />
+            <img
+              src={`${ImagePath}logo/Logo.png`}
+              alt="logo"
+              className="sm:w-[70px] w-[50px]"
+            />
           </a>
-          <div id="collapseMenu" className="max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
+          <div
+            id="collapseMenu"
+            className="max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50"
+            style={{ display: isOpen ? "block" : "none" }}
+          >
             <ul className="2xl:!flex 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] max-2xl:w-2/3 max-2xl:min-w-[300px] max-2xl:top-0 max-2xl:left-0 max-2xl:px-10 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
               <li className="mb-6 hidden max-2xl:block">
                 <div className="flex justify-between items-center">
                   <a href="javascript:void(0)">
-                    <img src={`${ImagePath}logo/Logo.png`} alt="logo" className="sm:w-[70px] w-[50px]" />
+                    <img
+                      src={`${ImagePath}logo/Logo.png`}
+                      alt="logo"
+                      className="sm:w-[70px] w-[50px]"
+                    />
                   </a>
-                  
-                  <button id="toggleClose" onClick={() => setOpen(!isOpen)} className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer">
+
+                  <button
+                    id="toggleClose"
+                    onClick={() => setOpen(!isOpen)}
+                    className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer"
+                  >
                     <RxCross2 className="w-5 h-5" />
                   </button>
                 </div>
               </li>
 
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href={ROUTES.HOME} className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href={ROUTES.HOME}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Home
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href={ROUTES.CONTEST.CONTEST} className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href={ROUTES.CONTEST.MY_CONTEST}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   MY CONTESTS
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href={ROUTES.CONTEST.CONTEST}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
+                  CONTESTS
+                </a>
+              </li>
+              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
+                <a
+                  href={ROUTES.CONTEST.CONTEST_WINNERS}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
+                  CONTESTS WINNER
+                </a>
+              </li>
+              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
+                <a
+                  href={ROUTES.CONTEST.CONTEST_DETAILS}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
+                  CONTESTS DETAILS
+                </a>
+              </li>
+              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
+                <a
+                  href={ROUTES.CONTEST.MY_CONTEST}
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
+                  MY CONTESTS
+                </a>
+              </li>
+              {/* <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   FULL FEST RECORDS
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   REFERRAL
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   WINNER
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Workshop
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Course
                 </a>
               </li>
               <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a href="javascript:void(0)" className="text-black block text-[15px] font-normal uppercase">
+                <a
+                  href="javascript:void(0)"
+                  className="text-black block text-[15px] font-normal uppercase"
+                >
                   Contact
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="flex items-center max-sm:ml-auto">
@@ -101,16 +173,25 @@ const Header = () => {
             </li> */}
               <li className="group relative py-1 px-1.5 sm:px-2.5 flex justify-between items-center rounded-xl h-10 sm:h-12 bg-input-box">
                 <div className="flex justify-between items-center gap-3">
-                  <img src={`${ImagePath}user/User1.png`} alt="profile" className="w-8 h-8 rounded-xl" />
+                  <img
+                    src={`${ImagePath}user/User1.png`}
+                    alt="profile"
+                    className="w-8 h-8 rounded-xl"
+                  />
                   <div className="flex-1 hidden sm:block">
-                    <span className="text-md font-bold capitalize">AdminSetting</span>
+                    <span className="text-md font-bold capitalize">
+                      AdminSetting
+                    </span>
                     <p className="capitalize flex text-xs">AdminSetting</p>
                   </div>
                   <IoIosArrowDown className="hidden sm:block " />
                 </div>
                 <ul className="absolute top-17 max-lg:top-10 -left-0 z-50 block space-y-2 shadow-lg rounded-xl bg-white max-h-0 overflow-hidden min-w-[230px] group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all duration-[400ms]">
                   <li className="border-b border-gray-300 py-3">
-                    <p onClick={() => dispatch(LogOut())} className=" text-slate-900 font-normal text-[15px] flex items-center">
+                    <p
+                      onClick={() => dispatch(LogOut())}
+                      className=" text-slate-900 font-normal text-[15px] flex items-center"
+                    >
                       <BiLogOutCircle className="pe-2 text-3xl" />
                       Logout
                     </p>
@@ -118,7 +199,11 @@ const Header = () => {
                 </ul>
               </li>
             </ul>
-            <button id="toggleOpen" onClick={() => setOpen(true)} className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
+            <button
+              id="toggleOpen"
+              onClick={() => setOpen(true)}
+              className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box"
+            >
               <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
             </button>
           </div>

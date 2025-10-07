@@ -12,10 +12,12 @@ import Instruction from "../Pages/Exam/Instruction";
 import ContestWinner from "../Pages/Contest/ContestWinner";
 import Question from "../Pages/Exam/Question";
 import Result from "../Pages/Exam/Result";
+import MyContest from "../Pages/Contest/MyContest";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
   { path: ROUTES.CONTEST.CONTEST, element: <Contest /> },
+  { path: ROUTES.CONTEST.MY_CONTEST, element: <MyContest /> },
   { path: ROUTES.CONTEST.CONTEST_DETAILS, element: <ContestDetails /> },
   { path: ROUTES.CONTEST.CONTEST_WINNERS, element: <ContestWinner /> },
   { path: ROUTES.EXAM.INSTRUCTION, element: <Instruction /> },

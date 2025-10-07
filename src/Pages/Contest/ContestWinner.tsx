@@ -181,8 +181,9 @@ const ContestWinner = () => {
                 icon={<BsFillAlarmFill />}
                 pricePool={{ icon: <IoMdTrophy />, price: section.prize }}
                 time={section.time}
-              />
-              <div className="flex flex-nowrap   justify-end  ">
+                sliderButton={{ swiperRefs, index }}
+              />  
+              {/* <div className="flex flex-nowrap   justify-end  ">
                 <FormButton
                   text={<IoIosArrowBack />}
                   onClick={() => swiperRefs.current[index]?.slidePrev()}
@@ -193,7 +194,7 @@ const ContestWinner = () => {
                   onClick={() => swiperRefs.current[index]?.slideNext()}
                   className="!bg-black !text-white !rounded-l-none"
                 />
-              </div>
+              </div> */}
             </div>
 
             <Swiper

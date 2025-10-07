@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 const ContestCard = () => {
   const navigate = useNavigate();
-
   return (
     <div
       onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS)}

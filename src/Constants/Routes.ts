@@ -9,6 +9,7 @@ export const ROUTES = {
   },
   CONTEST: {
     CONTEST: "/contest",
+    MY_CONTEST: "/my-contest",
     CONTEST_DETAILS: "/contest/details",
     CONTEST_WINNERS: "/contest/winners",
 

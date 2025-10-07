@@ -8,7 +8,7 @@ import { ImagePath } from "../../Constants";
 const ContestDetailCatd = () => {
   return (
     <div className="w-full h-fit bg-primary rounded-3xl overflow-hidden">
-      <div className="flex flex-row  !bg-primary px-2 md:px-4 py-2 text-white relative">
+      <div className="flex flex-row  !bg-primary px-2 md:px-4  text-white relative">
         <div className="flex flex-row max-sm:flex-col items-center  gap-4 max-sm:gap-0 w-full h-full p-3   ">
           <div className="grid gap-1 w-full  ">
             <h3 className=" text-lg max-sm:text-center text-left font-bold tracking-tight ">
@@ -77,6 +77,8 @@ const ContestDetailCatd = () => {
             <h1 className="text-black font-semibold">50000 Spots</h1>
           </section>
         </div>
+        <span className=" flex border border-gray-200 w-full my-2  "></span>
+        <p className="text-xs sm:text-sm font-bold">Delhi’s proven path to UPSC success.</p>
         <span className=" flex border border-gray-200 w-full my-2  "></span>
         <div className=" py-2 ">
           <FormButton

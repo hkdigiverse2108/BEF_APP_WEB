@@ -100,7 +100,7 @@ const ContestDetails = () => {
 
         <div className="flex flex-col lg:flex-row gap-4">
           <ContestDetailCatd />
-          <div className="w-full mt-8 lg:mt-0 ContestDetailsTab">
+          <div className="w-full mt-8 lg:mt-0 custom-tab-full">
             <Tabs
               onChange={onChange}
               type="card"
