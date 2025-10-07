@@ -11,6 +11,7 @@ import ContestDetails from "../Pages/Contest/ContestDetails";
 import Instruction from "../Pages/Exam/Instruction";
 import ContestWinner from "../Pages/Contest/ContestWinner";
 import Question from "../Pages/Exam/Question";
+import Result from "../Pages/Exam/Result";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -19,6 +20,7 @@ export const PageRoutes = [
   { path: ROUTES.CONTEST.CONTEST_WINNERS, element: <ContestWinner /> },
   { path: ROUTES.EXAM.INSTRUCTION, element: <Instruction /> },
   { path: ROUTES.EXAM.QUESTION, element: <Question /> },
+  { path: ROUTES.EXAM.RESULT, element: <Result /> },
 ];
 
 export const AuthRoutes = [

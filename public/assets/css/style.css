@@ -229,11 +229,13 @@ input {
   @apply flex items-center;
 }
 
-.question-section .question .ant-radio ,.question-section .question .ant-checkbox {
+.question-section .question .ant-radio,
+.question-section .question .ant-checkbox {
   @apply !hidden;
 }
 
-.question-section .ant-radio-label svg ,.question-section .ant-checkbox-label svg{
+.question-section .ant-radio-label svg,
+.question-section .ant-checkbox-label svg {
   @apply text-lg;
 }
 

@@ -9,6 +9,7 @@ import { TbReport } from "react-icons/tb";
 import { FormButton, FormSelect } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import { LanguageOptions } from "../../../Data";
+import { IoBookmarkOutline } from "react-icons/io5";
 
 const Question = () => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
@@ -18,45 +19,36 @@ const Question = () => {
 
   const handleCheck = (id: number, type: "true" | "false") => {
     setAnswers((prev) => {
-      let newAnswers:any = { ...prev };
-
-      // 🧠 Toggle logic — if same clicked again → unselect
+      let newAnswers: any = { ...prev };
       if ((type === "true" && newAnswers[id] === 1) || (type === "false" && newAnswers[id] === 0)) {
         newAnswers[id] = undefined;
       } else {
         if (type === "true") {
-          // ✅ Only one true allowed
           options.forEach((_, i) => {
             newAnswers[i] = i === id ? 1 : newAnswers[i] === 1 ? undefined : newAnswers[i];
           });
           newAnswers[id] = 1;
         } else if (type === "false") {
-          // ❌ Allow only max 3 falses
           const falseCount = Object.values(newAnswers).filter((v) => v === 0).length;
           if (falseCount < options.length - 1) {
             newAnswers[id] = 0;
           } else {
-            // 🚫 Ignore 4th false
             return prev;
           }
         }
       }
-
       return newAnswers;
     });
   };
 
   const renderStatement = (id: number, text: string) => (
     <div key={id} className="flex justify-between items-center w-full gap-3 question">
-      {/* ✅ True Checkbox */}
       <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")} className="flex items-center">
         {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined style={{ color: "green" }} />}
       </Checkbox>
 
-      {/* Statement Text */}
       <span className="flex-1 font-medium">{`${id + 1}. ${text}`}</span>
 
-      {/* ❌ False Checkbox */}
       <Checkbox checked={answers[id] === 0} onChange={() => handleCheck(id, "false")} className="ml-auto">
         {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
       </Checkbox>
@@ -77,14 +69,9 @@ const Question = () => {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full">
         {/* Left Panel */}
-        <div className="col-span-4 2xl:col-span-3 sm:p-6">
+        <div className="col-span-4 2xl:col-span-3">
           {/* Question Header */}
-          <div className="pb-3 mb-4">
-            <div className="space-y-6">
-              <p className="font-bold mb-2">1. Many Chewing Gums Found In The Market Are Considered A Source Of Environmental Pollution.</p>
-              <p className="font-bold">2. Many Chewing Gums Contain Plastic As Gum Base.</p>
-            </div>
-            <span className="border-t border-card-border flex w-full my-4" />
+          <div>
             <div className="flex flex-wrap items-center gap-3 mt-3">
               <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : 01</span>
               <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+2.5</span>
@@ -92,22 +79,29 @@ const Question = () => {
               <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
                 <FormSelect name="Language" placeholder="select Language" options={LanguageOptions} className="!m-0" value="english" />
                 <span className="text-sm font-bold  flex flex-nowrap gap-2">
+                  <IoBookmarkOutline className="text-xl" />
+                  Save
+                </span>
+                <span className="text-sm font-bold  flex flex-nowrap gap-2">
                   <TbReport className="text-xl" />
                   Report
                 </span>
               </div>
             </div>
             <span className="border-t border-card-border flex w-full my-4" />
+            <p className="font-bold mb-4 text-xl">Consider the following statements regarding fundamental rights:</p>
+            <div className="space-y-6 bg-input-box p-6 rounded-2xl">
+              <p className="font-bold mb-2">1. Many Chewing Gums Found In The Market Are Considered A Source Of Environmental Pollution.</p>
+              <p className="font-bold">2. Many Chewing Gums Contain Plastic As Gum Base.</p>
+            </div>
+            <span className="border-t border-card-border flex w-full my-6" />
           </div>
 
           {/* Passage Section */}
           <div className="mb-4">
-            <p className="font-bold text-lg mb-1">Passage - 1</p>
-            <p className="font-semibold text-base text-gray-600">This paragraph is a placeholder example for answering an exam question. It demonstrates how a student might structure a response using proper grammar, logical flow, and clear expression.</p>
+            <p className="font-bold text-lg mb-1">which of the statements given above is/are correct?</p>
           </div>
           <div className="bg-input-box p-6 rounded-2xl">
-            {/* Question Text */}
-            <p className="font-bold text-lg mb-4">Q. Which one of the following is correct in respect of the above statements?</p>
             <div className="!grid grid-cols-1 md:grid-cols-2 gap-3">
               {options.map((opt, i) => (
                 <div key={i} className={`border-2 border-card-border flex items-center gap-3 p-4 m-0 rounded-2xl cursor-pointer transition-all ${answers[i] === 1 ? "border-green-500 bg-green-50" : answers[i] === 0 ? "border-red-500 bg-red-50" : "border-gray-300 hover:bg-gray-50"}`}>
@@ -118,14 +112,22 @@ const Question = () => {
 
             {/* Confidence Buttons */}
             <div className="flex flex-wrap gap-2 mt-8 max-xl:justify-center">
-              {["100% Sure", "Logic Play", "Intuition Hit", "Blind Fire", "Skip", "Fear - Driver Skip"].map((tag, i) => (
-                <button key={i} className="px-3 py-2 text-sm border-2 border-card-border rounded-lg hover:bg-gray-50 active:border-orange-500 active:bg-orange-50">
-                  {tag}
+              {[
+                { label: "Fear - Driver Skip", color: "bg-green-700" },
+                { label: "100% Sure", color: "bg-blue-600" },
+                { label: "Logic Play", color: "bg-rose-500" },
+                { label: "Intuition Hit", color: "bg-sky-500" },
+                { label: "Blind Fire", color: "bg-amber-500" },
+                { label: "Skip", color: "bg-purple-700" },
+              ].map((btn, i) => (
+                <button key={i} className={`shadow-btn-shadow color-1 px-4 py-2 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:animate-pulse ${btn.color}`}>
+                  {btn.label}
                 </button>
               ))}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 xl:ml-auto max-xl:w-full">
-                <FormButton text="Previous" className="sm:!ml-auto custom-button w-full xl:w-30 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black" />
-                <FormButton text="Save & Next" className="sm:ml-auto custom-button w-full xl:w-40 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black" />
+                <FormButton text="Previous" className="sm:!ml-auto custom-button w-full xl:w-30 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black hover:!bg-gray-100" />
+                <FormButton text="Save & Next" className="sm:ml-auto custom-button w-full xl:w-40 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black hover:!bg-gray-100" />
               </div>
             </div>
           </div>

@@ -16,5 +16,6 @@ export const ROUTES = {
   EXAM: {
     INSTRUCTION: "/exam/instruction",
     QUESTION: "/exam/question",
+    RESULT: "/exam/result",
   },
 } as const;
