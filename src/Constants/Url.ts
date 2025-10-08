@@ -26,4 +26,7 @@ export const URL_KEYS = {
   CONTEST: {
     ALL: "/contest/all",
   },
+  QA: {
+    ADD: "/qa/add",
+  },
 } as const;

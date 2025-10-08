@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { CardHeaderType } from "../../Types";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   IoIosArrowBack,
   IoIosArrowForward,
@@ -16,14 +16,15 @@ export const CardHeader: FC<CardHeaderType> = ({
   pricePool,
   sliderButton,
 }) => {
+  const navigate = useNavigate();
   // console.log(sliderButton);
   return (
     <div className="w-full flex justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-3">
       <section className="flex gap-2 flex-wrap">
         {backButton && (
-          <NavLink to={backButton}>
+          <button onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack />
-          </NavLink>
+          </button>
         )}
         {title && <h1 className=" capitalize ">{title}</h1>}
         {pricePool && (
