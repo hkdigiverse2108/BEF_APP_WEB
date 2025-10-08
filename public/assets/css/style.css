@@ -71,8 +71,7 @@ input {
 .react-international-phone-input-container .react-international-phone-input {
   @apply !bg-input-box !border-0 !pe-0 !w-10;
 }
-.react-international-phone-input-container
-  .react-international-phone-country-selector-button {
+.react-international-phone-input-container .react-international-phone-country-selector-button {
   @apply border-0 !bg-input-box;
 }
 .ant-otp {
@@ -282,22 +281,47 @@ input {
 
 /* ************ result section *********** */
 
-.result .ant-tabs-nav {
-  @apply w-90 bg-input-box p-4 rounded-2xl;
+.result .Mui-selected {
+  @apply bg-black !text-white !border-black;
 }
 
-.result .ant-tabs-nav-list {
-  @apply grid gap-2;
-}
-
-.result .ant-tabs-ink-bar {
+.result .MuiTabs-indicator {
   @apply hidden;
 }
 
-.result .ant-tabs-nav-list .ant-tabs-tab {
-  @apply !border !border-gray-900 !rounded-lg;
+.result .MuiTabs-list.MuiTabs-flexContainer {
+  @apply flex gap-2;
 }
 
-.result .ant-tabs-content-holder {
-  @apply border-l-0;
+.result .MuiButtonBase-root.MuiTab-root {
+  @apply !border-2 border-card-border rounded-lg;
+}
+
+.result .tab-panels .MuiBox-root {
+  @apply p-0;
+}
+
+.horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer {
+  @apply grid grid-cols-2  gap-0;
+}
+.horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button {
+  @apply !max-w-full;
+}
+
+.horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:first-child {
+  @apply !rounded-l-lg !rounded-r-none;
+}
+
+.horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:last-child {
+  @apply !rounded-r-lg !rounded-l-none;
+}
+
+/* ************ progress *********** */
+
+.others.ant-progress .ant-progress-bg.ant-progress-bg-inner .ant-progress-text-inner.ant-progress-text-bright{
+  @apply !text-white;
+}
+
+.ant-progress .ant-progress-bg.ant-progress-bg-inner .ant-progress-text-inner{
+  @apply !text-xs;
 }

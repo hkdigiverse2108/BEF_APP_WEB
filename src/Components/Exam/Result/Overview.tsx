@@ -37,7 +37,7 @@ const Overview = () => {
       </section>
       <div className="mt-4 border border-red-600 bg-red-50 rounded-md p-3 text-sm text-gray-600 flex items-start gap-2">
         <ExclamationCircleOutlined className="text-red-600 mt-0.5" />
-        <p>By joining, you confirm you are not a resident of Assam, Odisha, Telangana, Nagaland, or Sikkim, and agree to NBA Fantasy’s T&Cs.</p>
+        <p>The contest is live for 24 hours so your rank is constantly shifting! Reattempt to boost your rank and practice more new questions. Every attempt gets you closer to the top!</p>
       </div>
     </>
   );

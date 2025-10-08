@@ -4,6 +4,12 @@
   --primary-dark: #e76f1d;
   --bg-light: #fef6e6;
   --success: #037b3d;
+  --success-light: #39b627;
+  --warning: #f5d01c;
+  --danger: #f24914;
+  --danger-dark: #c00f0c;
+  --gold: #e5a000;
+  --purple-dark: #2d1067;
   --input-box: #f5f5f5;
   --body-font-size: 14px;
   --font-nunito: Nunito Sans;
@@ -23,5 +29,11 @@
   --shadow-box-shadow: var(--box-shadow);
   --shadow-btn-shadow: var(--btn-shadow);
   --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-gold: var(--gold);
+  --color-purple-dark: var(--purple-dark);
+  --color-danger: var(--danger);
+  --color-danger-dark: var(--danger-dark);
   --color-card-border: var(--card-border);
 }

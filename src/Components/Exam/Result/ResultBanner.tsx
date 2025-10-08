@@ -9,14 +9,14 @@ const ResultBanner = () => {
         backgroundImage: `url(${ImagePath}result/Result-bg.jpg)`,
       }}
     >
-      <div className="w-90 h-full bg-white rounded-2xl text-center p-4">
+      <div className="sm:w-90 h-full bg-white rounded-2xl text-center p-4">
         <h2 className="text-xl font-bold">Result</h2>
-        <div className="grid grid-cols-3 border-y border-card-border py-4 my-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 border-y border-card-border py-4 my-5">
           <div>
             <h3 className="text-xl font-bold">60</h3>
             <span className="text-sm font-bold uppercase text-gray-500">MINS</span>
           </div>
-          <div className="border-x border-card-border">
+          <div className=" max-sm:border-y sm:border-x border-card-border max-sm:py-2 max-sm:my-2">
             <h3 className="text-xl font-bold">100</h3>
             <span className="text-sm font-bold uppercase text-gray-500">marks</span>
           </div>
