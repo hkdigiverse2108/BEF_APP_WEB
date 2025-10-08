@@ -204,8 +204,9 @@ input {
 }
 
 /* ************ drawer *********** */
+
 .ant-drawer-right .ant-drawer-header-title {
-  @apply flex-row-reverse;
+  @apply flex-row-reverse ;
 }
 
 /* ************ date *********** */

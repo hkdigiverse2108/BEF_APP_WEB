@@ -12,7 +12,6 @@ const FormSelect: FC<FormSelectProps> = ({
   required,
   ...rest
 }) => {
-  console.log(className);
   return (
     <Form.Item
       name={name}

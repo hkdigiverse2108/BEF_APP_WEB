@@ -1,14 +1,11 @@
 import { Drawer } from "antd";
-import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
-import {
-  setSubjectDrawer,
-  setSubtopicDrawer,
-} from "../../Store/Slices/DrawerSlice";
+import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { setSubjectDrawer } from "../../Store/Slices/DrawerSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import SubtopicDrawer from "./SubtopicDrawer";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { NavLink } from "react-router-dom";
 import type { Subject, SubjectApiResponse } from "../../Types";
+import { Storage } from "../../Utils";
 
 const SubjectDrawer = () => {
   const dispatch = useAppDispatch();
@@ -25,46 +22,6 @@ const SubjectDrawer = () => {
 
   const Subjects: Subject[] = SubjectData?.data.subject_data;
 
-  // if (Subjects) console.log(Subjects, isSubjectDrawer);
-
-  // const subjects = [
-  //   {
-  //     id: 1,
-  //     img: `${ImagePath}classic/subject/Subject1.png`,
-  //     title: "Bharat Exam Fest",
-  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
-  //   },
-  //   {
-  //     id: 2,
-  //     img: `${ImagePath}classic/subject/Subject2.png`,
-  //     title: "Bharat Exam Fest",
-  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
-  //   },
-  //   {
-  //     id: 3,
-  //     img: `${ImagePath}classic/subject/Subject3.png`,
-  //     title: "Bharat Exam Fest",
-  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
-  //   },
-  //   {
-  //     id: 4,
-  //     img: `${ImagePath}classic/subject/Subject2.png`,
-  //     title: "Bharat Exam Fest",
-  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
-  //   },
-  //   {
-  //     id: 3,
-  //     img: `${ImagePath}classic/subject/Subject2.png`,
-  //     title: "Bharat Exam Fest",
-  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
-  //   },
-  //   {
-  //     id: 3,
-  //     img: `${ImagePath}classic/subject/Subject2.png`,
-  //     title: "Bharat Exam Fest",
-  //     desc: "Practice full-length quizzes to simulate real exam conditions.",
-  //   },
-  // ];
   return (
     <>
       <Drawer
@@ -80,9 +37,16 @@ const SubjectDrawer = () => {
             <NavLink
               key={i}
               to={ROUTES.CONTEST.CONTEST}
+              state={subject._id}
               className={`flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border-2 border-gray-200`}
               onClick={() =>
-                dispatch(setSubtopicDrawer({ open: true, id: subject._id }))
+                Storage.setItem(
+                  STORAGE_KEYS.CONTEST_QA,
+                  JSON.stringify({
+                    classesId: isSubjectDrawer.id,
+                    subjectId: subject._id,
+                  })
+                )
               }
             >
               <img
@@ -100,7 +64,6 @@ const SubjectDrawer = () => {
           ))}
         </div>
       </Drawer>
-      <SubtopicDrawer />
     </>
   );
 };

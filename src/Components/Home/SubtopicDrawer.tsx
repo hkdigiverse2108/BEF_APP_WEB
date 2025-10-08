@@ -4,38 +4,42 @@ import {
   setConfirmationDrawer,
   setSubtopicDrawer,
 } from "../../Store/Slices/DrawerSlice";
-import { FormButton, FormInput, FormSelect } from "../../Attribute/FormFields";
-import { GenderOptions } from "../../Data";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import dayjs from "dayjs";
+import { FormButton, FormInput } from "../../Attribute/FormFields";
+
 import { useState } from "react";
 import ConfirmationDrawer from "../Common/ConfirmationDrawer";
-import { URL_KEYS } from "../../Constants";
-import { useGetApiQuery } from "../../Api/CommonApi";
+import { Storage } from "../../Utils";
+import { STORAGE_KEYS } from "../../Constants";
+import dayjs from "dayjs";
 
 const SubtopicDrawer = () => {
+  const [form] = Form.useForm();
+
   const dispatch = useAppDispatch();
   const { isSubtopicDrawer } = useAppSelector((state) => state.drawer);
 
-  const [form] = Form.useForm();
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [payloadTime, setPayloadTime] = useState<string | object>({}); // default selected
 
-  const { data: SubjectData } = useGetApiQuery(
-    {
-      url: `${URL_KEYS.SUB_TOPIC.ALL}?page=1&limit=100&search=${isSubtopicDrawer?.id}`,
-    },
-    {
-      skip: !isSubtopicDrawer.id,
-    }
+  const { contest } = isSubtopicDrawer;
+
+  const existingLsData = JSON.parse(
+    Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}"
   );
 
-  const SubTopic = SubjectData?.data.sub_topic_data;
+  const handleSelect = (time: string) => {
+    setSelectedTime(time);
+    const start = dayjs(time);
+    const end = start.add(1, "hour");
+    // form.setFieldsValue({ time });
+    setPayloadTime({
+      startTime: start.toISOString(),
+      endTime: end.toISOString(),
+    });
+    // console.log("payload", payloadTime);
+  };
 
-  // if (SubTopic) console.log(SubTopic, "si", isSubtopicDrawer);
-
-  // 🔢 Generate stack values like: 1, 11, 21, 31, 41, ...
   const generateStack = (num: number) => {
     const list = Array.from({ length: 10 }, (_, i) => num + i * 10);
     return `2x stack: ${list.join(", ")}`;
@@ -44,40 +48,77 @@ const SubtopicDrawer = () => {
   const handleQuestionClick = (num: number) => {
     setSelectedQuestion(num);
     const stack = generateStack(num);
-    form.setFieldValue("stack", stack); // ✅ Update AntD form value
+    form.setFieldValue("stack", stack);
   };
 
-  const handleCancel = () => {
-    dispatch(setConfirmationDrawer());
-    dispatch(setSubtopicDrawer({ open: false }));
+  const handleDrawerSubmit = () => {
+    try {
+      // console.log(selectedTime, selectedQuestion);
+
+      Storage.setItem(
+        STORAGE_KEYS.CONTEST_QA,
+        JSON.stringify({
+          ...existingLsData,
+          contestId: contest._id,
+        })
+      );
+      // console.log("payloadTime", payloadTime);
+      dispatch(
+        setConfirmationDrawer({
+          open: true,
+          data: {
+            ...isSubtopicDrawer.contest,
+            payload: {
+              stackNumber: selectedQuestion,
+              contestStartDate: payloadTime?.startTime,
+              contestEndDate: payloadTime?.endTime,
+            },
+          },
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const groupedSlots =
+    contest?.slots?.reduce((acc, time) => {
+      const dateKey = dayjs(time).format("YYYY-MM-DD");
+      if (!acc[dateKey]) acc[dateKey] = [];
+      acc[dateKey].push(time);
+      return acc;
+    }, {} as Record<string, string[]>) ?? {};
+
+  // console.log("Con", isSubtopicDrawer, contest?.slots);
 
   return (
     <>
       <Drawer
-        title="Select Subtopic"
+        title={`${contest?.name || "Contest"}`}
         placement="right"
         size="large"
-        onClose={() => dispatch(setSubtopicDrawer({ open: false }))}
+        onClose={() => {
+          setSelectedQuestion(null);
+          setSelectedTime(null);
+          setPayloadTime({});
+          dispatch(setSubtopicDrawer({ open: false, contest: {} }));
+        }}
         open={isSubtopicDrawer.open}
       >
         <div className="space-y-6">
-          {/* Dropdown */}
-          <FormSelect
-            name="gender"
-            placeholder="Select Subtopic"
-            options={GenderOptions}
-          />
-
           {/* Title */}
-          <div>
+          <div className="relative">
             <h2 className="font-semibold text-lg">
               2x The Stakes, 2x The Thrill
             </h2>
           </div>
-          {isSubtopicDrawer.id}
+
           {/* Question Numbers */}
-          <Form form={form} className="space-y-6">
+          <Form
+            form={form}
+            className="space-y-6 "
+            onFinish={handleDrawerSubmit}
+          >
             <p className="font-medium mb-2">Select Question No!</p>
             <div className="flex gap-2 flex-wrap">
               {Array.from({ length: 10 }, (_, i) => i).map((num) => (
@@ -95,74 +136,94 @@ const SubtopicDrawer = () => {
                 </button>
               ))}
             </div>
-            <FormInput name="stack" placeholder="Auto generated" disabled />
+
+            <FormInput
+              // required
+              name="stack"
+              placeholder="Auto generated"
+              disabled
+              rules={[
+                {
+                  required: true,
+                  validator: () =>
+                    selectedQuestion !== null
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          new Error("Please select a question No!")
+                        ),
+                },
+              ]}
+            />
           </Form>
 
-          {/* Dynamic Stack Field */}
-          {/* <FormInput name="stack" type="text" disabled defaultValue="2x stack: 1, 11, 21, 31, 41" /> */}
-
-          {/* <div className="bg-red-100 text-red-700 border border-red-300 rounded-md px-4 py-2 text-sm">Instruction: Follow the Sample from Word file</div> */}
-
-          {/* Calendar */}
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar
-                defaultValue={dayjs("2022-04-17")}
-                views={["year", "month", "day"]}
-                className="full-date"
-              />
-            </LocalizationProvider>
-          </div>
-
-          {/* Selected Date + Time Slots */}
           <div className="p-4 bg-input-box border-1 rounded-md border-card-border">
             <p className="font-semibold text-lg">
-              Selected : <span className="text-black">Monday , Sep 18</span>
+              Selected:&nbsp;
+              <span className="text-black">
+                {selectedTime
+                  ? dayjs(selectedTime).isValid()
+                    ? dayjs(selectedTime).format("dddd, MMM D • h:mm A")
+                    : selectedTime // fallback to raw string if not parseable
+                  : "No time selected"}
+                {/* {dayjs(selectedTime).format("dddd, MMM D • h:mm A")} */}
+              </span>
             </p>
             <p className="text-base font-medium text-gray-500 mb-3">
               Pick Your Time For Playing Quiz
             </p>
             <span className="border-t-2 border-card-border flex w-full my-4" />
-            <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
-              {[
-                "8:00 AM",
-                "9:00 AM",
-                "10:00 AM",
-                "11:00 AM",
-                "12:00 AM",
-                "1:00 PM",
-                "2:00 PM",
-                "3:00 PM",
-                "4:00 PM",
-                "5:00 PM",
-                "6:00 PM",
-                "7:00 PM",
-                "8:00 PM",
-                "9:00 PM",
-                "10:00 PM",
-                "11:00 PM",
-                "12:00 PM",
-                "1:00 AM",
-                "2:00 AM",
-                "3:00 AM",
-              ].map((time, i) => (
-                <button
-                  key={time}
-                  className={`p-2 text-sm font-semibold rounded-lg ${
-                    [0, 4, 8].includes(i)
-                      ? "bg-primary text-white"
-                      : "bg-white hover:bg-primary-light"
-                  }`}
-                >
-                  {time}
-                </button>
+            <div className="space-y-6">
+              {Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
+                <div key={date}>
+                  {/* 🗓️ Date Header */}
+                  <p className="font-semibold text-lg mb-2">
+                    {dayjs(date).format("dddd, MMM D")}
+                  </p>
+
+                  {/* 🕒 Time Buttons */}
+                  <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
+                    {times?.map((time) => {
+                      const displayTime = dayjs(time).format("h:mm A");
+                      return (
+                        <button
+                          key={time}
+                          onClick={() => handleSelect(time)}
+                          className={`p-2 text-sm font-semibold rounded-lg ${
+                            selectedTime === time
+                              ? "bg-primary text-white"
+                              : "bg-white hover:bg-primary-light"
+                          }`}
+                        >
+                          {displayTime}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               ))}
             </div>
+            <Form.Item
+              name="time"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select a time!",
+                },
+              ]}
+              initialValue={selectedTime} // optional: set initial value
+            >
+              <input type="hidden" />
+            </Form.Item>
           </div>
           <FormButton
-            text="now"
-            className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe"
-            onClick={() => handleCancel()}
+            text="Next"
+            // disabled={!payloadTime?.startTime}
+            className={`${
+              payloadTime?.startTime ? "" : " !cursor-not-allowed "
+            }  custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe`}
+            onClick={() => {
+              form.submit();
+            }}
           />
         </div>
       </Drawer>

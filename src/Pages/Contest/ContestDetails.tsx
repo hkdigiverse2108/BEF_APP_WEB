@@ -1,7 +1,6 @@
 import { BsFillAlarmFill } from "react-icons/bs";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { Tabs } from "antd";
-import { ROUTES } from "../../Constants";
 import ContestDetailCatd from "../../Components/Contest/ContestDetailCatd";
 
 const prizeData = [
@@ -95,7 +94,7 @@ const ContestDetails = () => {
           title="Mega Contest"
           icon={<BsFillAlarmFill />}
           time="25 Min 10s Left"
-          backButton={ROUTES.CONTEST.CONTEST}
+          backButton={true}
         />
 
         <div className="flex flex-col lg:flex-row gap-4">

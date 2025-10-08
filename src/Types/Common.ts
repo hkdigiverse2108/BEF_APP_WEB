@@ -59,7 +59,7 @@ export interface CardHeaderType {
   title: string;
   icon?: ReactNode;
   time?: string;
-  backButton?: string;
+  backButton?: boolean;
   pricePool?: { icon: ReactNode; price: string };
   sliderButton?: {
     swiperRefs : any ;
