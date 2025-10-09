@@ -4,7 +4,7 @@ import { ImagePath } from "../../../Constants";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
 import { setEndTestDrawer } from "../../../Store/Slices/DrawerSlice";
 
-const EndTest = () => {
+const EndTestDrawer = () => {
   const dispatch = useAppDispatch();
   const { isEndTestDrawer } = useAppSelector((state) => state.drawer);
 
@@ -64,4 +64,4 @@ const EndTest = () => {
   );
 };
 
-export default EndTest;
+export default EndTestDrawer;

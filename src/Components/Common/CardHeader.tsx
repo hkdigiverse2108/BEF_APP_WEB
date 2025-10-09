@@ -26,7 +26,7 @@ export const CardHeader: FC<CardHeaderType> = ({
             <IoMdArrowRoundBack />
           </button>
         )}
-        {title && <h1 className=" capitalize ">{title}</h1>}
+        {title && <h1 className="capitalize">{title}</h1>}
         {pricePool && (
           <section className="flex  gap-2 bg-success text-white text-sm items-center rounded font-semibold  px-3 py-1">
             <span className="text-xl">{pricePool.icon}</span>

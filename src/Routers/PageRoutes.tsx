@@ -13,6 +13,7 @@ import ContestWinner from "../Pages/Contest/ContestWinner";
 import Question from "../Pages/Exam/Question";
 import Result from "../Pages/Exam/Result";
 import MyContest from "../Pages/Contest/MyContest";
+import MistakeMapReport from "../Pages/Exam/MistakeMapReport";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -23,6 +24,7 @@ export const PageRoutes = [
   { path: ROUTES.EXAM.INSTRUCTION, element: <Instruction /> },
   { path: ROUTES.EXAM.QUESTION, element: <Question /> },
   { path: ROUTES.EXAM.RESULT, element: <Result /> },
+  { path: ROUTES.EXAM.MISTAKE_MAP_REPORT, element: <MistakeMapReport /> },
 ];
 
 export const AuthRoutes = [

@@ -276,7 +276,15 @@ input {
   @apply rounded-b-2xl rounded-t-md bg-red-100 border-red-600;
 }
 
+.skip {
+  @apply rounded-md bg-yellow-100 border-warning;
+}
+
 .not-visited {
+  @apply rounded-md border-card-border hover:border-primary;
+}
+
+.marked {
   @apply rounded-md border-card-border hover:border-primary;
 }
 
