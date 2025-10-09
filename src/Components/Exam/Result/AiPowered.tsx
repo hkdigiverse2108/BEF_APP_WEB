@@ -1,24 +1,12 @@
 import { Progress } from "antd";
-import type { ApexOptions } from "apexcharts";
 import ReactApexChart from "react-apexcharts";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-
-const createRadialBar = (color: string): ApexOptions => ({
-  chart: { height: 150, width: 150, type: "radialBar", sparkline: { enabled: true } },
-  plotOptions: {
-    radialBar: {
-      hollow: { size: "30%" },
-      track: { background: "#f0f0f0" },
-      dataLabels: { show: false },
-    },
-  },
-  colors: [color],
-});
+import { AiPoweredRadialBarChart } from "../../../Data";
 
 const ChartCell = ({ color, value, label }: { color: string; value: number; label: string }) => (
   <div className="flex justify-center items-center gap-2">
     <div className="relative flex justify-center items-center">
-      <ReactApexChart options={createRadialBar(color)} series={[value]} type="radialBar" height={150} width={150} />
+      <ReactApexChart options={AiPoweredRadialBarChart(color)} series={[value]} type="radialBar" height={150} width={150} />
       <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold">{label}</span>
     </div>
     <span className="text-lg font-bold">{value}%</span>
@@ -58,7 +46,7 @@ const AiPowered = () => {
     <>
       {/* Header */}
       <div className="relative pl-4 mb-6">
-        <div className="w-1 h-full bg-green-500 rounded-full absolute left-0 top-0" />
+        <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
         <h2 className="text-xl font-bold text-gray-800">Polity</h2>
         <p className="text-sm text-gray-500 font-semibold">AI Powered Report Analysis</p>
       </div>
