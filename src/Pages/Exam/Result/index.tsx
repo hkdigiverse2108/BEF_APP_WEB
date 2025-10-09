@@ -4,16 +4,16 @@ import { CardHeader } from "../../../Components/Common/CardHeader";
 import AiPowered from "../../../Components/Exam/Result/AiPowered";
 import Overview from "../../../Components/Exam/Result/Overview";
 import ResultBanner from "../../../Components/Exam/Result/ResultBanner";
-
 import { Tab, Tabs } from "@mui/material";
 import { RxCross2 } from "react-icons/rx";
 import Summary from "../../../Components/Exam/Result/Summary";
 import CompareCompetitor from "../../../Components/Exam/Result/CompareCompetitor";
 import EliminationSkill from "../../../Components/Exam/Result/EliminationSkill";
+import Leaderboard from "../../../Components/Exam/Result/Leaderboard";
 
 const Result = () => {
   const [isOpen, setOpen] = useState(false);
-  const [tabIndex, setTabIndex] = useState(4);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
@@ -74,11 +74,12 @@ const Result = () => {
             <div hidden={tabIndex !== 4}>
               <EliminationSkill />
             </div>
-            <div hidden={tabIndex !== 5}>Content of Tab</div>
+            <div hidden={tabIndex !== 5}>
+              <Leaderboard />
+            </div>
           </div>
         </div>
       </div>
-      {/* <ResultAnalytics /> */}
     </div>
   );
 };

@@ -1,18 +1,18 @@
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
-import { Checkbox } from "antd";
+import { Avatar, Badge, Checkbox } from "antd";
 import { useState } from "react";
 import { BsFillAlarmFill } from "react-icons/bs";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
+import { IoBookmarkOutline, IoLanguage } from "react-icons/io5";
 import { MdError } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { TbReport } from "react-icons/tb";
-import { FormButton, FormSelect } from "../../../Attribute/FormFields";
+import { FormButton } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
-import { LanguageOptions } from "../../../Data";
-import { IoBookmarkOutline } from "react-icons/io5";
-import EndTest from "../../../Components/Exam/Question/EndTest";
+import EndTest from "../../../Components/Exam/Question/EndTestDrawer";
 import { setEndTestDrawer } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
+import { FaRegCircle } from "react-icons/fa";
 
 const Question = () => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
@@ -45,17 +45,38 @@ const Question = () => {
     });
   };
 
-  const renderStatement = (id: number, text: string) => (
-    <div key={id} className="flex justify-between items-center w-full gap-3 question">
-      <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")} className="flex items-center">
-        {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined style={{ color: "green" }} />}
-      </Checkbox>
+  const OptionsStatement = (id: number, text: string) => (
+    <div key={id} className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
+      <div className="hidden sm:flex">
+        <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")} className="max-sm:!hidden">
+          {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
+        </Checkbox>
+      </div>
+      <span className="flex-1 font-medium ">{`${id + 1}. ${text}`}</span>
+      <div className="flex justify-end max-sm:w-full">
+        <div className="sm:hidden">
+          <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")}>
+            {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined  style={{ color: "gray" }} />}
+          </Checkbox>
+        </div>
+        <Checkbox checked={answers[id] === 0} onChange={() => handleCheck(id, "false")}>
+          {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
+        </Checkbox>
+      </div>
+    </div>
+  );
 
-      <span className="flex-1 font-medium">{`${id + 1}. ${text}`}</span>
-
-      <Checkbox checked={answers[id] === 0} onChange={() => handleCheck(id, "false")} className="ml-auto">
-        {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
-      </Checkbox>
+  const QuestionStatement = (id: number, text: string) => (
+    <div key={id} className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
+      <span className="flex-1 font-medium ">{`${id + 1}. ${text}`}</span>
+      <div className="flex justify-end max-sm:w-full">
+        <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")}>
+          {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined  style={{ color: "green" }} />}
+        </Checkbox>
+        <Checkbox checked={answers[id] === 0} onChange={() => handleCheck(id, "false")}>
+          {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
+        </Checkbox>
+      </div>
     </div>
   );
 
@@ -63,6 +84,9 @@ const Question = () => {
     <div className="min-h-screen p-4 md:p-8 question-section">
       {/* Header */}
       <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time="25 Min 10s Left" />
+      <div className="flex justify-center">
+        <p className="font-bold mb-0 bg-input-box p-2 px-5 rounded-lg mt-4 w-fit">Do not exit the web. Press the submit button on last question to lock your.</p>
+      </div>
       <span className="border-t border-card-border flex w-full mt-4" />
 
       {/* Main Content */}
@@ -82,7 +106,10 @@ const Question = () => {
               <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+2.5</span>
               <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">-0.83</span>
               <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                <FormSelect name="Language" placeholder="Language" options={LanguageOptions} className="!m-0" value="english" />
+                <span className="text-sm font-bold  flex flex-nowrap gap-2">
+                  <IoLanguage className="text-xl" />
+                  Language
+                </span>
                 <span className="text-sm font-bold  flex flex-nowrap gap-2">
                   <IoBookmarkOutline className="text-xl" />
                   Save
@@ -96,8 +123,8 @@ const Question = () => {
             <span className="border-t border-card-border flex w-full my-4" />
             <p className="font-bold mb-4 text-xl">Consider the following statements regarding fundamental rights:</p>
             <div className="space-y-6 bg-input-box p-6 rounded-2xl">
-              <p className="font-bold mb-2">1. Many Chewing Gums Found In The Market Are Considered A Source Of Environmental Pollution.</p>
-              <p className="font-bold">2. Many Chewing Gums Contain Plastic As Gum Base.</p>
+              {QuestionStatement(10, "1. Many Chewing Gums Found In The Market Are Considered A Source Of Environmental Pollution.")}
+              {QuestionStatement(20, "2. Many Chewing Gums Contain Plastic As Gum Base.")}
             </div>
             <span className="border-t border-card-border flex w-full my-6" />
           </div>
@@ -106,34 +133,33 @@ const Question = () => {
           <div className="mb-4">
             <p className="font-bold text-lg mb-1">which of the statements given above is/are correct?</p>
           </div>
-          <div className="bg-input-box p-6 rounded-2xl">
-            <div className="!grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
+            <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
               {options.map((opt, i) => (
                 <div key={i} className={`border-2 border-card-border flex items-center gap-3 p-4 m-0 rounded-2xl cursor-pointer transition-all ${answers[i] === 1 ? "border-green-500 bg-green-50" : answers[i] === 0 ? "border-red-500 bg-red-50" : "border-gray-300 hover:bg-gray-50"}`}>
-                  {renderStatement(i, opt)}
+                  {OptionsStatement(i, opt)}
                 </div>
               ))}
             </div>
 
             {/* Confidence Buttons */}
-            <div className="flex flex-wrap gap-2 mt-8 max-xl:justify-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 my-8 max-xl:justify-center">
               {[
-                { label: "Fear - Driver Skip", color: "bg-green-700" },
                 { label: "100% Sure", color: "bg-blue-600" },
                 { label: "Logic Play", color: "bg-rose-500" },
                 { label: "Intuition Hit", color: "bg-sky-500" },
                 { label: "Blind Fire", color: "bg-amber-500" },
                 { label: "Skip", color: "bg-purple-700" },
+                { label: "Fear - Driver Skip", color: "bg-green-700" },
               ].map((btn, i) => (
-                <button key={i} className={`shadow-btn-shadow color-1 px-4 py-2 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:animate-pulse ${btn.color}`}>
+                <button key={i} className={`shadow-btn-shadow color-1 p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:animate-pulse ${btn.color}`}>
                   {btn.label}
                 </button>
               ))}
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 xl:ml-auto max-xl:w-full">
-                <FormButton text="Previous" className="sm:!ml-auto custom-button w-full xl:w-30 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black hover:!bg-gray-100" />
-                <FormButton text="Save & Next" className="sm:ml-auto custom-button w-full xl:w-40 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black hover:!bg-gray-100" />
-              </div>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2 ">
+              <FormButton text="Previous" className="custom-button light w-full sm:w-30 button button--mimas text-center !p-4 !h-12 uppercase !bg-black !border !border-black" />
+              <FormButton text="Save & Next" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-12 uppercase !bg-white !border !border-black" />
             </div>
           </div>
         </div>
@@ -152,7 +178,7 @@ const Question = () => {
               <span className="border-t border-card-border flex w-full mt-4 mb-10" />
             </div>
 
-            <div className="flex flex-wrap justify-between gap-3 text-xs mb-4">
+            <div className="grid grid-cols-2 gap-3 text-xs mb-4">
               <div className="flex items-center gap-1">
                 <span className="w-6 h-6 border answered" />
                 <span>Answered</span>
@@ -162,8 +188,18 @@ const Question = () => {
                 <span>Unanswered</span>
               </div>
               <div className="flex items-center gap-1">
+                <span className="w-6 h-6 border marked relative">
+                  <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" />
+                </span>
+                <span>Marked</span>
+              </div>
+              <div className="flex items-center gap-1">
                 <span className="w-6 h-6 border not-visited" />
                 <span>Not Visited</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="w-6 h-6 border skip" />
+                <span>Skip</span>
               </div>
             </div>
             <span className="border-t border-card-border flex w-full my-4" />
@@ -179,10 +215,11 @@ const Question = () => {
 
             {/* End Test Button */}
             <div className="flex justify-center items-end gap-3">
-              <span className="px-3 py-2.5 text-sm border-2 border-card-border rounded-lg bg-white">
+              {/* <span className="px-3 py-2.5 text-sm border-2 border-card-border rounded-lg bg-white">
                 <MdError className="text-2xl" />
-              </span>
-              <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="custom-button w-full sm:w-30 button button--mimas text-center !p-4 !h-12 uppercase !mt-6 !bg-white !border !border-black" />
+              </span> */}
+              <FormButton text="instructions" onClick={() => dispatch(setEndTestDrawer())} className="custom-button light w-full button button--mimas text-center !p-4 !h-12 uppercase !mt-6 !bg-black !border !border-black" />
+              <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="custom-button w-full button button--mimas text-center !p-4 !h-12 uppercase !mt-6 !bg-white !border !border-black" />
             </div>
           </div>
         </div>

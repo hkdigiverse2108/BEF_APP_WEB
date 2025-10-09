@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type { ApexOptions } from "apexcharts";
 
 export const AiPoweredRadialBarChart = (color: string): ApexOptions => ({
@@ -10,6 +11,44 @@ export const AiPoweredRadialBarChart = (color: string): ApexOptions => ({
     },
   },
   colors: [color],
+});
+
+export const EliminationSkillRadialBarChart = (color: string): ApexOptions => ({
+  chart: {
+    type: "radialBar",
+    sparkline: { enabled: true },
+  },
+  plotOptions: {
+    radialBar: {
+      startAngle: -90,
+      endAngle: 90,
+      hollow: {
+        size: "60%",
+      },
+      dataLabels: {
+        name: {
+          show: false,
+        },
+        value: {
+          fontSize: "20px",
+          fontWeight: 600,
+          color: "#000",
+          formatter: (val: number) => `${val}%`,
+        },
+      },
+    },
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shadeIntensity: 0,
+      shade: "light",
+    },
+  },
+  colors: [color],
+  stroke: {
+    lineCap: "round",
+  },
 });
 
 export const EliminationSkillBarChart: ApexOptions = {
@@ -53,41 +92,3 @@ export const EliminationSkillBarChart: ApexOptions = {
   fill: {},
   colors: ["#fe690b", "#037b3d"],
 };
-
-export const EliminationSkillRadialBarChart = (color: string): ApexOptions => ({
-  chart: {
-    type: "radialBar",
-    sparkline: { enabled: true },
-  },
-  plotOptions: {
-    radialBar: {
-      startAngle: -90,
-      endAngle: 90,
-      hollow: {
-        size: "60%",
-      },
-      dataLabels: {
-        name: {
-          show: false,
-        },
-        value: {
-          fontSize: "20px",
-          fontWeight: 600,
-          color: "#000",
-          formatter: (val: number) => `${val}%`,
-        },
-      },
-    },
-  },
-  fill: {
-    type: "gradient",
-    gradient: {
-      shadeIntensity: 0,
-      shade: "light",
-    },
-  },
-  colors: [color],
-  stroke: {
-    lineCap: "round",
-  },
-});

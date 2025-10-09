@@ -18,5 +18,6 @@ export const ROUTES = {
     INSTRUCTION: "/exam/instruction",
     QUESTION: "/exam/question",
     RESULT: "/exam/result",
+    MISTAKE_MAP_REPORT: "/exam/mistake-map-report"
   },
 } as const;
