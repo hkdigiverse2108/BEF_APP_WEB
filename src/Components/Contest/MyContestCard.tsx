@@ -8,37 +8,21 @@ const MyContestCard = () => {
   return (
     <div
       onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS)}
-      className="border-1 border-primary rounded-xl overflow-hidden capitalize"
+      className="border-1 border-primary rounded-xl overflow-hidden capitalize flex flex-col justify-between "
     >
       <div className="flex flex-col lg:flex-row !bg-primary px-2 md:px-4 py-2 text-white ">
         <div className="flex flex-row max-sm:flex-col items-center  gap-4 max-sm:gap-0 w-full h-full p-3   ">
-          <img
-            className="object-cover w-10 rounded-full border-2 border-white "
-            src={`${ImagePath}contest/ContestIcon.png`}
-          />
-
           <div className="grid gap-1 w-full ">
             <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight ">
               Economics & Agriculture
             </h3>
           </div>
         </div>
-
-        <section className="flex gap-1 w-full lg:w-1/4 justify-end lg:justify-center items-center text-nowrap ">
-          <span className="text-primary-light text-2xl ">
-            <BsFillAlarmFill />
-          </span>
-          <div className="flex flex-col text-xs">
-            <span>9:00 AM</span>
-            <span>June 07 , 2025</span>
-          </div>
-        </section>
       </div>
       <div className="px-2 md:px-4 py-2 ">
         <div className=" py-2 flex flex-col gap-2 text-black ">
           <div className="flex justify-between text-sm   font-semibold ">
-            <section className="flex flex-col justify-between ">
-              <h1>Prize Pool</h1>
+            <section className="flex items-end">
               <p className="font-bold text-lg">₹10,000.00</p>
             </section>
             <span className=" flex border border-gray-100 w-fit my-2   "></span>
@@ -58,6 +42,29 @@ const MyContestCard = () => {
             </h1>
           </section>
         </div>
+      </div>
+      <div className="flex justify-between items-center bg-primary text-white px-4 text-sm font-semibold">
+        <div className="flex flex-row max-sm:flex-col items-center  gap-4 max-sm:gap-0 w-full h-full p-3   ">
+          <img
+            className="object-cover w-10 rounded-full border-2 border-white "
+            src={`${ImagePath}contest/ContestIcon.png`}
+          />
+
+          <div className="grid gap-1 w-full ">
+            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight ">
+              Economics & Agriculture
+            </h3>
+          </div>
+        </div>
+        <section className="flex gap-1 w-full lg:w-1/3 justify-end lg:justify-center items-center text-nowrap  ">
+          <span className="text-primary-light text-2xl ">
+            <BsFillAlarmFill />
+          </span>
+          <div className="flex flex-col text-xs">
+            <span>9:00 AM</span>
+            <span>June 07 , 2025</span>
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import type {
   InputProps,
   SelectProps,
 } from "antd";
+import type { GlobalConfigProps } from "antd/es/config-provider";
 import type { ReactNode } from "react";
 
 export interface FormInputProps extends InputProps {
@@ -62,9 +63,24 @@ export interface CardHeaderType {
   backButton?: boolean;
   pricePool?: { icon: ReactNode; price: string };
   sliderButton?: {
-    swiperRefs : any ;
+    swiperRefs: any;
     index?: number;
-    // prev: { swiperRef: any };
-    // next: { swiperRef: any };
   };
 }
+
+export type AntdNotificationType =
+  | "success"
+  | "error"
+  | "info"
+  | "warning"
+  | "open";
+
+export interface GlobalConfigPropsWithStack extends GlobalConfigProps {
+  stack?: {
+    threshold?: number;
+  };
+}
+
+
+
+

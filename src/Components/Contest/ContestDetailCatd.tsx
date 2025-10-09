@@ -6,15 +6,12 @@ import { Progress } from "antd";
 import { ROUTES } from "../../Constants";
 import { useAppDispatch } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
-// import SubtopicDrawer from "../Home/SubtopicDrawer";
 import type { ContestDetailCardProps } from "../../Types";
 import { useNavigate } from "react-router-dom";
 
 const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
   contest = {},
 }) => {
-  // console.log("contest => ", contest);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
@@ -27,17 +24,21 @@ const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
     winningAmountPerFee = 0,
   } = contest;
 
-  const progress = totalSpots ? (filledSpots / totalSpots) * 100 : 20;
+  const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
 
   return (
     <div
-      onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS)}
-      className="w-full h-fit bg-primary rounded-3xl overflow-hidden"
+      onClick={() =>
+        navigate(ROUTES.CONTEST.CONTEST_DETAILS, {
+          state: { contest },
+        })
+      }
+      className="w-full h-fit bg-primary rounded-3xl overflow-hidden cursXor-pointer"
     >
       <div className="flex flex-row  !bg-primary px-2 md:px-4  text-white relative">
         <div className="flex flex-row max-sm:flex-col items-center  gap-4 max-sm:gap-0 w-full h-full p-3   ">
           <div className="grid gap-0.5 w-full  ">
-            <h3 className=" text-lg max-sm:text-center text-left font-bold tracking-tight ">
+            <h3 className=" text-lg max-sm:text-center text-left font-bold tracking-tight capitalize ">
               {name}
               {/* {name || "Mega Contest"} */}
             </h3>
@@ -81,7 +82,7 @@ const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
         <div className=" py-1 ">
           <FormButton
             htmlType="submit"
-            text={`pay - ${fees}`}
+            text={`Join - ${fees}`}
             // text={`pay - ${fees || "200.00"}`}
             onClick={(e) => {
               e.stopPropagation();

@@ -2,6 +2,8 @@ import { BsFillAlarmFill } from "react-icons/bs";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { Tabs } from "antd";
 import ContestDetailCatd from "../../Components/Contest/ContestDetailCatd";
+import { useLocation } from "react-router-dom";
+import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
 
 const prizeData = [
   {
@@ -52,6 +54,11 @@ const ContestDetails = () => {
     // console.log();
   };
 
+  const location = useLocation();
+  const { contest } = location.state || {}; // 👈 safely extract the data
+
+  console.log("Contest data:", contest);
+
   const Winning = () => {
     return (
       <div className="bg-input-box border border-gray-200 p-4 rounded-2xl">
@@ -98,7 +105,7 @@ const ContestDetails = () => {
         />
 
         <div className="flex flex-col lg:flex-row gap-4">
-          <ContestDetailCatd />
+          <ContestDetailCatd contest={contest} />
           <div className="w-full mt-8 lg:mt-0 custom-tab-full">
             <Tabs
               onChange={onChange}
@@ -137,6 +144,7 @@ const ContestDetails = () => {
           </div>
         </div>
       </div>
+      <SubtopicDrawer />
     </div>
   );
 };

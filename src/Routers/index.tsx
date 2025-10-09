@@ -7,7 +7,7 @@ import { AuthRoutes, PageRoutes } from "./PageRoutes";
 
 export const Router = createBrowserRouter([
   {
-    // element: <PrivateRoutes />,
+    element: <PrivateRoutes />,
     children: [
       {
         element: <Layout />,
@@ -16,7 +16,7 @@ export const Router = createBrowserRouter([
     ],
   },
   {
-    // element: <PublicRoutes />,
+    element: <PublicRoutes />,
     children: AuthRoutes,
   },
   // { path: "*", element: <Error /> },
