@@ -98,7 +98,7 @@ const CompareCompetitor = () => {
                       <Progress percent={item.you} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#037b3d"} strokeWidth={20} />
                     </li>
                     <li>
-                      <Progress percent={item.others} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#fe690b"} strokeWidth={20} className="others"/>
+                      <Progress percent={item.others} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#FE6E13"} strokeWidth={20} className="others"/>
                     </li>
                     <li>
                       <Progress percent={item.toppers} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#2d1067"} strokeWidth={20} />

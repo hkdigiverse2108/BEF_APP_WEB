@@ -25,7 +25,7 @@ const EndTestDrawer = () => {
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-4 border-2 border-gray-200">
                   <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Total.png`} />
                   <div className="grid w-full">
-                    <h3 className="text-lg text-left font-medium tracking-tight text-black">Total Questions</h3>
+                    <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Total Questions</h3>
                     <p className="text-xl font-bold text-left">50</p>
                   </div>
                 </div>
@@ -33,21 +33,35 @@ const EndTestDrawer = () => {
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
                   <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Answered.png`} />
                   <div className="grid w-full">
-                    <h3 className="text-lg text-left font-medium tracking-tight text-black">Answered</h3>
+                    <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Answered</h3>
                     <p className="text-xl font-bold text-left">50</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
                   <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Not-answered.png`} />
                   <div className="grid w-full">
-                    <h3 className="text-lg text-left font-medium tracking-tight text-black">Not Answered</h3>
+                    <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">unanswered</h3>
                     <p className="text-xl font-bold text-left">50</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
                   <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Not-visited.png`} />
                   <div className="grid w-full">
-                    <h3 className="text-lg text-left font-medium tracking-tight text-black">Not Visited</h3>
+                    <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Not Visited</h3>
+                    <p className="text-xl font-bold text-left">50</p>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
+                  <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Skip.png`} />
+                  <div className="grid w-full">
+                    <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Skip</h3>
+                    <p className="text-xl font-bold text-left">50</p>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
+                  <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Marked.png`} />
+                  <div className="grid w-full">
+                    <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Marked</h3>
                     <p className="text-xl font-bold text-left">50</p>
                   </div>
                 </div>

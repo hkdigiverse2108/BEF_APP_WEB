@@ -10,9 +10,9 @@ import { GlobalStyles } from "@mui/system";
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#feecd7",
-      main: "#FE690B",
-      dark: "#e76f1d",
+      light: "#FFB27C",
+      main: "#FE6E13",
+      dark: "#FE690B",
       contrastText: "#fff",
     },
   },
@@ -26,7 +26,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#FE690B",
+          colorPrimary: "#FE6E13",
         },
         components: {
           Avatar: {
