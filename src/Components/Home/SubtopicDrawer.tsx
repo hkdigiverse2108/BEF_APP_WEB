@@ -1,16 +1,16 @@
-import { Drawer, Form } from "antd";
+import { Drawer, Empty, Form } from "antd";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import {
   setConfirmationDrawer,
   setSubtopicDrawer,
 } from "../../Store/Slices/DrawerSlice";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
-
 import { useState } from "react";
 import ConfirmationDrawer from "../Common/ConfirmationDrawer";
 import { Storage } from "../../Utils";
 import { STORAGE_KEYS } from "../../Constants";
 import dayjs from "dayjs";
+import type { Contest, PayloadTime } from "../../Types";
 
 const SubtopicDrawer = () => {
   const [form] = Form.useForm();
@@ -20,9 +20,9 @@ const SubtopicDrawer = () => {
 
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [payloadTime, setPayloadTime] = useState<string | object>({}); // default selected
+  const [payloadTime, setPayloadTime] = useState<PayloadTime>({});
 
-  const { contest } = isSubtopicDrawer;
+  const { contest }: { contest: Contest } = isSubtopicDrawer;
 
   const existingLsData = JSON.parse(
     Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}"
@@ -32,11 +32,12 @@ const SubtopicDrawer = () => {
     setSelectedTime(time);
     const start = dayjs(time);
     const end = start.add(1, "hour");
-    // form.setFieldsValue({ time });
     setPayloadTime({
       startTime: start.toISOString(),
       endTime: end.toISOString(),
     });
+    form.setFieldsValue({ time });
+
     // console.log("payload", payloadTime);
   };
 
@@ -59,7 +60,7 @@ const SubtopicDrawer = () => {
         STORAGE_KEYS.CONTEST_QA,
         JSON.stringify({
           ...existingLsData,
-          contestId: contest._id,
+          contestId: contest?._id,
         })
       );
       // console.log("payloadTime", payloadTime);
@@ -76,6 +77,7 @@ const SubtopicDrawer = () => {
           },
         })
       );
+      dispatch(setSubtopicDrawer({ open: false, contest: {} }));
     } catch (error) {
       console.log(error);
     }
@@ -101,6 +103,7 @@ const SubtopicDrawer = () => {
           setSelectedQuestion(null);
           setSelectedTime(null);
           setPayloadTime({});
+          form.resetFields();
           dispatch(setSubtopicDrawer({ open: false, contest: {} }));
         }}
         open={isSubtopicDrawer.open}
@@ -138,7 +141,6 @@ const SubtopicDrawer = () => {
             </div>
 
             <FormInput
-              // required
               name="stack"
               placeholder="Auto generated"
               disabled
@@ -154,77 +156,72 @@ const SubtopicDrawer = () => {
                 },
               ]}
             />
-          </Form>
 
-          <div className="p-4 bg-input-box border-1 rounded-md border-card-border">
-            <p className="font-semibold text-lg">
-              Selected:&nbsp;
-              <span className="text-black">
-                {selectedTime
-                  ? dayjs(selectedTime).isValid()
-                    ? dayjs(selectedTime).format("dddd, MMM D • h:mm A")
-                    : selectedTime // fallback to raw string if not parseable
-                  : "No time selected"}
-                {/* {dayjs(selectedTime).format("dddd, MMM D • h:mm A")} */}
-              </span>
-            </p>
-            <p className="text-base font-medium text-gray-500 mb-3">
-              Pick Your Time For Playing Quiz
-            </p>
-            <span className="border-t-2 border-card-border flex w-full my-4" />
-            <div className="space-y-6">
-              {Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
-                <div key={date}>
-                  {/* 🗓️ Date Header */}
-                  <p className="font-semibold text-lg mb-2">
-                    {dayjs(date).format("dddd, MMM D")}
-                  </p>
-
-                  {/* 🕒 Time Buttons */}
-                  <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
-                    {times?.map((time) => {
-                      const displayTime = dayjs(time).format("h:mm A");
-                      return (
-                        <button
-                          key={time}
-                          onClick={() => handleSelect(time)}
-                          className={`p-2 text-sm font-semibold rounded-lg ${
-                            selectedTime === time
-                              ? "bg-primary text-white"
-                              : "bg-white hover:bg-primary-light"
-                          }`}
-                        >
-                          {displayTime}
-                        </button>
-                      );
-                    })}
+            <div className="p-4 bg-input-box border-1 rounded-md border-card-border">
+              <p className="font-semibold text-lg">
+                Selected:&nbsp;
+                <span className="text-black">
+                  {selectedTime
+                    ? dayjs(selectedTime).isValid()
+                      ? dayjs(selectedTime).format("dddd, MMM D • h:mm A")
+                      : selectedTime
+                    : "No time selected"}
+                </span>
+              </p>
+              <p className="text-base font-medium text-gray-500 mb-3">
+                Pick Your Time For Playing Quiz
+              </p>
+              <span className="border-t-2 border-card-border flex w-full my-4" />
+              <div className="space-y-6">
+                {Object.keys(groupedSlots).length > 0 ? (
+                  Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
+                    <div key={date}>
+                      {/* 🗓️ Date Header */}
+                      <p className="font-semibold text-lg mb-2">
+                        {dayjs(date).format("dddd, MMM D")}
+                      </p>
+                      {/* 🕒 Time Buttons */}
+                      <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
+                        {times?.map((time) => {
+                          const displayTime = dayjs(time).format("h:mm A");
+                          return (
+                            <button
+                              type="button"
+                              key={time}
+                              onClick={() => handleSelect(time)}
+                              className={`p-2 text-sm font-semibold rounded-lg ${
+                                selectedTime === time
+                                  ? "bg-primary text-white"
+                                  : "bg-white hover:bg-primary-light"
+                              }`}
+                            >
+                              {displayTime}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500 font-medium">
+                    <Empty />
                   </div>
-                </div>
-              ))}
+                )}
+              </div>
+
+              <FormInput
+                name="time"
+                type="hidden"
+                rules={[{ required: true, message: "Please select a time!" }]}
+              />
             </div>
-            <Form.Item
-              name="time"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a time!",
-                },
-              ]}
-              initialValue={selectedTime} // optional: set initial value
-            >
-              <input type="hidden" />
-            </Form.Item>
-          </div>
-          <FormButton
-            text="Next"
-            // disabled={!payloadTime?.startTime}
-            className={`${
-              payloadTime?.startTime ? "" : " !cursor-not-allowed "
-            }  custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe`}
-            onClick={() => {
-              form.submit();
-            }}
-          />
+            <FormButton
+              text="Next"
+              htmlType="submit"
+              className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe"
+              // onClick={handleDrawerSubmit}
+            />
+          </Form>
         </div>
       </Drawer>
       <ConfirmationDrawer />

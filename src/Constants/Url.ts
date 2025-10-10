@@ -8,6 +8,9 @@ export const URL_KEYS = {
     VERIFY_OTP: "/auth/otp/verify",
     RESEND_OTP: "/auth/resend-otp",
   },
+  USER: {
+    CHECK: "/user/check",
+  },
   EXAM_TYPE: {
     EXAM_TYPE: "/exam-type",
   },

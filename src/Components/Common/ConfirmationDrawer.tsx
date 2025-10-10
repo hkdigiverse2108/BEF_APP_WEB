@@ -1,21 +1,19 @@
-import { Drawer } from "antd";
+import { Drawer, notification } from "antd";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setConfirmationDrawer } from "../../Store/Slices/DrawerSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { FormButton } from "../../Attribute/FormFields";
-import {
-  ImagePath,
-  STORAGE_KEYS,
-  URL_KEYS,
-} from "../../Constants";
-import { Storage } from "../../Utils";
+import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { AntdNotification, Storage } from "../../Utils";
 import { usePostApiMutation } from "../../Api/CommonApi";
+import { useNavigate } from "react-router-dom";
+import type { Contest } from "../../Types";
 
 const ConfirmationDrawer = () => {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const { isConfirmationDrawer } = useAppSelector((state) => state.drawer);
-  const { data } = isConfirmationDrawer;
+  const { data }: { data: Contest } = isConfirmationDrawer;
 
   const [PostApi] = usePostApiMutation();
 
@@ -24,14 +22,22 @@ const ConfirmationDrawer = () => {
       const existingLsData = JSON.parse(
         Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}"
       );
+
       const payload = {
         ...data.payload,
         ...existingLsData,
       };
       const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
       // if (res.status === HTTP_STATUS.OK) {
-      // Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
+      Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
       // }
+      AntdNotification(
+        notification,
+        "info",
+        "join more contests to complete win more"
+      );
+      dispatch(setConfirmationDrawer({ open: false, data: {} }));
+      navigate(ROUTES.CONTEST.MY_CONTEST);
       console.log("payload : ", payload, res);
     } catch (error) {
       console.log(error);
@@ -60,7 +66,8 @@ const ConfirmationDrawer = () => {
               {data.name || " Mega Contest"}
             </div>
             <p className="mt-2 text-white text-sm">
-              {data.pricePool || "Prize Pool ₹7,50,000"}
+              {data.pricePool}
+              {/* {data.pricePool || "Prize Pool ₹7,50,000"} */}
             </p>
           </div>
 
@@ -70,7 +77,10 @@ const ConfirmationDrawer = () => {
               <div className="space-y-1 bg-white p-3 rounded-lg">
                 <div className="flex justify-between text-gray-800 text-sm font-bold">
                   <span>Entry Fee</span>
-                  <span>{data.fees || "₹35.00"}</span>
+                  <span>
+                    {data.fees}
+                    {/* {data.fees || "₹35.00"} */}
+                  </span>
                 </div>
                 <div className="flex justify-between text-gray-800 text-sm font-bold">
                   <span>Bonus Applied</span>
@@ -80,7 +90,8 @@ const ConfirmationDrawer = () => {
                 <div className="flex justify-between font-semibold text-xl">
                   <span>Total Pay</span>
                   <span className="text-green-600">
-                    {data.fees || "₹35.00"}
+                    {data.fees}
+                    {/* {data.fees || "₹35.00"} */}
                   </span>
                 </div>
 
@@ -96,6 +107,7 @@ const ConfirmationDrawer = () => {
 
               <FormButton
                 text="JOIN CONTEST"
+                htmlType="submit"
                 onClick={handleJoinButton}
                 className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe !bg-white"
               />

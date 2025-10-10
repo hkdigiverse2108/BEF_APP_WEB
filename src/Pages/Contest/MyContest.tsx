@@ -1,13 +1,17 @@
 import { FormButton } from "../../Attribute/FormFields";
-import { CardHeader } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { BsFillAlarmFill } from "react-icons/bs";
 import MyContestCard from "../../Components/Contest/MyContestCard";
-import ContestCard from "../../Components/Contest/ContestCard";
-import { Tabs } from "antd";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
+import { CardHeader } from "../../Components/Common/CardHeader";
+import { useState } from "react";
 
 const MyContest = () => {
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
+    setTabIndex(newValue);
+
   const { data: ClassesData } = useGetApiQuery({
     url: `${URL_KEYS.CONTEST.ALL}?page=1&limit=10`,
   });
@@ -16,40 +20,70 @@ const MyContest = () => {
 
   console.log(classes);
 
-  const onChange = (key: string) => {
-    console.log(key);
-  };
+  // const ContestCards = () => {
+  //   return (
+  //     <div className="flex flex-col gap-6">
+  //       <CardHeader
+  //         title="GK Showdown"
+  //         icon={<BsFillAlarmFill />}
+  //         time="25 Min 10s Left"
+  //       />
 
-  const ContestCards = () => {
-    return (
-      <div className="flex flex-col gap-6">
+  //       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+  //         <MyContestCard />
+  //         <MyContestCard />
+  //         <MyContestCard />
+  //         <MyContestCard />
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
+  return (
+    <div className="sub-container">
+      <div className=" mt-12 flex flex-col gap-6 ">
+        <Tabs
+          className="horizontal-tabs"
+          orientation="horizontal"
+          variant="scrollable"
+          value={tabIndex}
+          onChange={handleChange}
+        >
+          <Tab label="Sub wise" />
+          <Tab label="Attempting Strategy wise" />
+        </Tabs>
         <CardHeader
           title="GK Showdown"
           icon={<BsFillAlarmFill />}
           time="25 Min 10s Left"
         />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div
+          hidden={tabIndex !== 0}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 mt-6"
+        >
           <MyContestCard />
-          <ContestCard />
-          <ContestCard />
-          <ContestCard />
+          <MyContestCard />
+          <MyContestCard />
+          <MyContestCard />
+          <MyContestCard />
         </div>
-      </div>
-    );
-  };
 
-  return (
-    <div className="sub-container">
-      <div className=" mt-12">
-        <Tabs
+        <div
+          hidden={tabIndex !== 1}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 mt-6"
+        >
+          <MyContestCard />
+          <MyContestCard />
+          <MyContestCard />
+        </div>
+        {/* <Tabs
           className="bg-amber-"
           onChange={onChange}
           type="card"
           items={[
             {
-              key: "Contest",
-              label: "Contests",
+              key: "Upcoming",
+              label: "Upcoming",
               children: (
                 <>
                   <ContestCards />
@@ -57,8 +91,8 @@ const MyContest = () => {
               ),
             },
             {
-              key: "My-Contest",
-              label: "My Contest",
+              key: "Past-Test",
+              label: "Past Test",
               children: (
                 <>
                   <h1>2</h1>
@@ -67,7 +101,7 @@ const MyContest = () => {
               ),
             },
           ]}
-        />
+        /> */}
       </div>
       <div className=" mt-6">
         <div className="w-full flex justify-center">

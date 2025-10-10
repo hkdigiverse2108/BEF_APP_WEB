@@ -1,3 +1,4 @@
+
 export interface WinnerType {
   name: string;
   rank: string;
@@ -12,11 +13,14 @@ export interface ContestWinnerCardProps {
 export interface ContestType {
   name?: string;
 }
+export interface PayloadTime {
+  startTime?: string;
+  endTime?: string;
+}
 
 export interface Contest {
   _id?: string;
   name?: string;
-  "contest-type"?: ContestType; // matches your destructuring
   pricePool?: string | number;
   filledSpots?: number;
   totalSpots?: number;
@@ -24,8 +28,28 @@ export interface Contest {
   winnerPercentage?: string | number;
   winningAmountPerFee?: number;
   status?: string;
+  slots?: string[];
+  payload?: PayloadTime;
 }
 
 export interface ContestDetailCardProps {
-  contest?: Contest;
+  contest: Contest;
+}
+
+export interface ContestItem {
+  _id: string;
+  name: string;
+  description?: string;
+  image?: string;
+  startDate?: string;
+  endDate?: string;
+  slots?: string[];
+}
+
+export interface ContestApiResponse {
+  data: {
+    data: {
+      contest_data: ContestItem[];
+    };
+  };
 }

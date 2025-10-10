@@ -1,5 +1,5 @@
 import { Col, Form, Input, Row, Space, Steps } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import { NavLink } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ import {
   useGetGlobalApiQuery,
   usePostGlobalApiMutation,
 } from "../../Api/CommonGlobalApi";
-import { URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, URL_KEYS } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
 import { RemoveEmptyFields } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
@@ -55,14 +55,126 @@ const Register = () => {
     }
   };
 
+  // const next = async () => {
+  //   try {
+  //     await form.validateFields(steps[current].fields);
+  //     const values = form.getFieldsValue(true);
+
+  //     if (values.email || values.contact) {
+  //       const res = await PostGlobalApi({
+  //         url: URL_KEYS.USER.CHECK,
+  //         data: { email: values.email },
+  //       });
+
+  //       console.log("res", res?.error?.data.status);
+  //       if (res?.error?.data.status === HTTP_STATUS.NOT_FOUND) {
+  //         form.setFields([
+  //           {
+  //             name: "email",
+  //             errors: ["email exist"],
+  //           },
+  //         ]);
+  //       } else {
+  //         console.log("email & Phone", values.email, values.contact);
+
+  //         const updatedData = { ...formData, ...values };
+  //         setFormData(updatedData);
+
+  //         form.setFieldsValue(updatedData);
+
+  //         setCurrent((prev) => prev + 1);
+  //       }
+  //     }
+
+  //     if (values.contact.mobile) {
+  //       const res = await PostGlobalApi({
+  //         url: URL_KEYS.USER.CHECK,
+  //         data: { contact: values.contact },
+  //       });
+
+  //       console.log("res", res?.error?.data.status);
+  //       if (res?.error?.data.status === HTTP_STATUS.NOT_FOUND) {
+  //         form.setFields([
+  //           {
+  //             name: "contact",
+  //             errors: ["phone exist"],
+  //           },
+  //         ]);
+  //       } else {
+  //         console.log("email & Phone", values.email, values.contact);
+
+  //         const updatedData = { ...formData, ...values };
+  //         setFormData(updatedData);
+
+  //         form.setFieldsValue(updatedData);
+
+  //         setCurrent((prev) => prev + 1);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.log("Validation failed:", e);
+  //     // if (res.status === HTTP_STATUS.NOT_FOUND) {
+  //     form.setFields([
+  //       {
+  //         name: "email",
+  //         errors: ["email exist"],
+  //       },
+  //     ]);
+  //     // }
+  //   }
+  // };
+
   const next = async () => {
     try {
+      // 1. Validate current step fields
       await form.validateFields(steps[current].fields);
-      const values = form.getFieldsValue(true);
 
+      // 2. Get current form values
+      const values = form.getFieldsValue(true);
+      const email = values.email;
+      const contact = values.contact;
+
+      const errors: any[] = [];
+      let hasError = false;
+
+      // 3. Check email if it exists
+      if (email) {
+        const resEmail = await PostGlobalApi({
+          url: URL_KEYS.USER.CHECK,
+          data: { email },
+        });
+
+        if (resEmail?.error?.data?.status === HTTP_STATUS.NOT_FOUND) {
+          errors.push({ name: "email", errors: ["Email already exists"] });
+          hasError = true;
+        }
+      }
+
+      // 4. Check phone if it exists
+      if (contact?.mobile) {
+        const resPhone = await PostGlobalApi({
+          url: URL_KEYS.USER.CHECK,
+          data: { contact },
+        });
+
+        if (resPhone?.error?.data?.status === HTTP_STATUS.NOT_FOUND) {
+          errors.push({
+            name: ["contact", "mobile"],
+            errors: ["Phone already exists"],
+          });
+          hasError = true;
+        }
+      }
+
+      // 5. If any error, show errors and stop
+      if (hasError) {
+        form.setFields(errors);
+        return;
+      }
+
+      // 6. If no errors, merge data and go to next step
       const updatedData = { ...formData, ...values };
       setFormData(updatedData);
-
       form.setFieldsValue(updatedData);
 
       setCurrent((prev) => prev + 1);

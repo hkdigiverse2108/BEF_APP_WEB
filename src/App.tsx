@@ -1,3 +1,4 @@
+import "@ant-design/v5-patch-for-react-19";
 import { RouterProvider } from "react-router-dom";
 import { Router } from "./Routers";
 import { ConfigProvider } from "antd";
@@ -29,10 +30,9 @@ const App = () => {
         },
         components: {
           Avatar: {
-            groupOverlapping: -25, 
+            groupOverlapping: -25,
           },
         },
-    
       }}
     >
       <ThemeProvider theme={theme}>
