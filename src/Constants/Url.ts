@@ -31,5 +31,6 @@ export const URL_KEYS = {
   },
   QA: {
     ADD: "/qa/add",
+    ALL: "/qa/all",
   },
 } as const;

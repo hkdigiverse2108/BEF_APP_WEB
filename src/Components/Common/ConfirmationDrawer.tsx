@@ -7,13 +7,13 @@ import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { AntdNotification, Storage } from "../../Utils";
 import { usePostApiMutation } from "../../Api/CommonApi";
 import { useNavigate } from "react-router-dom";
-import type { Contest } from "../../Types";
+import type { ContestCore } from "../../Types";
 
 const ConfirmationDrawer = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isConfirmationDrawer } = useAppSelector((state) => state.drawer);
-  const { data }: { data: Contest } = isConfirmationDrawer;
+  const { data }: { data: ContestCore } = isConfirmationDrawer;
 
   const [PostApi] = usePostApiMutation();
 

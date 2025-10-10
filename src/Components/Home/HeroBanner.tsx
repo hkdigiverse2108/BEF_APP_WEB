@@ -32,6 +32,7 @@ const HeroBanner = () => {
           {Banners?.map((item: any) => {
             return (
               <SwiperSlide>
+                {/* {!item?.image ==} */}
                 <img
                   src={item?.image}
                   alt="banner"

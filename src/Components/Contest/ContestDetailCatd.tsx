@@ -6,11 +6,11 @@ import { Progress } from "antd";
 import { ROUTES } from "../../Constants";
 import { useAppDispatch } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
-import type { ContestDetailCardProps } from "../../Types";
+import type { ContestCore, ContestDetailCardProps } from "../../Types";
 import { useNavigate } from "react-router-dom";
 
 const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
-  contest = {},
+  contestData = {},
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
     fees,
     winnerPercentage,
     winningAmountPerFee = 0,
-  } = contest;
+  }: ContestCore = contestData;
 
   const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
 
@@ -30,7 +30,7 @@ const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
     <div
       onClick={() =>
         navigate(ROUTES.CONTEST.CONTEST_DETAILS, {
-          state: { contest },
+          state: { contestData },
         })
       }
       className="w-full h-fit bg-primary rounded-3xl overflow-hidden cursXor-pointer"
@@ -86,7 +86,7 @@ const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
             // text={`pay - ${fees || "200.00"}`}
             onClick={(e) => {
               e.stopPropagation();
-              dispatch(setSubtopicDrawer({ open: true, contest }));
+              dispatch(setSubtopicDrawer({ open: true, contestData }));
             }}
             className="custom-button button button--mimas w-full !h-auto uppercase"
           />

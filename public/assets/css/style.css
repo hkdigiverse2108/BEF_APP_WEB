@@ -9,15 +9,10 @@ body {
   @apply mx-4 md:mx-12;
 }
 
-/* .offcanvas-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1040;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-} */
+.active {
+  @apply relative text-primary after:absolute after:bg-black after:w-full after:h-[2px] after:block after:-bottom-4 after:transition-all after:duration-300;
+}
+
 .offcanvas-backdrop.fade {
   opacity: 0;
 }
@@ -89,7 +84,7 @@ input {
   @apply hidden;
 }
 
-.custom-tab-full .ant-tabs-nav-list {
+/* .custom-tab-full .ant-tabs-nav-list {
   @apply flex w-full;
 }
 .ant-tabs-nav-list .ant-tabs-tab {
@@ -110,7 +105,7 @@ input {
 
 .ant-tabs-card.ant-tabs-top .ant-tabs-nav .ant-tabs-tab:nth-child(2) {
   @apply !rounded-r-md;
-}
+} */
 
 @media (max-width: 575px) {
   .ant-steps-item {
@@ -291,23 +286,23 @@ input {
 
 /* ************ result section *********** */
 
-.result .Mui-selected {
-  @apply bg-black !text-white !border-black;
+.Mui-selected {
+  @apply !bg-black !text-white !border-black;
 }
 
-.result .MuiTabs-indicator {
+.MuiTabs-indicator {
   @apply hidden;
 }
 
-.result .MuiTabs-list.MuiTabs-flexContainer {
+.MuiTabs-list.MuiTabs-flexContainer {
   @apply flex gap-2;
 }
 
-.result .MuiButtonBase-root.MuiTab-root {
+.MuiButtonBase-root.MuiTab-root {
   @apply !border-2 border-card-border rounded-lg;
 }
 
-.result .tab-panels .MuiBox-root {
+.tab-panels .MuiBox-root {
   @apply p-0;
 }
 
@@ -315,7 +310,7 @@ input {
   @apply grid grid-cols-2  gap-0;
 }
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button {
-  @apply !max-w-full;
+  @apply !max-w-full  tracking-[1px] font-bold px-9;
 }
 
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:first-child {

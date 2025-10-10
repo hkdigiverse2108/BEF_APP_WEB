@@ -11,6 +11,7 @@ import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
 import { Storage } from "../../Utils";
 import { useEffect, useState } from "react";
 import type { ContestApiResponse, ContestItem } from "../../Types";
+import Loader from "../../Components/Common/Loader";
 
 const Contest = () => {
   const existingLsQaData = JSON.parse(
@@ -35,7 +36,7 @@ const Contest = () => {
     return () => clearTimeout(delay);
   }, [searchInput]);
 
-  const { data: ContestData } = useGetApiQuery<ContestApiResponse>(
+  const { data: ContestData, isLoading } = useGetApiQuery<ContestApiResponse>(
     {
       url: `${URL_KEYS.CONTEST.ALL}?page=1&limit=100&subjectId=${subjectId}${
         debounceSearch && `&search=${debounceSearch}`
@@ -56,6 +57,7 @@ const Contest = () => {
   }, []);
 
   // console.log(Contest);
+  if (isLoading) return <Loader />;
 
   return (
     <div className="sub-container contestPage">
@@ -86,7 +88,7 @@ const Contest = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
           {Contest?.length > 0 ? (
             Contest?.map((item, i) => (
-              <ContestDetailCatd key={i} contest={item} />
+              <ContestDetailCatd key={i} contestData={item} />
             ))
           ) : (
             <div className="flex items-center justify-center w-full col-span-4">

@@ -1,7 +1,7 @@
 import { BsFillAlarmFill } from "react-icons/bs";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { IoIosArrowBack, IoIosArrowForward, IoMdTrophy } from "react-icons/io";
-import { FormButton, FormSelect } from "../../Attribute/FormFields";
+import { IoMdTrophy } from "react-icons/io";
+import { FormSelect } from "../../Attribute/FormFields";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay } from "swiper/modules";
@@ -180,21 +180,9 @@ const ContestWinner = () => {
                 title={section.period}
                 icon={<BsFillAlarmFill />}
                 pricePool={{ icon: <IoMdTrophy />, price: section.prize }}
-                time={section.time}
+                // time={section.time}
                 sliderButton={{ swiperRefs, index }}
-              />  
-              {/* <div className="flex flex-nowrap   justify-end  ">
-                <FormButton
-                  text={<IoIosArrowBack />}
-                  onClick={() => swiperRefs.current[index]?.slidePrev()}
-                  className="!bg-input-box !border-none !rounded-r-none "
-                />
-                <FormButton
-                  text={<IoIosArrowForward />}
-                  onClick={() => swiperRefs.current[index]?.slideNext()}
-                  className="!bg-black !text-white !rounded-l-none"
-                />
-              </div> */}
+              />
             </div>
 
             <Swiper
