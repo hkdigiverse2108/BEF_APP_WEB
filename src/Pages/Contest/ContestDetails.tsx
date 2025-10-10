@@ -1,9 +1,11 @@
 import { BsFillAlarmFill } from "react-icons/bs";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { Tabs } from "antd";
 import ContestDetailCatd from "../../Components/Contest/ContestDetailCatd";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
+import { Tab, Tabs } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ROUTES } from "../../Constants";
 
 const prizeData = [
   {
@@ -50,14 +52,19 @@ const prizeData = [
 ];
 
 const ContestDetails = () => {
-  const onChange = () => {
-    // console.log();
-  };
-
+  const [tabIndex, setTabIndex] = useState(0);
+  const navigate = useNavigate();
   const location = useLocation();
-  const { contest } = location.state || {}; // 👈 safely extract the data
+  const { contestData } = location.state || {};
 
-  console.log("Contest data:", contest);
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
+    setTabIndex(newValue);
+
+  console.log("Contest data:", contestData);
+
+  useEffect(() => {
+    if (!contestData) navigate(ROUTES.CONTEST.MY_CONTEST);
+  }, []);
 
   const Winning = () => {
     return (
@@ -105,42 +112,26 @@ const ContestDetails = () => {
         />
 
         <div className="flex flex-col lg:flex-row gap-4">
-          <ContestDetailCatd contest={contest} />
+          <ContestDetailCatd contestData={contestData} />
           <div className="w-full mt-8 lg:mt-0 custom-tab-full">
             <Tabs
-              onChange={onChange}
-              type="card"
-              items={[
-                {
-                  key: "winning",
-                  label: "Winning",
-                  children: (
-                    <>
-                      <Winning />
-                    </>
-                  ),
-                },
-                {
-                  key: "current-price-pool",
-                  label: (
-                    <>
-                      <span className=" hidden sm:flex ">
-                        Current Price Pool
-                      </span>
-                      <span className="flex sm:hidden "> Price Pool </span>
-                    </>
-                  ),
-                  children: (
-                    <>
-                      <h1>2</h1>
-                      <>
-                        <Winning />
-                      </>
-                    </>
-                  ),
-                },
-              ]}
-            />
+              className="horizontal-tabs "
+              orientation="horizontal"
+              variant="scrollable"
+              value={tabIndex}
+              onChange={handleChange}
+            >
+              <Tab label="Upcoming" />
+              <Tab label="Past Test" />
+            </Tabs>
+
+            <div hidden={tabIndex !== 0} className=" mt-6">
+              <Winning />
+            </div>
+
+            <div hidden={tabIndex !== 1} className=" mt-6">
+              <Winning />
+            </div>
           </div>
         </div>
       </div>

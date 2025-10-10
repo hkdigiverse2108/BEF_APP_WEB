@@ -10,7 +10,7 @@ import ConfirmationDrawer from "../Common/ConfirmationDrawer";
 import { Storage } from "../../Utils";
 import { STORAGE_KEYS } from "../../Constants";
 import dayjs from "dayjs";
-import type { Contest, PayloadTime } from "../../Types";
+import type { ContestCore, PayloadTime } from "../../Types";
 
 const SubtopicDrawer = () => {
   const [form] = Form.useForm();
@@ -22,7 +22,7 @@ const SubtopicDrawer = () => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [payloadTime, setPayloadTime] = useState<PayloadTime>({});
 
-  const { contest }: { contest: Contest } = isSubtopicDrawer;
+  const { contest }: { contest: ContestCore } = isSubtopicDrawer;
 
   const existingLsData = JSON.parse(
     Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}"

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { CardHeaderType } from "../../Types";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import {
   IoIosArrowBack,
   IoIosArrowForward,
@@ -28,7 +28,7 @@ export const CardHeader: FC<CardHeaderType> = ({
         )}
         {title && <h1 className="capitalize">{title}</h1>}
         {pricePool && (
-          <section className="flex  gap-2 bg-success text-white text-sm items-center rounded font-semibold  px-3 py-1">
+          <section className="flex  gap-2 bg-black text-white text-sm items-center rounded-md font-semibold  px-3 py-1">
             <span className="text-xl">{pricePool.icon}</span>
             <span>{pricePool.price}</span>
           </section>

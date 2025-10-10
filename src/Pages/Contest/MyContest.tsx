@@ -1,114 +1,80 @@
 import { FormButton } from "../../Attribute/FormFields";
 import { Tab, Tabs } from "@mui/material";
-import { BsFillAlarmFill } from "react-icons/bs";
-import MyContestCard from "../../Components/Contest/MyContestCard";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
-import { CardHeader } from "../../Components/Common/CardHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import MyContestUpcomingCard from "../../Components/Contest/MyContestUpcomingCard";
+import MyContestPastTestCard from "../../Components/Contest/MyContestPastTestCard";
+import Loader from "../../Components/Common/Loader";
+import type { ContestData } from "../../Types";
 
 const MyContest = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [queryFilter, setQueryFilter] = useState("upcoming,ongoing");
+  const [limit, setLimit] = useState(6);
+
   const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
     setTabIndex(newValue);
 
-  const { data: ClassesData } = useGetApiQuery({
-    url: `${URL_KEYS.CONTEST.ALL}?page=1&limit=10`,
+  const { data: ContestData } = useGetApiQuery({
+    url: `${URL_KEYS.QA.ALL}?page=1&limit=${limit}&contestFilter=${queryFilter}`,
   });
 
-  const classes = ClassesData?.data.contest_data;
+  const Contest = ContestData?.data.contest_type_data;
 
-  console.log(classes);
+  console.log(Contest);
 
-  // const ContestCards = () => {
-  //   return (
-  //     <div className="flex flex-col gap-6">
-  //       <CardHeader
-  //         title="GK Showdown"
-  //         icon={<BsFillAlarmFill />}
-  //         time="25 Min 10s Left"
-  //       />
+  useEffect(() => {
+    if (tabIndex === 1) {
+      setQueryFilter("completed");
+    } else {
+      setQueryFilter("upcoming,ongoing");
+    }
+  }, [tabIndex]);
 
-  //       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-  //         <MyContestCard />
-  //         <MyContestCard />
-  //         <MyContestCard />
-  //         <MyContestCard />
-  //       </div>
-  //     </div>
-  //   );
-  // };
+  if (!Contest) return <Loader />;
 
   return (
     <div className="sub-container">
       <div className=" mt-12 flex flex-col gap-6 ">
-        <Tabs
-          className="horizontal-tabs"
-          orientation="horizontal"
-          variant="scrollable"
-          value={tabIndex}
-          onChange={handleChange}
-        >
-          <Tab label="Sub wise" />
-          <Tab label="Attempting Strategy wise" />
-        </Tabs>
-        <CardHeader
-          title="GK Showdown"
-          icon={<BsFillAlarmFill />}
-          time="25 Min 10s Left"
-        />
+        <div className=" flex justify-center ">
+          <Tabs
+            className="horizontal-tabs w-fit "
+            orientation="horizontal"
+            variant="scrollable"
+            value={tabIndex}
+            onChange={handleChange}
+          >
+            <Tab label="Upcoming" />
+            <Tab label="Past Test" />
+          </Tabs>
+        </div>
+
         <div
           hidden={tabIndex !== 0}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 mt-6"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-6"
         >
-          <MyContestCard />
-          <MyContestCard />
-          <MyContestCard />
-          <MyContestCard />
-          <MyContestCard />
+          {Contest?.map((contest: ContestData) => (
+            <MyContestUpcomingCard contestData={contest} />
+          ))}
         </div>
 
         <div
           hidden={tabIndex !== 1}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 mt-6"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6"
         >
-          <MyContestCard />
-          <MyContestCard />
-          <MyContestCard />
+          {Contest?.map((contest: ContestData) => (
+            <MyContestPastTestCard contestData={contest} />
+            // <MyContestUpcomingCard contestData={contest} />
+          ))}
         </div>
-        {/* <Tabs
-          className="bg-amber-"
-          onChange={onChange}
-          type="card"
-          items={[
-            {
-              key: "Upcoming",
-              label: "Upcoming",
-              children: (
-                <>
-                  <ContestCards />
-                </>
-              ),
-            },
-            {
-              key: "Past-Test",
-              label: "Past Test",
-              children: (
-                <>
-                  <h1>2</h1>
-                  <ContestCards />
-                </>
-              ),
-            },
-          ]}
-        /> */}
       </div>
-      <div className=" mt-6">
+      <div className=" my-6">
         <div className="w-full flex justify-center">
           <FormButton
             text="View More"
             className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe"
-            onClick={() => console.log("view More")}
+            onClick={() => setLimit(limit + 6)}
           />
         </div>
       </div>

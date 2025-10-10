@@ -1,5 +1,5 @@
 import { IoSearch } from "react-icons/io5";
-import { ImagePath, ROUTES } from "../Constants";
+import { ImagePath } from "../Constants";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
@@ -7,6 +7,8 @@ import { RxCross2 } from "react-icons/rx";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useAppDispatch } from "../Store/hooks";
 import { LogOut } from "../Store/Slices/AuthSlice";
+import { HeaderMenu } from "../Data";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -48,103 +50,19 @@ const Header = () => {
                   </button>
                 </div>
               </li>
-
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href={ROUTES.HOME}
-                  className="text-black block text-[15px] font-normal uppercase"
+              {HeaderMenu.map((item, index) => (
+                <li
+                  key={index}
+                  className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300"
                 >
-                  Home
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href={ROUTES.CONTEST.MY_CONTEST}
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  MY CONTESTS
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href={ROUTES.CONTEST.CONTEST}
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  CONTESTS
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href={ROUTES.CONTEST.CONTEST_WINNERS}
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  CONTESTS WINNER
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href={ROUTES.CONTEST.CONTEST_DETAILS}
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  CONTESTS DETAILS
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href={ROUTES.CONTEST.MY_CONTEST}
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  MY CONTESTS
-                </a>
-              </li>
-              {/* <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href="javascript:void(0)"
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  FULL FEST RECORDS
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href="javascript:void(0)"
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  REFERRAL
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href="javascript:void(0)"
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  WINNER
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href="javascript:void(0)"
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  Workshop
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href="javascript:void(0)"
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  Course
-                </a>
-              </li>
-              <li className="max-2xl:border-b max-2xl:border-gray-300 max-2xl:py-3 relative 2xl:hover:after:absolute 2xl:after:bg-black 2xl:after:w-0 2xl:hover:after:w-full 2xl:hover:after:h-[2px] 2xl:after:block 2xl:after:-bottom-4 2xl:after:transition-all 2xl:after:duration-300">
-                <a
-                  href="javascript:void(0)"
-                  className="text-black block text-[15px] font-normal uppercase"
-                >
-                  Contact
-                </a>
-              </li> */}
+                  <NavLink
+                    to={item.link}
+                    className="text-black block text-[15px] font-normal uppercase"
+                  >
+                    {item.text}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="flex items-center max-sm:ml-auto">
