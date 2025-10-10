@@ -51,27 +51,13 @@ const Login = () => {
                 <br />
                 Dashboard
               </h1>
-              <p className="font-medium text-xl leading-relaxed mx-auto">
-                Track your progress, get instant performance insights.
-              </p>
+              <p className="font-medium text-xl leading-relaxed mx-auto">Track your progress, get instant performance insights.</p>
             </div>
-            <img
-              className="w-full absolute left-0 top-0"
-              alt="Group"
-              src="/assets/images/auth/VecrorGroup.png"
-            />
+            <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
             <figure className="absolute inset-x-0 bottom-40 flex justify-center">
-              <img
-                className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10"
-                alt="Group"
-                src="/assets/images/auth/LoginVectorBox.png"
-              />
+              <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/LoginVectorBox.png" />
             </figure>
-            <img
-              className="w-full absolute left-0 bottom-0"
-              alt="Group"
-              src="/assets/images/auth/OrangeFooter.png"
-            />
+            <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
           </div>
         </div>
 
@@ -82,23 +68,14 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
-                    Create an Account
-                  </h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
-                    Create an account or log in to explore about our website
-                  </p>
+                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
+                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
                 </div>
               </header>
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleFormSubmit}
-                className="space-y-8 lg:space-y-10"
-              >
+              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
                 <Row gutter={16}>
                   <Col span={24}>
                     <FormInput
@@ -130,10 +107,7 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="mb-1">
                       <p className="text-end text-sm lg:text-base">
-                        <NavLink
-                          to={ROUTES.AUTH.FORGOT_PASSWORD}
-                          className="font-bold cursor-pointer hover:!underline !text-primary"
-                        >
+                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-bold cursor-pointer hover:!underline !text-primary">
                           Forgot password ?
                         </NavLink>
                       </p>
@@ -143,13 +117,8 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">
-                          ARE YOU NEW HERE ?{" "}
-                        </span>
-                        <NavLink
-                          to={ROUTES.AUTH.REGISTER}
-                          className="font-bold cursor-pointer hover:!underline !text-primary"
-                        >
+                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
+                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-bold cursor-pointer hover:!underline !text-primary">
                           SIGN UP
                         </NavLink>
                       </p>
@@ -157,12 +126,22 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton
-                        htmlType="submit"
-                        text="LOGIN"
-                        className="custom-button button button--mimas w-full !h-auto"
-                      />
-                     
+                      <FormButton htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
+                     {/* <button
+  className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
+             bg-gradient-to-r from-orange-500 to-green-600
+             shadow-md transition-all duration-500 ease-out
+              hover:shadow-[0_0_25px_rgba(255,128,0,0.4)]"
+>
+  <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-[-2px]">
+    NEXT
+  </span>
+  <span
+    className="absolute inset-0 bg-gradient-to-r from-green-600 to-orange-500 
+               opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
+  ></span>
+</button> */}
+
                     </Form.Item>
                   </Col>
                 </Row>

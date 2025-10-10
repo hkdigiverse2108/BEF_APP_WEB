@@ -44,6 +44,7 @@ export interface FormButtonProps extends ButtonProps {
   htmlType?: "button" | "submit" | "reset";
   type?: "default" | "primary" | "dashed" | "link" | "text";
   className?: string;
+  icon?:any;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 

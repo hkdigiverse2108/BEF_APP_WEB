@@ -14,6 +14,7 @@ import Question from "../Pages/Exam/Question";
 import Result from "../Pages/Exam/Result";
 import MyContest from "../Pages/Contest/MyContest";
 import MistakeMapReport from "../Pages/Exam/MistakeMapReport";
+import Solution from "../Pages/Exam/Solution";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -25,6 +26,7 @@ export const PageRoutes = [
   { path: ROUTES.EXAM.QUESTION, element: <Question /> },
   { path: ROUTES.EXAM.RESULT, element: <Result /> },
   { path: ROUTES.EXAM.MISTAKE_MAP_REPORT, element: <MistakeMapReport /> },
+  { path: ROUTES.EXAM.SOLUTION, element: <Solution /> },
 ];
 
 export const AuthRoutes = [

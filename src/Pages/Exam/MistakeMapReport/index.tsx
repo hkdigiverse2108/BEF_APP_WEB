@@ -110,7 +110,7 @@ const MistakeMapReport = () => {
       <span className="border-t border-card-border flex w-full my-4 " />
       <section className="flex flex-wrap justify-center">
         <OverviewCard img={"mistakeMap/Incorrect.png"} label="Total incorrect" value="53.3" subValue={"100 Marks"} />
-        <OverviewCard img={"result/Incorrect.png"} label="Total Fear Driver Skip incorrect" value="10" subValue={"100 Marks"} />
+        <OverviewCard img={"mistakeMap/Fear-driver-skip-incorrect.png"} label="Total Fear Driver Skip incorrect" value="10" subValue={"100 Marks"} />
         <OverviewCard img={"mistakeMap/MistakeMapped.png"} label="Mistake mapped" value="30" subValue={"100 Marks"} />
       </section>
       <div className="pt-3">

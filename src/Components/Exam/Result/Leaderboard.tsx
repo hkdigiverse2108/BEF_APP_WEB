@@ -47,7 +47,7 @@ const Leaderboard = () => {
 
   return (
     <>
-      <div className={`relative bg-[url(${ImagePath}result/Leaderboard-bg.png)] bg-cover bg-center w-full flex flex-col items-center p-5 rounded-xl`}>
+      <div className={`relative bg-[url(/assets/images/result/Leaderboard-bg.png)] bg-cover bg-center w-full flex flex-col items-center p-5 rounded-xl`}>
         {/* Top message */}
         <div className="bg-white text-gray-900 p-3 rounded-lg shadow font-semibold w-full flex flex-wrap max-sm:justify-center items-center gap-2">
           <div className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-xl font-bold text-lg">4</div>
