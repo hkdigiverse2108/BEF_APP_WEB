@@ -18,7 +18,7 @@ import Home from "../Pages/Home";
 import MyInfo from "../Pages/MyInfo";
 import Recharge from "../Pages/Recharge";
 import KYC from "../Pages/KYC";
-import KYCVerification from "../Pages/KYC/KycVerification";
+import KYCVerification from "../Pages/KYC/KYCVerification";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
