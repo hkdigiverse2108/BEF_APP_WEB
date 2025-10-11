@@ -56,9 +56,6 @@ const Contest = () => {
     }
   }, []);
 
-  // console.log(Contest);
-  if (isLoading) return <Loader />;
-
   return (
     <div className="sub-container contestPage">
       <HeroBanner />
@@ -84,18 +81,24 @@ const Contest = () => {
         </span>
       </div>
       <div className="my-12 flex flex-col gap-8">
-        <CardHeader title="Trending Now" />
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-          {Contest?.length > 0 ? (
-            Contest?.map((item, i) => (
-              <ContestDetailCatd key={i} contestData={item} />
-            ))
-          ) : (
-            <div className="flex items-center justify-center w-full col-span-4">
-              <Empty />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <CardHeader title="Trending Now" />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+              {Contest?.length > 0 ? (
+                Contest?.map((item, i) => (
+                  <ContestDetailCatd key={i} contestData={item} />
+                ))
+              ) : (
+                <div className="flex items-center justify-center w-full col-span-4">
+                  <Empty />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
 
       <SubtopicDrawer />

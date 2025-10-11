@@ -15,6 +15,8 @@ import Result from "../Pages/Exam/Result";
 import MyContest from "../Pages/Contest/MyContest";
 import MistakeMapReport from "../Pages/Exam/MistakeMapReport";
 import Solution from "../Pages/Exam/Solution";
+import KYC from "../Pages/KYC";
+import KYCVerification from "../Pages/KYC/KycVerification";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -27,6 +29,9 @@ export const PageRoutes = [
   { path: ROUTES.EXAM.RESULT, element: <Result /> },
   { path: ROUTES.EXAM.MISTAKE_MAP_REPORT, element: <MistakeMapReport /> },
   { path: ROUTES.EXAM.SOLUTION, element: <Solution /> },
+  { path: ROUTES.KYC.KYC, element: <KYC /> },
+  { path: ROUTES.KYC.KYC_VERIFICATION, element: <KYCVerification/> },
+
 ];
 
 export const AuthRoutes = [

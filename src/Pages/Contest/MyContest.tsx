@@ -10,29 +10,43 @@ import type { ContestData } from "../../Types";
 
 const MyContest = () => {
   const [tabIndex, setTabIndex] = useState(0);
-  const [queryFilter, setQueryFilter] = useState("upcoming,ongoing");
-  const [limit, setLimit] = useState(6);
+  const [tabOnelimit, setTabOneLimit] = useState(6);
+  const [tabTwolimit, setTabTwoLimit] = useState(6);
+
+  const [queryFilter, setQueryFilter] = useState(
+    `limit=${
+      tabIndex === 1 ? tabTwolimit : tabOnelimit
+    }&contestFilter=upcoming,ongoing`
+  );
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
     setTabIndex(newValue);
 
-  const { data: ContestData } = useGetApiQuery({
-    url: `${URL_KEYS.QA.ALL}?page=1&limit=${limit}&contestFilter=${queryFilter}`,
+  const { data: ContestData, isLoading } = useGetApiQuery({
+    url: `${URL_KEYS.QA.ALL}?page=1&${queryFilter}`,
   });
 
   const Contest = ContestData?.data.contest_type_data;
 
-  console.log(Contest);
+  // console.log(Contest);
 
   useEffect(() => {
     if (tabIndex === 1) {
-      setQueryFilter("completed");
+      setQueryFilter(
+        `limit=${
+          tabIndex === 1 ? tabTwolimit : tabOnelimit
+        }&contestFilter=completed`
+      );
     } else {
-      setQueryFilter("upcoming,ongoing");
+      setQueryFilter(
+        `limit=${
+          tabIndex === 1 ? tabTwolimit : tabOnelimit
+        }&contestFilter=upcoming,ongoing`
+      );
     }
-  }, [tabIndex]);
+  }, [tabIndex, tabTwolimit, tabOnelimit]);
 
-  if (!Contest) return <Loader />;
+
 
   return (
     <div className="sub-container">
@@ -49,34 +63,49 @@ const MyContest = () => {
             <Tab label="Past Test" />
           </Tabs>
         </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <div hidden={tabIndex !== 0} className="flex flex-col gap-5 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6">
+                {Contest?.map((contest: ContestData, index: number) => (
+                  <MyContestUpcomingCard key={index} contestData={contest} />
+                ))}
+              </div>
+              {Contest?.length < tabOnelimit ? (
+                ""
+              ) : (
+                <div className="w-full flex justify-center">
+                  <FormButton
+                    text="View More"
+                    className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe"
+                    onClick={() => setTabOneLimit(tabOnelimit + 6)}
+                  />
+                </div>
+              )}
+            </div>
 
-        <div
-          hidden={tabIndex !== 0}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-6"
-        >
-          {Contest?.map((contest: ContestData) => (
-            <MyContestUpcomingCard contestData={contest} />
-          ))}
-        </div>
-
-        <div
-          hidden={tabIndex !== 1}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6"
-        >
-          {Contest?.map((contest: ContestData) => (
-            <MyContestPastTestCard contestData={contest} />
-            // <MyContestUpcomingCard contestData={contest} />
-          ))}
-        </div>
-      </div>
-      <div className=" my-6">
-        <div className="w-full flex justify-center">
-          <FormButton
-            text="View More"
-            className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe"
-            onClick={() => setLimit(limit + 6)}
-          />
-        </div>
+            <div hidden={tabIndex !== 1} className="flex flex-col gap-5 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6">
+                {Contest?.map((contest: ContestData, index: number) => (
+                  <MyContestPastTestCard key={index} contestData={contest} />
+                ))}
+              </div>
+              {Contest?.length < tabTwolimit ? (
+                ""
+              ) : (
+                <div className="w-full flex justify-center">
+                  <FormButton
+                    text="View More"
+                    className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe"
+                    onClick={() => setTabTwoLimit(tabTwolimit + 6)}
+                  />
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

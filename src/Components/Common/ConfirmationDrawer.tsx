@@ -15,7 +15,7 @@ const ConfirmationDrawer = () => {
   const { isConfirmationDrawer } = useAppSelector((state) => state.drawer);
   const { data }: { data: ContestCore } = isConfirmationDrawer;
 
-  const [PostApi] = usePostApiMutation();
+  const [PostApi, { isLoading }] = usePostApiMutation();
 
   const handleJoinButton = async () => {
     try {
@@ -106,6 +106,7 @@ const ConfirmationDrawer = () => {
               </div>
 
               <FormButton
+                loading={isLoading}
                 text="JOIN CONTEST"
                 htmlType="submit"
                 onClick={handleJoinButton}

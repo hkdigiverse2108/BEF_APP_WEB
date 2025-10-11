@@ -60,7 +60,7 @@ export interface ContestData {
 
 /* ---------- COMPONENT PROP ---------- */
 export interface ContestDetailCardProps {
-  contestData: ContestData ;
+  contestData: ContestData;
 }
 
 /* ---------- API RESPONSE STRUCTURES ---------- */
@@ -80,4 +80,5 @@ export interface ContestApiResponse {
       contest_data: ContestItem[];
     };
   };
+  isLoading: boolean;
 }

@@ -171,7 +171,7 @@ const ContestWinner = () => {
       </div>
 
       {winnersData.map((section, index) => (
-        <>
+        <div key={index}>
           <span className="border border-b border-gray-100 flex w-full"></span>
 
           <div key={index} className="my-6 flex flex-col gap-6">
@@ -207,7 +207,7 @@ const ContestWinner = () => {
               ))}
             </Swiper>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

@@ -1,4 +1,4 @@
-import { Drawer, Empty, Form } from "antd";
+import { Alert, Drawer, Empty, Form } from "antd";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import {
   setConfirmationDrawer,
@@ -11,6 +11,7 @@ import { Storage } from "../../Utils";
 import { STORAGE_KEYS } from "../../Constants";
 import dayjs from "dayjs";
 import type { ContestCore, PayloadTime } from "../../Types";
+import { FaInfoCircle } from "react-icons/fa";
 
 const SubtopicDrawer = () => {
   const [form] = Form.useForm();
@@ -54,8 +55,6 @@ const SubtopicDrawer = () => {
 
   const handleDrawerSubmit = () => {
     try {
-      // console.log(selectedTime, selectedQuestion);
-
       Storage.setItem(
         STORAGE_KEYS.CONTEST_QA,
         JSON.stringify({
@@ -63,7 +62,7 @@ const SubtopicDrawer = () => {
           contestId: contest?._id,
         })
       );
-      // console.log("payloadTime", payloadTime);
+
       dispatch(
         setConfirmationDrawer({
           open: true,
@@ -90,8 +89,6 @@ const SubtopicDrawer = () => {
       acc[dateKey].push(time);
       return acc;
     }, {} as Record<string, string[]>) ?? {};
-
-  // console.log("Con", isSubtopicDrawer, contest?.slots);
 
   return (
     <>
@@ -155,6 +152,14 @@ const SubtopicDrawer = () => {
                         ),
                 },
               ]}
+            />
+
+            <Alert
+              message="Instruction: Follow the Sample from Word file"
+              type="error"
+              showIcon
+              icon={<FaInfoCircle />}
+              className="!mb-5 !font-bold !text-md "
             />
 
             <div className="p-4 bg-input-box border-1 rounded-md border-card-border">
