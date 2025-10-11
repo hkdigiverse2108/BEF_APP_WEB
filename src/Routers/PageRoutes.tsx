@@ -17,6 +17,8 @@ import Solution from "../Pages/Exam/Solution";
 import Home from "../Pages/Home";
 import MyInfo from "../Pages/MyInfo";
 import Recharge from "../Pages/Recharge";
+import KYC from "../Pages/KYC";
+import KYCVerification from "../Pages/KYC/KycVerification";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -31,6 +33,9 @@ export const PageRoutes = [
   { path: ROUTES.EXAM.SOLUTION, element: <Solution /> },
   { path: ROUTES.RECHARGE, element: <Recharge /> },
   { path: ROUTES.MY_INFO, element: <MyInfo /> },
+  { path: ROUTES.KYC.KYC, element: <KYC /> },
+  { path: ROUTES.KYC.KYC_VERIFICATION, element: <KYCVerification/> },
+
 ];
 
 export const AuthRoutes = [

@@ -1,7 +1,8 @@
 import { A11y, Autoplay, EffectCards, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { URL_KEYS } from "../../Constants";
+import { ImagePath, URL_KEYS } from "../../Constants";
 import { useGetApiQuery } from "../../Api/CommonApi";
+import Loader from "../Common/Loader";
 
 const HeroBanner = () => {
   const { data: BannersData, isLoading } = useGetApiQuery({
@@ -13,26 +14,24 @@ const HeroBanner = () => {
   // if(Banners) console.log(Banners);
 
   return (
-    <div className="p-5">
-      {isLoading ? (
-        <div className="h-[30rem] flex justify-center items-center">
-        </div>
-      ) : (
-        <Swiper
-          // install Swiper modules
-          modules={[Pagination, A11y, Autoplay, EffectCards]}
-          spaceBetween={50}
-          slidesPerView={1}
-          centeredSlides={true}
-          loop={true}
-          effect="fade"
-          autoplay={{ delay: 1000 }}
-          pagination={{ clickable: true }}
-        >
-          {Banners?.map((item: any) => {
+    <div className="m-5 rounded-2xl overflow-hidden ">
+      <Swiper
+        // install Swiper modules
+        modules={[Pagination, A11y, Autoplay, EffectCards]}
+        spaceBetween={50}
+        slidesPerView={1}
+        centeredSlides={true}
+        loop={true}
+        effect="fade"
+        autoplay={{ delay: 1000 }}
+        pagination={{ clickable: true }}
+      >
+        {/* {isLoading ? (
+          <Loader />
+        ) : (
+          Banners?.map((item: any) => {
             return (
               <SwiperSlide>
-                {/* {!item?.image ==} */}
                 <img
                   src={item?.image}
                   alt="banner"
@@ -40,16 +39,9 @@ const HeroBanner = () => {
                 />
               </SwiperSlide>
             );
-          })}
-
-          {/* <SwiperSlide>
-          <img
-            src={`${ImagePath}banner/Banner1.png`}
-            alt="logo"
-            className="w-full"
-          />
-        </SwiperSlide> */}
-          {/*<SwiperSlide>
+          })
+        )} */}
+        <SwiperSlide>
           <img
             src={`${ImagePath}banner/Banner1.png`}
             alt="logo"
@@ -61,10 +53,16 @@ const HeroBanner = () => {
             src={`${ImagePath}banner/Banner1.png`}
             alt="logo"
             className="w-full"
-          /> */}
-          {/* </SwiperSlide> */}
-        </Swiper>
-      )}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img
+            src={`${ImagePath}banner/Banner1.png`}
+            alt="logo"
+            className="w-full "
+          />
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 };

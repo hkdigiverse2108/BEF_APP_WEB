@@ -7,7 +7,7 @@ const ContestWinnerCard: FC<ContestWinnerCardProps> = ({ winner }) => {
   return (
     <div className="flex flex-col bg-white rounded-xl shadow-sm w-full overflow-hidden">
       {/* Header */}
-      <div className=" border border-primary rounded-t-xl ">
+      <div className=" border-t border-x border-primary  rounded-t-xl ">
         <div className="flex justify-between items-center bg-input-box rounded-lg overflow-hidden m-2 p-4 relative">
           <div className="flex items-center gap-3">
             <span className="absolute bg-primary left-0 h-[70%] w-1 rounded-r-2xl"></span>

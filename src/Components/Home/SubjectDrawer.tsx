@@ -32,6 +32,7 @@ const SubjectDrawer = () => {
     );
     dispatch(setSubjectDrawer({ open: false }));
   };
+  
   return (
     <Drawer
       title="Explore Topics"

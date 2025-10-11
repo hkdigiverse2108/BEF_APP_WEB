@@ -23,7 +23,7 @@ const MyContestPastTestCard: React.FC<ContestDetailCardProps> = ({
   return (
     <div
       onClick={() =>
-        navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData } })
+        navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData : contestData?.contest } })
       }
       className="border border-primary-light rounded-xl overflow-hidden capitalize flex flex-col justify-between cursor-pointer"
     >

@@ -12,7 +12,6 @@ export const ROUTES = {
     MY_CONTEST: "/my-contest",
     CONTEST_DETAILS: "/contest/details",
     CONTEST_WINNERS: "/contest/winners",
-
   },
   EXAM: {
     INSTRUCTION: "/exam/instruction",
@@ -21,6 +20,10 @@ export const ROUTES = {
     MISTAKE_MAP_REPORT: "/exam/mistake-map-report",
     SOLUTION: "/exam/solution",
   },
-  RECHARGE: "recharge",
+  KYC: {
+    KYC: "/kyc",
+    KYC_VERIFICATION: "/kyc/verification",
+  },
+  RECHARGE: "/recharge",
   MY_INFO: "/my-info",
 } as const;
