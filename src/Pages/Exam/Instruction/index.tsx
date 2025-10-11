@@ -1,10 +1,19 @@
 import { CheckCircleFilled, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
-import { FaGlobe, FaRegCircle } from "react-icons/fa";
+import { Badge, Tooltip } from "antd";
+import { FaRegCircle } from "react-icons/fa";
+import { IoLanguage } from "react-icons/io5";
 import { FormButton } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 
 const ExamInstruction = () => {
+  const buttons = [
+    { label: "100% Sure", color: "bg-blue-600", placement: "topLeft", tooltipLabel: "Confident about your answer? Select this when you’re absolutely certain it’s correct!", tooltipColor: "#dbeafe" },
+    { label: "Logic Play", color: "bg-rose-500", placement: "top", tooltipLabel: "Use elimination or aptitude techniques to solve the question! Click here to showcase your tactical skills!", tooltipColor: "#fce7f3" },
+    { label: "Intuition Hit", color: "bg-sky-500", placement: "topRight", tooltipLabel: "Trusting your gut? Select this when you feel the answer is in your reach, even without full certainty!", tooltipColor: "#dff2fe" },
+    { label: "Blind Fire", color: "bg-amber-500", placement: "bottomLeft", tooltipLabel: "Taking a wild guess? Choose this when you're answering without any clue!", tooltipColor: "#fef3c6" },
+    { label: "Skip", color: "bg-purple-700", placement: "bottom", tooltipLabel: "Want to skip this one? No problem, move ahead confidently!", tooltipColor: "#f3e8ff" },
+    { label: "Fear - Driver Skip", color: "bg-green-700", placement: "bottomRight", tooltipLabel: "Feeling uncertain? Select this to skip due to lack of confidence.", tooltipColor: "#dcfce7" },
+  ];
   return (
     <div className="sub-container pt-8 question-section">
       <CardHeader title="Exam Instructions" />
@@ -12,14 +21,14 @@ const ExamInstruction = () => {
       <div className="flex flex-col gap-10 mt-6">
         <div>
           <h2 className="font-semibold text-lg mb-3">1. Practice Actively Label Each Statement True Or False!</h2>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 2xl:grid-cols-2">
             <div className="border border-card-border p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
               <span className="flex-1 font-medium">1. Both Statement-1 and statement-2 are correct and Statement-2 explains Statement-1</span>
               <div className="flex justify-end max-sm:w-full">
-                <Tooltip title="Click if statement is True" color="#dcfce7" open placement="top">
+                <Tooltip title="Click if statement is True" color="#dcfce7" open placement="left">
                   <CheckCircleFilled style={{ color: "#037b3d" }} className="px-2" />
                 </Tooltip>
-                <Tooltip title="Click if statement is False" color="#ffe2e2" open placement="bottom">
+                <Tooltip title="Click if statement is False" color="#ffe2e2" open placement="top">
                   <CloseCircleFilled style={{ color: "red" }} className="px-2" />
                 </Tooltip>
               </div>
@@ -29,7 +38,7 @@ const ExamInstruction = () => {
         <span className="border-t border-card-border flex w-full" />
         <div>
           <h2 className="font-semibold text-lg mb-3">2. Improve accuracy : use the elimination icon for 50-50 or 33-33-33!</h2>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             <div className="border border-card-border p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
               <div className="flex items-center w-full">
                 <FaRegCircle style={{ color: "gray" }} />
@@ -50,54 +59,29 @@ const ExamInstruction = () => {
         </div>
         <span className="border-t border-card-border flex w-full" />
 
-        <div>
+        <div className="min-h-48">
           <h2 className="font-semibold text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="flex gap-2 items-center">
-              <Tooltip title="Confident about your answer? Select this when you’re absolutely certain it’s correct!" color="#dbeafe" open>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full">100% Sure</button>
-              </Tooltip>
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <Tooltip title="Use elimination or aptitude techniques to solve the question! Click here to showcase your tactical skills!" color="#fce7f3" open>
-                <button className="bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition w-full">Login Play</button>
-              </Tooltip>
-            </div>
-
-            <div className="flex flex-col gap-2 items-center">
-              <Tooltip title="Trusting your gut? Select this when you feel the answer is in your reach, even without full certainty!" color="#dff2fe" open>
-                <button className="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-500 transition w-full">Intuition Hit</button>
-              </Tooltip>
-            </div>
-
-            <div className="flex flex-col gap-2 items-center">
-              <Tooltip title="Taking a wild guess? Choose this when you're answering without any clue!" color="#fef3c6" open placement="bottom">
-                <button className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-500 transition w-full">Blind Fire</button>
-              </Tooltip>
-            </div>
-
-            <div className="flex flex-col gap-2 items-center">
-              <Tooltip title="Confident about your answer? Select this when you’re absolutely certain it’s correct!" color="#f3e8ff" open placement="bottom">
-                <button className="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition w-full">Skip</button>
-              </Tooltip>
-            </div>
-
-            <div className="flex flex-col gap-2 items-center">
-              <Tooltip title="Confident about your answer? Select this when you’re absolutely certain it’s correct!" color="#dcfce7" open placement="bottom">
-                <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition w-full">Fear Driver Skip</button>
-              </Tooltip>
+          <div className=" flex justify-center">
+            <div className="w-4xl grid grid-cols-1 sm:grid-cols-3  gap-4">
+              {buttons.map((btn, i) => (
+                <Tooltip key={i} title={btn.tooltipLabel} color={btn.tooltipColor} placement={btn.placement} open>
+                  <button className={`shadow-btn-shadow p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>{btn.label}</button>
+                </Tooltip>
+              ))}
             </div>
           </div>
         </div>
         <span className="border-t border-card-border flex w-full" />
         <div>
           <h2 className="font-semibold text-lg mb-3">4. "2X The Stakes, 2X The Thrill!"</h2>
-          <div className="bg-white rounded-lg border p-4 flex items-center gap-3">
-            <div className="bg-green-600 text-white font-semibold text-lg px-4 py-2 rounded-lg">2X</div>
-            <p className="text-gray-700 text-sm">
-              Answer correctly: <strong>Earn double marks.</strong> Answer wrong: <strong>Lose double marks.</strong>
-            </p>
+          <div className="pt-4 flex items-center gap-3">
+            <Tooltip title="Answer correctly: Earn double marks. Answer wrong: Lose double marks." color="#dcfce7" open placement="right">
+              <Badge count={"2X"} color="#FE6E13">
+                <div className="text-sm py-2 px-4 bg-input-box">
+                  <span className="font-bold rounded">Question : 01</span>
+                </div>
+              </Badge>
+            </Tooltip>
           </div>
         </div>
         <span className="border-t border-card-border flex w-full" />
@@ -105,10 +89,12 @@ const ExamInstruction = () => {
         <div>
           <h2 className="font-semibold text-lg mb-3">5. You Can Change Language</h2>
           <div className="flex items-center gap-3">
-            <div className="bg-gray-200 p-3 rounded-lg text-xl">
-              <FaGlobe />
-            </div>
-            <button className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition">English / Hindi</button>
+            <Tooltip title="English / Hindi" color="#ffe2e2" open placement="right">
+              <span className="text-sm font-bold  flex flex-nowrap gap-2">
+                <IoLanguage className="text-xl" />
+                Language
+              </span>
+            </Tooltip>
           </div>
         </div>
       </div>

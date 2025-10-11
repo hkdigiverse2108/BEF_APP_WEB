@@ -1,20 +1,22 @@
 import { Navigate } from "react-router-dom";
 import { ROUTES } from "../Constants";
-import Contest from "../Pages/Contest";
-import Home from "../Pages/Home";
-import Register from "../Pages/Auth/Register";
-import Login from "../Pages/Auth/Login";
-import Verify from "../Pages/Auth/VerifyOtp";
 import ForgotPassword from "../Pages/Auth/ForgotPassword";
+import Login from "../Pages/Auth/Login";
+import Register from "../Pages/Auth/Register";
 import ResetPassword from "../Pages/Auth/ResetPassword";
+import Verify from "../Pages/Auth/VerifyOtp";
+import Contest from "../Pages/Contest";
 import ContestDetails from "../Pages/Contest/ContestDetails";
-import Instruction from "../Pages/Exam/Instruction";
 import ContestWinner from "../Pages/Contest/ContestWinner";
+import MyContest from "../Pages/Contest/MyContest";
+import Instruction from "../Pages/Exam/Instruction";
+import MistakeMapReport from "../Pages/Exam/MistakeMapReport";
 import Question from "../Pages/Exam/Question";
 import Result from "../Pages/Exam/Result";
-import MyContest from "../Pages/Contest/MyContest";
-import MistakeMapReport from "../Pages/Exam/MistakeMapReport";
 import Solution from "../Pages/Exam/Solution";
+import Home from "../Pages/Home";
+import MyInfo from "../Pages/MyInfo";
+import Recharge from "../Pages/Recharge";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -27,6 +29,8 @@ export const PageRoutes = [
   { path: ROUTES.EXAM.RESULT, element: <Result /> },
   { path: ROUTES.EXAM.MISTAKE_MAP_REPORT, element: <MistakeMapReport /> },
   { path: ROUTES.EXAM.SOLUTION, element: <Solution /> },
+  { path: ROUTES.RECHARGE, element: <Recharge /> },
+  { path: ROUTES.MY_INFO, element: <MyInfo /> },
 ];
 
 export const AuthRoutes = [

@@ -208,6 +208,10 @@ input {
   @apply flex-row-reverse;
 }
 
+.menu-drawer .ant-drawer-header {
+  @apply !flex-row-reverse;
+}
+
 /* ************ date *********** */
 
 .full-date {
@@ -246,8 +250,9 @@ input {
 
 /* ************ question section *********** */
 
-.question-section .ant-select-selector ,.question-section .ant-select{
-  @apply  !h-9 !border-0 !rounded-sm !shadow-none;
+.question-section .ant-select-selector,
+.question-section .ant-select {
+  @apply !h-9 !border-0 !rounded-sm !shadow-none;
 }
 
 .question-section .ant-select-selection-placeholder {
@@ -354,4 +359,14 @@ input {
 }
 .ant-notification-notice-message {
   @apply !text-white !uppercase;
+}
+
+/* ************ recharge *********** */
+
+.recharge .ant-form-item {
+  @apply !mb-0 w-[50%];
+}
+
+.recharge .ant-form-item input {
+  @apply border-0 !border-b-2 !shadow-none text-center ;
 }

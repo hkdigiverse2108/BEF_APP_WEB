@@ -5,6 +5,7 @@ const initialState = {
   isSubtopicDrawer: { open: false, contest: {} },
   isConfirmationDrawer: { open: false, data: {} },
   isEndTestDrawer: false,
+  isMenuDrawer: false,
 };
 
 const DrawerSlice = createSlice({
@@ -25,13 +26,11 @@ const DrawerSlice = createSlice({
     setEndTestDrawer: (state) => {
       state.isEndTestDrawer = !state.isEndTestDrawer;
     },
+    setMenuDrawer: (state) => {
+      state.isMenuDrawer = !state.isMenuDrawer;
+    },
   },
 });
 
-export const {
-  setSubjectDrawer,
-  setSubtopicDrawer,
-  setConfirmationDrawer,
-  setEndTestDrawer,
-} = DrawerSlice.actions;
+export const { setSubjectDrawer, setSubtopicDrawer, setConfirmationDrawer, setEndTestDrawer, setMenuDrawer } = DrawerSlice.actions;
 export default DrawerSlice.reducer;

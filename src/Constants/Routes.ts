@@ -21,4 +21,6 @@ export const ROUTES = {
     MISTAKE_MAP_REPORT: "/exam/mistake-map-report",
     SOLUTION: "/exam/solution",
   },
+  RECHARGE: "recharge",
+  MY_INFO: "/my-info",
 } as const;
