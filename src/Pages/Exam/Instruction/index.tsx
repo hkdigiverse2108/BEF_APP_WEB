@@ -15,7 +15,7 @@ const ExamInstruction = () => {
     { label: "Fear - Driver Skip", color: "bg-green-700", placement: "bottomRight", tooltipLabel: "Feeling uncertain? Select this to skip due to lack of confidence.", tooltipColor: "#dcfce7" },
   ];
   return (
-    <div className="sub-container pt-8 question-section">
+    <div className="sub-container pt-8">
       <CardHeader title="Exam Instructions" />
 
       <div className="flex flex-col gap-10 mt-6">

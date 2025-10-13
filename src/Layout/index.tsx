@@ -1,8 +1,9 @@
-import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import { Fragment } from "react/jsx-runtime";
-import { useEffect } from "react";
 import Aos from "aos";
+import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import { Fragment } from "react/jsx-runtime";
+import Footer from "./Footer";
+import Header from "./Header";
 
 const Layout = () => {
   useEffect(() => {
@@ -14,6 +15,7 @@ const Layout = () => {
     <Fragment>
       <Header />
       <Outlet />
+      <Footer />
     </Fragment>
   );
 };

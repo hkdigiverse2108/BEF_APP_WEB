@@ -24,6 +24,9 @@ export const ROUTES = {
     KYC: "/kyc",
     KYC_VERIFICATION: "/kyc/verification",
   },
-  RECHARGE: "/recharge",
-  MY_INFO: "/my-info",
+  RECHARGE: { RECHARGE: "/recharge" },
+  MY_INFO: { MY_INFO: "/my-info" },
+  GET_SCHOLARSHIP: { GET_SCHOLARSHIP: "/get-scholarship" },
+  HISTORY: { HISTORY: "/history" },
+  HOW_TO_PLAY: { HOW_TO_PLAY: "/how-to-play" },
 } as const;

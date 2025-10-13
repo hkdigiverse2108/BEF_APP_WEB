@@ -67,8 +67,7 @@ input {
 .react-international-phone-input-container .react-international-phone-input {
   @apply !bg-input-box !border-0 !pe-0 !w-10;
 }
-.react-international-phone-input-container
-  .react-international-phone-country-selector-button {
+.react-international-phone-input-container .react-international-phone-country-selector-button {
   @apply border-0 !bg-input-box;
 }
 .ant-otp {
@@ -182,11 +181,7 @@ input {
 }
 .custom-button.button--mimas::before {
   content: "";
-  background: linear-gradient(
-    90deg,
-    var(--color-primary),
-    var(--color-success)
-  );
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success));
   width: 120%;
   left: -10%;
   transform: skew(30deg);
@@ -341,9 +336,7 @@ input {
 
 /* ************ progress *********** */
 
-.others.ant-progress
-  .ant-progress-bg.ant-progress-bg-inner
-  .ant-progress-text-inner.ant-progress-text-bright {
+.others.ant-progress .ant-progress-bg.ant-progress-bg-inner .ant-progress-text-inner.ant-progress-text-bright {
   @apply !text-white;
 }
 
@@ -355,8 +348,7 @@ input {
 .ant-notification-notice.ant-notification-notice-info {
   @apply !p-3 flex  rounded  !max-w-xl !w-lg;
 }
-.anticon-info-circle.ant-notification-notice-icon.ant-notification-notice-icon-info
-  path {
+.anticon-info-circle.ant-notification-notice-icon.ant-notification-notice-icon-info path {
   @apply !bg-green-500;
 }
 .ant-notification-notice-info .ant-notification-notice-icon svg path {
@@ -376,7 +368,7 @@ input {
 }
 
 .recharge .ant-form-item input {
-  @apply border-0 !border-b-2 !shadow-none text-center ;
+  @apply border-0 !border-b-2 !shadow-none text-center;
 }
 
 /* ************ Ant Uploads ************ */
@@ -394,4 +386,9 @@ input {
 }
 .ant-modal-close-icon {
   @apply !text-white;
+}
+
+/* ************ Ant Modal ************ */
+.feedback.ant-modal .ant-modal-content {
+  @apply !p-0 !rounded-2xl;
 }

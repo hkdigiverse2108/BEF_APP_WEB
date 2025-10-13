@@ -1,6 +1,7 @@
 import { Form, Input } from "antd";
 import type { FC } from "react";
 import type { FormInputProps } from "../../Types";
+import type { TextAreaProps } from "antd/es/input";
 
 const FormInput: FC<FormInputProps> = ({ name, label, placeholder, rules, required, type = "text",formItemProps ,...inputProps}) => {
   return (
@@ -11,6 +12,9 @@ const FormInput: FC<FormInputProps> = ({ name, label, placeholder, rules, requir
           :
           type === "otp" ?
             <Input.OTP type={type} size="large" />
+            :
+            type === "textArea"?
+            <Input.TextArea size="large" placeholder={placeholder || label} {...inputProps as TextAreaProps} />
             :
             <Input type={type} size="large" placeholder={placeholder || label} {...inputProps} />
       }
