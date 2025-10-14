@@ -95,7 +95,7 @@ const CompareCompetitor = () => {
                 <div className="px-4 py-4 rounded-b-lg">
                   <ul className="space-y-2">
                     <li>
-                      <Progress percent={item.you} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#037b3d"} strokeWidth={20} />
+                      <Progress percent={item.you} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#288F66"} strokeWidth={20} />
                     </li>
                     <li>
                       <Progress percent={item.others} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#FE6E13"} strokeWidth={20} className="others"/>

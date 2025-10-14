@@ -9,7 +9,7 @@ import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
 import type { ContestCore, ContestDetailCardProps } from "../../Types";
 import { useNavigate } from "react-router-dom";
 
-const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
+const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
   contestData = {},
 }) => {
   const dispatch = useAppDispatch();
@@ -121,4 +121,4 @@ const ContestDetailCatd: React.FC<ContestDetailCardProps> = ({
   );
 };
 
-export default ContestDetailCatd;
+export default ContestDetailCard;

@@ -48,7 +48,7 @@ const Question = () => {
   const OptionsStatement = (id: number, text: string) => (
     <div key={id} className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
       <div className="hidden sm:flex">
-        <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")} className="max-sm:!hidden">
+        <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")} className="max-sm:!hidden ">
           {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
         </Checkbox>
       </div>

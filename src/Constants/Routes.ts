@@ -22,6 +22,7 @@ export const ROUTES = {
   },
   KYC: {
     KYC: "/kyc",
+    KYC_REGISTER: "/kyc/register",
     KYC_VERIFICATION: "/kyc/verification",
   },
   RECHARGE: { RECHARGE: "/recharge" },
@@ -29,4 +30,10 @@ export const ROUTES = {
   GET_SCHOLARSHIP: { GET_SCHOLARSHIP: "/get-scholarship" },
   HISTORY: { HISTORY: "/history" },
   HOW_TO_PLAY: { HOW_TO_PLAY: "/how-to-play" },
+  ABOUT_US: { ABOUT_US: "/about-us" },
+  ILLEGALITY: { ILLEGALITY: "/illegality" },
+  PRIVACY_POLICY: { PRIVACY_POLICY: "/privacy-policy" },
+  TERMS_CONDITIONS: { TERMS_CONDITIONS: "/terms-conditions" },
+  REFERRAL: { REFERRAL: "/referral" },
+  FULL_FEST_REPORT: { FULL_FEST_REPORT: "/full-fest-report" },
 } as const;

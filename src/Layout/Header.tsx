@@ -1,16 +1,14 @@
-import { IoSearch } from "react-icons/io5";
-import { ImagePath } from "../Constants";
+import { useState } from "react";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
-import { useState } from "react";
+import { IoSearch } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-import { BiLogOutCircle } from "react-icons/bi";
-import { useAppDispatch } from "../Store/hooks";
-import { LogOut } from "../Store/Slices/AuthSlice";
-import { HeaderMenu } from "../Data";
 import { NavLink } from "react-router-dom";
-import MenuDrawer from "./MenuDrawer";
+import { ImagePath } from "../Constants";
+import { HeaderMenu } from "../Data";
+import { useAppDispatch } from "../Store/hooks";
 import { setMenuDrawer } from "../Store/Slices/DrawerSlice";
+import MenuDrawer from "./MenuDrawer";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);

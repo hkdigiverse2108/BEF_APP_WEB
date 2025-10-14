@@ -118,7 +118,7 @@
 
 /* how it works numbers */
 .how_it_works .step_block ul li .step_number {
-  background-image: url(../images/icon_bg.png);
+  background-image: url(../images/howToPlay/icon_bg.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

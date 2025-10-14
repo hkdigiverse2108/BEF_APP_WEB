@@ -25,6 +25,11 @@ export const EliminationSkillRadialBarChart = (color: string): ApexOptions => ({
       hollow: {
         size: "60%",
       },
+      track: {
+        show: true,
+        background: color || "#f5f5f5",
+        opacity: 0.1,
+      },
       dataLabels: {
         name: {
           show: false,
@@ -90,5 +95,5 @@ export const EliminationSkillBarChart: ApexOptions = {
     categories: ["100% Sure", "Logic Play", "Intuition Hit play", "Blind fire"],
   },
   fill: {},
-  colors: ["#FE6E13", "#037b3d"],
+  colors: ["#FE6E13", "#288F66"],
 };

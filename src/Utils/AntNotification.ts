@@ -17,7 +17,7 @@ export const AntdNotification = (
     stack: {
       threshold: 20,
     },
-    style: { backgroundColor: "#037b3d" },
+    style: { backgroundColor: "#288F66" },
   } as GlobalConfigPropsWithStack);
 
   notificationApi[type]({

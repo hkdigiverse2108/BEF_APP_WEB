@@ -1,6 +1,6 @@
 import { Empty } from "antd";
-import { CardHeader } from "../../../Components/Common/CardHeader";
-import { ImagePath } from "../../../Constants";
+import { FormSelect } from "../../Attribute/FormFields";
+import { LanguageOptions } from "../../Data";
 
 const MistakeMapReport = () => {
   const compare = [
@@ -83,37 +83,18 @@ const MistakeMapReport = () => {
       items: [],
     },
   ];
-
-  const OverviewCard: React.FC<{ img: React.ReactNode; label: string; value: string; subValue?: string }> = ({ img, label, value, subValue }) => (
-    <div className="max-sm:py-3 sm:p-3 w-full sm:w-1/2  xl:w-1/3">
-      <div className="h-full relative bg-input-box rounded-xl p-7 flex items-center gap-6">
-        <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
-        <div>
-          <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}${img}`} />
+  return (
+    <div>
+      <div className="flex justify-between items-center">
+        <div className="relative px-4">
+          <div className="w-1 h-[100%] bg-success rounded-full absolute left-0 top-0" />
+          <h2 className="text-xl font-bold ">Mistake Map Report</h2>
         </div>
-        <div className="text-left">
-          <p className="text-base font-bold mt-1 uppercase">{label}</p>
-          <h3 className="text-xl font-extrabold">
-            {value} / {subValue && <span className="text-base text-neutral-500">{subValue}</span>}
-          </h3>
+        <div className="flex justify-end question-section">
+          <FormSelect name="Language" placeholder="Subject" options={LanguageOptions} className="!m-0" value="english" />
         </div>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen p-4 md:p-8 result">
-      <CardHeader title="Mistake Map Report" />
-      <p className="text-base font-semibold">
-        Please, first fill <span className="text-primary">Why false</span> Reason in Each question...
-      </p>
-      <span className="border-t border-card-border flex w-full my-4 " />
-      <section className="flex flex-wrap justify-center">
-        <OverviewCard img={"mistakeMap/Incorrect.png"} label="Total incorrect" value="53.3" subValue={"100 Marks"} />
-        <OverviewCard img={"mistakeMap/Fear-driver-skip-incorrect.png"} label="Total Fear Driver Skip incorrect" value="10" subValue={"100 Marks"} />
-        <OverviewCard img={"mistakeMap/MistakeMapped.png"} label="Mistake mapped" value="30" subValue={"100 Marks"} />
-      </section>
-      <div className="pt-3">
+      <div className="pt-5">
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 w-full">
           {compare.map(({ title, color, items, value }, i) => (
             <div key={i} className="rounded-lg shadow-lg">

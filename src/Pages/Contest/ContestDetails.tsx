@@ -1,6 +1,6 @@
 import { BsFillAlarmFill } from "react-icons/bs";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import ContestDetailCatd from "../../Components/Contest/ContestDetailCatd";
+import ContestDetailCatd from "../../Components/Contest/ContestDetailCard";
 import { useLocation, useNavigate } from "react-router-dom";
 import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
 import { Tab, Tabs } from "@mui/material";

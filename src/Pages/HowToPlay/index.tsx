@@ -71,7 +71,7 @@ const HowToPlay = () => {
                     </div>
                     <div className="step_img aos-init aos-animate" onClick={() => openVideo(step.youtube_link)} data-aos="fade-left" data-aos-duration={1500}>
                       <a className="popup-youtube play-button"  data-toggle="modal" data-target="#myModal" title="Download & Sign Up with Referral Code">
-                        <img src={`${ImagePath}${step.thumbnail_image}`} alt="image" />
+                        <img src={`${ImagePath}howToPlay/${step.thumbnail_image}`} alt="image" />
                       </a>
                     </div>
                   </li>

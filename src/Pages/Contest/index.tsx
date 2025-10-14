@@ -2,7 +2,7 @@ import { CardHeader } from "../../Components/Common/CardHeader";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import HeroBanner from "../../Components/Home/HeroBanner";
-import ContestDetailCatd from "../../Components/Contest/ContestDetailCatd";
+import ContestDetailCatd from "../../Components/Contest/ContestDetailCard";
 import { Empty, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { FormSelect } from "../../Attribute/FormFields";

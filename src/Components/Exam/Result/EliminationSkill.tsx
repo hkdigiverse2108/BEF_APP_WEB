@@ -31,7 +31,7 @@ const EliminationSkill = () => {
             </div>
 
             <div className="flex flex-col items-center">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#037b3d")} series={[10]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[10]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold">Right Answer Accuracy After Elimination</p>
             </div>
           </div>

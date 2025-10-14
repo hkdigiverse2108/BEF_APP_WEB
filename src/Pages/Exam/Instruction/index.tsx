@@ -26,7 +26,7 @@ const ExamInstruction = () => {
               <span className="flex-1 font-medium">1. Both Statement-1 and statement-2 are correct and Statement-2 explains Statement-1</span>
               <div className="flex justify-end max-sm:w-full">
                 <Tooltip title="Click if statement is True" color="#dcfce7" open placement="left">
-                  <CheckCircleFilled style={{ color: "#037b3d" }} className="px-2" />
+                  <CheckCircleFilled style={{ color: "#288F66" }} className="px-2" />
                 </Tooltip>
                 <Tooltip title="Click if statement is False" color="#ffe2e2" open placement="top">
                   <CloseCircleFilled style={{ color: "red" }} className="px-2" />
@@ -67,6 +67,19 @@ const ExamInstruction = () => {
                 <Tooltip key={i} title={btn.tooltipLabel} color={btn.tooltipColor} placement={btn.placement} open>
                   <button className={`shadow-btn-shadow p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>{btn.label}</button>
                 </Tooltip>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="min-h-48">
+          <h2 className="font-semibold text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
+          <div className="flex justify-center">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-3  gap-4">
+              {buttons.map((btn, i) => (
+                <div key={i} className="flex">
+                  <button className={`shadow-btn-shadow p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>{btn.label}</button>
+                  <div className="custom-tooltip"></div>
+                </div>
               ))}
             </div>
           </div>
