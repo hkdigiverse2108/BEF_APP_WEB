@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoSearch } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 import { ImagePath } from "../Constants";
