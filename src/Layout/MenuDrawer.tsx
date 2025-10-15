@@ -56,9 +56,9 @@ const MenuDrawer = () => {
       >
         <ul className="grid grid-cols-1 gap-3 relative z-20">
           {MenuData.map((item, i) => (
-            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 ${activeIndex === i ? "border-primary text-primary bg-primary/5" : "border-card-border hover:border-primary hover:text-primary"}`}>
+            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme ${activeIndex === i ? "border-theme bg-input-box-dark" : "bg-input-box border-box-border hover:border-theme"}`}>
               <p className="font-bold text-base flex items-center uppercase">
-                <div className="me-3 text-2xl">{item.icon}</div>
+                <span className="me-3 text-2xl">{item.icon}</span>
                 {item.title}
               </p>
             </li>

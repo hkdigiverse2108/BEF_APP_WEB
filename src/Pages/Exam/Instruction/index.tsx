@@ -59,7 +59,7 @@ const ExamInstruction = () => {
         </div>
         <span className="border-t border-card-border flex w-full" />
 
-        <div className="min-h-48">
+        {/* <div className="min-h-48">
           <h2 className="font-semibold text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
           <div className=" flex justify-center">
             <div className="w-4xl grid grid-cols-1 sm:grid-cols-3  gap-4">
@@ -70,15 +70,18 @@ const ExamInstruction = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="min-h-48">
           <h2 className="font-semibold text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
           <div className="flex justify-center">
-            <div className="w-full grid grid-cols-1 sm:grid-cols-3  gap-4">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {buttons.map((btn, i) => (
-                <div key={i} className="flex">
-                  <button className={`shadow-btn-shadow p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>{btn.label}</button>
-                  <div className="custom-tooltip"></div>
+                <div key={i} className="grid grid-cols-1 xl:grid-cols-3 xl:items-center gap-5">
+                  <button className={`shadow-btn-shadow p-3 h-fit text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>{btn.label}</button>
+                  <div className="xl:col-span-2 relative bg-input-box p-3 rounded-lg shadow-md">
+                    <div className="absolute block w-4 h-4 bg-input-box rotate-45 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 xl:top-1/2 xl:-left-0 xl:-translate-x-1/2 xl:-translate-y-1/2" />
+                    <p className="text-sm text-center xl:text-left">{btn.tooltipLabel}</p>
+                  </div>
                 </div>
               ))}
             </div>

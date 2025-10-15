@@ -1,15 +1,15 @@
 body {
-  /* background-color: #FBF5EE !important; */
-  font-size: var(--body-font-size);
+  background-color: var(--theme-bg-color) !important;
+  font-size: var(--body-font-size) !important;
   overflow-x: hidden;
   font-family: var(--font-nunito), var(--font-serif) !important;
-  color: var(--theme-body-font-color);
+  color: var(--theme-color) !important;
 }
 
-@media screen and (min-width:1200px) {
-    .container {
-        max-width: 1170px;
-    }
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
 }
 
 .sub-container {
@@ -17,7 +17,7 @@ body {
 }
 
 .active {
-  @apply relative text-primary after:absolute after:bg-black after:w-full after:h-[2px] after:block after:-bottom-4 after:transition-all after:duration-300;
+  @apply relative text-primary after:absolute after:bg-theme after:w-full after:h-[2px] after:block after:-bottom-4 after:transition-all after:duration-300;
 }
 
 .offcanvas-backdrop.fade {
@@ -90,29 +90,6 @@ input {
   @apply hidden;
 }
 
-/* .custom-tab-full .ant-tabs-nav-list {
-  @apply flex w-full;
-}
-.ant-tabs-nav-list .ant-tabs-tab {
-  @apply !bg-input-box justify-center !text-black !m-0 !rounded-none !border-none !outline-none uppercase font-semibold !px-4 md:!px-8 tracking-[1px] w-full;
-}
-
-.ant-tabs-nav-list .ant-tabs-tab-active {
-  @apply !bg-black !text-white !m-0 !border-none !outline-none;
-}
-
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  @apply !text-white;
-}
-
-.ant-tabs-card.ant-tabs-top .ant-tabs-nav .ant-tabs-tab:first-of-type {
-  @apply !rounded-l-md;
-}
-
-.ant-tabs-card.ant-tabs-top .ant-tabs-nav .ant-tabs-tab:nth-child(2) {
-  @apply !rounded-r-md;
-} */
-
 @media (max-width: 575px) {
   .ant-steps-item {
     @apply !flex !justify-center !items-center !mb-3;
@@ -183,19 +160,10 @@ input {
 }
 .custom-button.button--mimas span {
   position: relative;
-  /* mix-blend-mode: color-burn; */
 }
 .custom-button.button--mimas::before {
   content: "";
   background: linear-gradient(90deg, var(--color-primary), var(--color-success));
-  width: 120%;
-  left: -10%;
-  transform: skew(30deg);
-  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
-}
-.custom-button.light.button--mimas::before {
-  content: "";
-  background: #ffffff;
   width: 120%;
   left: -10%;
   transform: skew(30deg);
@@ -208,6 +176,65 @@ input {
   color: black;
 }
 
+/* ---- Mimas style ---- */
+.custom-button.light.button--mimas {
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: #000000 !important;
+  background: #ffffff !important;
+  position: relative;
+  z-index: 0;
+}
+
+.custom-button.light.button--mimas::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 100%;
+  background: #ffffff;
+  z-index: 1;
+  transform: translate3d(100%, 0, 0);
+}
+
+.custom-button.light.button--mimas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  padding: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success)) !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.custom-button.light.button--mimas span {
+  position: relative;
+  z-index: 2;
+}
+
+.custom-button.light.button--mimas:hover::before {
+  transform: skew(30deg);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
+}
+
+.custom-button.light.button--mimas:hover::after {
+  opacity: 0;
+}
+
+.custom-button.light.button--mimas:hover span {
+  color: black;
+}
+
 /* ************ drawer *********** */
 
 .ant-drawer-right .ant-drawer-header-title {
@@ -216,6 +243,9 @@ input {
 
 .menu-drawer .ant-drawer-header {
   @apply !flex-row-reverse;
+}
+.ant-drawer .ant-drawer-content {
+  @apply !bg-theme-bg;
 }
 
 /* ************ date *********** */
@@ -398,31 +428,3 @@ input {
 .feedback.ant-modal .ant-modal-content {
   @apply !p-0 !rounded-2xl;
 }
-
-/* ************ Tooltip ************ */
-
-/* Tooltip bubble style with clip-path pointer */
-.custom-tooltip {
-  position: relative;
-  background: rgb(255, 196, 196);
-  border-radius: 0.75rem;
-  padding: 12px 14px;
-  color: #111;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  /* clip-path: polygon(0 0, 100% 0, 100% 90%, 60% 90%, 50% 100%, 40% 90%, 0 90%); */
-  clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 5% 100%, 5% 80%, 0 50%, 5% 30%);
-  max-width: 280px;
-  width: 100%;
-  text-align: center;
-}
-/* 
-.custom-tooltip .tooltip-arrow {
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 12px;
-  background: inherit;
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
-} */

@@ -8,26 +8,27 @@ const Footer = () => {
     <footer className="bg-primary text-white">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 py-10">
         <div>
-          <div className="flex items-center mb-6">
-            <img src={`${ImagePath}logo/Logo.png`} alt="Bharat Exam Fest" className="w-18 h-18 mr-3" />
-            <div>
-              <h3 className="text-2xl font-bold">Bharat Exam Fest</h3>
-              <p className="text-sm">Learn & Earn</p>
-            </div>
+          <div className="flex gap-4 items-center pb-4">
+            <figure className="w-12 sm:w-18 h-full">
+              <img src={`${ImagePath}logo/Logo.png`} alt="BEF-Logo" className="w-full h-full object-contain" />
+            </figure>
+            <section className="flex flex-col justify-center">
+              <h1 className="text-sm sm:text-xl text-white font-extrabold">Bharat Exam Fest</h1>
+              <p className="text-xs sm:text-sm text-success font-medium">Learn & Earn</p>
+            </section>
           </div>
-
           <div className="space-y-2 text-sm">
             <p className="text-lg">info@bharatexamfest.com</p>
             <a href="tel:+91 8585858585" className="flex text-lg">
               <h5 className="flex">
-                <PiPhoneCallLight className="text-xl me-1"/>
+                <PiPhoneCallLight className="text-xl me-1" />
                 Call
               </h5>
               <div className="pl-1">+91 8585858585</div>
             </a>
             <a href="tel:+91 8585858585" className="flex text-lg">
               <h5 className="flex">
-                <PiPhoneCallLight className="text-xl me-1"/>
+                <PiPhoneCallLight className="text-xl me-1" />
                 Call
               </h5>
               <div className="pl-1">+91 1111111111</div>
