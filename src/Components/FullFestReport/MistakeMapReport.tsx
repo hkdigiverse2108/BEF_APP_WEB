@@ -97,7 +97,7 @@ const MistakeMapReport = () => {
       <div className="pt-5">
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 w-full">
           {compare.map(({ title, color, items, value }, i) => (
-            <div key={i} className="rounded-lg shadow-lg">
+            <div key={i} className="rounded-lg shadow-lg bg-white">
               <div className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between capitalize`}>
                 <h3>{title}</h3>
                 <p>{value}</p>

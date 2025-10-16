@@ -19,7 +19,7 @@ const Classes = () => {
 
   return (
     <>
-      <div className="p-5 pt-0">
+      <div className="pb-5">
         {isLoading ? (
           <Loader />
         ) : (
@@ -32,32 +32,23 @@ const Classes = () => {
               {Classes?.map((item, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col justify-between items-center gap-4 w-full h-full border border-box-border rounded-2xl p-4 shadow-md lg:flex-row bg-center bg-cover ${activeClass === item._id ? "text-white" : "text-black bg-input-box"}`}
-                  style={{
-                    backgroundImage: activeClass === item._id ? `url(${ImagePath}classic/Classic-bg.png)` : "none",
-                  }}
+                  // className={`flex flex-col justify-between items-center gap-4 w-full h-full border border-box-border rounded-2xl p-4 shadow-md lg:flex-row bg-center bg-cover ${activeClass === item._id ? "text-white" : "bg-input-box"}`}
+                  // style={{
+                  //   backgroundImage: activeClass === item._id ? `url(${ImagePath}classic/Classic-bg.png)` : "none",
+                  // }}
                   onClick={() => {
                     dispatch(setSubjectDrawer({ open: true, id: item?._id }));
                     setActiveClass(item._id);
                   }}
                 >
-                  <img className="object-cover w-18 lg:w-25 rounded-xl border-2 border-white" src={`${ImagePath}classic/Classic1.png`} />
+                  <img className="object-cover w-full rounded-xl" src={`${ImagePath}classic/${index+1}.png`} />
+                  {/* <img className="object-cover w-18 lg:w-25 rounded-xl border-2 border-white" src={`${ImagePath}classic/Classic1.png`} />
                   <div className="grid grid-cols-1 2xl:grid-cols-3 gap-1 lg:gap-3 w-full">
                     <div className="col-span-3">
                       <h3 className="text-xl 2xl:text-2xl text-center lg:text-left font-bold tracking-tight capitalize">{item?.name}</h3>
                       {item?.description && <p className="text-lg font-normal text-center lg:text-left line-clamp-1 capitalize">{item?.description}</p>}
                     </div>
-                    {/* <div className="flex lg:items-center ">
-                      <FormButton
-                        text="explore now"
-                        className={`custom-button light button button--mimas text-center w-full !p-3 !h-13 uppercase flex items-end-safe ${activeClass === item._id ? "light" : ""}`}
-                        onClick={() => {
-                          dispatch(setSubjectDrawer({ open: true, id: item?._id }));
-                          setActiveClass(item._id);
-                        }}
-                      />
-                    </div> */}
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>

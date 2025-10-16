@@ -12,7 +12,7 @@ const FullFestReport = () => {
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
   return (
-    <div className="sub-container py-8">
+    <div className="sub-container pt-8">
       <CardHeader title="Terms & Conditions" />
       <hr className="text-card-border my-4" />
       <div>
@@ -23,7 +23,7 @@ const FullFestReport = () => {
           <Tab label="Elimination Skill Report" />
           <Tab label="Mistake Map Report" />
         </Tabs>
-        <div className="w-full py-10">
+        <div className="w-full pt-10">
           <div hidden={tabIndex !== 0}>
             <MyWinning />
           </div>

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "../public/assets/css/variables.css";
 @import "../public/assets/css/timeline.css";
+@import "../public/assets/css/button.css";
 @import "../public/assets/css/style.css";
 
 @import "swiper/css";

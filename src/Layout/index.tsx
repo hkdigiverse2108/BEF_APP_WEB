@@ -14,7 +14,9 @@ const Layout = () => {
   return (
     <Fragment>
       <Header />
-      <Outlet />
+      <div className="min-h-screen container">
+        <Outlet />
+      </div>
       <Footer />
     </Fragment>
   );

@@ -41,6 +41,7 @@ const SubjectDrawer = () => {
       size={"large"}
       onClose={() => dispatch(setSubjectDrawer({ open: false }))}
       open={isSubjectDrawer.open}
+      className="text-theme"
     >
       <div className="grid gap-3 grid-cols-1 md:grid-cols-2 place-items-center">
         {Subjects?.map((subject, i) => (
@@ -48,17 +49,15 @@ const SubjectDrawer = () => {
             key={i}
             to={ROUTES.CONTEST.CONTEST}
             state={subject._id}
-            className="flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border-2 border-gray-200"
+            className="flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border border-box-border hover:border-theme shadow-neutral-400 hover:shadow-sm"
             onClick={() => handleSubjectClick(subject)}
           >
             <img
               className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white"
-              // src={subject.image}
               src={`${ImagePath}contest/ContestIcon.png`}
             />
             <div className="grid gap-1 w-full">
-              {/* {isSubjectDrawer.id} */}
-              <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-black">
+              <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-theme">
                 {subject.name}
               </h3>
             </div>

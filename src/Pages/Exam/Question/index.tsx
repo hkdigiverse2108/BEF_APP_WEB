@@ -81,7 +81,7 @@ const Question = () => {
   );
 
   return (
-    <div className="min-h-screen p-4 md:p-8 question-section">
+    <div className="sub-container pt-4 md:pt-8 question-section">
       {/* Header */}
       <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time="25 Min 10s Left" />
       <div className="flex justify-center">

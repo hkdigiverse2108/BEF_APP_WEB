@@ -1,16 +1,17 @@
 import { Drawer } from "antd";
 import { useState } from "react";
 import { BiWallet } from "react-icons/bi";
+import { FaRegCircleQuestion } from "react-icons/fa6";
 import { IoMailOutline, IoSchoolOutline, IoSettingsOutline } from "react-icons/io5";
 import { LuTvMinimalPlay } from "react-icons/lu";
-import { MdOutlineFeedback } from "react-icons/md";
+import { MdOutlineGavel, MdOutlineLock, MdOutlinePrivacyTip, MdOutlineVerified } from "react-icons/md";
 import { TbWallet } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { Href, ImagePath, ROUTES } from "../Constants";
-import { useAppDispatch, useAppSelector } from "../Store/hooks";
-import { setFeedbackModal, setMenuDrawer, setSupportModal } from "../Store/Slices/DrawerSlice";
 import FeedbackModal from "../Pages/Feedback";
 import SupportModal from "../Pages/Support";
+import { useAppDispatch, useAppSelector } from "../Store/hooks";
+import { setFeedbackModal, setMenuDrawer, setSupportModal } from "../Store/Slices/DrawerSlice";
 
 const MenuDrawer = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +26,12 @@ const MenuDrawer = () => {
     { icon: <BiWallet />, title: "History", url: ROUTES.HISTORY.HISTORY },
     { icon: <IoSettingsOutline />, title: "My Info & Setting", url: ROUTES.MY_INFO.MY_INFO },
     { icon: <LuTvMinimalPlay />, title: "How to Play", url: ROUTES.HOW_TO_PLAY.HOW_TO_PLAY },
-    { icon: <IoMailOutline />, title: "Support", url: ROUTES.HOME },
-    { icon: <MdOutlineFeedback />, title: "Feedback", url: Href },
+    { icon: <IoMailOutline />, title: "Support", url: Href },
+    { icon: <MdOutlineVerified />, title: "KYC Verification", url: ROUTES.KYC.KYC },
+    { icon: <MdOutlineLock />, title: "Terms & Conditions", url: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS },
+    { icon: <MdOutlinePrivacyTip />, title: "Privacy & Policy", url: ROUTES.PRIVACY_POLICY.PRIVACY_POLICY },
+    { icon: <FaRegCircleQuestion />, title: "About US", url: ROUTES.ABOUT_US.ABOUT_US },
+    { icon: <MdOutlineGavel />, title: "Illegality", url: ROUTES.ILLEGALITY.ILLEGALITY },
   ];
   const handleClick = (i: number, url: string, title: string) => {
     setActiveIndex(i);
@@ -56,7 +61,7 @@ const MenuDrawer = () => {
       >
         <ul className="grid grid-cols-1 gap-3 relative z-20">
           {MenuData.map((item, i) => (
-            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme ${activeIndex === i ? "border-theme bg-input-box-dark" : "bg-input-box border-box-border hover:border-theme"}`}>
+            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme bg-input-box ${activeIndex === i ? "border-primary !text-primary !bg-bg-light" : "border-box-border hover:border-theme"}`}>
               <p className="font-bold text-base flex items-center uppercase">
                 <span className="me-3 text-2xl">{item.icon}</span>
                 {item.title}

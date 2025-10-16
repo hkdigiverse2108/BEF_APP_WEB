@@ -69,7 +69,7 @@ const Leaderboard = () => {
           ))}
         </div>
       </div>
-      <div className="py-7">
+      <div className="pt-7">
         <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 w-full min-h-[200px] max-h-[450px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
           {Users.map((user, index) => (
             <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">

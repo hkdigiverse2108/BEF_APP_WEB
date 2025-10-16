@@ -1,8 +1,7 @@
 import { A11y, Autoplay, EffectCards, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ImagePath, URL_KEYS } from "../../Constants";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import Loader from "../Common/Loader";
+import { ImagePath, URL_KEYS } from "../../Constants";
 
 const HeroBanner = () => {
   const { data: BannersData, isLoading } = useGetApiQuery({
@@ -14,7 +13,7 @@ const HeroBanner = () => {
   // if(Banners) console.log(Banners);
 
   return (
-    <div className="m-5 rounded-2xl overflow-hidden ">
+    <div className="my-5 rounded-lg overflow-hidden ">
       <Swiper
         // install Swiper modules
         modules={[Pagination, A11y, Autoplay, EffectCards]}
@@ -23,7 +22,7 @@ const HeroBanner = () => {
         centeredSlides={true}
         loop={true}
         effect="fade"
-        autoplay={{ delay: 1000 }}
+        autoplay={{ delay: 10000 }}
         pagination={{ clickable: true }}
       >
         {/* {isLoading ? (

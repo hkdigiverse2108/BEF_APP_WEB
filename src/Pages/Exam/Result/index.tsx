@@ -18,7 +18,7 @@ const Result = () => {
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
   return (
-    <div className="min-h-screen p-4 md:p-8 result">
+    <div className="sub-container pt-4 md:pt-8 result">
       <CardHeader title="Result" />
       <span className="border-t border-card-border flex w-full my-4" />
       <ResultBanner />
@@ -31,9 +31,9 @@ const Result = () => {
       </div>
 
       {/* Sidebar Drawer / Tab Section */}
-      <div className="mx-auto py-6">
+      <div className="mx-auto pt-6">
         <div className="flex flex-col md:flex-row 2xl:gap-7">
-          <div className="!sticky !top-6 !self-start z-50">
+          <div className="!sticky !top-6 !self-start z-10">
             <div onClick={() => setOpen(false)} className="max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
               <div onClick={(e) => e.stopPropagation()} className=" p-6 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed 2xl:w-100 rounded-xl bg-input-box max-2xl:bg-[#ffffff] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
                 <div className="mb-6 hidden max-2xl:block">

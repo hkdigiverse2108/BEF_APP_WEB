@@ -65,7 +65,7 @@ const MyInfo = () => {
   );
 
   return (
-    <div className="sub-container py-8">
+    <div className="sub-container pt-8">
       <CardHeader title="My Info & Setting" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">

@@ -104,6 +104,7 @@ const SubtopicDrawer = () => {
           dispatch(setSubtopicDrawer({ open: false, contest: {} }));
         }}
         open={isSubtopicDrawer.open}
+        className="text-theme"
       >
         <div className="space-y-6">
           {/* Title */}
@@ -152,6 +153,7 @@ const SubtopicDrawer = () => {
                         ),
                 },
               ]}
+              className="!border-theme/40"
             />
 
             <Alert
@@ -162,10 +164,10 @@ const SubtopicDrawer = () => {
               className="!mb-5 !font-bold !text-md "
             />
 
-            <div className="p-4 bg-input-box border-1 rounded-md border-card-border">
-              <p className="font-semibold text-lg">
+            <div className="p-4 bg-input-box border-1 rounded-md border-theme/40">
+              <p className="font-semibold text-lg text-theme">
                 Selected:&nbsp;
-                <span className="text-black">
+                <span>
                   {selectedTime
                     ? dayjs(selectedTime).isValid()
                       ? dayjs(selectedTime).format("dddd, MMM D • h:mm A")
@@ -173,10 +175,10 @@ const SubtopicDrawer = () => {
                     : "No time selected"}
                 </span>
               </p>
-              <p className="text-base font-medium text-gray-500 mb-3">
+              <p className="text-base font-medium text-theme/60 mb-3">
                 Pick Your Time For Playing Quiz
               </p>
-              <span className="border-t-2 border-card-border flex w-full my-4" />
+              <span className="border-t-2 border-theme/30 flex w-full my-4" />
               <div className="space-y-6">
                 {Object.keys(groupedSlots).length > 0 ? (
                   Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
@@ -223,7 +225,7 @@ const SubtopicDrawer = () => {
             <FormButton
               text="Next"
               htmlType="submit"
-              className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe"
+              className="custom-button button button--mimas text-center w-full !p-4 !h-14 uppercase flex items-end-safe"
               // onClick={handleDrawerSubmit}
             />
           </Form>

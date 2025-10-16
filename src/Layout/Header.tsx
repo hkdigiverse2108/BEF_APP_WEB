@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
-import { RxCross2 } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 import { ImagePath } from "../Constants";
 import { HeaderMenu } from "../Data";
 import { useAppDispatch } from "../Store/hooks";
-import { setMenuDrawer } from "../Store/Slices/DrawerSlice";
+import { setMenuDrawer, setNavMenuDrawer } from "../Store/Slices/DrawerSlice";
 import MenuDrawer from "./MenuDrawer";
+import NavMenuDrawer from "./NavMenuDrawer";
 
 const Header = () => {
-  const [isOpen, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const updateSidebarBasedOnWidth = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 1535) {
+      dispatch(setNavMenuDrawer(false));
+    }
+  };
+  useEffect(() => {
+    updateSidebarBasedOnWidth();
+    window.addEventListener("resize", () => updateSidebarBasedOnWidth());
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,8 +34,8 @@ const Header = () => {
 
   return (
     <>
-      <div className="sticky top-0 w-full z-50" >
-        <header className={`min-h-[60px] tracking-wide relative z-50 ${isScrolled ? "bg-white/80 backdrop-blur-md" : ""}`} >
+      <div className="sticky top-0 w-full z-50">
+        <header className={`min-h-[60px] tracking-wide relative z-50 ${isScrolled ? "bg-white/80 backdrop-blur-md" : ""}`}>
           <div className="flex flex-wrap items-center justify-between py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
             <div className="flex gap-4 items-center">
               <figure className="w-12 sm:w-18 h-full">
@@ -36,8 +46,8 @@ const Header = () => {
                 <p className="text-xs sm:text-sm font-medium text-success ">Learn & Earn</p>
               </section>
             </div>
-            <div onClick={() => setOpen(!isOpen)} id="collapseMenu" className="max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
-              <ul onClick={(e) => e.stopPropagation()} className="2xl:!flex 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-theme-bg max-2xl:w-1/2 max-2xl:min-w-[300px] max-2xl:top-0 max-2xl:left-0 max-2xl:px-10 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
+            <div id="collapseMenu" className="max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50">
+              <ul className="2xl:!flex 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-theme-bg max-2xl:w-1/2 max-2xl:min-w-[300px] max-2xl:top-0 max-2xl:left-0 max-2xl:px-10 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
                 <li className="mb-6 hidden max-2xl:block">
                   <div className="flex justify-between items-center">
                     <div className="flex gap-4 items-center">
@@ -49,9 +59,6 @@ const Header = () => {
                         <p className="text-xs sm:text-sm text-success font-medium">Learn & Earn</p>
                       </section>
                     </div>
-                    <button id="toggleClose" onClick={() => setOpen(!isOpen)} className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer">
-                      <RxCross2 className="w-5 h-5" />
-                    </button>
                   </div>
                 </li>
                 {HeaderMenu.map((item, index) => (
@@ -106,7 +113,7 @@ const Header = () => {
                 </ul> */}
                 </li>
               </ul>
-              <button id="toggleOpen" onClick={() => setOpen(!isOpen)} className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
+              <button id="toggleOpen" onClick={() => dispatch(setNavMenuDrawer(true))} className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
                 <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
               </button>
             </div>
@@ -114,7 +121,7 @@ const Header = () => {
         </header>
       </div>
       <MenuDrawer />
-      {isOpen && <div className="offcanvas-backdrop fade show -z-10" />}
+      <NavMenuDrawer />
     </>
   );
 };

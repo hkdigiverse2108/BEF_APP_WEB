@@ -102,7 +102,7 @@ const MistakeMapReport = () => {
   );
 
   return (
-    <div className="min-h-screen p-4 md:p-8 result">
+    <div className="sub-container pt-4 md:pt-8 result">
       <CardHeader title="Mistake Map Report" />
       <p className="text-base font-semibold">
         Please, first fill <span className="text-primary">Why false</span> Reason in Each question...

@@ -13,7 +13,7 @@ const referrals = Array(9).fill({
 
 const MyWinning = () => {
   return (
-    <div>
+    <>
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
         <div className="max-md:w-full max-lg:w-1/2 max-xl:w-1/3">
           <div className="flex justify-between items-center mb-4">
@@ -73,7 +73,7 @@ const MyWinning = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

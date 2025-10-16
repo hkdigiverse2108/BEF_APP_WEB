@@ -1,0 +1,136 @@
+/* ************ custom button *********** */
+.custom-button.button ,
+.custom-button-light.button{
+  pointer-events: auto;
+  cursor: pointer;
+  background: #e7e7e7;
+  border: none;
+  padding: 1rem 2rem !important;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  position: relative;
+  display: inline-block;
+  color: #ffffff !important;
+}
+.custom-button-light.button::after,
+.custom-button-light.button::before,
+.custom-button.button::before,
+.custom-button.button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.custom-button.button--mimas {
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: #fff !important;
+  background: #ffffff !important;
+}
+.custom-button-light.button--mimas span,
+.custom-button.button--mimas span {
+  position: relative;
+  z-index: 2;
+}
+.custom-button.button--mimas:hover span {
+  color: black;
+}
+
+.custom-button.button--mimas::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 100%;
+  z-index: 0;
+  transform: skew(30deg);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success)) !important;
+}
+
+.custom-button.button--mimas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  padding: 2px;
+  opacity: 0;
+}
+
+.custom-button.button--mimas:hover::after {
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
+}
+
+.custom-button.button--mimas:hover::before {
+  z-index: 1;
+  transition: opacity 0.4s ease;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success)) !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 1;
+}
+
+/* ---- Mimas style ---- */
+.custom-button-light.button--mimas {
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: #000000 !important;
+  background: #ffffff !important;
+  position: relative;
+  z-index: 0;
+}
+
+.custom-button-light.button--mimas::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 100%;
+  background: #ffffff;
+  z-index: 1;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
+}
+
+.custom-button-light.button--mimas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  padding: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success)) !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.custom-button-light.button--mimas:hover::before {
+  transform: skew(30deg);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.8, 1);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success)) !important;
+}
+
+.custom-button-light.button--mimas:hover::after {
+  opacity: 0;
+}
+
+.custom-button-light.button--mimas:hover span {
+  color: rgb(255, 255, 255);
+}

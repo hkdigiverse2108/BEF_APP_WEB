@@ -13,14 +13,9 @@ const MyContest = () => {
   const [tabOnelimit, setTabOneLimit] = useState(6);
   const [tabTwolimit, setTabTwoLimit] = useState(6);
 
-  const [queryFilter, setQueryFilter] = useState(
-    `limit=${
-      tabIndex === 1 ? tabTwolimit : tabOnelimit
-    }&contestFilter=upcoming,ongoing`
-  );
+  const [queryFilter, setQueryFilter] = useState(`limit=${tabIndex === 1 ? tabTwolimit : tabOnelimit}&contestFilter=upcoming,ongoing`);
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
-    setTabIndex(newValue);
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
   const { data: ContestData, isLoading } = useGetApiQuery({
     url: `${URL_KEYS.QA.ALL}?page=1&${queryFilter}`,
@@ -32,33 +27,17 @@ const MyContest = () => {
 
   useEffect(() => {
     if (tabIndex === 1) {
-      setQueryFilter(
-        `limit=${
-          tabIndex === 1 ? tabTwolimit : tabOnelimit
-        }&contestFilter=completed`
-      );
+      setQueryFilter(`limit=${tabIndex === 1 ? tabTwolimit : tabOnelimit}&contestFilter=completed`);
     } else {
-      setQueryFilter(
-        `limit=${
-          tabIndex === 1 ? tabTwolimit : tabOnelimit
-        }&contestFilter=upcoming,ongoing`
-      );
+      setQueryFilter(`limit=${tabIndex === 1 ? tabTwolimit : tabOnelimit}&contestFilter=upcoming,ongoing`);
     }
   }, [tabIndex, tabTwolimit, tabOnelimit]);
-
-
 
   return (
     <div className="sub-container">
       <div className=" mt-12 flex flex-col gap-6 ">
         <div className=" flex justify-center ">
-          <Tabs
-            className="horizontal-tabs w-fit "
-            orientation="horizontal"
-            variant="scrollable"
-            value={tabIndex}
-            onChange={handleChange}
-          >
+          <Tabs className="horizontal-tabs w-fit " orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
             <Tab label="Upcoming" />
             <Tab label="Past Test" />
           </Tabs>
@@ -77,11 +56,7 @@ const MyContest = () => {
                 ""
               ) : (
                 <div className="w-full flex justify-center">
-                  <FormButton
-                    text="View More"
-                    className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe"
-                    onClick={() => setTabOneLimit(tabOnelimit + 6)}
-                  />
+                  <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOnelimit + 6)} />
                 </div>
               )}
             </div>
@@ -96,11 +71,7 @@ const MyContest = () => {
                 ""
               ) : (
                 <div className="w-full flex justify-center">
-                  <FormButton
-                    text="View More"
-                    className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe"
-                    onClick={() => setTabTwoLimit(tabTwolimit + 6)}
-                  />
+                  <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabTwoLimit(tabTwolimit + 6)} />
                 </div>
               )}
             </div>

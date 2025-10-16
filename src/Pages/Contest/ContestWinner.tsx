@@ -158,23 +158,19 @@ const ContestWinner = () => {
   console.log(swiperRefs.current[1]);
 
   return (
-    <div className="w-full px-4 md:px-8 py-6 bg-white rounded-xl shadow-sm flex flex-col gap-3">
-      <div className="flex justify-between mb-1 flex-wrap">
-        <h2 className="text-sm sm:text-xl md:text-2xl font-bold">
-          Mega Contest Winners
-        </h2>
-        <FormSelect
-          name="Filter By"
-          placeholder="Filter By"
-          options={[{ label: "1", value: "one" }]}
-        />
+    <div className="sub-container pt-6 ">
+      <div className="flex justify-between flex-wrap">
+        <h2 className="text-sm sm:text-xl md:text-2xl font-bold">Mega Contest Winners</h2>
+        <div className="question-section">
+          <FormSelect name="Filter By" placeholder="Filter By" options={[{ label: "1", value: "one" }]} className="!m-0"/>
+        </div>
       </div>
 
       {winnersData.map((section, index) => (
-        <div key={index}>
-          <span className="border border-b border-gray-100 flex w-full"></span>
+        <div key={index} className="flex flex-col gap-3">
+          <span className="border border-b border-gray-100 flex w-full my-6 "></span>
 
-          <div key={index} className="my-6 flex flex-col gap-6">
+          <div key={index} className="flex flex-col gap-6">
             <div className="flex flex-col sm:flex-row justify-between gap-3">
               <CardHeader
                 title={section.period}

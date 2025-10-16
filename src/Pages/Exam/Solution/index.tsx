@@ -20,7 +20,7 @@ const Solution = () => {
   const options = ["Both Statement-1 and statement 2 are correct and Statement-2 explains Statement-1", "Both Statement-1 and Statement-2 are correct, but Statement-2 does not explain Statement-1", "Statement-1 is correct, but Statement-2 is incorrect", "Statement-1 is incorrect, but Statement-2 is correct"];
 
   return (
-    <div className="p-4 md:p-8 question-section">
+    <div className="sub-container pt-4 md:pt-8 question-section">
       {/* Header */}
       <CardHeader title="Solution" />
       <span className="border-t border-card-border flex w-full mt-4 mb-6" />

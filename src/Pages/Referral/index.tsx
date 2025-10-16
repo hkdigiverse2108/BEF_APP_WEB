@@ -26,10 +26,10 @@ const Referral = () => {
     }
   };
   return (
-    <div>
+    <div className="sub-container">
       <HeroBanner />
 
-      <div className="px-5 py-6">
+      <div className="px-5 pt-6">
         <div className="flex flex-col md:flex-row justify-between gap-6 md:items-center mb-6">
           <div className="relative pl-4">
             <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />

@@ -33,29 +33,29 @@ const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
           state: { contestData },
         })
       }
-      className="w-full h-fit bg-primary rounded-3xl overflow-hidden cursXor-pointer"
+      className="w-full h-fit bg-primary rounded-2xl overflow-hidden cursor-pointer"
     >
-      <div className="flex flex-row  !bg-primary px-2 md:px-4  text-white relative">
-        <div className="flex flex-row max-sm:flex-col items-center  gap-4 max-sm:gap-0 w-full h-full p-3   ">
-          <div className="grid gap-0.5 w-full  ">
-            <h3 className=" text-lg max-sm:text-center text-left font-bold tracking-tight capitalize ">
+      <div className="flex flex-row px-2 md:px-4 relative">
+        <div className="flex flex-row max-sm:flex-col items-center gap-4 max-sm:gap-0 w-full h-full p-3   ">
+          <div className="grid gap-0.5 w-full">
+            <h3 className="text-xl max-sm:text-center text-left font-bold tracking-tight capitalize text-white">
               {name}
               {/* {name || "Mega Contest"} */}
             </h3>
           </div>
         </div>
 
-        <div className="absolute overflow-hidden top-0 right-0  ">
+        {/* <div className="absolute overflow-hidden top-0 right-0  ">
           <img src="/assets/images/contest/Contest-Bg.png" alt="" />
-        </div>
+        </div> */}
       </div>
 
-      <div className="px-4 py-2 bg-white rounded-t-3xl mx-0.5">
+      <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
         <div className=" py-2 flex flex-col gap-1">
           <section className="flex justify-between text-sm md:text-lg  font-bold flex-wrap ">
-            <h1 className="uppercase">Prize Pool</h1>
+            <h3 className="capitalize">Prize Pool</h3>
             <p>
-              {pricePool}
+              ₹{pricePool} 
               {/* {pricePool || "₹7,50,000.00"} */}
             </p>
           </section>
@@ -67,34 +67,34 @@ const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
             />
           </section>
           <section className="flex justify-between flex-wrap ">
-            <h1>
-              {filledSpots}
+            <h4>
+              {filledSpots} Filled
               {/* {filledSpots || "25000 Filled"} */}
-            </h1>
-            <h1 className="text-black font-semibold">
-              {totalSpots}
+            </h4>
+            <h4 className="font-bold">
+              {totalSpots} Total Student
               {/* {totalSpots || "50000 Spots"} */}
-            </h1>
+            </h4>
           </section>
         </div>
 
-        <span className=" flex border border-gray-200 w-full my-2  "></span>
-        <div className=" py-1 ">
+        <span className=" flex border border-gray-200 w-full my-2"></span>
+        <div className="py-1">
           <FormButton
             htmlType="submit"
-            text={`Join - ${fees}`}
+            text={`Join - ₹${fees}`}
             // text={`pay - ${fees || "200.00"}`}
             onClick={(e) => {
               e.stopPropagation();
               dispatch(setSubtopicDrawer({ open: true, contestData }));
             }}
-            className="custom-button button button--mimas w-full !h-auto uppercase"
+            className="custom-button-light button button--mimas w-full !h-auto uppercase"
           />
         </div>
       </div>
 
-      <div className="bg-success py-4 text-white `">
-        <div className=" flex items-center text-xs sm:text-sm  justify-center gap-2 sm:gap-4 md:gap-8 ">
+      <div className="bg-success py-4 text-white">
+        <div className=" flex items-center text-xs sm:text-sm justify-center gap-2 sm:gap-4 md:gap-8 ">
           <section className="flex gap-2 items-center  ">
             <FaAward />
             <span>
@@ -102,7 +102,7 @@ const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
               {/* {`₹${winningAmountPerFee || "1, 00, 000"}`} */}
             </span>
           </section>
-          <span className="h-3 border border-l  border-gray-300  "></span>
+          <span className="h-3 border border-l border-white/50"></span>
           <section className="flex gap-2 items-center ">
             <IoMdTrophy />
             <span>
@@ -110,7 +110,7 @@ const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
               {/* {winnerPercentage || "30%"} */}
             </span>
           </section>
-          <span className="h-3 border border-l  border-gray-300  "></span>
+          <span className="h-3 border border-l border-white/50"></span>
           <section className="flex gap-2 items-center ">
             <HiCheckBadge />
             <span>Flexible</span>
