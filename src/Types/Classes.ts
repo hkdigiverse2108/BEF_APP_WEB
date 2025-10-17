@@ -11,3 +11,10 @@ export interface ClassesApiResponse {
     classes_data: ClassItem[];
   };
 }
+
+export interface ClassCardProps {
+  item: ClassItem;
+  onClick?: (item: ClassItem) => void;
+  image?: string;
+  className?: string;
+}

@@ -29,6 +29,12 @@ import TermsConditions from "../Pages/TermsConditions";
 import KYCRegister from "../Pages/KYC/KYCRegister";
 import Referral from "../Pages/Referral";
 import FullFestReport from "../Pages/FullFestReport";
+import Classes from "../Pages/Classes";
+import Course from "../Pages/Course";
+import YoutubeValues from "../Pages/YoutubeValues";
+import SocialMediaEngage from "../Pages/SocialMediaEngage";
+import Contact from "../Pages/Contact";
+import Workshop from "../Pages/Workshop";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -55,6 +61,12 @@ export const PageRoutes = [
   { path: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS, element: <TermsConditions /> },
   { path: ROUTES.REFERRAL.REFERRAL, element: <Referral /> },
   { path: ROUTES.FULL_FEST_REPORT.FULL_FEST_REPORT, element: <FullFestReport /> },
+  { path: ROUTES.CLASSES.CLASSES, element: <Classes /> },
+  { path: ROUTES.COURSE.COURSE, element: <Course /> },
+  { path: ROUTES.YOUTUBE_VALUES.YOUTUBE_VALUES, element: <YoutubeValues /> },
+  { path: ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE, element: <SocialMediaEngage /> },
+  { path: ROUTES.CONTACT.CONTACT, element: <Contact /> },
+  { path: ROUTES.WORKSHOP.WORKSHOP, element: <Workshop /> },
 ];
 
 export const AuthRoutes = [

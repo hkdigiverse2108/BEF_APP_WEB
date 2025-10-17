@@ -36,4 +36,10 @@ export const ROUTES = {
   TERMS_CONDITIONS: { TERMS_CONDITIONS: "/terms-conditions" },
   REFERRAL: { REFERRAL: "/referral" },
   FULL_FEST_REPORT: { FULL_FEST_REPORT: "/full-fest-report" },
+  CLASSES: { CLASSES: "/classes" },
+  COURSE: { COURSE: "/course" },
+  YOUTUBE_VALUES: { YOUTUBE_VALUES: "/youtube-values" },
+  SOCIAL_MEDIA_ENGAGE: { SOCIAL_MEDIA_ENGAGE: "/social-media-engage" },
+  CONTACT: { CONTACT: "/contact" },
+  WORKSHOP: { WORKSHOP: "/workshop" },
 } as const;

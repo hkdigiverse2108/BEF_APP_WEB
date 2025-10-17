@@ -2,6 +2,7 @@ import { Progress } from "antd";
 import ReactApexChart from "react-apexcharts";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { AiPoweredRadialBarChart } from "../../../Data";
+import { ImagePath } from "../../../Constants";
 
 const ChartCell = ({ color, value, label }: { color: string; value: number; label: string }) => (
   <div className="flex justify-center items-center gap-2">
@@ -36,8 +37,8 @@ const AiPowered = () => {
   const chartColors = ["#FF9500", "#F0788C", "#B482DC"];
 
   const cards = [
-    { title: "Fear Skips", bottomValue: "11.33", bottomText: "Total", textColor: "text-success", barColor: "bg-white", bg: "bg-primary text-white min-w-[200px]", bottomIcon: <IoMdArrowDropdown /> },
-    { topText: "5/6", bottomValue: "5/6", bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropdown /> },
+    { title: "Fear Skips", bottomValue: "11.33", bottomText: "Total", textColor: "text-success", barColor: "bg-black", bg: "bg-primary-light text-black min-w-[200px]", bottomIcon: <IoMdArrowDropdown /> },
+    { topText: "5/6", bottomValue: "5/6", bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-", bg: "bg-input-box", bottomIcon: <IoMdArrowDropdown /> },
     { topText: "0/3", bottomValue: "2", bottomText: "Marks Chance", textColor: "text-red-600", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropup /> },
     { topText: "5/6", bottomValue: "4", bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropdown /> },
   ];
@@ -76,16 +77,17 @@ const AiPowered = () => {
             <tr>
               {cards.map((card, i) => (
                 <td key={i} className="px-4">
-                  <div className={`relative ${card.bg} rounded-xl p-5 grid grid-cols-1 gap-1 h-36 my-5`}>
+                  <div className={`relative ${card.bg} rounded-xl p-5 grid grid-cols-1 gap-1 h-36 my-5 overflow-hidden`}>
                     <div className={`w-1 h-[60%] ${card.barColor} rounded-r absolute left-0 top-1/2 -translate-y-1/2`} />
-                    <div className="text-left border-b-2 border-card-border">
+                    {i === 0 && <img className="absolute bottom-0 right-0 object-cover w-32" src={`${ImagePath}result/Objects.png`} />}
+                    <div className={`text-left border-b-2 ${i === 0 ? "border-white/50" : "border-card-border"}`}>
                       {card?.title && <p className={`${i === 0 ? "text-2xl" : "text-base"} font-bold mt-1 uppercase`}>{card?.title}</p>}
                       {card.topText && <h3 className="text-3xl font-extrabold">{card.topText}</h3>}
                     </div>
                     {card.bottomText && (
                       <h3 className={`text-2xl font-extrabold flex items-center ${card.textColor}`}>
                         {card.bottomIcon} {card.bottomValue}
-                        <span className={`text-sm ${i === 0 ? "text-white" : "text-neutral-500"} ps-2`}>{card.bottomText}</span>
+                        <span className={`text-sm ${i === 0 ? "text-black" : "text-neutral-500"} ps-2`}>{card.bottomText}</span>
                       </h3>
                     )}
                   </div>

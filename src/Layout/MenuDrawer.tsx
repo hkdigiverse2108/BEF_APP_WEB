@@ -69,13 +69,6 @@ const MenuDrawer = () => {
             </li>
           ))}
         </ul>
-        {/* <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20">
-        <img src={`${ImagePath}menu/Menu.png`} alt="Menu" className="object-cover !z-20  w-[200px]" />
-      </div> */}
-
-        {/* <div className="absolute bottom-0 left-0 w-full">
-        <img src={`${ImagePath}menu/Menu-bg.png`} alt="Menu bg" className="w-full h-full object-cover z-0" />
-      </div> */}
       </Drawer>
       <FeedbackModal />
       <SupportModal />

@@ -11,7 +11,7 @@ export const HeaderMenu = [
     { link: ROUTES.FULL_FEST_REPORT.FULL_FEST_REPORT, text: "Full Fest" },
     { link: ROUTES.REFERRAL.REFERRAL, text: "Referral" },
     { link: ROUTES.CONTEST.CONTEST_WINNERS, text: "Winner" },
-    { link: ROUTES.CONTEST.CONTEST, text: "Workshop" },
-    { link: ROUTES.CONTEST.CONTEST, text: "Course" },
-    { link: ROUTES.CONTEST.CONTEST, text: "Contact" },
+    { link: ROUTES.WORKSHOP.WORKSHOP, text: "Workshop" },
+    { link: ROUTES.COURSE.COURSE, text: "Course" },
+    { link: ROUTES.CONTACT.CONTACT, text: "Contact" },
 ];

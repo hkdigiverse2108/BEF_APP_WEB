@@ -239,7 +239,10 @@ input {
 }
 
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer {
-  @apply grid grid-cols-2  gap-0;
+  @apply grid grid-cols-2 gap-0;
+}
+.about-tabs .MuiTabs-list.MuiTabs-flexContainer {
+  @apply grid grid-cols-4 gap-0;
 }
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button {
   @apply !max-w-full  tracking-[1px] font-bold px-9;
@@ -248,6 +251,11 @@ input {
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:first-child {
   @apply !rounded-l-lg !rounded-r-none;
 }
+
+.about-tabs .MuiTabs-list.MuiTabs-flexContainer button {
+  @apply !rounded-none;
+}
+
 
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:last-child {
   @apply !rounded-r-lg !rounded-l-none;
@@ -310,4 +318,24 @@ input {
 /* ************ Ant Modal ************ */
 .feedback.ant-modal .ant-modal-content {
   @apply !p-0 !rounded-2xl;
+}
+
+.card-body-gradient {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-border {
+  animation: gradientMove 4s ease infinite;
 }

@@ -3,7 +3,7 @@ import type { Dayjs } from "dayjs";
 /* ---------- WINNER TYPES ---------- */
 export interface WinnerType {
   name: string;
-  rank: string;
+  rank: number;
   img: string;
   amount: string;
 }

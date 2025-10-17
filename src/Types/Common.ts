@@ -1,10 +1,4 @@
-import type {
-  ButtonProps,
-  DatePickerProps,
-  FormItemProps,
-  InputProps,
-  SelectProps,
-} from "antd";
+import type { ButtonProps, DatePickerProps, FormItemProps, InputProps, SelectProps } from "antd";
 import type { GlobalConfigProps } from "antd/es/config-provider";
 import type { ReactNode } from "react";
 
@@ -44,7 +38,7 @@ export interface FormButtonProps extends ButtonProps {
   htmlType?: "button" | "submit" | "reset";
   type?: "default" | "primary" | "dashed" | "link" | "text";
   className?: string;
-  icon?:any;
+  icon?: any;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -69,12 +63,7 @@ export interface CardHeaderType {
   };
 }
 
-export type AntdNotificationType =
-  | "success"
-  | "error"
-  | "info"
-  | "warning"
-  | "open";
+export type AntdNotificationType = "success" | "error" | "info" | "warning" | "open";
 
 export interface GlobalConfigPropsWithStack extends GlobalConfigProps {
   stack?: {
@@ -82,6 +71,8 @@ export interface GlobalConfigPropsWithStack extends GlobalConfigProps {
   };
 }
 
-
-
-
+export interface FAQ {
+  id: number | string;
+  question: string;
+  answer: string;
+}

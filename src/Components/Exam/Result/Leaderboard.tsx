@@ -6,6 +6,15 @@ const Leaderboard = () => {
     { id: 1, name: "DAVIS CURTIS", score: "1,469 QP", color: "bg-primary", img: `${ImagePath}user/User3.png`, size: "w-50 h-45 text-6xl" },
     { id: 3, name: "CRAIG GOUSE", score: "1,469 QP", color: "bg-purple-dark", img: `${ImagePath}user/User4.png`, size: "w-35 h-30 text-2xl" },
   ];
+  const getBackgroundStyle = (rank: number) => {
+    if (rank === 1) {
+      return { backgroundImage: `url(${ImagePath}/winner/Winner1.png)` };
+    } else if (rank === 2) {
+      return { backgroundImage: `url(${ImagePath}/winner/Winner2.png)` };
+    } else if (rank === 3) {
+      return { backgroundImage: `url(${ImagePath}/winner/Winner3.png)` };
+    }
+  };
 
   const Users = [
     { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
@@ -58,8 +67,10 @@ const Leaderboard = () => {
         <div className="mt-10 flex max-sm:flex-wrap justify-center items-end gap-5 w-full">
           {players.map((p, i) => (
             <div key={p.id} className={`flex flex-col items-center w-1/3 max-sm:w-full ${i === 0 ? "max-sm:order-1" : i === 2 ? "max-sm:order-2" : ""}`}>
-              <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" className={`${p.size.split(" ")[0]} mb-3`} />
-              <div className={`w-full rounded-t-xl ${p.color} text-white ${p.size.split(" ")[2]} font-bold py-3 text-center`}>{p.id}</div>
+              <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" className={`${p.size.split(" ")[0]}`} />
+              <div className={`w-full rounded-t-lg text-white ${p.size.split(" ")[2]} font-bold py-3 text-center`} style={getBackgroundStyle(p.id)}>
+                {p.id}
+              </div>
               <div className="w-full bg-white text-center rounded-b-xl shadow p-4">
                 <img src={p.img} alt={p.name} className="w-12 h-12 rounded-sm mx-auto mb-2" />
                 <p className="font-bold text-sm">{p.name}</p>

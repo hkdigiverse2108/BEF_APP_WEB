@@ -1,37 +1,42 @@
-import { ImagePath } from "../../Constants";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../Constants";
+import YouTubeCard from "../YoutubeValues/YouTubeCard";
 
 const SocialMediaEngage = () => {
+  const videos = [
+    {
+      id: "https://www.instagram.com/reel/DPOj7uSkQbH/?igsh=MWV3aG1zenhoMTBueg%3D%3D",
+      title: "In which stage of sleep does vivid dreaming occur?",
+    },
+    {
+      id: "https://www.instagram.com/reel/DKxQ_dnp_LI/?igsh=MWY0OTA0NHdncnBjZg==",
+      title: "How to improve memory retention for exams?",
+    },
+    {
+      id: "https://www.instagram.com/p/DHdJaphKDFD/?igsh=MTd2ajQxcnpybWJ1Yw==",
+      title: "Effective study techniques for students",
+    },
+    {
+      id: "https://www.instagram.com/reel/DKxQ_dnp_LI/?igsh=MWY0OTA0NHdncnBjZg==",
+      title: "How to improve memory retention for exams?",
+    },
+    {
+      id: "https://www.instagram.com/p/DHdJaphKDFD/?igsh=MTd2ajQxcnpybWJ1Yw==",
+      title: "Effective study techniques for students",
+    },
+  ];
   return (
     <div>
       <div className="flex justify-between items-center pb-5">
         <p className="text-lg font-bold">Social Media Engage</p>
-        <p className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded-lg text-white">View All</p>
+        <Link to={ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded-lg text-white">
+          View All
+        </Link>
       </div>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <div className="w-full h-fit bg-input-box-dark rounded-2xl overflow-hidden cursor-pointer shadow-md">
-          <div className="">
-            <img src={`${ImagePath}youtubeValues/Youtube-values.jpg`} alt="" className="w-[100%] h-[100%]" />
-          </div>
-          <div className="bg-input-box p-4">
-            <span className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 font-bold text-lg line-clamp-2">in which stage of sleep does vivid dreaming occur?</span>
-          </div>
-        </div>
-        <div className="w-full h-fit bg-input-box-dark rounded-2xl overflow-hidden cursor-pointer shadow-md">
-          <div className="">
-            <img src={`${ImagePath}youtubeValues/Youtube-values.jpg`} alt="" className="w-[100%] h-[100%]" />
-          </div>
-          <div className="bg-input-box p-4">
-            <span className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 font-bold text-lg line-clamp-2">in which stage of sleep does vivid dreaming occur?</span>
-          </div>
-        </div>
-        <div className="w-full h-fit bg-input-box-dark rounded-2xl overflow-hidden cursor-pointer shadow-md">
-          <div className="">
-            <img src={`${ImagePath}youtubeValues/Youtube-values.jpg`} alt="" className="w-[100%] h-[100%]" />
-          </div>
-          <div className="bg-input-box p-4">
-            <span className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 font-bold text-lg line-clamp-2">in which stage of sleep does vivid dreaming occur?</span>
-          </div>
-        </div>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {videos.map((video, index) => (
+          <YouTubeCard key={index} videoId={video.id} title={video.title} type="instagram" />
+        ))}
       </div>
     </div>
   );

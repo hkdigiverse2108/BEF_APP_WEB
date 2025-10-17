@@ -9,6 +9,8 @@ const initialState = {
   isFeedbackModal: false,
   isSupportModal: false,
   isNavMenuDrawer: false,
+  isInstructionsDrawer: false,
+  isReportModal: false,
 };
 
 const DrawerSlice = createSlice({
@@ -38,11 +40,17 @@ const DrawerSlice = createSlice({
     setSupportModal: (state) => {
       state.isSupportModal = !state.isSupportModal;
     },
-    setNavMenuDrawer: (state,actions) => {
+    setNavMenuDrawer: (state, actions) => {
       state.isNavMenuDrawer = actions.payload;
+    },
+    setInstructionsDrawer: (state) => {
+      state.isInstructionsDrawer = !state.isInstructionsDrawer;
+    },
+    setReportModal: (state) => {
+      state.isReportModal = !state.isReportModal;
     },
   },
 });
 
-export const { setSubjectDrawer, setSubtopicDrawer, setConfirmationDrawer, setEndTestDrawer, setMenuDrawer, setFeedbackModal, setSupportModal, setNavMenuDrawer } = DrawerSlice.actions;
+export const { setSubjectDrawer, setSubtopicDrawer, setConfirmationDrawer, setEndTestDrawer, setMenuDrawer, setFeedbackModal, setSupportModal, setNavMenuDrawer, setInstructionsDrawer, setReportModal } = DrawerSlice.actions;
 export default DrawerSlice.reducer;

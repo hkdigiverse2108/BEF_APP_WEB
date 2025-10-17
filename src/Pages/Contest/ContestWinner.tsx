@@ -10,56 +10,56 @@ import ContestWinnerCard from "../../Components/Contest/ContestWinnerCard";
 
 const winnersData = [
   {
-    period: "Last Week",
+    period: "Last day",
     prize: "₹11.56 Lakhs",
     time: "28 Sep, 12:00 PM",
     winners: [
       {
         name: "Rashmi Better",
-        rank: "#1",
-        amount: "₹11,000",
+        rank: 1,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=4",
       },
       {
         name: "Rashmi Better",
-        rank: "#2",
-        amount: "₹11,000",
+        rank: 2,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=5",
       },
       {
         name: "Rashmi Better",
-        rank: "#3",
-        amount: "₹11,000",
+        rank: 3,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#4",
-        amount: "₹11,000",
+        rank: 4,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#5",
-        amount: "₹11,000",
+        rank: 5,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#6",
-        amount: "₹11,000",
+        rank: 6,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#7",
-        amount: "₹11,000",
+        rank: 7,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#8",
-        amount: "₹11,000",
+        rank: 8,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
     ],
@@ -71,50 +71,50 @@ const winnersData = [
     winners: [
       {
         name: "Rashmi Better",
-        rank: "#1",
-        amount: "₹11,000",
+        rank: 1,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=4",
       },
       {
         name: "Rashmi Better",
-        rank: "#2",
-        amount: "₹11,000",
+        rank: 2,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=5",
       },
       {
         name: "Rashmi Better",
-        rank: "#3",
-        amount: "₹11,000",
+        rank: 3,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#4",
-        amount: "₹11,000",
+        rank: 4,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#5",
-        amount: "₹11,000",
+        rank: 5,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#6",
-        amount: "₹11,000",
+        rank: 6,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#7",
-        amount: "₹11,000",
+        rank: 7,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#8",
-        amount: "₹11,000",
+        rank: 8,
+        amount: "11,000",
         img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
     ],
@@ -126,27 +126,51 @@ const winnersData = [
     winners: [
       {
         name: "Rashmi Better",
-        rank: "#1",
-        amount: "₹11,000",
-        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=7",
+        rank: 1,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=4",
       },
       {
         name: "Rashmi Better",
-        rank: "#1",
-        amount: "₹11,000",
-        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=8",
+        rank: 2,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=5",
       },
       {
         name: "Rashmi Better",
-        rank: "#1",
-        amount: "₹11,000",
-        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=9",
+        rank: 3,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
       {
         name: "Rashmi Better",
-        rank: "#1",
-        amount: "₹11,000",
-        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=9",
+        rank: 4,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
+      },
+      {
+        name: "Rashmi Better",
+        rank: 5,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
+      },
+      {
+        name: "Rashmi Better",
+        rank: 6,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
+      },
+      {
+        name: "Rashmi Better",
+        rank: 7,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
+      },
+      {
+        name: "Rashmi Better",
+        rank: 8,
+        amount: "11,000",
+        img: "https://api.dicebear.com/7.x/miniavs/svg?seed=6",
       },
     ],
   },
@@ -162,7 +186,7 @@ const ContestWinner = () => {
       <div className="flex justify-between flex-wrap">
         <h2 className="text-sm sm:text-xl md:text-2xl font-bold">Mega Contest Winners</h2>
         <div className="question-section">
-          <FormSelect name="Filter By" placeholder="Filter By" options={[{ label: "1", value: "one" }]} className="!m-0"/>
+          <FormSelect name="Filter By" placeholder="Filter By" options={[{ label: "1", value: "one" }]} className="!m-0" />
         </div>
       </div>
 
@@ -172,13 +196,7 @@ const ContestWinner = () => {
 
           <div key={index} className="flex flex-col gap-6">
             <div className="flex flex-col sm:flex-row justify-between gap-3">
-              <CardHeader
-                title={section.period}
-                icon={<BsFillAlarmFill />}
-                pricePool={{ icon: <IoMdTrophy />, price: section.prize }}
-                // time={section.time}
-                sliderButton={{ swiperRefs, index }}
-              />
+              <CardHeader title={section.period} icon={<BsFillAlarmFill />} pricePool={{ icon: <IoMdTrophy />, price: section.prize }} sliderButton={{ swiperRefs, index }} />
             </div>
 
             <Swiper
@@ -191,9 +209,9 @@ const ContestWinner = () => {
                 swiperRefs.current[index] = swiper;
               }}
               breakpoints={{
-                768: { slidesPerView: 2 }, // md: ≥768px
-                1024: { slidesPerView: 3 }, // lg: ≥1024px
-                1280: { slidesPerView: 4 }, // xl: ≥1280px
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1280: { slidesPerView: 4 },
               }}
             >
               {section.winners.map((winner, i) => (
