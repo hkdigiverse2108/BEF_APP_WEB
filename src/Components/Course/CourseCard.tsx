@@ -2,8 +2,11 @@ import { type FC } from "react";
 import { TbPhoneCall } from "react-icons/tb";
 import { FormButton } from "../../Attribute/FormFields";
 import type { CourseCardProps } from "../../Types";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Constants";
 
 const CourseCard: FC<CourseCardProps> = ({ title = "Have questions about this batch?", subtitle = "Talk to a counsellor", image = `4.png`, lang = "हिंGLISH", type = "FULL SYLLABUS", btnTitle = "View Batch Details", onCallClick, onViewDetails }) => {
+  const navigate = useNavigate();
   return (
     <div className="relative rounded-2xl overflow-hidden cursor-pointer shadow-xl flex flex-col justify-end">
       <div className="w-full h-[300px] bg-center bg-cover rounded-t-2xl overflow-hidden" style={{ backgroundImage: `url(${image})` }}>
@@ -28,6 +31,7 @@ const CourseCard: FC<CourseCardProps> = ({ title = "Have questions about this ba
           onClick={(e) => {
             e.stopPropagation();
             onViewDetails?.();
+            navigate(ROUTES.COURSE.COURSE_DETAILS);
           }}
           className="!font-bold custom-button light button button--mimas w-full !h-auto uppercase"
         />

@@ -218,19 +218,19 @@ input {
 
 /* ************ result section *********** */
 
-.Mui-selected {
+.tab-button .Mui-selected {
   @apply !bg-black !text-white !border-black;
 }
 
-.MuiTabs-indicator {
+.tab-button .MuiTabs-indicator {
   @apply hidden;
 }
 
-.MuiTabs-list.MuiTabs-flexContainer {
+.tab-button .MuiTabs-list.MuiTabs-flexContainer {
   @apply flex gap-2;
 }
 
-.MuiButtonBase-root.MuiTab-root {
+.tab-button .MuiButtonBase-root.MuiTab-root {
   @apply !border-2 border-card-border rounded-lg bg-white;
 }
 
@@ -242,7 +242,7 @@ input {
   @apply grid grid-cols-2 gap-0;
 }
 .about-tabs .MuiTabs-list.MuiTabs-flexContainer {
-  @apply grid grid-cols-4 gap-0;
+  @apply flex sm:grid grid-cols-4 gap-0;
 }
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button {
   @apply !max-w-full  tracking-[1px] font-bold px-9;
@@ -251,11 +251,6 @@ input {
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:first-child {
   @apply !rounded-l-lg !rounded-r-none;
 }
-
-.about-tabs .MuiTabs-list.MuiTabs-flexContainer button {
-  @apply !rounded-none;
-}
-
 
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:last-child {
   @apply !rounded-r-lg !rounded-l-none;

@@ -1,7 +1,7 @@
 import { TbCloudDownload } from "react-icons/tb";
-import { ImagePath } from "../../Constants";
+import { ImagePath } from "../../../Constants";
 
-const WorkshopAboutTab = () => {
+const CourseAboutTab = () => {
   return (
     <section className="space-y-6" data-aos="fade-up">
       <div className="grid grid-cols-2 gap-3">
@@ -20,7 +20,7 @@ const WorkshopAboutTab = () => {
           </div>
         </section>
       </div>
-       <div>
+      <div>
         <p className="text-md text-gray-600">CSAT Live PathShala is the first revolutionary batch in the world of EdTech where Educator and Aspirants can not only see each other but also ask questions and clear their doubts directly. The main objective of this batch is not only to ensure success in CSAT but also to provide the aspirant with an environment similar to offline centres in Delhi from the comfort of their home.</p>
         <button className="font-bold">More...</button>
       </div>
@@ -36,4 +36,4 @@ const WorkshopAboutTab = () => {
   );
 };
 
-export default WorkshopAboutTab;
+export default CourseAboutTab;

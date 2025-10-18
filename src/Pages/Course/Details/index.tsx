@@ -1,22 +1,23 @@
+import { Tab, Tabs } from "@mui/material";
 import { useState, type SyntheticEvent } from "react";
 import { PiShareFat } from "react-icons/pi";
-import { ImagePath } from "../../Constants";
-import { Tab, Tabs } from "@mui/material";
-import WorkshopAboutTab from "../../Components/Workshop/WorkshopAboutTab";
-import WorkshopFaqsTab from "../../Components/Workshop/WorkshopFaqsTab";
-import WorkshopLecturesTab from "../../Components/Workshop/WorkshopLecturesTab";
-import WorkshopTestimonialsTab from "../../Components/Workshop/WorkshopTestimonialsTab";
-import { FormButton } from "../../Attribute/FormFields";
+import { FormButton } from "../../../Attribute/FormFields";
+import CourseAboutTab from "../../../Components/Course/Details/CourseAboutTab";
+import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
+import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
+import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
+import { ImagePath } from "../../../Constants";
 
 const TabsName = [
   { value: "about", label: "About" },
   { value: "lectures", label: "Lectures" },
-  { value: "Testimonials", label: "Testimonials" },
+  { value: "module", label: "Module" },
   { value: "faqs", label: "FAQS" },
 ];
 
-const Workshop = () => {
+const CourseDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
+
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
   };
@@ -102,20 +103,20 @@ const Workshop = () => {
           </Tabs>
         </div>
         <div className="mt-6">
-          {tabIndex === "about" && <WorkshopAboutTab />}
-          {tabIndex === "lectures" && <WorkshopLecturesTab />}
-          {tabIndex === "Testimonials" && <WorkshopTestimonialsTab />}
-          {tabIndex === "faqs" && <WorkshopFaqsTab />}
+          {tabIndex === "about" && <CourseAboutTab />}
+          {tabIndex === "lectures" && <CourseLecturesTab />}
+          {tabIndex === "module" && <CourseModuleTab />}
+          {tabIndex === "faqs" && <CourseFaqsTab />}
         </div>
       </section>
       {/* ==== Fixed Section ==== */}
       <section className="fixed bottom-0 left-0 right-0 z-10 bg-white inset-shadow-sm">
-        <div className="mx-4 md:mx-10 py-3 sm:py-6 flex max-sm:flex-col gap-2 sm:gap-4 justify-between sm:items-end">
+        <div className="mx-4 md:mx-10 py-3 sm:py-6 flex max-sm:flex-col gap-2 sm:gap-4 sm:justify-between sm:items-end">
           <div>
             <p className="text-gray-600 font-medium">Price</p>
-            <h1 className=" sm:text-2xl font-bold flex gap-[2px] items-end">
-              <span>₹0</span>
-              <span className="text-base text-danger font-semibold line-through decoration-2 ps-1">500</span>
+            <h1 className="text-lg sm:text-2xl font-bold flex gap-[2px] items-end">
+              <span>₹6999/</span>
+              <span className="text-sm sm:text-lg text-gray-600 font-bold">₹24000</span>
             </h1>
           </div>
           <div>
@@ -123,11 +124,11 @@ const Workshop = () => {
           </div>
           <div className="sm:w-1/4 flex justify-center sm:justify-end">
             <FormButton htmlType="submit" text="Enroll Now" className="custom-button button button--mimas w-full sm:w-fit !h-auto" />
-            {/* <button className="btn primary_btn !h-12 !w-full ">Enroll Now</button> */}
           </div>
         </div>
       </section>
     </div>
   );
 };
-export default Workshop;
+
+export default CourseDetails;

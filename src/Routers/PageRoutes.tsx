@@ -35,6 +35,7 @@ import YoutubeValues from "../Pages/YoutubeValues";
 import SocialMediaEngage from "../Pages/SocialMediaEngage";
 import Contact from "../Pages/Contact";
 import Workshop from "../Pages/Workshop";
+import CourseDetails from "../Pages/Course/Details";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -63,6 +64,7 @@ export const PageRoutes = [
   { path: ROUTES.FULL_FEST_REPORT.FULL_FEST_REPORT, element: <FullFestReport /> },
   { path: ROUTES.CLASSES.CLASSES, element: <Classes /> },
   { path: ROUTES.COURSE.COURSE, element: <Course /> },
+  { path: ROUTES.COURSE.COURSE_DETAILS, element: <CourseDetails /> },
   { path: ROUTES.YOUTUBE_VALUES.YOUTUBE_VALUES, element: <YoutubeValues /> },
   { path: ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE, element: <SocialMediaEngage /> },
   { path: ROUTES.CONTACT.CONTACT, element: <Contact /> },

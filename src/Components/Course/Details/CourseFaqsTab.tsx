@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { FAQ } from "../../Types";
-import FaqCard from "../Common/FaqCard";
+import FaqCard from "../../Common/FaqCard";
+import type { FAQ } from "../../../Types";
 
 const faqs = [
   {
@@ -14,7 +14,7 @@ const faqs = [
     answer: "Simply register, complete your profile, and browse the available scholarships to apply directly.",
   },
 ];
-const WorkshopFaqsTab = () => {
+const CourseFaqsTab = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   const toggleFAQ = (index: number) => {
@@ -31,4 +31,4 @@ const WorkshopFaqsTab = () => {
   );
 };
 
-export default WorkshopFaqsTab;
+export default CourseFaqsTab;

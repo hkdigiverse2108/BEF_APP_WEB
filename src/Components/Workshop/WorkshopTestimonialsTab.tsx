@@ -54,10 +54,10 @@ const WorkshopTestimonialsTab = () => {
       className="flex flex-col items-center justify-center gap-5 "
       data-aos="fade-up"
     >
-      {testimonials.map((t) => {
+      {testimonials.map((t,i) => {
         const { msg, name, title, img } = t;
         return (
-          <div className="bg-white flex flex-col sm:flex-row justify-between items-center rounded-xl p-4 sm:p-6 gap-2 sm:gap-6 border border-gray-200 w-full ">
+          <div key={i} className="bg-white flex flex-col sm:flex-row justify-between items-center rounded-xl p-4 sm:p-6 gap-2 sm:gap-6 border border-gray-200 w-full ">
             {/* Left Content */}
             <div className="order-2 sm:order-1 flex-1">
               {/* msg Icon */}
@@ -73,9 +73,9 @@ const WorkshopTestimonialsTab = () => {
                   <span className="max-sm:hidden border-0.5 border-e border-gray-300  " />
                   <p className="text-sm ">{title}</p>
                 </span>
-                <p className="text-primary font-bold tracking-widest mt-2">
+                <div className="text-primary font-bold tracking-widest mt-2">
                   <Rate allowHalf defaultValue={5} className=" !text-primary" />
-                </p>
+                </div>
               </div>
             </div>
             {/* Right - Image */}

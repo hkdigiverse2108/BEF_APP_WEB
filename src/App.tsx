@@ -16,6 +16,16 @@ const theme = createTheme({
       contrastText: "#fff",
     },
   },
+  components: {
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          background: "linear-gradient(90deg, var(--color-primary), var(--color-success))",
+          height: "2px",
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: "var(--font-nunito), var(--font-serif)",
   },

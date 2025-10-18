@@ -13,7 +13,7 @@ const FullFestReport = () => {
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
   return (
     <div className="sub-container pt-8">
-      <CardHeader title="Terms & Conditions" />
+      <CardHeader title="Full Fest Report" />
       <hr className="text-card-border my-4" />
       <div>
         <Tabs orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange} allowScrollButtonsMobile>
