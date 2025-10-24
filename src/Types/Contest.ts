@@ -61,6 +61,7 @@ export interface ContestData {
 /* ---------- COMPONENT PROP ---------- */
 export interface ContestDetailCardProps {
   contestData: ContestData;
+  type?: string;
 }
 
 /* ---------- API RESPONSE STRUCTURES ---------- */

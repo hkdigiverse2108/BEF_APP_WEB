@@ -1,9 +1,8 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Empty, Input, Space } from "antd";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import { FormSelect } from "../../Attribute/FormFields";
 import Loader from "../../Components/Common/Loader";
 import ContestDetailCard from "../../Components/Contest/ContestDetailCard";
 import HeroBanner from "../../Components/Home/HeroBanner";
@@ -11,6 +10,9 @@ import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
 import { ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import type { ContestApiResponse, ContestItem } from "../../Types";
 import { Storage } from "../../Utils";
+import ContestFilterDrawer from "./ContestFilterDrawer";
+import { useAppDispatch } from "../../Store/hooks";
+import { setContestFilterDrawer } from "../../Store/Slices/DrawerSlice";
 
 const Contest = () => {
   const existingLsQaData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
@@ -18,11 +20,9 @@ const Contest = () => {
 
   const [searchInput, setSearchInput] = useState("");
   const [debounceSearch, setDebounceSearch] = useState("");
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const subjectId = location.state || "";
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -31,10 +31,10 @@ const Contest = () => {
 
     return () => clearTimeout(delay);
   }, [searchInput]);
-
+  const contestFilter = ["upcoming", "ongoing"].join(",");
   const { data: ContestData, isLoading } = useGetApiQuery<ContestApiResponse>(
     {
-      url: `${URL_KEYS.CONTEST.ALL}?page=1&limit=100&subjectId=${subjectId}${debounceSearch && `&search=${debounceSearch}`}`,
+      url: `${URL_KEYS.CONTEST.ALL}?page=1&limit=100&contestFilter=${contestFilter}&classesFilter=${existingLsQaData?.classesId}${debounceSearch && `&search=${debounceSearch}`}`,
     },
     {
       skip: shouldSkip,
@@ -54,13 +54,13 @@ const Contest = () => {
     <div className="sub-container contestPage">
       <HeroBanner />
       <div className="flex justify-between items-center h-fit rounded-md border border-theme/50">
-        <span className="h-fit w-full ">
+        <span className="h-fit w-full">
           <Space.Compact size="large" className="w-full">
-            <Input addonBefore={<SearchOutlined className="!text-theme"/>} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} placeholder="Search By Contest" className="!w-full" />
+            <Input addonBefore={<SearchOutlined className="!text-theme" />} value={searchInput} onChange={(e) => setSearchInput(e.target.value)} placeholder="Search By Contest" className="!w-full" />
           </Space.Compact>
         </span>
-        <span className="question-section !p-0 !h-fit">
-          <FormSelect name="Filter By" placeholder="Filter By" options={[{ label: "1", value: "one" }]} className="!mb-0" />
+        <span onClick={() => dispatch(setContestFilterDrawer({ open: true }))} className="bg-input-box font-bold text-sm p-2 px-4 rounded w-24 flex flex-col">
+          Filter By
         </span>
       </div>
       <hr className="text-theme my-8 opacity-20" />
@@ -81,7 +81,7 @@ const Contest = () => {
           </>
         )}
       </div>
-
+      <ContestFilterDrawer />
       <SubtopicDrawer />
     </div>
   );

@@ -7,6 +7,7 @@ import MyContestUpcomingCard from "../../Components/Contest/MyContestUpcomingCar
 import MyContestPastTestCard from "../../Components/Contest/MyContestPastTestCard";
 import Loader from "../../Components/Common/Loader";
 import type { ContestData } from "../../Types";
+import { Empty } from "antd";
 
 const MyContest = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -23,7 +24,7 @@ const MyContest = () => {
 
   const Contest = ContestData?.data.contest_type_data;
 
-  // console.log(Contest);
+  console.log(isLoading);
 
   useEffect(() => {
     if (tabIndex === 1) {
@@ -35,10 +36,10 @@ const MyContest = () => {
 
   return (
     <div className="sub-container">
-      <div className=" mt-12 flex flex-col gap-6 ">
-        <div className=" flex justify-center ">
-          <Tabs className="horizontal-tabs w-fit " orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
-            <Tab label="Upcoming" />
+      <div className="mt-12 flex flex-col gap-6">
+        <div className="flex justify-center">
+          <Tabs className="horizontal-tabs w-fit" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
+            <Tab label="Upcoming Test" />
             <Tab label="Past Test" />
           </Tabs>
         </div>
@@ -48,9 +49,13 @@ const MyContest = () => {
           <>
             <div hidden={tabIndex !== 0} className="flex flex-col gap-5 mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6">
-                {Contest?.map((contest: ContestData, index: number) => (
-                  <MyContestUpcomingCard key={index} contestData={contest} />
-                ))}
+                {Contest?.length === 0 ? (
+                  <div className="flex items-center justify-center w-full col-span-4">
+                    <Empty />
+                  </div>
+                ) : (
+                  Contest?.map((contest: ContestData, index: number) => <MyContestUpcomingCard key={index} contestData={contest}/>)
+                )}
               </div>
               {Contest?.length < tabOnelimit ? (
                 ""
@@ -63,9 +68,15 @@ const MyContest = () => {
 
             <div hidden={tabIndex !== 1} className="flex flex-col gap-5 mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6">
-                {Contest?.map((contest: ContestData, index: number) => (
-                  <MyContestPastTestCard key={index} contestData={contest} />
-                ))}
+                {isLoading ? (
+                  <Loader />
+                ) : Contest?.length === 0 ? (
+                  <div className="flex items-center justify-center w-full col-span-4">
+                    <Empty />
+                  </div>
+                ) : (
+                  Contest?.map((contest: ContestData, index: number) => <MyContestPastTestCard key={index} contestData={contest}/>)
+                )}
               </div>
               {Contest?.length < tabTwolimit ? (
                 ""

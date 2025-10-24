@@ -39,7 +39,7 @@ const ContestDetails = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
-  const { contestData } = location.state || {};
+  const { contestData ,type} = location.state || {};
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
@@ -84,7 +84,7 @@ const ContestDetails = () => {
 
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="w-full lg:w-2/3">
-            <ContestDetailCard contestData={contestData} />
+            <ContestDetailCard contestData={contestData} type={type}/>
           </div>
           <div className="w-full mt-8 lg:mt-0 custom-tab-full">
             <Tabs className="horizontal-tabs " orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>

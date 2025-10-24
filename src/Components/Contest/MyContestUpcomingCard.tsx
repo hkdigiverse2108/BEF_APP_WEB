@@ -4,39 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { Progress } from "antd";
 import dayjs from "dayjs";
 import type { ContestDetailCardProps } from "../../Types";
+import type { FC } from "react";
 
-const MyContestUpcomingCard: React.FC<ContestDetailCardProps> = ({
-  contestData,
-}) => {
-  const navigate = useNavigate();    
+const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
+  const navigate = useNavigate();
 
-  const {
-    contest: {
-      name: contestName = "Untitled Contest",
-      pricePool = 0,
-      filledSpots = 0,
-      totalSpots = 1,
-    } = {},
-    subject: { image: subjectImage = "", name: subjectName = "" } = {},
-    contestStartDate = "",
-  } = contestData ?? {};
+  const { contest: { name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1 } = {}, subject: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
 
   const progress = (filledSpots / totalSpots) * 100;
 
+  const handleJoin = (e: any) => {
+    e.stopPropagation();
+    navigate(ROUTES.EXAM.INSTRUCTION);
+  };
+
   return (
-    <div
-      onClick={() =>
-        navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData } })
-      }
-      className="border border-primary-light rounded-lg overflow-hidden capitalize flex flex-col justify-between cursor-pointer"
-    >
+    <div onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData: contestData?.contest, type: "myContest" } })} className="border border-primary-light rounded-lg overflow-hidden capitalize flex flex-col justify-between cursor-pointer">
       {/* Header */}
       <div className="flex flex-col lg:flex-row bg-primary-light px-2 md:px-4 py-2">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full">
           <div className="grid gap-1 w-full">
-            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">
-              {contestName}
-            </h3>
+            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">{name}</h3>
           </div>
         </div>
       </div>
@@ -52,10 +40,8 @@ const MyContestUpcomingCard: React.FC<ContestDetailCardProps> = ({
 
             <span className="flex border border-gray-100 w-fit my-2" />
 
-            <section className="flex flex-col justify-end items-end gap-2">
-              <p className="font-bold text-lg bg-success text-white px-6 py-1 w-fit rounded">
-                Join
-              </p>
+            <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
+              <p className="font-bold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
             </section>
           </div>
 
@@ -71,16 +57,10 @@ const MyContestUpcomingCard: React.FC<ContestDetailCardProps> = ({
       {/* Footer */}
       <div className="flex justify-between items-center border-t border-gray-200 px-1 text-sm font-semibold">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
-          <img
-            className="object-cover w-10 rounded-full border-2 border-white"
-            src={subjectImage || `${ImagePath}contest/ContestIcon.png`}
-            alt={subjectName}
-          />
+          <img className="object-cover w-10 rounded-full border-2 border-white" src={subjectImage || `${ImagePath}contest/ContestIcon.png`} alt={subjectName} />
 
           <div className="grid gap-1 w-full">
-            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">
-              {subjectName}
-            </h3>
+            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">{subjectName}</h3>
           </div>
         </div>
 

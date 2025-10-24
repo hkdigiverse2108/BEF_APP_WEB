@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setConfirmationDrawer } from "../../Store/Slices/DrawerSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { FormButton } from "../../Attribute/FormFields";
-import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { AntdNotification, Storage } from "../../Utils";
 import { usePostApiMutation } from "../../Api/CommonApi";
 import { useNavigate } from "react-router-dom";
@@ -19,39 +19,29 @@ const ConfirmationDrawer = () => {
 
   const handleJoinButton = async () => {
     try {
-      const existingLsData = JSON.parse(
-        Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}"
-      );
+      const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
 
       const payload = {
         ...data.payload,
         ...existingLsData,
       };
+
       const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
-      // if (res.status === HTTP_STATUS.OK) {
-      Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
-      // }
-      AntdNotification(
-        notification,
-        "info",
-        "join more contests to complete win more"
-      );
-      dispatch(setConfirmationDrawer({ open: false, data: {} }));
-      navigate(ROUTES.CONTEST.MY_CONTEST);
-      console.log("payload : ", payload, res);
+      
+      if (res?.data?.status === HTTP_STATUS.OK) {
+        Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
+        AntdNotification(notification, "info", "join more contests to complete win more");
+        dispatch(setConfirmationDrawer({ open: false, data: {} }));
+        navigate(ROUTES.CONTEST.MY_CONTEST);
+        console.log("payload : ", payload, res);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Drawer
-      placement="right"
-      size="large"
-      onClose={() => dispatch(setConfirmationDrawer({ open: false, data: {} }))}
-      open={isConfirmationDrawer.open}
-      className="!p-0"
-    >
+    <Drawer placement="right" size="large" onClose={() => dispatch(setConfirmationDrawer({ open: false, data: {} }))} open={isConfirmationDrawer.open} className="!p-0">
       <div className="flex flex-col items-center justify-center min-h-full">
         <div
           className="max-w-[380px] rounded-lg overflow-hidden shadow-2xl bg-white bg-cover bg-top"
@@ -61,14 +51,8 @@ const ConfirmationDrawer = () => {
         >
           {/* Header */}
           <div className="text-white text-center p-3 sm:p-6 !pb-0">
-            <h2 className="text-2xl font-semibold">Confirmation</h2>
-            <div className="mt-3 inline-block bg-white text-black font-semibold px-4 py-1 rounded">
-              {data.name || " Mega Contest"}
-            </div>
-            <p className="mt-2 text-white text-sm">
-              {data.pricePool}
-              {/* {data.pricePool || "Prize Pool ₹7,50,000"} */}
-            </p>
+            <h2 className="text-3xl font-semibold">Confirmation</h2>
+            <div className="inline-block bg-white text-black font-semibold px-4 py-1 rounded">{data.name || " Mega Contest"}</div>
           </div>
 
           {/* Body */}
@@ -90,28 +74,18 @@ const ConfirmationDrawer = () => {
                 <div className="flex justify-between font-semibold text-xl">
                   <span>Total Pay</span>
                   <span className="text-green-600">
-                    {data.fees}
+                    ₹{data.fees}
                     {/* {data.fees || "₹35.00"} */}
                   </span>
                 </div>
 
                 <div className="mt-4 border border-red-200 bg-red-50 rounded-md p-3 text-xs text-gray-600 flex items-start gap-2">
                   <ExclamationCircleOutlined className="text-red-500 mt-0.5" />
-                  <p>
-                    By joining, you confirm you are not a resident of Assam,
-                    Odisha, Telangana, Nagaland, or Sikkim, and agree to NBA
-                    Fantasy’s T&Cs.
-                  </p>
+                  <p>By joining, you confirm you are not a resident of Assam, Odisha, Telangana, Nagaland, or Sikkim, and agree to NBA Fantasy’s T&Cs.</p>
                 </div>
               </div>
 
-              <FormButton
-                loading={isLoading}
-                text="JOIN CONTEST"
-                htmlType="submit"
-                onClick={handleJoinButton}
-                className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe !bg-white"
-              />
+              <FormButton loading={isLoading} text="JOIN CONTEST" htmlType="submit" onClick={handleJoinButton} className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe !bg-white" />
             </div>
           </div>
         </div>

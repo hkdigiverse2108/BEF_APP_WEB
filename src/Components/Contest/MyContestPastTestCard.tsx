@@ -3,9 +3,10 @@ import { ROUTES, ImagePath } from "../../Constants";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import type { ContestDetailCardProps } from "../../Types";
+import type { FC } from "react";
 
-const MyContestPastTestCard: React.FC<ContestDetailCardProps> = ({
-  contestData,
+const MyContestPastTestCard: FC<ContestDetailCardProps> = ({
+  contestData
 }) => {
   const navigate = useNavigate();
 
@@ -22,9 +23,7 @@ const MyContestPastTestCard: React.FC<ContestDetailCardProps> = ({
 
   return (
     <div
-      onClick={() =>
-        navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData : contestData?.contest } })
-      }
+      onClick={() => navigate(ROUTES.EXAM.RESULT)}
       className="border border-primary-light rounded-xl overflow-hidden capitalize flex flex-col justify-between cursor-pointer"
     >
       {/* Header */}

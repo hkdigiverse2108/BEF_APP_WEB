@@ -8,23 +8,24 @@ import { useAppDispatch } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
 import type { ContestCore, ContestDetailCardProps } from "../../Types";
 import { useNavigate } from "react-router-dom";
+import type { FC } from "react";
 
-const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
-  contestData = {},
-}) => {
+const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    name,
-    pricePool,
-    filledSpots,
-    totalSpots,
-    fees,
-    winnerPercentage,
-    winningAmountPerFee = 0,
-  }: ContestCore = contestData;
+  const { name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, winningAmountPerFee = 0 }: ContestCore = contestData;
+  console.log("contestData ==>", contestData);
 
   const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
+
+  const handleSubtopicDrawer = (e: any) => {
+    e.stopPropagation();
+    if (type === "myContest") {
+      navigate(ROUTES.EXAM.INSTRUCTION);
+    } else {
+      dispatch(setSubtopicDrawer({ open: true, contest: contestData }));
+    }
+  };
 
   return (
     <div
@@ -53,18 +54,14 @@ const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
       <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
         <div className=" py-2 flex flex-col gap-1">
           <section className="flex justify-between text-sm md:text-lg  font-bold flex-wrap ">
-            <h3 className="capitalize">Prize Pool</h3>
+            <h3 className="capitalize">{name}</h3>
             <p>
-              ₹{pricePool} 
+              ₹{pricePool}
               {/* {pricePool || "₹7,50,000.00"} */}
             </p>
           </section>
           <section>
-            <Progress
-              percent={progress}
-              showInfo={false}
-              strokeColor={"green"}
-            />
+            <Progress percent={progress} showInfo={false} strokeColor={"green"} />
           </section>
           <section className="flex justify-between flex-wrap ">
             <h4>
@@ -80,16 +77,7 @@ const ContestDetailCard: React.FC<ContestDetailCardProps> = ({
 
         <span className=" flex border border-gray-200 w-full my-2"></span>
         <div className="py-1">
-          <FormButton
-            htmlType="submit"
-            text={`Join - ₹${fees}`}
-            // text={`pay - ${fees || "200.00"}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(setSubtopicDrawer({ open: true, contestData }));
-            }}
-            className="custom-button-light button button--mimas w-full !h-auto uppercase"
-          />
+          <FormButton htmlType="submit" text={`Join ${type === "myContest" ? "" : `- ₹${fees}`}`} onClick={(e) => handleSubtopicDrawer(e)} className="custom-button-light button button--mimas w-full !h-auto uppercase" />
         </div>
       </div>
 
