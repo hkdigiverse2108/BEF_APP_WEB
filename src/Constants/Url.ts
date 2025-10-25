@@ -10,9 +10,10 @@ export const URL_KEYS = {
   },
   USER: {
     CHECK: "/user/check",
+    WINNER_LIST: "/user/winner-list",
   },
-  EXAM_TYPE: {
-    EXAM_TYPE: "/exam-type",
+  EXAM: {
+    TYPE: "/exam-type",
   },
   BANNER: {
     ALL: "/banner/all",
@@ -27,7 +28,11 @@ export const URL_KEYS = {
     ALL: "/sub-topic/all",
   },
   CONTEST: {
+    ID: "/contest/",
     ALL: "/contest/all",
+    TYPE: {
+      TYPE: "/contest-type",
+    },
   },
   QA: {
     ADD: "/qa/add",

@@ -54,7 +54,7 @@ const SubjectDrawer = () => {
           >
             <img
               className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white"
-              src={`${ImagePath}contest/ContestIcon.png`}
+              src={subject.image || `${ImagePath}contest/ContestIcon.png`}
             />
             <div className="grid gap-1 w-full">
               <h3 className="text-xl max-sm:text-center text-left font-medium tracking-tight text-theme">

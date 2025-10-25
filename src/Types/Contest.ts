@@ -2,14 +2,33 @@ import type { Dayjs } from "dayjs";
 
 /* ---------- WINNER TYPES ---------- */
 export interface WinnerType {
-  name: string;
-  rank: number;
-  img: string;
-  amount: string;
+  firstName: string;
+  lastName: string;
+  profileImage: string;
+  totalAmount: string;
 }
 
 export interface ContestWinnerCardProps {
   winner: WinnerType;
+  rank: number;
+}
+
+export interface WinnersBox {
+  title: string;
+  ListData: WinnerType[];
+  index: number;
+}
+
+export interface WinnerApiResponse {
+  data: {
+    data: {
+      lastMonthUsers: WinnerType[];
+      lastWeekUsers: WinnerType[];
+      todayUsers: WinnerType[];
+      lastYearUsers: WinnerType[];
+    };
+  };
+  isLoading: boolean;
 }
 
 /* ---------- COMMON BASE TYPES ---------- */
@@ -82,4 +101,23 @@ export interface ContestApiResponse {
     };
   };
   isLoading: boolean;
+}
+
+export type RangeOption = {
+  label: string;
+  min: number;
+  max: number | null;
+};
+
+export type ContestFilters = {
+  entry: RangeOption | null;
+  spots: RangeOption | null;
+  prizePool: RangeOption | null;
+  contestType: string;
+};
+
+export interface ContestPrize {
+  startPlace: string;
+  endPlace?: string | null;
+  price: number;
 }

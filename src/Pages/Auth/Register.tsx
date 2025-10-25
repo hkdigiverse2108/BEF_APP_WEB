@@ -32,7 +32,7 @@ const Register = () => {
   const [PostGlobalApi] = usePostGlobalApiMutation({});
 
   const { data: examTypeApi } = useGetGlobalApiQuery({
-    url: URL_KEYS.EXAM_TYPE.EXAM_TYPE,
+    url: URL_KEYS.EXAM.TYPE,
   });
   let examTypeData = examTypeApi?.data;
 

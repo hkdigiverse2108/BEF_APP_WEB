@@ -7,12 +7,15 @@ import { CardHeader } from "../../Components/Common/CardHeader";
 import Loader from "../../Components/Common/Loader";
 import SubjectDrawer from "../../Components/Home/SubjectDrawer";
 import ClassCard from "../../Components/Classes/ClassesCard";
+import { FormButton } from "../../Attribute/FormFields";
+import { useState } from "react";
 
 const Classes = () => {
   const dispatch = useAppDispatch();
+  const [tabOneLimit, setTabOneLimit] = useState(3);
 
   const { data: ClassesData, isLoading } = useGetApiQuery({
-    url: `${URL_KEYS.CLASSES.ALL}?page=1&limit=10`,
+    url: `${URL_KEYS.CLASSES.ALL}?page=1&limit=${tabOneLimit}`,
   });
 
   const Classes: ClassItem[] | undefined = ClassesData?.data.classes_data;
@@ -34,7 +37,14 @@ const Classes = () => {
                 <ClassCard key={index} item={item} onClick={HandleClasses} />
               ))}
             </div>
-             <div className="flex justify-between items-center py-2 md:py-5 mt-5">
+            {(Classes?.length || 0) < tabOneLimit ? (
+              ""
+            ) : (
+              <div className="w-full flex justify-center pt-5">
+                <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 6)} />
+              </div>
+            )}
+            <div className="flex justify-between items-center py-2 md:py-5 mt-5">
               <CardHeader title="All Class" />
             </div>
             <hr className="text-card-border mb-5" />

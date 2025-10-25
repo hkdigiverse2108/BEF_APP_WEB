@@ -76,3 +76,16 @@ export interface FAQ {
   question: string;
   answer: string;
 }
+
+export interface Params {
+  [key: string]: any;
+}
+
+
+// ************ Basic Table Filter Helper Options ***********
+
+export interface UseBasicFilterHelperOptions {
+  initialParams?: Params;
+  debounceDelay?: number;
+  sortKey?: string;
+}

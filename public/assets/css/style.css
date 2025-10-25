@@ -334,3 +334,39 @@ input {
 .animate-gradient-border {
   animation: gradientMove 4s ease infinite;
 }
+
+/* Custom Pagination Styling */
+.custom-pagination{
+  @apply flex items-center gap-2;
+}
+.custom-pagination .ant-pagination-item {
+  @apply !border-theme/30 !text-theme !rounded-lg;
+}
+
+.custom-pagination .ant-pagination-item-active {
+  @apply !opacity-100 !border-primary !text-primary !bg-bg-light;
+}
+.ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover{
+  @apply !border-box-border hover:!border-theme;
+}
+.custom-pagination .ant-pagination-prev .ant-pagination-item-link,
+.custom-pagination .ant-pagination-next .ant-pagination-item-link {
+  @apply !rounded-lg !border-theme/30 !text-theme;
+}
+
+.custom-pagination .ant-pagination-disabled .ant-pagination-item-link {
+  @apply !opacity-40 !cursor-not-allowed;
+}
+
+.custom-pagination .ant-select-selector,
+.custom-pagination .ant-select {
+  @apply !h-9 !border-box-border hover:!border-theme !rounded-sm !shadow-none;
+}
+
+.custom-pagination .ant-select-selection-placeholder {
+  @apply !text-sm !font-bold;
+}
+
+.custom-pagination .ant-select {
+  @apply flex items-center;
+}

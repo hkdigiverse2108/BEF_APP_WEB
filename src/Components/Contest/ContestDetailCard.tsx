@@ -14,7 +14,6 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type }) =>
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, winningAmountPerFee = 0 }: ContestCore = contestData;
-  console.log("contestData ==>", contestData);
 
   const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
 

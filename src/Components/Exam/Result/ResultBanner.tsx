@@ -25,7 +25,7 @@ const ResultBanner = () => {
             <span className="text-sm font-bold uppercase text-gray-500">Questions</span>
           </div>
         </div>
-        <FormButton text="view solution" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe !bg-white !border !border-black" />
+        <FormButton text="view solution" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
       </div>
     </div>
   );
