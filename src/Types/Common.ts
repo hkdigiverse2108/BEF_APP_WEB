@@ -89,3 +89,22 @@ export interface UseBasicFilterHelperOptions {
   debounceDelay?: number;
   sortKey?: string;
 }
+
+// ************ Common Api Data Type ***********
+
+export interface PageState {
+  page: number;
+  limit: number;
+  page_limit: number;
+}
+
+export interface PageStatus {
+  totalData: number;
+  state: PageState;
+}
+
+export interface MessageStatus {
+  status: number;
+  message: string;
+  error: Record<string, unknown>;
+}

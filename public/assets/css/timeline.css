@@ -63,7 +63,7 @@
 .how_it_works .step_block ul li .step_text,
 .how_it_works .step_block ul li .step_img {
   width: 360px;
-  text-align: right;
+  /* text-align: right; */
 }
 
 /* how it works image */
@@ -111,10 +111,10 @@
     flex-direction: row-reverse;
 } */
 
-.how_it_works .step_block ul li:nth-child(2) .step_text,
+/* .how_it_works .step_block ul li:nth-child(2) .step_text,
 .how_it_works .step_block ul li:nth-child(2) .step_img {
   text-align: left;
-}
+} */
 
 /* how it works numbers */
 .how_it_works .step_block ul li .step_number {
@@ -213,7 +213,7 @@
 @media screen and (max-width: 767px) {
   /* how it work section */
   .how_it_works .how_it_inner {
-    padding: 50px 15px;
+    padding: 0px 15px;
   }
   .how_it_works .step_block ul {
     padding-top: 30px;
@@ -244,7 +244,7 @@
   .how_it_works .step_block ul li .step_img,
   .how_it_works .step_block ul li:nth-child(2) .step_text,
   .how_it_works .step_block ul li:nth-child(2) .step_img {
-    text-align: center;
+    text-align: center !important;
   }
   li .step_img {
     padding: 1rem !important;

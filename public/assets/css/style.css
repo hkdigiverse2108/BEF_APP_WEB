@@ -15,7 +15,7 @@ body {
 }
 
 .sub-container {
-  @apply mx-4 md:mx-10 mb-4 md:mb-12;
+  @apply mx-4 md:mx-10 mb-4 md:mb-10;
 }
 
 .active {

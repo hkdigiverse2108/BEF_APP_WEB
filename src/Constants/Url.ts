@@ -38,4 +38,19 @@ export const URL_KEYS = {
     ADD: "/qa/add",
     ALL: "/qa/all",
   },
+  TERMS_CONDITION: {
+    TERMS_CONDITION: "/terms-condition",
+  },
+  PRIVACY_POLICY: {
+    PRIVACY_POLICY: "/privacy-policy",
+  },
+  ILLEGALITY: {
+    ILLEGALITY: "/illegality",
+  },
+  ABOUT_US: {
+    ABOUT_US: "/about-us",
+  },
+  HOW_TO_PLAY: {
+    ALL: "/how-to-play/all",
+  },
 } as const;
