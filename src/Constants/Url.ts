@@ -53,4 +53,7 @@ export const URL_KEYS = {
   HOW_TO_PLAY: {
     ALL: "/how-to-play/all",
   },
+  KYC:{
+    ALL:"/kyc/all"
+  }
 } as const;

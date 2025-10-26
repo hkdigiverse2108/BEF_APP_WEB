@@ -1,7 +1,11 @@
 import { IoMailOutline } from "react-icons/io5";
 import { MdPhoneAndroid } from "react-icons/md";
+import { FormButton } from "../../Attribute/FormFields";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Constants";
 
 const KYC = () => {
+  const navigate = useNavigate();
   return (
     <div className="sub-container my-6 min-h-screen">
       <section className="flex flex-col gap-5">
@@ -39,6 +43,7 @@ const KYC = () => {
                 </div>
                 <p className="text-lg font-bold mt-1 uppercase text-success">Verified</p>
               </div>
+              <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />
             </div>
           </div>
         </div>
