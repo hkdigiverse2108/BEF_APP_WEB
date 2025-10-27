@@ -2,10 +2,18 @@ import { IoMailOutline } from "react-icons/io5";
 import { MdPhoneAndroid } from "react-icons/md";
 import { FormButton } from "../../Attribute/FormFields";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../Constants";
+import { ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { useGetApiQuery } from "../../Api/CommonApi";
+import { Storage } from "../../Utils";
+import { Spin } from "antd";
 
 const KYC = () => {
   const navigate = useNavigate();
+  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+
+  const { data, isLoading } = useGetApiQuery({ url: `${URL_KEYS.KYC.ALL}?page=1&limit=1` });
+  const KYCData = data?.data?.kyc_data[0];
+
   return (
     <div className="sub-container my-6 min-h-screen">
       <section className="flex flex-col gap-5">
@@ -27,10 +35,10 @@ const KYC = () => {
                   <MdPhoneAndroid className="text-5xl text-success" />
                   <div className="text-left">
                     <p className="text-lg font-bold mt-1 uppercase">Mobile Number</p>
-                    <h3 className="text-sm font-semibold text-neutral-500">1234567890</h3>
+                    <h3 className="text-sm font-semibold text-neutral-500">{user.contact.mobile}</h3>
                   </div>
                 </div>
-                <p className="text-lg font-bold mt-1 uppercase text-success">Verified</p>
+                <p className={`text-lg font-bold mt-1 uppercase ${user.isMobileVerified ? "text-success" : "text-danger"}`}>{user.isMobileVerified ? "Verified" : "Unverified"}</p>
               </div>
               <div className="h-full relative bg-input-box rounded-xl p-5 flex justify-between items-center gap-2">
                 <div className="w-1 h-[70%] bg-primary rounded-r absolute top-1/2 left-0 -translate-y-1/2" />
@@ -38,12 +46,12 @@ const KYC = () => {
                   <IoMailOutline className="text-5xl text-success" />
                   <div className="text-left">
                     <p className="text-lg font-bold mt-1 uppercase">KYC Verification</p>
-                    <h3 className="text-sm font-semibold text-neutral-500">1234567890</h3>
+                    <h3 className="text-sm font-semibold text-neutral-500">{KYCData?.idNumber}</h3>
                   </div>
                 </div>
-                <p className="text-lg font-bold mt-1 uppercase text-success">Verified</p>
+                {isLoading ? <Spin /> : <p className={`text-lg font-bold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status}</p>}
               </div>
-              <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />
+              {KYCData?.status === "unverified" && <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />}
             </div>
           </div>
         </div>

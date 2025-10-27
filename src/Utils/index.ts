@@ -10,3 +10,8 @@ export const Stringify = (value: object): string => {
 };
 
 export const Storage = localStorage;
+
+export const updateStorage = (key: string, newData: object) => {
+  const existing = JSON.parse(Storage.getItem(key) || "{}");
+  Storage.setItem(key, JSON.stringify({ ...existing, ...newData }));
+};
