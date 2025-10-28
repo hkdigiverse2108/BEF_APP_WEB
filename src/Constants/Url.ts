@@ -33,6 +33,7 @@ export const URL_KEYS = {
     TYPE: {
       TYPE: "/contest-type",
     },
+    QUESTION: "/question/contest"
   },
   QA: {
     ADD: "/qa/add",
