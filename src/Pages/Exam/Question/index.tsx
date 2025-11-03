@@ -1,5 +1,5 @@
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
-import { Checkbox } from "antd";
+import { Badge, Checkbox } from "antd";
 import { useState } from "react";
 import { BsFillAlarmFill } from "react-icons/bs";
 import { FaLightbulb, FaRegCircle } from "react-icons/fa";
@@ -16,13 +16,50 @@ import InstructionsDrawer from "../../../Components/Exam/Question/InstructionsDr
 import { setEndTestDrawer, setInstructionsDrawer, setReportModal } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
 import ReportModal from "../../../Components/Exam/Question/ReportModal";
+import { STORAGE_KEYS, URL_KEYS } from "../../../Constants";
+import { useGetApiQuery } from "../../../Api/CommonApi";
+import { useLocation } from "react-router-dom";
+import { Storage } from "../../../Utils";
+
+const LANGUAGES = {
+  HINDI: "hindiQuestion",
+  ENGLISH: "englishQuestion",
+};
+
+const QUE_TYPE = {
+  NORMAL: "normal",
+  STATEMENT: "statement",
+  PAIR: "pair",
+};
 
 const Question = () => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [isOpen, setOpen] = useState(false);
-  const dispatch = useAppDispatch();
 
-  const options = ["Both Statement-1 and statement 2 are correct and Statement-2 explains Statement-1", "Both Statement-1 and Statement-2 are correct, but Statement-2 does not explain Statement-1", "Statement-1 is correct, but Statement-2 is incorrect", "Statement-1 is incorrect, but Statement-2 is correct"];
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
+  const [language, setLanguage] = useState(LANGUAGES.ENGLISH);
+
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const queryParam = new URLSearchParams(location.search);
+  const contestId = queryParam.get("contestId");
+  const { data: QAApiData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.QA.CONTEST_QUESTION}${contestId}` }, { skip: false });
+
+  const QAData = QAApiData?.data || {};
+  const QA = QAData?.answers || [];
+  const { _id, negativeMarks, positiveMarks, stackNumber } = QAData || {};
+
+  const currentQuestion = QA[currentQuestionNumber - 1];
+
+  const CheckIsStackNumber = (number: number) => {
+    const whole = Math.floor(currentQuestionNumber);
+    const remainder = whole % 10;
+    const finalNumber = remainder === 0 ? 10 : remainder;
+    const isStack = finalNumber === stackNumber;
+    const isStackNumber = isStack ? number * 2 : number;
+    return isStackNumber;
+  };
 
   const handleCheck = (id: number, type: "true" | "false") => {
     setAnswers((prev) => {
@@ -48,14 +85,36 @@ const Question = () => {
     });
   };
 
-  const OptionsStatement = (id: number, text: string) => (
+  const handleQuestionNumberClick = (questionNumber: number) => {
+    setCurrentQuestionNumber(questionNumber);
+  };
+
+  const handleLanguageChange = () => {
+    setLanguage(language === LANGUAGES.ENGLISH ? LANGUAGES.HINDI : LANGUAGES.ENGLISH);
+  };
+
+  const handleNextQueClick = () => {
+    const totalQue = QA.length;
+
+    Storage.setItem(STORAGE_KEYS.CONTEST_QA_EDIT,JSON.stringify(currentQuestion));
+
+    if (currentQuestionNumber >= totalQue) return;
+    setCurrentQuestionNumber(currentQuestionNumber + 1);
+  };
+
+  const handlePrevQueClick = () => {
+    if (currentQuestionNumber <= 1) return;
+    setCurrentQuestionNumber(currentQuestionNumber - 1);
+  };
+
+  const OptionsStatement = (id: number, opt: string, text: string) => (
     <div key={id} className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
       <div className="hidden sm:flex">
         <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")} className="max-sm:!hidden ">
           {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
         </Checkbox>
       </div>
-      <span className="flex-1 font-medium ">{`${id + 1}. ${text}`}</span>
+      <span className="flex-1 font-medium ">{`${opt}. ${text}`}</span>
       <div className="flex justify-end max-sm:w-full">
         <div className="sm:hidden">
           <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")}>
@@ -68,10 +127,11 @@ const Question = () => {
       </div>
     </div>
   );
+  const options = ["Both Statement-1 and statement 2 are correct and Statement-2 explains Statement-1", "Both Statement-1 and Statement-2 are correct, but Statement-2 does not explain Statement-1", "Statement-1 is correct, but Statement-2 is incorrect", "Statement-1 is incorrect, but Statement-2 is correct"];
 
-  const QuestionStatement = (id: number, text: string) => (
+  const QuestionStatement = (id: number, opt: string, text: string) => (
     <div key={id} className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
-      <span className="flex-1 font-medium ">{`${id + 1}. ${text}`}</span>
+      <span className="flex-1 font-medium ">{`${opt ? opt : id + 1}. ${text}`}</span>
       <div className="flex justify-end max-sm:w-full">
         <Checkbox checked={answers[id] === 1} onChange={() => handleCheck(id, "true")}>
           {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined style={{ color: "green" }} />}
@@ -106,11 +166,22 @@ const Question = () => {
             {/* Question Header */}
             <div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
-                <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : 01</span>
-                <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+2.5</span>
-                <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">-0.83</span>
+                <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>
+
+                <div className="relative inline-block">
+                  <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+{CheckIsStackNumber(positiveMarks) || 0}</span>
+
+                  {(() => {
+                    const currentStack = CheckIsStackNumber(positiveMarks);
+                    if (currentStack !== positiveMarks) {
+                      return <span className="absolute -top-3 -right-2 bg-success text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">2x</span>;
+                    }
+                    return null;
+                  })()}
+                </div>
+                <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">-{negativeMarks || 0} </span>
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                  <span className="text-sm font-bold flex flex-nowrap gap-2">
+                  <span onClick={handleLanguageChange} className="text-sm font-bold flex flex-nowrap gap-2">
                     <IoLanguage className="text-xl" />
                     Language
                   </span>
@@ -125,28 +196,41 @@ const Question = () => {
                 </div>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
-              <p className="font-bold mb-4 text-xl">Consider the following statements regarding fundamental rights:</p>
-              <div className="space-y-6 bg-input-box p-6 rounded-2xl">
-                {QuestionStatement(10, "1. Many Chewing Gums Found In The Market Are Considered A Source Of Environmental Pollution.")}
-                {QuestionStatement(20, "2. Many Chewing Gums Contain Plastic As Gum Base.")}
-              </div>
-              <span className="border-t border-card-border flex w-full my-6" />
+              {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
+                <>
+                  <p className="font-bold mb-4 text-xl">Consider the following statements regarding fundamental rights:</p>
+                  <div className="space-y-6 bg-input-box p-6 rounded-2xl">
+                    {QuestionStatement(10, "a", "1. Many Chewing Gums Found In The Market Are Considered A Source Of Environmental Pollution.")}
+                    {QuestionStatement(20, "b", "2. Many Chewing Gums Contain Plastic As Gum Base.")}
+                  </div>
+                  <span className="border-t border-card-border flex w-full my-6" />
+                </>
+              )}
             </div>
 
             {/* Passage Section */}
-            <div className="mb-4">
-              <p className="font-bold text-lg mb-1">which of the statements given above is/are correct?</p>
-            </div>
-            <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
-              <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {options.map((opt, i) => (
-                  <div key={i} className={`border-2 border-card-border flex items-center gap-3 p-4 m-0 rounded-2xl cursor-pointer transition-all ${answers[i] === 1 ? "border-green-500 bg-green-50" : answers[i] === 0 ? "border-red-500 bg-red-50" : "border-gray-300 hover:bg-gray-50"}`}>
-                    {OptionsStatement(i, opt)}
+            {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.NORMAL && (
+              <>
+                <div className="mb-4">
+                  <p className="font-bold text-lg mb-1">
+                    {currentQuestion?.[language]?.question}
+                    {/* which of the statements given above is/are correct?  */}
+                  </p>
+                </div>
+                <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
+                  <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
+                    {Object.keys(currentQuestion[language]?.options).map((opt, i) => (
+                      <div key={i} className={`border-2 border-card-border flex items-center gap-3 p-4 m-0 rounded-2xl cursor-pointer transition-all ${answers[i] === 1 ? "border-green-500 bg-green-50" : answers[i] === 0 ? "border-red-500 bg-red-50" : "border-gray-300 hover:bg-gray-50"}`}>
+                        {OptionsStatement(i, opt, currentQuestion[language]?.options[opt])}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              </>
+            )}
+            {/* Confidence Buttons */}
 
-              {/* Confidence Buttons */}
+            <section id="QA_Buttons" className="w-full">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 my-8 max-xl:justify-center">
                 {[
                   { label: "100% Sure", color: "bg-blue-600", icon: <MdLibraryAddCheck className="text-lg" /> },
@@ -163,10 +247,10 @@ const Question = () => {
                 ))}
               </div>
               <div className="flex flex-wrap justify-between gap-2 ">
-                <FormButton text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase " />
-                <FormButton text="Save & Next" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
+                <FormButton onClick={handlePrevQueClick} text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase " />
+                <FormButton onClick={handleNextQueClick} text="Save & Next" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
               </div>
-            </div>
+            </section>
           </div>
 
           {/* Right Panel */}
@@ -211,8 +295,8 @@ const Question = () => {
 
               {/* Question Grid */}
               <div className="grid grid-cols-5 gap-2">
-                {Array.from({ length: 50 }, (_, i) => (
-                  <button key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${i === 0 ? "answered" : "not-visited "}`}>
+                {Array.from({ length: QA?.length }, (_, i) => (
+                  <button onClick={() => handleQuestionNumberClick(i + 1)} key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${i === 0 ? "answered" : "not-visited "}`}>
                     {i + 1}
                   </button>
                 ))}
@@ -232,7 +316,7 @@ const Question = () => {
         <EndTest />
       </div>
       <InstructionsDrawer />
-      <ReportModal/>
+      <ReportModal payload={{ contestId: contestId, questionId: currentQuestion?._id, qaId: _id }} />
     </>
   );
 };

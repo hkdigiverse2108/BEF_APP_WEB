@@ -5,11 +5,17 @@ import { IoLanguage } from "react-icons/io5";
 import { FormButton } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import { InstructionButtons } from "../../../Data";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../Constants";
 
 const ExamInstruction = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParam = new URLSearchParams(location.search);
+  const contestId = queryParam.get("contestId");
+
+  const handleNextButton = () => navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
+
   return (
     <div className="sub-container pt-8">
       <CardHeader title="Exam Instructions" />
@@ -104,7 +110,7 @@ const ExamInstruction = () => {
         </div>
       </div>
       <div className="w-full flex justify-end mt-8">
-        <FormButton onClick={() => navigate(ROUTES.EXAM.QUESTION)} text="NEXT" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-12 uppercase" />
+        <FormButton onClick={handleNextButton} text="NEXT" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-12 uppercase" />
       </div>
     </div>
   );

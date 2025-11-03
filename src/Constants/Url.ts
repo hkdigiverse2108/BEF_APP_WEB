@@ -38,6 +38,10 @@ export const URL_KEYS = {
   QA: {
     ADD: "/qa/add",
     ALL: "/qa/all",
+    CONTEST_QUESTION: "/qa/contest/question?contestFilter=",
+  },
+  RESULT_REPORT: {
+      ADD : "result-report/add"
   },
   TERMS_CONDITION: {
     TERMS_CONDITION: "/terms-condition",
