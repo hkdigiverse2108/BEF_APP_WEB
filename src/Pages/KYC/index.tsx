@@ -2,7 +2,7 @@ import { IoMailOutline } from "react-icons/io5";
 import { MdPhoneAndroid } from "react-icons/md";
 import { FormButton } from "../../Attribute/FormFields";
 import { useNavigate } from "react-router-dom";
-import { ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { Storage } from "../../Utils";
 import { Spin } from "antd";
@@ -22,7 +22,7 @@ const KYC = () => {
 
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
           <div className="rounded-lg overflow-hidden w-full ">
-            <img src={`/assets/images/kyc/KYC_Banner.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />
+            <img src={`${ImagePath}kyc/KYC_Banner.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />
           </div>
 
           <div className="flex flex-col w-full  h-full justify-center">
@@ -49,9 +49,9 @@ const KYC = () => {
                     <h3 className="text-sm font-semibold text-neutral-500">{KYCData?.idNumber}</h3>
                   </div>
                 </div>
-                {isLoading ? <Spin /> : <p className={`text-lg font-bold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status}</p>}
+                {isLoading ? <Spin /> : <p className={`text-lg font-bold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status || "Unverified"}</p>}
               </div>
-              {KYCData?.status === "unverified" && <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />}
+              {!["verified", "pending"].includes(KYCData?.status) && <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />}
             </div>
           </div>
         </div>

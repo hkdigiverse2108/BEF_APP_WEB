@@ -1,19 +1,27 @@
+import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
+import { RxCross2 } from "react-icons/rx";
+import { useLocation } from "react-router-dom";
+import { useGetApiQuery } from "../../../Api/CommonApi";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import AiPowered from "../../../Components/Exam/Result/AiPowered";
-import Overview from "../../../Components/Exam/Result/Overview";
-import ResultBanner from "../../../Components/Exam/Result/ResultBanner";
-import { Tab, Tabs } from "@mui/material";
-import { RxCross2 } from "react-icons/rx";
-import Summary from "../../../Components/Exam/Result/Summary";
 import CompareCompetitor from "../../../Components/Exam/Result/CompareCompetitor";
 import EliminationSkill from "../../../Components/Exam/Result/EliminationSkill";
 import Leaderboard from "../../../Components/Exam/Result/Leaderboard";
+import Overview from "../../../Components/Exam/Result/Overview";
+import ResultBanner from "../../../Components/Exam/Result/ResultBanner";
+import Summary from "../../../Components/Exam/Result/Summary";
+import { URL_KEYS } from "../../../Constants";
 
 const Result = () => {
   const [isOpen, setOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const { search } = useLocation();
+
+  const { data, isLoading } = useGetApiQuery({ url: `${URL_KEYS.REPORT.REPORT}${search}` });
+  const ResultData = data?.data;
+  const OverviewData = ResultData?.sec1?.polity;
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
@@ -60,10 +68,10 @@ const Result = () => {
           {/* Tab Panels */}
           <div className="tab-panels w-full">
             <div hidden={tabIndex !== 0}>
-              <Overview />
+              <Overview data={OverviewData} />
             </div>
             <div hidden={tabIndex !== 1}>
-              <AiPowered />
+              <AiPowered data={OverviewData?.qaTypeMetrics} />
             </div>
             <div hidden={tabIndex !== 2}>
               <Summary />

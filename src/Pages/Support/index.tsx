@@ -11,7 +11,7 @@ const SupportModal = () => {
   const handleOk = () => dispatch(setSupportModal());
 
   return (
-    <Modal centered open={isSupportModal} onCancel={handleOk} footer={null} className="feedback">
+    <Modal centered open={isSupportModal} onCancel={handleOk} footer={null} className="feedback" width="600px">
       <div className="flex flex-col items-center justify-center min-h-full">
         <div className="w-full !rounded-2xl overflow-hidden border border-gray-200 bg-input-box bg-cover bg-top">
           <div className="text-center p-3 sm:p-6 !pb-0">
@@ -19,31 +19,38 @@ const SupportModal = () => {
           </div>
 
           <div className="p-3 sm:p-6 flex flex-col gap-6">
-            <div className="bg-white rounded-md p-6">
+            <div className="bg-white rounded-lg p-3 sm:p-6">
               <ul className="grid grid-cols-1 gap-3 relative z-20">
-                <li className="border p-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary">
-                  <p className="font-bold text-base flex items-center uppercase">
+                <li className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary">
+                  <p className="font-bold text-base flex items-center uppercase py-3">
                     <div className="me-3 text-2xl">
-                      <IoMdMail color="orange"/>
+                      <IoMdMail color="orange" />
                     </div>
                     Send Email
                   </p>
+                  <a href="mailto:bharatexamfest@gamil.com" className="font-bold text-sm flex items-end !text-gray-500 pb-2">
+                    bharatexamfest@gamil.com
+                  </a>
                 </li>
-                <li className="border p-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary">
-                  <p className="font-bold text-base flex items-center uppercase">
+                <li className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary">
+                  <p className="font-bold text-base flex items-center uppercase py-3">
                     <div className="me-3 text-2xl">
-                      <IoIosCall color="limegreen"/>
+                      <IoIosCall color="limegreen" />
                     </div>
                     Make Call
                   </p>
+                  <a href="tel:111-222-333" className="font-bold text-sm flex items-end !text-gray-500 pb-2">
+                    111-222-333
+                  </a>
                 </li>
-                <li className="border p-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary">
-                  <p className="font-bold text-base flex items-center uppercase">
+                <li className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary" onClick={() => window.open("https://wa.me/111222333", "_blank")}>
+                  <p className="font-bold text-base flex items-center uppercase py-3">
                     <div className="me-3 text-2xl">
-                      <FaWhatsapp color="green"/>
+                      <FaWhatsapp color="green" />
                     </div>
                     Chat With US
                   </p>
+                  <span className="font-bold text-sm flex items-end !text-gray-500 pb-2">111-222-333</span>
                 </li>
               </ul>
             </div>

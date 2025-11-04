@@ -26,15 +26,46 @@ const ProgressCell = ({ title, value, color }: { title: string; value: number; c
   </td>
 );
 
-const AiPowered = () => {
-  const rows = [
-    { title: "100% Sure", value: 88, color: "#39B627", label: "2/2" },
-    { title: "Logic play", value: 75, color: "#009951", label: "2/3" },
-    { title: "Intuition Hit", value: 50, color: "#F5D01C", label: "1/2" },
-    { title: "Blind fire", value: 0, color: "#F24914", label: "0/2" },
-  ];
+const AiPowered = ({ data }: any) => {
+  const { direct, fiftyFifty, oneEliminate } = data?.["100%Sure"] ?? {};
+  console.log("Sure", data);
 
-  const chartColors = ["#FF9500", "#F0788C", "#B482DC"];
+  const calcPercent = (correct?: number, total?: number) => (total && total > 0 ? Math.round((correct! / total) * 100) : 0);
+
+  const rows = [
+    {
+      title: "100% Sure",
+      value: 88,
+      color: "#39B627",
+      direct: { label: `${direct?.correct}/${direct?.total}`, value: calcPercent(direct?.correct / direct?.total) },
+      fiftyFifty: { label: `${fiftyFifty?.correct}/${fiftyFifty?.total}`, value: calcPercent(fiftyFifty?.correct / fiftyFifty?.total) },
+      oneEliminate: { label: `${oneEliminate?.correct}/${oneEliminate?.total}`, value: calcPercent(oneEliminate?.correct / oneEliminate?.total) },
+    },
+    {
+      title: "Logic play",
+      value: 75,
+      color: "#009951",
+      direct: { label: `${data?.logicPlay?.direct?.correct}/${data?.logicPlay?.direct?.total}`, value: calcPercent(data?.logicPlay?.direct?.correct / data?.logicPlay?.direct?.total) },
+      fiftyFifty: { label: `${data?.logicPlay?.fiftyFifty?.correct}/${data?.logicPlay?.fiftyFifty?.total}`, value: calcPercent(data?.logicPlay?.fiftyFifty?.correct / data?.logicPlay?.fiftyFifty?.total) },
+      oneEliminate: { label: `${data?.logicPlay?.oneEliminate?.correct}/${data?.logicPlay?.oneEliminate?.total}`, value: calcPercent(data?.logicPlay?.oneEliminate?.correct / data?.logicPlay?.oneEliminate?.total) },
+    },
+    {
+      title: "Intuition Hit",
+      value: 50,
+      color: "#F5D01C",
+      direct: { label: `${data?.intuitionHit?.direct?.correct}/${data?.intuitionHit?.direct?.total}`, value: calcPercent(data?.intuitionHit?.direct?.correct / data?.intuitionHit?.direct?.total) },
+      fiftyFifty: { label: `${data?.intuitionHit?.fiftyFifty?.correct}/${data?.intuitionHit?.fiftyFifty?.total}`, value: calcPercent(data?.intuitionHit?.fiftyFifty?.correct / data?.intuitionHit?.fiftyFifty?.total) },
+      oneEliminate: { label: `${data?.intuitionHit?.oneEliminate?.correct}/${data?.intuitionHit?.oneEliminate?.total}`, value: calcPercent(data?.intuitionHit?.oneEliminate?.correct / data?.intuitionHit?.oneEliminate?.total) },
+    },
+    {
+      title: "Blind fire",
+      value: 0,
+      color: "#F24914",
+      direct: { label: `${data?.blindFire?.direct?.correct}/${data?.blindFire?.direct?.total}`, value: calcPercent(data?.blindFire?.direct?.correct / data?.blindFire?.direct?.total) },
+      fiftyFifty: { label: `${data?.blindFire?.fiftyFifty?.correct}/${data?.blindFire?.fiftyFifty?.total}`, value: calcPercent(data?.blindFire?.fiftyFifty?.correct / data?.blindFire?.fiftyFifty?.total) },
+      oneEliminate: { label: `${data?.blindFire?.oneEliminate?.correct}/${data?.blindFire?.oneEliminate?.total}`, value: calcPercent(data?.blindFire?.oneEliminate?.correct / data?.blindFire?.oneEliminate?.total) },
+    },
+  ];
 
   const cards = [
     { title: "Fear Skips", bottomValue: "11.33", bottomText: "Total", textColor: "text-success", barColor: "bg-black", bg: "bg-primary-light text-black min-w-[200px]", bottomIcon: <IoMdArrowDropdown /> },
@@ -67,11 +98,15 @@ const AiPowered = () => {
             {rows.map((row, i) => (
               <tr key={i} className="border-b border-card-border">
                 <ProgressCell title={row.title} value={row.value} color={row.color} />
-                {chartColors.map((c, j) => (
-                  <td key={j} className="px-4 w-1/4">
-                    <ChartCell color={c} value={row.value} label={row.label} />
-                  </td>
-                ))}
+                <td className="px-4 w-1/4">
+                  <ChartCell color={"#FF9500"} value={row?.direct?.value} label={row?.direct?.label} />
+                </td>
+                <td className="px-4 w-1/4">
+                  <ChartCell color={"#F0788C"} value={row?.fiftyFifty?.value} label={row?.fiftyFifty?.label} />
+                </td>
+                <td className="px-4 w-1/4">
+                  <ChartCell color={"#B482DC"} value={row?.oneEliminate?.value} label={row?.oneEliminate?.label} />
+                </td>
               </tr>
             ))}
             <tr>

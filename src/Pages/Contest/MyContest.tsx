@@ -1,38 +1,32 @@
-import { FormButton } from "../../Attribute/FormFields";
 import { Tab, Tabs } from "@mui/material";
-import { useGetApiQuery } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
+import { Empty, Skeleton } from "antd";
 import { useEffect, useState } from "react";
-import MyContestUpcomingCard from "../../Components/Contest/MyContestUpcomingCard";
+import { useGetApiQuery } from "../../Api/CommonApi";
+import { FormButton } from "../../Attribute/FormFields";
 import MyContestPastTestCard from "../../Components/Contest/MyContestPastTestCard";
-import Loader from "../../Components/Common/Loader";
+import MyContestUpcomingCard from "../../Components/Contest/MyContestUpcomingCard";
+import { URL_KEYS } from "../../Constants";
 import type { ContestData } from "../../Types";
-import { Empty } from "antd";
 
 const MyContest = () => {
   const [tabIndex, setTabIndex] = useState(0);
-  const [tabOnelimit, setTabOneLimit] = useState(6);
-  const [tabTwolimit, setTabTwoLimit] = useState(6);
-
-  const [queryFilter, setQueryFilter] = useState(`limit=${tabIndex === 1 ? tabTwolimit : tabOnelimit}&contestFilter=upcoming,ongoing`);
+  const [tabOneLimit, setTabOneLimit] = useState(6);
+  const [tabTwoLimit, setTabTwoLimit] = useState(6);
+  const [queryFilter, setQueryFilter] = useState(`limit=${tabIndex === 1 ? tabTwoLimit : tabOneLimit}&contestFilter=upcoming,ongoing`);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
-  const { data: ContestData, isLoading } = useGetApiQuery({
-    url: `${URL_KEYS.QA.ALL}?page=1&${queryFilter}`,
-  });
+  const { data: ContestData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&${queryFilter}` });
 
   const Contest = ContestData?.data.contest_type_data;
 
-  console.log(isLoading);
-
   useEffect(() => {
     if (tabIndex === 1) {
-      setQueryFilter(`limit=${tabIndex === 1 ? tabTwolimit : tabOnelimit}&contestFilter=completed`);
+      setQueryFilter(`limit=${tabIndex === 1 ? tabTwoLimit : tabOneLimit}&contestFilter=completed`);
     } else {
-      setQueryFilter(`limit=${tabIndex === 1 ? tabTwolimit : tabOnelimit}&contestFilter=upcoming,ongoing`);
+      setQueryFilter(`limit=${tabIndex === 1 ? tabTwoLimit : tabOneLimit}&contestFilter=upcoming,ongoing`);
     }
-  }, [tabIndex, tabTwolimit, tabOnelimit]);
+  }, [tabIndex, tabTwoLimit, tabOneLimit]);
 
   return (
     <div className="sub-container">
@@ -43,51 +37,44 @@ const MyContest = () => {
             <Tab label="Past Test" />
           </Tabs>
         </div>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <div hidden={tabIndex !== 0} className="flex flex-col gap-5 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6">
-                {Contest?.length === 0 ? (
-                  <div className="flex items-center justify-center w-full col-span-4">
-                    <Empty />
-                  </div>
-                ) : (
-                  Contest?.map((contest: ContestData, index: number) => <MyContestUpcomingCard key={index} contestData={contest}/>)
-                )}
-              </div>
-              {Contest?.length < tabOnelimit ? (
-                ""
-              ) : (
-                <div className="w-full flex justify-center">
-                  <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOnelimit + 6)} />
-                </div>
-              )}
-            </div>
 
-            <div hidden={tabIndex !== 1} className="flex flex-col gap-5 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5 mt-6">
-                {isLoading ? (
-                  <Loader />
-                ) : Contest?.length === 0 ? (
-                  <div className="flex items-center justify-center w-full col-span-4">
-                    <Empty />
-                  </div>
-                ) : (
-                  Contest?.map((contest: ContestData, index: number) => <MyContestPastTestCard key={index} contestData={contest}/>)
-                )}
+        <div hidden={tabIndex !== 0} className="flex flex-col gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {isLoading ? (
+              [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 10 }} />)
+            ) : Contest?.length === 0 ? (
+              <div className="flex items-center justify-center w-full col-span-4">
+                <Empty />
               </div>
-              {Contest?.length < tabTwolimit ? (
-                ""
-              ) : (
-                <div className="w-full flex justify-center">
-                  <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabTwoLimit(tabTwolimit + 6)} />
-                </div>
-              )}
+            ) : (
+              Contest?.map((contest: ContestData, index: number) => <MyContestUpcomingCard key={index} contestData={contest} />)
+            )}
+          </div>
+          {(Contest?.length > tabOneLimit || Contest?.length > 0) && (
+            <div className="w-full flex justify-center">
+              <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 6)} />
             </div>
-          </>
-        )}
+          )}
+        </div>
+
+        <div hidden={tabIndex !== 1} className="flex flex-col gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {isLoading ? (
+              [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 10 }} />)
+            ) : Contest?.length === 0 ? (
+              <div className="flex items-center justify-center w-full col-span-4">
+                <Empty />
+              </div>
+            ) : (
+              Contest?.map((contest: ContestData, index: number) => <MyContestPastTestCard key={index} contestData={contest} />)
+            )}
+          </div>
+          {(Contest?.length > tabTwoLimit || Contest?.length > 0) && (
+            <div className="w-full flex justify-center">
+              <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabTwoLimit(tabTwoLimit + 6)} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

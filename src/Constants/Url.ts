@@ -11,6 +11,9 @@ export const URL_KEYS = {
   USER: {
     CHECK: "/user/check",
     WINNER_LIST: "/user/winner-list",
+    ID: "/user/",
+    EDIT: "/user/edit",
+    REFERRAL: "/user/referrals",
   },
   EXAM: {
     TYPE: "/exam-type",
@@ -61,4 +64,13 @@ export const URL_KEYS = {
   UPLOAD: {
     ADD: "/upload",
   },
+  TRANSACTION:{
+    ALL:"/transaction/all"
+  },
+  RESULT_REPORT:{
+    ID:"/result-report/"
+  },
+  REPORT:{
+    REPORT:"/report"
+  }
 } as const;

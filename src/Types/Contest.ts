@@ -75,6 +75,7 @@ export interface ContestData {
   status?: string;
   subject?: SubjectInfo;
   contest?: ContestCore;
+  contestId?: string;
 }
 
 /* ---------- COMPONENT PROP ---------- */

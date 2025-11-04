@@ -5,3 +5,5 @@ export * from "./Contest";
 export * from "./Classes";
 export * from "./Course";
 export * from "./HowToPlay";
+export * from "./History";
+export * from "./Referral";

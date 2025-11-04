@@ -81,7 +81,7 @@ const KYCVerification = () => {
     try {
       const res = await PostApi({ url: URL_KEYS.KYC.ADD, data });
       console.log("res", res);
-      navigate(ROUTES.KYC.KYC);
+      navigate(ROUTES.HOME);
     } catch (error) {
       console.error(error);
     }
@@ -190,7 +190,7 @@ const KYCVerification = () => {
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row justify-between gap-4">
-              <FormButton htmlType="button" text="REPLACE" className="custom-button-light button button--mimas w-full !h-auto" />
+              {/* <FormButton htmlType="button" text="REPLACE" className="custom-button-light button button--mimas w-full !h-auto" /> */}
               <FormButton htmlType="submit" text="UPLOAD & CONTINUE" loading={isLoading} className="custom-button button button--mimas w-full !h-auto" />
             </div>
           </div>

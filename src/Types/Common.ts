@@ -1,5 +1,6 @@
-import type { ButtonProps, DatePickerProps, FormItemProps, InputProps, SelectProps } from "antd";
+import type { ButtonProps, DatePickerProps, FormItemProps, GetProp, InputProps, SelectProps, UploadProps } from "antd";
 import type { GlobalConfigProps } from "antd/es/config-provider";
+import type { UploadListType } from "antd/es/upload/interface";
 import type { ReactNode } from "react";
 
 export interface FormInputProps extends InputProps {
@@ -107,4 +108,27 @@ export interface MessageStatus {
   status: number;
   message: string;
   error: Record<string, unknown>;
+}
+
+// ************ Upload ***********
+
+export interface UploadResponse {
+  data: string;
+  error: Record<string, unknown>;
+  message: string;
+  status: number;
+}
+
+export type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+
+export interface ImageUploadProps {
+  multiple?: boolean;
+  name?: string;
+  accept?: string;
+  isListType?: UploadListType;
+  label?: string;
+  required?: boolean;
+  disabled?: boolean;
+  value?: string[];
+  onChange?: (value: string[]) => void;
 }

@@ -1,9 +1,9 @@
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import React from "react";
+import { type FC, type ReactNode } from "react";
 import { ImagePath } from "../../../Constants";
 
-const Overview = () => {
-  const OverviewCard: React.FC<{ img: React.ReactNode; label: string; value: string; subValue?: string }> = ({ img, label, value, subValue }) => (
+const Overview = ({data}:any) => {
+  const OverviewCard: FC<{ img: ReactNode; label: string; value: string; subValue?: string }> = ({ img, label, value, subValue }) => (
     <div className="relative bg-input-box rounded-xl p-4 flex flex-col justify-between h-36">
       <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0" />
       <div className="flex items-start justify-between">
@@ -29,11 +29,11 @@ const Overview = () => {
       </div>
       <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
         <OverviewCard img={"result/Total.png"} label="Total Marks Scored" value="53.3 /" subValue={"100 Marks"} />
-        <OverviewCard img={"result/Correct.png"} label="Correct" value="30 " subValue={"Marks"} />
-        <OverviewCard img={"result/Incorrect.png"} label="Incorrect" value="10 " subValue={"Marks"} />
-        <OverviewCard img={"result/Unanswered.png"} label="Unanswered" value="10 " subValue={"Marks"} />
-        <OverviewCard img={"result/Rank.png"} label="Rank" value="1000" />
-        <OverviewCard img={"result/Time.png"} label="Time" value="00:27:30" />
+        <OverviewCard img={"result/Correct.png"} label="Correct" value={data?.correct} subValue={"Marks"} />
+        <OverviewCard img={"result/Incorrect.png"} label="Incorrect" value={data?.incorrect} subValue={"Marks"} />
+        <OverviewCard img={"result/Unanswered.png"} label="Unanswered" value={data?.unanswered} subValue={"Marks"} />
+        <OverviewCard img={"result/Rank.png"} label="Rank" value={data?.rank} />
+        <OverviewCard img={"result/Time.png"} label="Time" value={data?.time} />
       </section>
       <div className="mt-4 border border-red-600 bg-red-50 rounded-md p-3 text-sm text-gray-600 flex items-start gap-2">
         <ExclamationCircleOutlined className="text-red-600 mt-0.5" />
