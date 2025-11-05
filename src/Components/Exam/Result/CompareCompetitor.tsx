@@ -1,59 +1,83 @@
 import { Tab, Tabs } from "@mui/material";
 import { Progress } from "antd";
-import { useState } from "react";
+import { useState, type FC } from "react";
+import type { QaType, Sec2Type } from "../../../Types";
 
-const aiSections = [
-  { title: "100% sure", you: 20, others: 30, toppers: 40 },
-  { title: "Logic Play", you: 20, others: 30, toppers: 40 },
-  { title: "Intuition Hit play", you: 20, others: 30, toppers: 40 },
-  { title: "Blind fire", you: 20, others: 30, toppers: 40 },
-  { title: "50-50", you: 20, others: 30, toppers: 40 },
-  { title: "Lopt 1-OPT eliminate", you: 20, others: 30, toppers: 40 },
-  { title: "fear skip", you: 20, others: 30, toppers: 40 },
-];
-
-const compare = [
-  {
-    title: "correct",
-    color: "bg-success",
-    items: [
-      { items: "You", value: "20" },
-      { items: "Others", value: "30" },
-      { items: "Toppers", value: "40" },
-    ],
-  },
-  {
-    title: "incorrect",
-    color: "bg-primary",
-    items: [
-      { items: "You", value: "20" },
-      { items: "Others", value: "30" },
-      { items: "Toppers", value: "40" },
-    ],
-  },
-  {
-    title: "Skip",
-    color: "bg-gold",
-    items: [
-      { items: "You", value: "20" },
-      { items: "Others", value: "30" },
-      { items: "Toppers", value: "40" },
-    ],
-  },
-  {
-    title: "Correct",
-    color: "bg-purple-dark",
-    items: [
-      { items: "You", value: "20" },
-      { items: "Others", value: "30" },
-      { items: "Toppers", value: "40" },
-    ],
-  },
-];
-
-const CompareCompetitor = () => {
+const CompareCompetitor: FC<{ data: Sec2Type }> = ({ data }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
+
+  const compare = [
+    {
+      title: "correct",
+      color: "bg-success",
+      items: [
+        { items: "You", value: data?.compareWithCompetitor?.you?.correct },
+        { items: "Others", value: data?.compareWithCompetitor?.others?.correct },
+        { items: "Toppers", value: data?.compareWithCompetitor?.toppers?.correct },
+      ],
+    },
+    {
+      title: "incorrect",
+      color: "bg-primary",
+      items: [
+        { items: "You", value: data?.compareWithCompetitor?.you?.incorrect },
+        { items: "Others", value: data?.compareWithCompetitor?.others?.incorrect },
+        { items: "Toppers", value: data?.compareWithCompetitor?.toppers?.incorrect },
+      ],
+    },
+    {
+      title: "Skip",
+      color: "bg-gold",
+      items: [
+        { items: "You", value: data?.compareWithCompetitor?.you?.skipped },
+        { items: "Others", value: data?.compareWithCompetitor?.others?.skipped },
+        { items: "Toppers", value: data?.compareWithCompetitor?.toppers?.skipped },
+      ],
+    },
+    {
+      title: "Accuracy",
+      color: "bg-purple-dark",
+      items: [
+        { items: "You", value: data?.compareWithCompetitor?.you?.accuracy },
+        { items: "Others", value: data?.compareWithCompetitor?.others?.accuracy },
+        { items: "Toppers", value: data?.compareWithCompetitor?.toppers?.accuracy },
+      ],
+    },
+  ];
+
+  const qaTypeLabels: { key: QaType; title: string }[] = [
+    { key: "100%Sure", title: "100% Sure" },
+    { key: "logicPlay", title: "Logic Play" },
+    { key: "intuitionHit", title: "Intuition Hit Play" },
+    { key: "blindFire", title: "Blind Fire" },
+    { key: "50-50", title: "50-50" },
+    { key: "1-OPT Eliminate", title: "1-OPT Eliminate" },
+    { key: "fearDriverSkip", title: "Fear Driver Skip" },
+    { key: "skip", title: "Skip" },
+  ];
+
+  const qaReport = data?.qaTypeStrategyReport ?? {};
+
+  const aiSections = qaTypeLabels.map(({ key, title }) => {
+    const item = qaReport[key];
+    return {
+      title,
+      you: item?.you?.accuracy ?? 0,
+      others: item?.others?.accuracy ?? 0,
+      toppers: item?.toppers?.accuracy ?? 0,
+    };
+  });
+
+  const sections = Object.values(data?.subtopicWiseReport || {})?.map((item) => ({
+    title: item?.subtopicName,
+    you: item?.you?.accuracy ?? 0,
+    others: item?.others?.accuracy ?? 0,
+    toppers: item?.toppers?.accuracy ?? 0,
+  }));
+
+  const currentSections = tabIndex === 0 ? sections : aiSections;
+
   return (
     <>
       <div className="relative pl-4 mb-6">
@@ -72,7 +96,7 @@ const CompareCompetitor = () => {
                 {items.map((item, j) => (
                   <li key={j} className="flex justify-between w-full">
                     <span>{item.items}</span>
-                    <span>{item.value}</span>
+                    <span>{item.value || 0}</span>
                   </li>
                 ))}
               </ul>
@@ -83,11 +107,11 @@ const CompareCompetitor = () => {
       <div className="pt-6">
         <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
           <Tab label="Sub wise" />
-          <Tab label="Attempting Strategy wise" />
+          <Tab label="Strategy wise" />
         </Tabs>
         <div className="tab-panels w-full">
           <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 pt-6">
-            {aiSections.map((item, i) => (
+            {currentSections?.map((item, i) => (
               <div key={i} className="rounded-lg shadow-lg border border-card-border">
                 <div className="px-4 py-2 rounded-t-lg text-lg text-black flex justify-between bg-input-box border-b border-card-border">
                   <h3>{item.title}</h3>
@@ -98,7 +122,7 @@ const CompareCompetitor = () => {
                       <Progress percent={item.you} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#288F66"} strokeWidth={20} />
                     </li>
                     <li>
-                      <Progress percent={item.others} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#FE6E13"} strokeWidth={20} className="others"/>
+                      <Progress percent={item.others} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#FE6E13"} strokeWidth={20} className="others" />
                     </li>
                     <li>
                       <Progress percent={item.toppers} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#2d1067"} strokeWidth={20} />

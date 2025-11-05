@@ -50,7 +50,7 @@ const MyContest = () => {
               Contest?.map((contest: ContestData, index: number) => <MyContestUpcomingCard key={index} contestData={contest} />)
             )}
           </div>
-          {(Contest?.length > tabOneLimit || Contest?.length > 0) && (
+          {(Contest?.length >= tabOneLimit && Contest?.length > 0) && (
             <div className="w-full flex justify-center">
               <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 6)} />
             </div>
@@ -69,7 +69,7 @@ const MyContest = () => {
               Contest?.map((contest: ContestData, index: number) => <MyContestPastTestCard key={index} contestData={contest} />)
             )}
           </div>
-          {(Contest?.length > tabTwoLimit || Contest?.length > 0) && (
+          {(Contest?.length >= tabTwoLimit && Contest?.length > 0) && (
             <div className="w-full flex justify-center">
               <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabTwoLimit(tabTwoLimit + 6)} />
             </div>

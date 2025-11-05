@@ -56,6 +56,62 @@ export const EliminationSkillRadialBarChart = (color: string): ApexOptions => ({
   },
 });
 
+export const EliminationSkillRadialBarCharts = (color: string, extra?: { left?: number; right?: number }): ApexOptions => ({
+  chart: {
+    type: "radialBar",
+    sparkline: { enabled: true },
+  },
+  tooltip: {
+    enabled: true,
+    x: { show: false },
+    marker: { show: false },
+    custom: () => {
+      const left = extra?.left ?? 0;
+      const right = extra?.right ?? 0;
+      return `
+          <div style="
+            background: ${color};
+            color: #fff;
+            padding: 6px 10px;
+            font-weight: 600;
+            font-family: inherit;
+            font-size: 13px;
+            opacity: 0.9;
+          ">
+            ${left} / ${right}
+          </div>
+        `;
+    },
+  },
+  plotOptions: {
+    radialBar: {
+      startAngle: -90,
+      endAngle: 90,
+      hollow: { size: "60%" },
+      track: {
+        show: true,
+        background: color || "#f5f5f5",
+        opacity: 0.1,
+      },
+      dataLabels: {
+        name: { show: false },
+        value: {
+          fontSize: "20px",
+          fontWeight: 600,
+          color: "#000",
+          formatter: (val: number) => `${val}%`,
+        },
+      },
+    },
+  },
+  fill: {
+    type: "gradient",
+    gradient: { shadeIntensity: 0, shade: "light" },
+  },
+  colors: [color],
+  stroke: { lineCap: "round" },
+});
+
 export const EliminationSkillBarChart: ApexOptions = {
   chart: {
     height: 350,
@@ -81,16 +137,6 @@ export const EliminationSkillBarChart: ApexOptions = {
   legend: {
     show: false,
   },
-  series: [
-    {
-      name: "Your Correct Elimination Accuracy",
-      data: [44, 55, 57, 56],
-    },
-    {
-      name: "Right Answer Accuracy After Elimination",
-      data: [76, 85, 101, 98],
-    },
-  ],
   xaxis: {
     categories: ["100% Sure", "Logic Play", "Intuition Hit play", "Blind fire"],
   },

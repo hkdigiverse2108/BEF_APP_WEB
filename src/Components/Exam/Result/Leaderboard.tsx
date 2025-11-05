@@ -1,6 +1,17 @@
-import { ImagePath } from "../../../Constants";
+import { useLocation } from "react-router-dom";
+import { useGetApiQuery } from "../../../Api/CommonApi";
+import { ImagePath, URL_KEYS } from "../../../Constants";
+import type { FC } from "react";
+import type { RanksApiResponse } from "../../../Types/Ranks";
 
-const Leaderboard = () => {
+const Leaderboard: FC<{ tabIndex: number }> = ({ tabIndex }) => {
+  const { search } = useLocation();
+
+  const { data } = useGetApiQuery<RanksApiResponse>({ url: `${URL_KEYS.QA.CONTEST_RANKS}${search}` }, { skip: tabIndex === 5 ? false : true });
+  
+  const RanksData = data?.data[0]?.ranks;
+  console.log(RanksData);
+
   const players = [
     { id: 2, name: "MADELYN DIAS", score: "1,469 QP", color: "bg-success", img: `${ImagePath}user/User2.png`, size: "w-40 h-35 text-3xl" },
     { id: 1, name: "DAVIS CURTIS", score: "1,469 QP", color: "bg-primary", img: `${ImagePath}user/User3.png`, size: "w-50 h-45 text-6xl" },
@@ -63,9 +74,40 @@ const Leaderboard = () => {
           🏅 You are doing better than <span className="text-orange-600 px-1">60%</span> of other players!
         </div>
 
-        {/* Podium */}
-        <div className="mt-10 flex max-sm:flex-wrap justify-center items-end gap-5 w-full">
-          {players.map((p, i) => (
+        <div className="mt-10 grid grid-cols-3 justify-center items-end gap-5 w-full">
+          {RanksData?.filter((list) => Number(list.endPlace) <= 3).map((list) =>
+            list.winners?.map((item, i) => (
+              <div key={i} className={`flex flex-col items-center max-sm:w-full ${i === 0 ? "max-sm:order-1" : i === 2 ? "max-sm:order-2" : ""}`}>
+                <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" className={`${item.rank === 1 ? "w-50 h-45" : item.rank === 2 ? "w-40 h-35" : item.rank === 3 ? "w-35 h-30" : ""}`} />
+                <div className={`w-full rounded-t-lg text-white font-bold py-3 text-center ${item.rank === 1 ? "text-6xl" : item.rank === 2 ? "text-3xl" : item.rank === 3 ? "text-2xl" : ""}`} style={getBackgroundStyle(item.rank)}>
+                  {item.rank}
+                </div>
+                <div className="w-full bg-white text-center rounded-b-xl shadow p-4">
+                  <img src={item.profileImage || `${ImagePath}user/User.png`} alt={item.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
+                  <p className="font-bold text-sm">
+                    {item.firstName} {item.lastName}
+                  </p>
+                  <p className="text-xs text-gray-600">{item.points}</p>
+                </div>
+              </div>
+            ))
+          )}
+          {/* {RanksData?.map((item, i) => (
+            <div key={i} className={`flex flex-col items-center w-1/3 max-sm:w-full ${i === 0 ? "max-sm:order-1" : i === 2 ? "max-sm:order-2" : ""}`}>
+              <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" />
+              <div className={`w-full rounded-t-lg text-white  font-bold py-3 text-center`} style={getBackgroundStyle(Number(item.startPlace))}>
+                {item.startPlace}
+              </div>
+              {item.winners?.map((list, index) => (
+                <div key={index} className="w-full bg-white text-center rounded-b-xl shadow p-4">
+                  <img src={list.profileImage || `${ImagePath}user/User.png`} alt={list.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
+                  <p className="font-bold text-sm">{list.firstName} {list.lastName}</p>
+                  <p className="text-xs text-gray-600">{list.points}</p>
+                </div>
+              ))}
+            </div>
+          ))} */}
+          {/* {players.map((p, i) => (
             <div key={p.id} className={`flex flex-col items-center w-1/3 max-sm:w-full ${i === 0 ? "max-sm:order-1" : i === 2 ? "max-sm:order-2" : ""}`}>
               <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" className={`${p.size.split(" ")[0]}`} />
               <div className={`w-full rounded-t-lg text-white ${p.size.split(" ")[2]} font-bold py-3 text-center`} style={getBackgroundStyle(p.id)}>
@@ -77,7 +119,8 @@ const Leaderboard = () => {
                 <p className="text-xs text-gray-600">{p.score}</p>
               </div>
             </div>
-          ))}
+          ))} */}
+          {/* </div> */}
         </div>
       </div>
       <div className="pt-7">

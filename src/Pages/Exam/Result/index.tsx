@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
@@ -13,23 +13,34 @@ import Overview from "../../../Components/Exam/Result/Overview";
 import ResultBanner from "../../../Components/Exam/Result/ResultBanner";
 import Summary from "../../../Components/Exam/Result/Summary";
 import { URL_KEYS } from "../../../Constants";
+import type { ResultApiResponse } from "../../../Types";
 
 const Result = () => {
   const [isOpen, setOpen] = useState(false);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(5);
   const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const qaFilter = params.get("qaFilter");
 
-  const { data, isLoading } = useGetApiQuery({ url: `${URL_KEYS.REPORT.REPORT}${search}` });
+  const { data, isLoading } = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}${search}` });
+  const { data: ContestData } = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}` });
+
+  const Contest = ContestData?.data.contest_type_data[0];
+  
+
   const ResultData = data?.data;
   const OverviewData = ResultData?.sec1?.polity;
+  const SummaryData = ResultData?.sec1;
+  const compareWithCompetitorData = ResultData?.sec2;
+  const eliminationReportTypeData = ResultData?.sec3;
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
+  const handleChange = (_event: SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
   return (
     <div className="sub-container pt-4 md:pt-8 result">
       <CardHeader title="Result" />
       <span className="border-t border-card-border flex w-full my-4" />
-      <ResultBanner />
+      <ResultBanner contest={Contest}/>
 
       {/* Mobile Toggle Button */}
       <div className="flex justify-start mt-3">
@@ -68,22 +79,22 @@ const Result = () => {
           {/* Tab Panels */}
           <div className="tab-panels w-full">
             <div hidden={tabIndex !== 0}>
-              <Overview data={OverviewData} />
+              <Overview data={OverviewData} isLoading={isLoading} contest={Contest}/>
             </div>
             <div hidden={tabIndex !== 1}>
               <AiPowered data={OverviewData?.qaTypeMetrics} />
             </div>
             <div hidden={tabIndex !== 2}>
-              <Summary />
+              <Summary data={SummaryData} />
             </div>
             <div hidden={tabIndex !== 3}>
-              <CompareCompetitor />
+              <CompareCompetitor data={compareWithCompetitorData} />
             </div>
             <div hidden={tabIndex !== 4}>
-              <EliminationSkill />
+              <EliminationSkill data={eliminationReportTypeData} />
             </div>
             <div hidden={tabIndex !== 5}>
-              <Leaderboard />
+              <Leaderboard tabIndex={tabIndex} />
             </div>
           </div>
         </div>

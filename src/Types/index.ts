@@ -7,3 +7,4 @@ export * from "./Course";
 export * from "./HowToPlay";
 export * from "./History";
 export * from "./Referral";
+export * from "./Result";

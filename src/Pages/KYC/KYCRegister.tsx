@@ -46,7 +46,7 @@ const KYCRegister = () => {
   return (
     <div className="sub-container my-6 min-h-screen">
       <section className="flex flex-col gap-5">
-        <h2 className="text-2xl font-semibold">KYC</h2>
+        <h2 className="text-2xl font-semibold">KYC Register</h2>
         <span className="border-b border-gray-100 w-full"></span>
 
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
