@@ -25,7 +25,7 @@ const MenuDrawer = () => {
     { icon: <IoSchoolOutline />, title: "Get Scholarship", url: ROUTES.GET_SCHOLARSHIP.GET_SCHOLARSHIP },
     { icon: <BiWallet />, title: "History", url: ROUTES.HISTORY.HISTORY },
     { icon: <IoSettingsOutline />, title: "My Info & Setting", url: ROUTES.MY_INFO.MY_INFO },
-    { icon: <LuTvMinimalPlay />, title: "How to Play", url: ROUTES.HOW_TO_PLAY.HOW_TO_PLAY },
+    { icon: <LuTvMinimalPlay />, title: "How It Works", url: ROUTES.HOW_IT_WORK.HOW_IT_WORK },
     { icon: <IoMailOutline />, title: "Support", url: Href },
     { icon: <MdOutlineVerified />, title: "KYC Verification", url: ROUTES.KYC.KYC },
     { icon: <MdOutlineLock />, title: "Terms & Conditions", url: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS },

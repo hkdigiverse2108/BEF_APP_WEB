@@ -37,7 +37,7 @@ const MyInfo = () => {
     if (userData) {
       form.setFieldsValue({
         ...userData,
-        profileImage: [userData?.profileImage],
+        profileImage: userData?.profileImage ? [userData?.profileImage] : [],
       });
     }
   }, [userData, form]);
@@ -114,7 +114,7 @@ const MyInfo = () => {
                 <FormInput name="email" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
               </Col>
               <Col span={24} md={12}>
-                <FormInput name="attemptNumber" label="Attempt Number" required />
+                <FormInput name="upscNumber" label="Attempt Number" required />
               </Col>
               <Col span={24} md={12}>
                 <FormSelect name="gender" label="Gender" options={GenderOptions} />

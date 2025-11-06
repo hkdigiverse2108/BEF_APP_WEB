@@ -2,17 +2,17 @@ import { useState } from "react";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { ImagePath, URL_KEYS } from "../../Constants";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import type { HowToPlayApiResponse } from "../../Types";
+import type { HowItWorkApiResponse } from "../../Types";
 import { Spin } from "antd";
 
-const HowToPlay = () => {
+const HowItWork = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const openVideo = (link: string) => setActiveVideo(link);
-  const { data: HowToPlayData, isLoading } = useGetApiQuery<HowToPlayApiResponse>({ url: URL_KEYS.HOW_TO_PLAY.ALL });
+  const { data: HowItWorkData, isLoading } = useGetApiQuery<HowItWorkApiResponse>({ url: URL_KEYS.HOW_IT_WORK.ALL });
 
   return (
     <div className="sub-container pt-8">
-      <CardHeader title="How To Play" />
+      <CardHeader title="How It Work" />
       <section className="how_it_works" id="how_it_work">
         <div>
           {isLoading ? (
@@ -23,8 +23,8 @@ const HowToPlay = () => {
             <div className="how_it_inner">
               <div className="step_block">
                 <ul>
-                  {HowToPlayData?.data.how_to_play_data.map((step, i) => (
-                    <li className={i % 2 === 1 ? `even-step` : `odd-step`}>
+                  {HowItWorkData?.data.how_it_work_data.map((step, i) => (
+                    <li key={i} className={i % 2 === 1 ? `even-step` : `odd-step`}>
                       <div className={`step_text aos-init aos-animate capitalize ${i % 2 === 0 ? `text-right` : `text-left`}`} data-aos="fade-right" data-aos-duration={1500}>
                         <h4>{step.title}</h4>
                         <p>{step.description}</p>
@@ -56,4 +56,4 @@ const HowToPlay = () => {
   );
 };
 
-export default HowToPlay;
+export default HowItWork;

@@ -1,9 +1,11 @@
 import type { FC } from "react";
 import { FormButton } from "../../../Attribute/FormFields";
-import { ImagePath } from "../../../Constants";
+import { ImagePath, ROUTES } from "../../../Constants";
 import type { ContestData } from "../../../Types";
+import { useNavigate } from "react-router-dom";
 
 const ResultBanner: FC<{ contest: ContestData }> = ({ contest }) => {
+  const navigate = useNavigate()
   return (
     <div className="w-full h-full rounded-2xl p-6 shadow-sm lg:flex-row bg-cover bg-center" style={{ backgroundImage: `url(${ImagePath}result/Result-bg.jpg)` }}>
       <div className="sm:w-90 h-full bg-white rounded-2xl text-center p-4">
@@ -16,7 +18,7 @@ const ResultBanner: FC<{ contest: ContestData }> = ({ contest }) => {
             </div>
           </div>
         </div>
-        <FormButton text="view solution" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+        <FormButton onClick={() => navigate(ROUTES.EXAM.SOLUTION)} text="view solution" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
       </div>
     </div>
   );

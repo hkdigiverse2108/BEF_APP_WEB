@@ -2,10 +2,19 @@ import ReactApexChart from "react-apexcharts";
 import { FormSelect } from "../../Attribute/FormFields";
 import { EliminationSkillRadialBarChart, LanguageOptions } from "../../Data";
 import { Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useState, type FC } from "react";
+import type { Sec2FirstPoweredReportType } from "../../Types";
 
-const EliminationSkillReport = () => {
+const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType }> = ({ EliminationSkill }) => {
   const [tabIndex, setTabIndex] = useState(0);
+  const QaTypeMetrics = EliminationSkill?.qaTypeMetrics[0];
+  const Qa = EliminationSkill?.qa;
+  const EliminationReport = tabIndex === 0 ? QaTypeMetrics?.fiftyFifty : QaTypeMetrics?.oneEliminate;
+  const Sure = tabIndex === 0 ? Qa?.["100%Sure"]?.fiftyFifty : Qa?.["100%Sure"]?.oneEliminate;
+  const LogicPlay = tabIndex === 0 ? Qa?.logicPlay?.fiftyFifty : Qa?.logicPlay?.oneEliminate;
+  const IntuitionHit = tabIndex === 0 ? Qa?.intuitionHit?.fiftyFifty : Qa?.intuitionHit?.oneEliminate;
+  const BlindFire = tabIndex === 0 ? Qa?.blindFire?.fiftyFifty : Qa?.blindFire?.oneEliminate;
+
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
   return (
     <div>
@@ -23,17 +32,15 @@ const EliminationSkillReport = () => {
           <Tab label="50 - 50" />
           <Tab label="1-OPT eliminate" />
         </Tabs>
-        <div hidden={tabIndex !== 0}>
-          <div className="pt-6">
-            <div className="bg-input-box rounded-xl grid gap-4 grid-cols-1 md:grid-cols-2 ">
-              <div className="flex flex-col items-center p-4">
-                <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[60]} type="radialBar" height={250} />
-                <p className="mt-2 font-semibold text-center">Your Correct Elimination Accuracy</p>
-              </div>
-              <div className="flex flex-col items-center p-4">
-                <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[10]} type="radialBar" height={250} />
-                <p className="mt-2 font-semibold text-center">Right Answer Accuracy After Elimination</p>
-              </div>
+        <div className="pt-6">
+          <div className="bg-input-box rounded-xl grid gap-4 grid-cols-1 md:grid-cols-2 ">
+            <div className="flex flex-col items-center p-4">
+              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(EliminationReport?.correctPercentage)]} type="radialBar" height={250} />
+              <p className="mt-2 font-semibold text-center">Your Correct Elimination Accuracy</p>
+            </div>
+            <div className="flex flex-col items-center p-4">
+              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(EliminationReport?.incorrectPercentage)]} type="radialBar" height={250} />
+              <p className="mt-2 font-semibold text-center">Right Answer Accuracy After Elimination</p>
             </div>
           </div>
         </div>
@@ -49,11 +56,11 @@ const EliminationSkillReport = () => {
           </div>
           <div className="p-3 grid grid-cols-2">
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(Sure?.correctPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
             </div>
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(Sure?.incorrectPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Right Answer Accuracy</p>
             </div>
           </div>
@@ -68,11 +75,11 @@ const EliminationSkillReport = () => {
           </div>
           <div className="p-3 grid grid-cols-2">
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(LogicPlay?.correctPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
             </div>
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(LogicPlay?.incorrectPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Right Answer Accuracy</p>
             </div>
           </div>
@@ -87,11 +94,11 @@ const EliminationSkillReport = () => {
           </div>
           <div className="p-3 grid grid-cols-2">
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(IntuitionHit?.correctPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
             </div>
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(IntuitionHit?.incorrectPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Right Answer Accuracy</p>
             </div>
           </div>
@@ -106,11 +113,11 @@ const EliminationSkillReport = () => {
           </div>
           <div className="p-3 grid grid-cols-2">
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(BlindFire?.correctPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
             </div>
             <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[60]} type="radialBar" height={250} />
+              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(BlindFire?.incorrectPercentage)]} type="radialBar" height={250} />
               <p className="mt-2 font-semibold text-xs text-center text-neutral-500">Right Answer Accuracy</p>
             </div>
           </div>

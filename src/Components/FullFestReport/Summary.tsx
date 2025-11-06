@@ -1,28 +1,35 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { FormSelect } from "../../Attribute/FormFields";
 import { LanguageOptions } from "../../Data";
 import { Tab, Tabs } from "@mui/material";
+import type { SubjectSummaryItem, SubjectSummaryType } from "../../Types";
 
-const sections = [
-  { title: "Instructions", color: "bg-danger-dark", range: "0% - 20%", items: ["50 Questions", "60 Minutes"] },
-  { title: "Syllabus Coverage", color: "bg-danger", range: "20% - 40%", items: ["Quantitative Aptitude", "General Knowledge"] },
-  { title: "Features of the Exam", color: "bg-warning", range: "40% - 60%", items: ["AI Mentor – Personalized guidance", "General Instructions – Rules, navigation, & do’s/don’ts"] },
-  { title: "Exam Guidelines", color: "bg-success", range: "60% - 80%", items: ["Ensure a stable internet connection.", "Submit before time runs out."] },
-  { title: "Exam Guidelines", color: "bg-success-light", range: "80% - 100%", items: ["Ensure a stable internet connection.", "Submit before time runs out."] },
-];
-
-const aiSections = [
-  { title: "Instructions", color: "bg-danger-dark", range: "0% - 20%", items: ["50 Questions", "60 Minutes", "English & Hindi"] },
-  { title: "Syllabus Coverage", color: "bg-danger", range: "20% - 40%", items: ["Quantitative Aptitude", "Logical Reasoning", "General Knowledge"] },
-  { title: "Features of the Exam", color: "bg-warning", range: "40% - 60%", items: ["AI Mentor – Personalized guidance", "Attempt Strategy – Time management", "General Instructions – Rules, navigation, & do’s/don’ts"] },
-  { title: "Exam Guidelines", color: "bg-success", range: "60% - 80%", items: ["Do not switch tabs/apps", "Stable internet", "Submit before time runs out."] },
-  { title: "Exam Guidelines", color: "bg-success-light", range: "80% - 100%", items: ["Do not switch tabs/apps", "Stable internet", "Submit before time runs out."] },
-];
-
-const Summary = () => {
+const Summary: FC<{ AttemptingStrategyWise: SubjectSummaryType; SubWise: SubjectSummaryType }> = ({ AttemptingStrategyWise, SubWise }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
-  const currentSections = tabIndex === 0 ? sections : aiSections;
+  const allowedTypes = ["skip", "fearDriverSkip"];
+
+  const getFilteredTypes = (data: SubjectSummaryItem[] | undefined, allowed = allowedTypes): string[] => {
+    return data?.filter((item) => !allowed.includes(item?.type))?.map((item) => item?.type) ?? [];
+  };
+
+  const aiSections = [
+    { title: "Very Weak", color: "bg-danger-dark", range: "0% - 20%", items: [...getFilteredTypes(SubWise?.["Very Weak"])] },
+    { title: "Weak", color: "bg-danger", range: "20% - 40%", items: [...getFilteredTypes(SubWise?.Weak)] },
+    { title: "Average", color: "bg-warning", range: "40% - 60%", items: [...getFilteredTypes(SubWise?.Average)] },
+    { title: "Strong", color: "bg-success", range: "60% - 80%", items: [...getFilteredTypes(SubWise?.Strong)] },
+    { title: "Very Strong", color: "bg-success-light", range: "80% - 100%", items: [...getFilteredTypes(SubWise?.["Very Strong"])] },
+  ];
+
+  const Sections = [
+    { title: "Very Weak", color: "bg-danger-dark", range: "0% - 20%", items: AttemptingStrategyWise?.["Very Weak"]?.map((item) => item?.subjectName) },
+    { title: "Weak", color: "bg-danger", range: "20% - 40%", items: AttemptingStrategyWise?.Weak?.map((item) => item?.subjectName) },
+    { title: "Average", color: "bg-warning", range: "40% - 60%", items: AttemptingStrategyWise?.Average?.map((item) => item?.subjectName) },
+    { title: "Strong", color: "bg-success", range: "60% - 80%", items: AttemptingStrategyWise?.Strong?.map((item) => item?.subjectName) },
+    { title: "Very Strong", color: "bg-success-light", range: "80% - 100%", items: AttemptingStrategyWise?.["Very Strong"]?.map((item) => item?.subjectName) },
+  ];
+  const currentSections = tabIndex === 0 ? Sections : aiSections;
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -49,7 +56,7 @@ const Summary = () => {
                 </div>
                 <div className="px-8 py-4 rounded-b-lg">
                   <ul className="list-disc space-y-2">
-                    {items.map((item, j) => (
+                    {items?.map((item, j) => (
                       <li key={j}>{item}</li>
                     ))}
                   </ul>

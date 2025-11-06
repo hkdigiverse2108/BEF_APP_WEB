@@ -54,8 +54,8 @@ export const URL_KEYS = {
   ABOUT_US: {
     ABOUT_US: "/about-us",
   },
-  HOW_TO_PLAY: {
-    ALL: "/how-to-play/all",
+  HOW_IT_WORK: {
+    ALL: "/how-it-work/all",
   },
   KYC: {
     ALL: "/kyc/all",
@@ -73,5 +73,8 @@ export const URL_KEYS = {
   },
   REPORT:{
     REPORT:"/report"
+  },
+  FULL_FEST:{
+    FULL_FEST:"/full-fest"
   }
 } as const;

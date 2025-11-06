@@ -37,7 +37,7 @@ const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData 
           [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 150, borderRadius: 10 }} />)
         ) : (
           <>
-            <OverviewCard img={"result/Total.png"} label="Total Marks Scored" value={`${data?.totalPoints} /`} subValue={`${Math.round(((totalQuestion * 11) / 10) * data?.positiveMarks)} Marks`} />
+            <OverviewCard img={"result/Total.png"} label="Total Marks Scored" value={`${data?.totalPoints.toFixed(2)} /`} subValue={`${Math.round(((totalQuestion * 11) / 10) * data?.positiveMarks)} Marks`} />
             <OverviewCard img={"result/Correct.png"} label="Correct" value={data?.correct} subValue={"Marks"} />
             <OverviewCard img={"result/Incorrect.png"} label="Incorrect" value={data?.incorrect} subValue={"Marks"} />
             <OverviewCard img={"result/Unanswered.png"} label="Unanswered" value={data?.unanswered} subValue={"Marks"} />

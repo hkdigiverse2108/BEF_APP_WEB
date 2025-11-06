@@ -241,6 +241,9 @@ input {
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer {
   @apply grid grid-cols-2 gap-0;
 }
+.horizontal-more-tabs .MuiTabs-list.MuiTabs-flexContainer {
+  @apply flex sm:grid grid-cols-5 gap-0;
+}
 .about-tabs .MuiTabs-list.MuiTabs-flexContainer {
   @apply flex sm:grid grid-cols-4 gap-0;
 }

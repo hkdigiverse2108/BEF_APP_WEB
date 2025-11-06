@@ -17,7 +17,7 @@ import type { ResultApiResponse } from "../../../Types";
 
 const Result = () => {
   const [isOpen, setOpen] = useState(false);
-  const [tabIndex, setTabIndex] = useState(5);
+  const [tabIndex, setTabIndex] = useState(0);
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const qaFilter = params.get("qaFilter");

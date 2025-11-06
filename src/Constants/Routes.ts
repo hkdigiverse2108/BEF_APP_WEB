@@ -29,7 +29,7 @@ export const ROUTES = {
   MY_INFO: { MY_INFO: "/my-info" },
   GET_SCHOLARSHIP: { GET_SCHOLARSHIP: "/get-scholarship" },
   HISTORY: { HISTORY: "/history" },
-  HOW_TO_PLAY: { HOW_TO_PLAY: "/how-to-play" },
+  HOW_IT_WORK: { HOW_IT_WORK: "/how-it-work" },
   ABOUT_US: { ABOUT_US: "/about-us" },
   ILLEGALITY: { ILLEGALITY: "/illegality" },
   PRIVACY_POLICY: { PRIVACY_POLICY: "/privacy-policy" },

@@ -37,7 +37,7 @@ const ContestWinner = () => {
               1280: { slidesPerView: 4 },
             }}
           >
-            {ListData.map((winner, i) => (
+            {ListData?.map((winner, i) => (
               <SwiperSlide key={i}>
                 <ContestWinnerCard winner={winner} rank={i + 1} />
               </SwiperSlide>
@@ -59,14 +59,14 @@ const ContestWinner = () => {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-100">
-          <Spin size="large"/>
+          <Spin size="large" />
         </div>
       ) : (
         <>
-          <Winners ListData={winnerData?.data?.todayUsers} title={"Last Day"} index={0} />
-          <Winners ListData={winnerData?.data?.lastWeekUsers} title={"Last Week"} index={1} />
-          <Winners ListData={winnerData?.data?.lastMonthUsers} title={"Last Month"} index={2} />
-          <Winners ListData={winnerData?.data?.lastYearUsers} title={"Last Year"} index={3} />
+          {winnerData?.data?.todayUsers.length !== 0 && <Winners ListData={winnerData?.data?.todayUsers} title={"Last Day"} index={0} />}
+          {winnerData?.data?.lastWeekUsers.length !== 0 &&<Winners ListData={winnerData?.data?.lastWeekUsers} title={"Last Week"} index={1} />}
+          {winnerData?.data?.lastMonthUsers.length !== 0 &&<Winners ListData={winnerData?.data?.lastMonthUsers} title={"Last Month"} index={2} />}
+          {winnerData?.data?.lastYearUsers.length !== 0 &&<Winners ListData={winnerData?.data?.lastYearUsers} title={"Last Year"} index={3} />}
         </>
       )}
     </div>

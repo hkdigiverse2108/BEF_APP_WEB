@@ -44,46 +44,22 @@ const EliminationSkill: FC<{ data: Sec3Type }> = ({ data }) => {
         <Tab label="1-OPT eliminate" />
       </Tabs>
 
-      <div hidden={tabIndex !== 0}>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
-            <div className="flex flex-col items-center">
-              <ReactApexChart options={EliminationSkillRadialBarCharts("#FE6E13", { left: RightEliminatedYes, right: TotalQuestions })} series={[Math.round(eliminationReport?.correctPercentage)]} type="radialBar" height={250} />
-              <p className="mt-2 font-semibold">Your Correct Elimination Accuracy</p>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <ReactApexChart options={EliminationSkillRadialBarCharts("#288F66", { left: RightChosenAfterEliminationYes, right: RightEliminatedYes })} series={[Math.round(eliminationReport?.incorrectPercentage)]} type="radialBar" height={250} />
-              <p className="mt-2 font-semibold">Right Answer Accuracy After Elimination</p>
-            </div>
+          <div className="flex flex-col items-center">
+            <ReactApexChart options={EliminationSkillRadialBarCharts("#FE6E13", { left: RightEliminatedYes, right: TotalQuestions })} series={[Math.round(eliminationReport?.correctPercentage || 0)]} type="radialBar" height={250} />
+            <p className="mt-2 font-semibold">Your Correct Elimination Accuracy</p>
           </div>
-          <div className="pt-6">
-            <div className="flex flex-col items-center w-full">
-              <div className="w-full">
-                <ReactApexChart options={EliminationSkillBarChart} series={dynamicBarSeries} type={EliminationSkillBarChart.chart?.type} height={350} />
-              </div>
-            </div>
+
+          <div className="flex flex-col items-center">
+            <ReactApexChart options={EliminationSkillRadialBarCharts("#288F66", { left: RightChosenAfterEliminationYes, right: RightEliminatedYes })} series={[Math.round(eliminationReport?.incorrectPercentage || 0)]} type="radialBar" height={250} />
+            <p className="mt-2 font-semibold">Right Answer Accuracy After Elimination</p>
           </div>
         </div>
-      </div>
-      <div hidden={tabIndex !== 1}>
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
-            <div className="flex flex-col items-center">
-              <ReactApexChart options={EliminationSkillRadialBarCharts("#FE6E13", { left: RightEliminatedYes, right: TotalQuestions })} series={[Math.round(eliminationReport?.correctPercentage)]} type="radialBar" height={250} />
-              <p className="mt-2 font-semibold">Your Correct Elimination Accuracy</p>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <ReactApexChart options={EliminationSkillRadialBarCharts("#288F66", { left: RightChosenAfterEliminationYes, right: RightEliminatedYes })} series={[Math.round(eliminationReport?.incorrectPercentage)]} type="radialBar" height={250} />
-              <p className="mt-2 font-semibold">Right Answer Accuracy After Elimination</p>
-            </div>
-          </div>
-          <div className="pt-6">
-            <div className="flex flex-col items-center w-full">
-              <div className="w-full">
-                <ReactApexChart options={EliminationSkillBarChart} series={dynamicBarSeries} type={EliminationSkillBarChart.chart?.type} height={350} />
-              </div>
+        <div className="pt-6">
+          <div className="flex flex-col items-center w-full">
+            <div className="w-full">
+              <ReactApexChart options={EliminationSkillBarChart} series={dynamicBarSeries} type={EliminationSkillBarChart.chart?.type} height={350} />
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import type { MessageStatus, PageStatus } from "./Common";
 
-export interface HowToPlayType {
+export interface HowItWorkType {
   _id: string;
   createdAt: string;
   createdBy: string;
@@ -14,14 +14,14 @@ export interface HowToPlayType {
   updatedBy: string;
 }
 
-export interface HowToPlayDataResponse extends PageStatus {
-  how_to_play_data: HowToPlayType[];
+export interface HowItWorkDataResponse extends PageStatus {
+  how_it_work_data: HowItWorkType[];
 }
-export interface HowToPlayResponse extends MessageStatus {
-  data: HowToPlayDataResponse;
+export interface HowItWorkResponse extends MessageStatus {
+  data: HowItWorkDataResponse;
 }
 
-export interface HowToPlayApiResponse {
-  data: HowToPlayResponse;
+export interface HowItWorkApiResponse {
+  data: HowItWorkResponse;
   isLoading?: boolean;
 }

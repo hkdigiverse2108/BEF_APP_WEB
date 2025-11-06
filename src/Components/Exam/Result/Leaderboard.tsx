@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { ImagePath, URL_KEYS } from "../../../Constants";
 import type { FC } from "react";
-import type { RanksApiResponse } from "../../../Types/Ranks";
+import type { RanksApiResponse } from "../../../Types";
 
 const Leaderboard: FC<{ tabIndex: number }> = ({ tabIndex }) => {
   const { search } = useLocation();

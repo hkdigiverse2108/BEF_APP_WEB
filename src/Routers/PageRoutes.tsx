@@ -21,7 +21,7 @@ import KYC from "../Pages/KYC";
 import KYCVerification from "../Pages/KYC/KYCVerification";
 import GetScholarship from "../Pages/GetScholarship";
 import History from "../Pages/History";
-import HowToPlay from "../Pages/HowToPlay";
+import HowItWork from "../Pages/HowItWork";
 import AboutUs from "../Pages/AboutUs";
 import Illegality from "../Pages/Illegality";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
@@ -55,7 +55,7 @@ export const PageRoutes = [
   { path: ROUTES.KYC.KYC_VERIFICATION, element: <KYCVerification /> },
   { path: ROUTES.GET_SCHOLARSHIP.GET_SCHOLARSHIP, element: <GetScholarship /> },
   { path: ROUTES.HISTORY.HISTORY, element: <History /> },
-  { path: ROUTES.HOW_TO_PLAY.HOW_TO_PLAY, element: <HowToPlay /> },
+  { path: ROUTES.HOW_IT_WORK.HOW_IT_WORK, element: <HowItWork /> },
   { path: ROUTES.ABOUT_US.ABOUT_US, element: <AboutUs /> },
   { path: ROUTES.ILLEGALITY.ILLEGALITY, element: <Illegality /> },
   { path: ROUTES.PRIVACY_POLICY.PRIVACY_POLICY, element: <PrivacyPolicy /> },

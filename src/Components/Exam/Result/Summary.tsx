@@ -27,10 +27,10 @@ const Summary: FC<{ data: Sec1Type }> = ({ data }) => {
   const fiftyFifty = sumCorrectTotal(QaTypeMetrics?.["100%Sure"]?.fiftyFifty, QaTypeMetrics?.logicPlay?.fiftyFifty, QaTypeMetrics?.intuitionHit?.fiftyFifty, QaTypeMetrics?.blindFire?.fiftyFifty);
   const oneEliminate = sumCorrectTotal(QaTypeMetrics?.["100%Sure"]?.oneEliminate, QaTypeMetrics?.logicPlay?.oneEliminate, QaTypeMetrics?.intuitionHit?.oneEliminate, QaTypeMetrics?.blindFire?.oneEliminate);
 
-  const allowedTypes = ["100%Sure", "logicPlay", "intuitionHit", "blindFire"];
+  const allowedTypes = ["skip", "fearDriverSkip"];
 
   const getFilteredTypes = (data: QaTypeSubtopicItem[] | undefined, allowed = allowedTypes): string[] => {
-    return data?.filter((item) => allowed.includes(item.type))?.map((item) => item.type) ?? [];
+    return data?.filter((item) => !allowed.includes(item.type))?.map((item) => item.type) ?? [];
   };
 
   const getBand = (value: number) => {
