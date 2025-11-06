@@ -309,9 +309,16 @@ input {
 .ant-modal .ant-modal-content {
   @apply !p-2 !rounded-2xl;
 }
+.share-modal.ant-modal .ant-modal-content {
+  @apply !p-5 !rounded-lg;
+}
+.share-modal .ant-modal-close-icon {
+  @apply !text-black;
+}
 .ant-modal-close-icon {
   @apply !text-white;
 }
+
 
 /* ************ Ant Modal ************ */
 .feedback.ant-modal .ant-modal-content {

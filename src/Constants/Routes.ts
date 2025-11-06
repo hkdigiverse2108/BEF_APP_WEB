@@ -39,7 +39,7 @@ export const ROUTES = {
   CLASSES: { CLASSES: "/classes" },
   COURSE: {
     COURSE: "/course",
-    COURSE_DETAILS: "/course-details",
+    DETAILS: "/course/details/:id",
   },
   YOUTUBE_VALUES: { YOUTUBE_VALUES: "/youtube-values" },
   SOCIAL_MEDIA_ENGAGE: { SOCIAL_MEDIA_ENGAGE: "/social-media-engage" },

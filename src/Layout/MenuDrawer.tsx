@@ -7,15 +7,21 @@ import { LuTvMinimalPlay } from "react-icons/lu";
 import { MdOutlineGavel, MdOutlineLock, MdOutlinePrivacyTip, MdOutlineVerified } from "react-icons/md";
 import { TbWallet } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { Href, ImagePath, ROUTES } from "../Constants";
+import { Href, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../Constants";
 import FeedbackModal from "../Pages/Feedback";
 import SupportModal from "../Pages/Support";
 import { useAppDispatch, useAppSelector } from "../Store/hooks";
 import { setFeedbackModal, setMenuDrawer, setSupportModal } from "../Store/Slices/DrawerSlice";
+import { Storage } from "../Utils";
+import { useGetApiQuery } from "../Api/CommonApi";
 
 const MenuDrawer = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+
+  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const UserData = data?.data;
 
   const { isMenuDrawer } = useAppSelector((state) => state.drawer);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -50,10 +56,10 @@ const MenuDrawer = () => {
         extra={
           <div className="flex justify-between items-center rounded-xl h-10 sm:h-12 order-last" onClick={() => dispatch(setMenuDrawer())}>
             <div className="flex justify-between items-center gap-3 cursor-pointer">
-              <img src={`${ImagePath}user/User1.png`} alt="profile" className="w-12 h-12 rounded-xl" />
+              <img src={UserData?.profileImage ||`${ImagePath}user/User.png`} alt="profile" className="w-12 h-12 rounded-xl" />
               <div>
-                <span className="text-md font-bold capitalize">AdminSetting</span>
-                <p className="capitalize flex text-xs">AdminSetting</p>
+                <span className="text-md font-bold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
+                <p className="capitalize flex text-xs">{UserData?.userType}</p>
               </div>
             </div>
           </div>

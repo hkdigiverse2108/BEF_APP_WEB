@@ -65,16 +65,41 @@ export const URL_KEYS = {
   UPLOAD: {
     ADD: "/upload",
   },
-  TRANSACTION:{
-    ALL:"/transaction/all"
+  TRANSACTION: {
+    ALL: "/transaction/all",
   },
-  RESULT_REPORT:{
-    ID:"/result-report/"
+  RESULT_REPORT: {
+    ID: "/result-report/",
   },
-  REPORT:{
-    REPORT:"/report"
+  REPORT: {
+    REPORT: "/report",
   },
-  FULL_FEST:{
-    FULL_FEST:"/full-fest"
-  }
+  FULL_FEST: {
+    FULL_FEST: "/full-fest",
+  },
+  COURSE: {
+    ALL: "/course/all",
+    ID: "/course/",
+  },
+  MODULE: {
+    COURSE_WISE: "/module/course/",
+    ALL: "/module/all",
+  },
+  FAQ: {
+    ALL: "/faq/public",
+  },
+  LECTURE: {
+    COURSE_WISE: "/lecture/course/",
+    ALL: "/lecture/all",
+  },
+  BALANCE: {
+    ALL: "/balance/all",
+    ID: "/balance/",
+  },
+  GOAL: {
+    GOAL: "/goal",
+  },
+  SETTINGS: {
+    ALL: "setting",
+  },
 } as const;

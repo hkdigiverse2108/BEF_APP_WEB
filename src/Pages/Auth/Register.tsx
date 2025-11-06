@@ -353,7 +353,7 @@ const Register = () => {
               {/* Footer */}
               <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                 <p className="text-center text-sm lg:text-base">
-                  <span className="font-medium text-black">
+                  <span className="font-medium text-black pe-2">
                     Already have an account?
                   </span>
                   <NavLink

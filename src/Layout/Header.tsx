@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
 import { NavLink } from "react-router-dom";
-import { ImagePath } from "../Constants";
+import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../Constants";
 import { HeaderMenu } from "../Data";
 import { useAppDispatch } from "../Store/hooks";
 import { setMenuDrawer, setNavMenuDrawer } from "../Store/Slices/DrawerSlice";
 import MenuDrawer from "./MenuDrawer";
 import NavMenuDrawer from "./NavMenuDrawer";
+import { Storage } from "../Utils";
+import { useGetApiQuery } from "../Api/CommonApi";
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
+  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+
+  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const UserData = data?.data;
 
   const updateSidebarBasedOnWidth = () => {
     const windowWidth = window.innerWidth;
@@ -96,10 +102,10 @@ const Header = () => {
             </li> */}
                 <li className="group relative py-1 px-1.5 sm:px-2.5 flex justify-between items-center rounded-xl h-10 sm:h-12 bg-input-box">
                   <div className="flex justify-between items-center gap-3" onClick={() => dispatch(setMenuDrawer())}>
-                    <img src={`${ImagePath}user/User1.png`} alt="profile" className="w-8 h-8 rounded-xl" />
+                    <img src={UserData?.profileImage ||`${ImagePath}user/User.png`} alt="profile" className="w-8 h-8 rounded-xl" />
                     <div className="flex-1 hidden sm:block">
-                      <span className="text-md font-bold capitalize">AdminSetting</span>
-                      <p className="capitalize flex text-xs">AdminSetting</p>
+                      <span className="text-md font-bold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
+                      <p className="capitalize flex text-xs">{UserData?.userType}</p>
                     </div>
                     <IoIosArrowDown className="hidden sm:block " />
                   </div>

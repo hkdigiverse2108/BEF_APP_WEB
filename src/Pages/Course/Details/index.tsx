@@ -1,12 +1,15 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState, type SyntheticEvent } from "react";
-import { PiShareFat } from "react-icons/pi";
+import { useParams } from "react-router-dom";
+import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
+import ShareModal from "../../../Components/Common/ShareModal";
 import CourseAboutTab from "../../../Components/Course/Details/CourseAboutTab";
 import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
 import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
-import { ImagePath } from "../../../Constants";
+import { ImagePath, URL_KEYS } from "../../../Constants";
+import type { CourseDetailsApiResponse } from "../../../Types";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -17,6 +20,13 @@ const TabsName = [
 
 const CourseDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
+  const { id }: { id?: string } = useParams();
+
+  const { data, isLoading } = useGetApiQuery<CourseDetailsApiResponse>({ url: `${URL_KEYS.COURSE.ID}${id}` });
+  const CourseDetailsData = data?.data;
+
+  const { data: modulesData, isLoading: moduleLoading } = useGetApiQuery({ url: `${URL_KEYS.MODULE.COURSE_WISE}${CourseDetailsData?._id}` }, { skip: !CourseDetailsData?._id });
+  const Modules = modulesData?.data;
 
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
@@ -25,30 +35,28 @@ const CourseDetails = () => {
     <div className="sub-container space-y-9 pt-9 bg-white rounded-xl">
       <section className="group space-y-6 rounded-md relative">
         <div className="sm:hidden absolute top-0 w-full flex gap-5 justify-end px-2 pt-2">
-          <span className="bg-white/50 text-white backdrop-blur-md rounded-sm px-2 py-1">
-            <PiShareFat />
-          </span>
+          <div className="sm:hidden absolute w-full flex gap-5 justify-end px-2 pt-2">
+            <ShareModal />
+          </div>
         </div>
         <figure>
-          <img src={`${ImagePath}workshop/CourseThumbnail.webp`} alt="" className="w-full h-full rounded-lg" />
+          <img src={CourseDetailsData?.image} alt={CourseDetailsData?.title} className="w-full h-full rounded-lg max-h-[560px]" />
         </figure>
       </section>
       <section className="">
         <div className="space-y-6 pb-5">
           <section className=" max-sm:text-sm font-medium flex justify-between gap-3">
             <div className="flex gap-2 items-center">
-              <div className="bg-white border border-gray-300 w-fit h-fit px-3 py-1 rounded-md">
-                <span className="sm:hidden">हिंn</span>
-                <span className="max-sm:hidden">हिंGLISH</span>
+              <div className="bg-white border border-gray-300 w-fit h-fit px-3 py-1 rounded-md ">
+                <span>{CourseDetailsData?.language}</span>
               </div>
-              <div className="uppercase max-sm:text-xs text-primary font-bold">subject-level full syllabus batch</div>
+              <div className="uppercase max-sm:text-xs text-primary font-bold">{CourseDetailsData?.syllabus?.subjectLevel}</div>
             </div>
           </section>
           <section className="flex max-sm:flex-col gap-4 justify-between">
-            <h1 className="capitalize font-bold sm:text-2xl">CSAT Live pathshala by madhukar kotawe</h1>
-            <span className="max-sm:hidden flex gap items-center w-fit h-fit gap-1 bg-white border border-gray-300 backdrop-blur-md rounded-md px-2 py-1 cursor-pointer">
-              <PiShareFat />
-              Share
+            <h1 className="capitalize font-bold sm:text-2xl">{CourseDetailsData?.title}</h1>
+            <span className="max-sm:hidden">
+              <ShareModal />
             </span>
           </section>
           <span className="border-b border-gray-300 flex w-full h-0.5" />
@@ -63,9 +71,11 @@ const CourseDetails = () => {
               <div className="space-y-2 w-full ">
                 <p className="max-sm:hidden font-bold">Module</p>
                 <ul className="w-full text-sm font-medium flex flex-col sm:flex-row gap-2 sm:gap-4">
-                  <li>1. MCQ Aptitude</li>
-                  <li>2. MCQ Aptitude Test</li>
-                  <li>3. Mapping Test</li>
+                  {Modules?.map((module: { name: string }, i: number) => (
+                    <li>
+                      {i + 1}. {module.name}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -75,7 +85,7 @@ const CourseDetails = () => {
                   <img src={`${ImagePath}workshop/wallet.png`} alt="Users" className="w-8 sm:w-10 h-fit" />
                 </figure>
                 <div className="space-y-2 w-full font-bold ">
-                  <p>100% Money Back</p>
+                  <p>{CourseDetailsData?.courseMoneyBack}</p>
                 </div>
               </div>
             </div>
@@ -103,9 +113,9 @@ const CourseDetails = () => {
           </Tabs>
         </div>
         <div className="mt-6">
-          {tabIndex === "about" && <CourseAboutTab />}
-          {tabIndex === "lectures" && <CourseLecturesTab />}
-          {tabIndex === "module" && <CourseModuleTab />}
+          {tabIndex === "about" && <CourseAboutTab data={CourseDetailsData} />}
+          {tabIndex === "lectures" && <CourseLecturesTab id={CourseDetailsData?._id} />}
+          {tabIndex === "module" && <CourseModuleTab id={CourseDetailsData?._id}/>}
           {tabIndex === "faqs" && <CourseFaqsTab />}
         </div>
       </section>
@@ -114,15 +124,23 @@ const CourseDetails = () => {
         <div className="mx-4 md:mx-10 py-3 sm:py-6 flex max-sm:flex-col gap-2 sm:gap-4 sm:justify-between sm:items-end">
           <div>
             <p className="text-gray-600 font-medium">Price</p>
-            <h1 className="text-lg sm:text-2xl font-bold flex gap-[2px] items-end">
-              <span>₹6999/</span>
-              <span className="text-sm sm:text-lg text-gray-600 font-bold">₹24000</span>
-            </h1>
+            {CourseDetailsData?.discountPrice ? (
+              <h1 className=" sm:text-xl font-bold flex gap-[2px] items-end">
+                <span>₹{CourseDetailsData?.payingPrice}/</span>
+                <span className="text-base text-gray-600 font-bold">₹{CourseDetailsData?.discountPrice}</span>
+                <span className="text-base font-medium text-red-500 line-through ps-1">{CourseDetailsData?.price}</span>
+              </h1>
+            ) : (
+              <h1 className=" sm:text-xl font-bold flex gap-[2px] items-end">
+                <span>₹{CourseDetailsData?.payingPrice}</span>
+                <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">{CourseDetailsData?.price}</span>
+              </h1>
+            )}
           </div>
           <div>
-            <p className="max-sm:text-sm font-medium h-full ">Remaining fee pays after prelims cleared</p>
+            <p className="max-sm:text-sm font-medium h-full">{CourseDetailsData?.priceInStruction}</p>
           </div>
-          <div className="sm:w-1/4 flex justify-center sm:justify-end">
+          <div className="flex justify-center sm:justify-end">
             <FormButton htmlType="submit" text="Enroll Now" className="custom-button button button--mimas w-full sm:w-fit !h-auto" />
           </div>
         </div>
