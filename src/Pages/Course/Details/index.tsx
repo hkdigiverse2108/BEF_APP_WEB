@@ -40,7 +40,7 @@ const CourseDetails = () => {
           </div>
         </div>
         <figure>
-          <img src={CourseDetailsData?.image} alt={CourseDetailsData?.title} className="w-full h-full rounded-lg max-h-[560px]" />
+          <img src={CourseDetailsData?.image} alt={CourseDetailsData?.title} className="w-full h-full rounded-lg " />
         </figure>
       </section>
       <section className="">

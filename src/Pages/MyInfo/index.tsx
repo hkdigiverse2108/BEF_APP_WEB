@@ -125,15 +125,15 @@ const MyInfo = () => {
               <Col span={24} md={12}>
                 <FormInput name="city" label="City" />
               </Col>
-              <Col span={24} md={12}>
+              <Col span={24}>
                 <FormInput name="state" label="State" />
               </Col>
-              <Col span={24} md={12}>
+              {/* <Col span={24} md={12}>
                 <FormInput name="country" label="Country" />
-              </Col>
-              <Col span={24}>
+              </Col> */}
+              {/* <Col span={24}>
                 <FormInput name="pinCode" label="pin code" />
-              </Col>
+              </Col> */}
             </Row>
             <span className="border-t border-primary flex w-full" />
             <FormButton htmlType="submit" text="UPDATE PROFILE" loading={isLoading} className="custom-button button button--mimas w-full !h-auto" />

@@ -16,7 +16,7 @@ const HeroBanner = () => {
     <div className="my-5 rounded-lg overflow-hidden ">
       <Swiper
         // install Swiper modules
-        modules={[Pagination, A11y, Autoplay, EffectCards]}
+        modules={[Pagination, Autoplay, EffectCards]}
         spaceBetween={50}
         slidesPerView={1}
         centeredSlides={true}
@@ -42,23 +42,23 @@ const HeroBanner = () => {
         )} */}
         <SwiperSlide>
           <img
-            src={`${ImagePath}banner/Banner1.png`}
+            src={`${ImagePath}banner/Banner1.jpg`}
             alt="logo"
-            className="w-full"
+            className="w-full max-sm:h-[137px]"
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
-            src={`${ImagePath}banner/Banner1.png`}
+            src={`${ImagePath}banner/Banner1.jpg`}
             alt="logo"
-            className="w-full"
+            className="w-full max-sm:h-[137px]"
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
-            src={`${ImagePath}banner/Banner1.png`}
+            src={`${ImagePath}banner/Banner1.jpg`}
             alt="logo"
-            className="w-full "
+            className="w-full max-sm:h-[137px]"
           />
         </SwiperSlide>
       </Swiper>

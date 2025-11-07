@@ -41,6 +41,7 @@ export const URL_KEYS = {
     ADD: "/qa/add",
     ALL: "/qa/all",
     CONTEST_RANKS: "/qa/contest/ranks",
+    MISTAKE_MAP: "/qa/mistake-map/",
   },
   TERMS_CONDITION: {
     TERMS_CONDITION: "/terms-condition",
@@ -94,12 +95,17 @@ export const URL_KEYS = {
   },
   BALANCE: {
     ALL: "/balance/all",
+    ADD: "/balance/add",
     ID: "/balance/",
+    VERIFY: "/balance/verify-payment",
   },
   GOAL: {
     GOAL: "/goal",
   },
   SETTINGS: {
     ALL: "setting",
+  },
+  WITHDRAW: {
+    WITHDRAW: "/withdraw",
   },
 } as const;

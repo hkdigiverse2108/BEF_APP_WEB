@@ -9,7 +9,8 @@ const CourseCard: FC<{ data: CourseItem; onCallClick?: () => void }> = ({ data, 
   const navigate = useNavigate();
   return (
     <div className="relative rounded-2xl overflow-hidden cursor-pointer shadow-xl flex flex-col justify-end">
-      <div className="w-full max-sm:h-[200px] h-[300px] bg-center bg-cover rounded-t-2xl overflow-hidden bg-input-box-dark" style={{ backgroundImage: `url(${data?.image})` }}>
+      <div className="w-full rounded-t-2xl overflow-hidden bg-input-box-dark">
+        <img src={data?.image} alt="Course" className="object-cover w-full h-full" />
         <div className="p-2 rounded-t-xl flex justify-between gap-7 mb-0.5 absolute top-0 left-0 w-full z-10">
           <span className="bg-white/20 text-white font-bold text-sm p-1 px-3 rounded backdrop-blur-md">{data?.language}</span>
           <span className="bg-white/20 text-white font-bold text-sm p-1 px-3 rounded backdrop-blur-md">{data?.syllabus?.subjectLevel}</span>

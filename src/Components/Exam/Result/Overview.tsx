@@ -11,7 +11,7 @@ const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData 
       <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0" />
       <div className="flex items-start justify-between">
         <div className="text-2xl">
-          <img className="object-cover w-11 max-sm:w-10" src={`${ImagePath}${img}`} />
+          <img className="object-cover w-11 max-sm:w-10" src={`${ImagePath}${img}` || `${ImagePath}user/User.png`} />
         </div>
       </div>
       <div className="text-left">

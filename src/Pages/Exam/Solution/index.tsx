@@ -4,19 +4,22 @@ import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
 import { IoFlagOutline, IoLanguage } from "react-icons/io5";
 import { PiFilePdf } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
+import { Link, useLocation } from "react-router-dom";
 import { FormButton, FormSelect } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import EndTest from "../../../Components/Exam/Question/EndTestDrawer";
-import { LanguageOptions } from "../../../Data";
-import { setEndTestDrawer, setReportModal } from "../../../Store/Slices/DrawerSlice";
-import { useAppDispatch } from "../../../Store/hooks";
 import ReportModal from "../../../Components/Exam/Question/ReportModal";
-import { ImagePath } from "../../../Constants";
+import { ImagePath, ROUTES } from "../../../Constants";
+import { LanguageOptions } from "../../../Data";
+import { setReportModal } from "../../../Store/Slices/DrawerSlice";
+import { useAppDispatch } from "../../../Store/hooks";
 
 const Solution = () => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [isOpenQuestion, setOpenQuestion] = useState(false);
   const [isOpenSolution, setOpenSolution] = useState(false);
+  const {state} = useLocation();
+  const qaId = state.qaId
   const dispatch = useAppDispatch();
 
   const options = ["Both Statement-1 and statement 2 are correct and Statement-2 explains Statement-1", "Both Statement-1 and Statement-2 are correct, but Statement-2 does not explain Statement-1", "Statement-1 is correct, but Statement-2 is incorrect", "Statement-1 is incorrect, but Statement-2 is correct"];
@@ -40,7 +43,7 @@ const Solution = () => {
                   </Tooltip>
                 </span>
                 <FormSelect name="Language" placeholder="All Solutions" options={LanguageOptions} className="!m-0" value="english" />
-                <span className="bg-input-box font-bold text-sm p-2 px-4 rounded capitalize">mistake map report</span>
+                <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", qaId)}?contestId=${qaId}`} className="bg-input-box font-bold text-sm p-2 px-4 rounded capitalize">mistake map report</Link>
                 <span className="bg-input-box font-bold text-sm p-2  rounded">
                   <PiFilePdf className="text-xl" />
                 </span>
