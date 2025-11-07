@@ -9,7 +9,7 @@ import type { FC } from "react";
 const ChartCell = ({ color, value, label }: { color: string; value: number; label: string }) => (
   <div className="flex justify-center items-center gap-2">
     <div className="relative flex justify-center items-center">
-      <ReactApexChart options={AiPoweredRadialBarChart(color)} series={[value]} type="radialBar" height={150} width={150} />
+      <ReactApexChart options={AiPoweredRadialBarChart(color)} series={[value || 0]} type="radialBar" height={150} width={150} />
       <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold">{label}</span>
     </div>
     <span className="text-lg font-bold">{value}%</span>
@@ -44,33 +44,33 @@ const AiPowered: FC<{ data: QaTypeMetricsType }> = ({ data }) => {
       title: "100% Sure",
       value: sumCorrectTotal(direct, fiftyFifty, oneEliminate),
       color: "#39B627",
-      direct: { label: `${direct?.correct}/${direct?.total}`, value: calcPercent(direct?.correct, direct?.total) },
-      fiftyFifty: { label: `${fiftyFifty?.correct}/${fiftyFifty?.total}`, value: calcPercent(fiftyFifty?.correct, fiftyFifty?.total) },
-      oneEliminate: { label: `${oneEliminate?.correct}/${oneEliminate?.total}`, value: calcPercent(oneEliminate?.correct, oneEliminate?.total) },
+      direct: { label: `${direct?.correct || 0}/${direct?.total || 0}`, value: calcPercent(direct?.correct, direct?.total) },
+      fiftyFifty: { label: `${fiftyFifty?.correct || 0}/${fiftyFifty?.total || 0}`, value: calcPercent(fiftyFifty?.correct, fiftyFifty?.total) },
+      oneEliminate: { label: `${oneEliminate?.correct || 0}/${oneEliminate?.total || 0}`, value: calcPercent(oneEliminate?.correct, oneEliminate?.total) },
     },
     {
       title: "Logic play",
       value: sumCorrectTotal(data?.logicPlay?.direct, data?.logicPlay?.fiftyFifty, data?.logicPlay?.oneEliminate),
       color: "#009951",
-      direct: { label: `${data?.logicPlay?.direct?.correct}/${data?.logicPlay?.direct?.total}`, value: calcPercent(data?.logicPlay?.direct?.correct, data?.logicPlay?.direct?.total) },
-      fiftyFifty: { label: `${data?.logicPlay?.fiftyFifty?.correct}/${data?.logicPlay?.fiftyFifty?.total}`, value: calcPercent(data?.logicPlay?.fiftyFifty?.correct, data?.logicPlay?.fiftyFifty?.total) },
-      oneEliminate: { label: `${data?.logicPlay?.oneEliminate?.correct}/${data?.logicPlay?.oneEliminate?.total}`, value: calcPercent(data?.logicPlay?.oneEliminate?.correct, data?.logicPlay?.oneEliminate?.total) },
+      direct: { label: `${data?.logicPlay?.direct?.correct || 0}/${data?.logicPlay?.direct?.total || 0}`, value: calcPercent(data?.logicPlay?.direct?.correct, data?.logicPlay?.direct?.total) },
+      fiftyFifty: { label: `${data?.logicPlay?.fiftyFifty?.correct || 0}/${data?.logicPlay?.fiftyFifty?.total || 0}`, value: calcPercent(data?.logicPlay?.fiftyFifty?.correct, data?.logicPlay?.fiftyFifty?.total) },
+      oneEliminate: { label: `${data?.logicPlay?.oneEliminate?.correct || 0}/${data?.logicPlay?.oneEliminate?.total || 0}`, value: calcPercent(data?.logicPlay?.oneEliminate?.correct, data?.logicPlay?.oneEliminate?.total) },
     },
     {
       title: "Intuition Hit",
       value: sumCorrectTotal(data?.intuitionHit?.direct, data?.intuitionHit?.fiftyFifty, data?.intuitionHit?.oneEliminate),
       color: "#F5D01C",
-      direct: { label: `${data?.intuitionHit?.direct?.correct}/${data?.intuitionHit?.direct?.total}`, value: calcPercent(data?.intuitionHit?.direct?.correct, data?.intuitionHit?.direct?.total) },
-      fiftyFifty: { label: `${data?.intuitionHit?.fiftyFifty?.correct}/${data?.intuitionHit?.fiftyFifty?.total}`, value: calcPercent(data?.intuitionHit?.fiftyFifty?.correct, data?.intuitionHit?.fiftyFifty?.total) },
-      oneEliminate: { label: `${data?.intuitionHit?.oneEliminate?.correct}/${data?.intuitionHit?.oneEliminate?.total}`, value: calcPercent(data?.intuitionHit?.oneEliminate?.correct, data?.intuitionHit?.oneEliminate?.total) },
+      direct: { label: `${data?.intuitionHit?.direct?.correct || 0}/${data?.intuitionHit?.direct?.total || 0}`, value: calcPercent(data?.intuitionHit?.direct?.correct, data?.intuitionHit?.direct?.total) },
+      fiftyFifty: { label: `${data?.intuitionHit?.fiftyFifty?.correct || 0}/${data?.intuitionHit?.fiftyFifty?.total || 0}`, value: calcPercent(data?.intuitionHit?.fiftyFifty?.correct, data?.intuitionHit?.fiftyFifty?.total) },
+      oneEliminate: { label: `${data?.intuitionHit?.oneEliminate?.correct || 0}/${data?.intuitionHit?.oneEliminate?.total || 0}`, value: calcPercent(data?.intuitionHit?.oneEliminate?.correct, data?.intuitionHit?.oneEliminate?.total) },
     },
     {
       title: "Blind fire",
       value: sumCorrectTotal(data?.blindFire?.direct, data?.blindFire?.fiftyFifty, data?.blindFire?.oneEliminate),
       color: "#F24914",
-      direct: { label: `${data?.blindFire?.direct?.correct}/${data?.blindFire?.direct?.total}`, value: calcPercent(data?.blindFire?.direct?.correct, data?.blindFire?.direct?.total) },
-      fiftyFifty: { label: `${data?.blindFire?.fiftyFifty?.correct}/${data?.blindFire?.fiftyFifty?.total}`, value: calcPercent(data?.blindFire?.fiftyFifty?.correct, data?.blindFire?.fiftyFifty?.total) },
-      oneEliminate: { label: `${data?.blindFire?.oneEliminate?.correct}/${data?.blindFire?.oneEliminate?.total}`, value: calcPercent(data?.blindFire?.oneEliminate?.correct, data?.blindFire?.oneEliminate?.total) },
+      direct: { label: `${data?.blindFire?.direct?.correct || 0}/${data?.blindFire?.direct?.total || 0}`, value: calcPercent(data?.blindFire?.direct?.correct, data?.blindFire?.direct?.total) },
+      fiftyFifty: { label: `${data?.blindFire?.fiftyFifty?.correct || 0}/${data?.blindFire?.fiftyFifty?.total || 0}`, value: calcPercent(data?.blindFire?.fiftyFifty?.correct, data?.blindFire?.fiftyFifty?.total) },
+      oneEliminate: { label: `${data?.blindFire?.oneEliminate?.correct || 0}/${data?.blindFire?.oneEliminate?.total || 0}`, value: calcPercent(data?.blindFire?.oneEliminate?.correct, data?.blindFire?.oneEliminate?.total) },
     },
   ];
 
@@ -86,9 +86,9 @@ const AiPowered: FC<{ data: QaTypeMetricsType }> = ({ data }) => {
 
   const cards = [
     { title: "Fear Skips", bottomValue: TotalFearSkips, bottomText: "Total", textColor: "text-success", barColor: "bg-black", bg: "bg-primary-light text-black min-w-[200px]", bottomIcon: <IoMdArrowDropup /> },
-    { topText: `${data?.fearDriverSkip?.direct?.correct}/${data?.fearDriverSkip?.direct?.total}`, bottomValue: calcFinalScore(data?.fearDriverSkip?.direct), bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropup /> },
-    { topText: `${data?.fearDriverSkip?.fiftyFifty?.correct}/${data?.fearDriverSkip?.fiftyFifty?.total}`, bottomValue: calcFinalScore(data?.fearDriverSkip?.fiftyFifty), bottomText: "Marks Chance", textColor: "text-red-600", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropdown /> },
-    { topText: `${data?.fearDriverSkip?.oneEliminate?.correct}/${data?.fearDriverSkip?.oneEliminate?.total}`, bottomValue: calcFinalScore(data?.fearDriverSkip?.oneEliminate), bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropup /> },
+    { topText: `${data?.fearDriverSkip?.direct?.correct || 0}/${data?.fearDriverSkip?.direct?.total || 0}`, bottomValue: calcFinalScore(data?.fearDriverSkip?.direct), bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropup /> },
+    { topText: `${data?.fearDriverSkip?.fiftyFifty?.correct || 0}/${data?.fearDriverSkip?.fiftyFifty?.total || 0}`, bottomValue: calcFinalScore(data?.fearDriverSkip?.fiftyFifty), bottomText: "Marks Chance", textColor: "text-red-600", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropdown /> },
+    { topText: `${data?.fearDriverSkip?.oneEliminate?.correct || 0}/${data?.fearDriverSkip?.oneEliminate?.total || 0}`, bottomValue: calcFinalScore(data?.fearDriverSkip?.oneEliminate), bottomText: "Marks Chance", textColor: "text-success", barColor: "bg-orange-500", bg: "bg-input-box", bottomIcon: <IoMdArrowDropup /> },
   ];
 
   return (

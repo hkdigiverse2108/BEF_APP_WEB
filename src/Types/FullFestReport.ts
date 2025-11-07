@@ -1,5 +1,17 @@
 import type { MessageStatus } from "./Common";
 
+// ************ My Winning ***********
+
+export interface MyWinningContestsListType {
+  subject: string;
+  totalWin: number;
+}
+
+export interface MyWinningListType {
+  contests: MyWinningContestsListType[];
+  totalWinning: number;
+}
+
 // ************ Mistake Map Report ***********
 
 export interface MistakeMapReportType {
@@ -78,6 +90,7 @@ export interface FullFestReportSec2Type {
 
 export interface FullFestReportSec3Type {
   mistakeMapReport: MistakeMapReportType[];
+  myWinningList: MyWinningListType;
 }
 
 export interface FullFestReportType {

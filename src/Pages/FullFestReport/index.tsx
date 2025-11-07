@@ -17,7 +17,7 @@ import type { FullFestReportApiResponse } from "../../Types";
 
 const FullFestReport = () => {
   const [tabIndex, setTabIndex] = useState(1);
-  const { data } = useGetApiQuery<FullFestReportApiResponse>({ url: URL_KEYS.FULL_FEST.FULL_FEST });
+  const { data ,isLoading} = useGetApiQuery<FullFestReportApiResponse>({ url: URL_KEYS.FULL_FEST.FULL_FEST });
   const Sec1 = data?.data?.sec1;
   const Sec2 = data?.data?.sec2;
   const Sec3 = data?.data?.sec3;
@@ -37,10 +37,10 @@ const FullFestReport = () => {
         </Tabs>
         <div className="w-full pt-10">
           <div hidden={tabIndex !== 0}>
-            <MyWinning />
+            <MyWinning MyWinningData={Sec3?.myWinningList} />
           </div>
           <div hidden={tabIndex !== 1}>
-            <AIPoweredReportAnalysis data={Sec1} />
+            <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading} />
           </div>
           <div hidden={tabIndex !== 2}>
             <Summary AttemptingStrategyWise={Sec1?.subjectSummary} SubWise={Sec2?.qaTypeSummary} />

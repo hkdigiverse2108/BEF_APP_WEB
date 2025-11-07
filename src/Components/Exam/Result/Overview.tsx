@@ -37,12 +37,12 @@ const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData 
           [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 150, borderRadius: 10 }} />)
         ) : (
           <>
-            <OverviewCard img={"result/Total.png"} label="Total Marks Scored" value={`${data?.totalPoints.toFixed(2)} /`} subValue={`${Math.round(((totalQuestion * 11) / 10) * data?.positiveMarks)} Marks`} />
-            <OverviewCard img={"result/Correct.png"} label="Correct" value={data?.correct} subValue={"Marks"} />
-            <OverviewCard img={"result/Incorrect.png"} label="Incorrect" value={data?.incorrect} subValue={"Marks"} />
-            <OverviewCard img={"result/Unanswered.png"} label="Unanswered" value={data?.unanswered} subValue={"Marks"} />
-            <OverviewCard img={"result/Rank.png"} label="Rank" value={data?.rank} />
-            <OverviewCard img={"result/Time.png"} label="Time" value={data?.time} />
+            <OverviewCard img={"result/Total.png"} label="Total Marks Scored" value={`${data?.totalPoints.toFixed(2) || 0} /`} subValue={`${Math.round(((totalQuestion * 11) / 10) * data?.positiveMarks) || 0} Marks`} />
+            <OverviewCard img={"result/Correct.png"} label="Correct" value={data?.correct || 0} subValue={"Marks"} />
+            <OverviewCard img={"result/Incorrect.png"} label="Incorrect" value={data?.incorrect || 0} subValue={"Marks"} />
+            <OverviewCard img={"result/Unanswered.png"} label="Unanswered" value={data?.unanswered || 0} subValue={"Marks"} />
+            <OverviewCard img={"result/Rank.png"} label="Rank" value={data?.rank || 0} />
+            <OverviewCard img={"result/Time.png"} label="Time" value={data?.time || 0} />
           </>
         )}
       </section>

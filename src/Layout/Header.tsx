@@ -105,7 +105,7 @@ const Header = () => {
                     <img src={UserData?.profileImage ||`${ImagePath}user/User.png`} alt="profile" className="w-8 h-8 rounded-xl" />
                     <div className="flex-1 hidden sm:block">
                       <span className="text-md font-bold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
-                      <p className="capitalize flex text-xs">{UserData?.userType}</p>
+                      <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
                     </div>
                     <IoIosArrowDown className="hidden sm:block " />
                   </div>

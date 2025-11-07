@@ -59,7 +59,7 @@ const MenuDrawer = () => {
               <img src={UserData?.profileImage ||`${ImagePath}user/User.png`} alt="profile" className="w-12 h-12 rounded-xl" />
               <div>
                 <span className="text-md font-bold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
-                <p className="capitalize flex text-xs">{UserData?.userType}</p>
+                <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
               </div>
             </div>
           </div>
