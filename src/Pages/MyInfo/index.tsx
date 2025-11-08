@@ -4,17 +4,17 @@ import { PhoneInput } from "react-international-phone";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { FormButton, FormInput, FormSelect, ImageUpload } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
-import { EditPayload, Storage } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
 import { LogOut } from "../../Store/Slices/AuthSlice";
+import { EditPayload, Storage, updateStorage } from "../../Utils";
 
 const MyInfo = () => {
   const [form] = Form.useForm();
   const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
-  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const { data, refetch } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
   const userData = data?.data;
   const [PostApi, { isLoading }] = usePostApiMutation();
   const dispatch = useAppDispatch();
@@ -27,7 +27,11 @@ const MyInfo = () => {
         ...editPayload,
         profileImage: values.profileImage[0],
       };
-      await PostApi({ url: URL_KEYS.USER.EDIT, data: editPayload });
+      const res = await PostApi({ url: URL_KEYS.USER.EDIT, data: editPayload });
+      if (res?.data?.status === HTTP_STATUS.OK) {
+        refetch();
+        updateStorage(STORAGE_KEYS.USER, editPayload);
+      }
     } catch (error) {
       console.error("Edit Error:", error);
     }

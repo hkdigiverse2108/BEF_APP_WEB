@@ -5,12 +5,32 @@ import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
+import { usePostApiMutation } from "../../Api/CommonApi";
+import type { ContactFormData } from "../../Types";
+import { HTTP_STATUS, URL_KEYS } from "../../Constants";
 
 const Contact = () => {
   const [form] = Form.useForm();
-  const onFinish = (values: any) => {
-    console.log("Form Values:", values);
-    // You can post the values to your API here
+  const [PostApi, { isLoading }] = usePostApiMutation({});
+
+  const onFinish = async (values: ContactFormData) => {
+    try {
+      const res = await PostApi({ url: URL_KEYS.CONTACT_US.ADD, data: values }).unwrap();
+      if (res?.status === HTTP_STATUS.OK) {
+        form.resetFields();
+      }
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+      const err = error as { data: { message: string } };
+      console.log("test", err.data.message);
+      form.setFields([
+        {
+          name: "message",
+          errors: [err.data.message],
+        },
+      ]);
+    }
   };
   return (
     <div className="sub-container">
@@ -54,12 +74,26 @@ const Contact = () => {
         <div className="flex flex-col lg:flex-row justify-center gap-12 lg:gap-24 items-center !overflow-hidden py-10  rounded-2xl w-[1240px] sm:shadow-lg">
           <div className="bg-white shadow-lg transition-all duration-100 rounded-2xl p-5 sm:p-10 w-full max-w-lg border border-card-border">
             <Form layout="vertical" form={form} onFinish={onFinish} className="space-y-4">
-              <FormInput name="referralCode" placeholder="name*" />
-              <FormInput name="referralCode" placeholder="email*" />
-              <FormInput name="referralCode" placeholder="Company Name*" />
-              <FormInput name="referralCode" placeholder="Phone*" />
-              <FormInput name="referralCode" placeholder="website*" />
-              <FormInput name="referralCode" placeholder="Your message*" type="textArea" />
+              <FormInput name="name" placeholder="name*" rules={[{ required: true, message: "Please enter your name" }]} />
+              <FormInput
+                name="email"
+                placeholder="email*"
+                rules={[
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Please enter a valid email" },
+                ]}
+              />
+              <FormInput name="company" placeholder="Company Name*" rules={[{ required: true, message: "Please enter Company Name" }]} />
+              <FormInput
+                name="phone"
+                placeholder="Phone*"
+                rules={[
+                  { required: true, message: "Please enter your phone number" },
+                  { len: 10, message: "Phone number must be 10 digits" },
+                ]}
+              />
+              <FormInput name="website" placeholder="website*" rules={[{ required: true, message: "Please enter your name" }]}/>
+              <FormInput name="message" placeholder="Your message*" type="textArea" rules={[{ required: true, message: "Please enter your message" }]}/>
               <FormButton htmlType="submit" text="submit" className="custom-button button button--mimas w-full !h-auto" />
             </Form>
           </div>

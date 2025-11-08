@@ -132,3 +132,14 @@ export interface ImageUploadProps {
   value?: string[];
   onChange?: (value: string[]) => void;
 }
+
+// ************ Contact ***********
+
+export interface ContactFormData {
+  name: string;
+  email: string;
+  phone: string;
+  website: string;
+  company: string;
+  message: string;
+}

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { Storage } from "../../Utils";
 
 export interface RazorpayResponse {
@@ -105,7 +105,7 @@ const Recharge = () => {
     };
     try {
       const res = await PostApi({ url: URL_KEYS.BALANCE.ADD, data: RechargeData });
-      if (res?.data?.status === 200) {
+      if (res?.data?.status === HTTP_STATUS.OK) {
         refetch();
       }
     } catch (error) {

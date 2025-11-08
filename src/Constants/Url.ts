@@ -103,9 +103,12 @@ export const URL_KEYS = {
     GOAL: "/goal",
   },
   SETTINGS: {
-    ALL: "setting",
+    ALL: "/setting",
   },
   WITHDRAW: {
     WITHDRAW: "/withdraw",
+  },
+  CONTACT_US: {
+    ADD: "/contact-us/add",
   },
 } as const;
