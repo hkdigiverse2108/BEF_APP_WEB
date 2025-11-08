@@ -9,13 +9,15 @@ import type { FC } from "react";
 const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
 
-  const { contest: { name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1 } = {}, subject: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
+  const { contest: { _id = "", name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1 } = {}, subject: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
 
   const progress = (filledSpots / totalSpots) * 100;
 
+  // console.log("contest", contestData);
+
   const handleJoin = (e: any) => {
     e.stopPropagation();
-    navigate(ROUTES.EXAM.INSTRUCTION);
+    navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`);
   };
 
   return (

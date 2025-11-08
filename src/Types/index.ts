@@ -11,3 +11,5 @@ export * from "./Result";
 export * from "./FullFestReport";
 export * from "./Ranks";
 export * from "./MistakeMapReport";
+export * from "./Report";
+export * from "./Question";

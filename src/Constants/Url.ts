@@ -36,12 +36,14 @@ export const URL_KEYS = {
     TYPE: {
       TYPE: "/contest-type",
     },
+    QUESTION: "/question/contest",
   },
   QA: {
     ADD: "/qa/add",
     ALL: "/qa/all",
     CONTEST_RANKS: "/qa/contest/ranks",
     MISTAKE_MAP: "/qa/mistake-map/",
+    CONTEST_QUESTION: "/qa/contest/question?contestFilter=",
   },
   TERMS_CONDITION: {
     TERMS_CONDITION: "/terms-condition",
@@ -71,6 +73,7 @@ export const URL_KEYS = {
   },
   RESULT_REPORT: {
     ID: "/result-report/",
+    ADD: "/result-report/add",
   },
   REPORT: {
     REPORT: "/report",
