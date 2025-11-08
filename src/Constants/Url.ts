@@ -43,7 +43,7 @@ export const URL_KEYS = {
     ALL: "/qa/all",
     CONTEST_RANKS: "/qa/contest/ranks",
     MISTAKE_MAP: "/qa/mistake-map/",
-    CONTEST_QUESTION: "/qa/contest/question?contestFilter=",
+    CONTEST_QUESTION: "/qa/contest/question",
   },
   TERMS_CONDITION: {
     TERMS_CONDITION: "/terms-condition",

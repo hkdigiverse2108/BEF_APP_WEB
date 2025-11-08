@@ -1,60 +1,97 @@
-// types.ts
-export type LanguageKey = "hindiQuestion" | "englishQuestion";
+import type { MessageStatus } from "./Common";
 
-export type QueType = "normal" | "statement" | "pair";
-
-export interface OptionMap {
-  [key: string]: string;
+export interface StatementQuestion {
+  combined: string;
 }
 
-export interface PairItem {
-  combined?: string;
-  [k: string]: any;
+export interface PairQuestion {
+  combined: string;
 }
 
-export interface LocalQuestionLang {
-  question?: string;
-  options?: OptionMap;
-  pairQuestion?: PairItem[];
+export interface QuestionLanguage {
+  options: Record<string, string>;
+  question: string;
+  statementQuestion: StatementQuestion[];
+  pairQuestion: PairQuestion[];
+  answer?: string;
+  solution?: string;
   lastQuestion?: string;
+  link?: string;
+}
+export type LanguageKey = "englishQuestion" | "hindiQuestion";
+
+export interface StrategyUsageType {
+  type: string;
+  percentage: string;
+  rightAnswer: number;
+  totalQuestion: number;
 }
 
-export interface QuestionItem {
+export interface QuestionAnswer {
+  englishQuestion: QuestionLanguage;
+  hindiQuestion: QuestionLanguage;
   _id: string;
-  questionType: QueType;
-  positiveMarks?: number;
-  negativeMarks?: number;
-  stackNumber?: number;
-  hindiQuestion?: LocalQuestionLang;
-  englishQuestion?: LocalQuestionLang;
-  [k: string]: any;
+  subjectId: string;
+  classesId: string;
+  subtopicId: string;
+  type: string;
+  questionType: "normal" | "pair" | "statement";
+  fullLengthSubjectId: string;
+  isDeleted: boolean;
+  isBlocked: boolean;
+  createdBy: string;
+  strategyUsage: StrategyUsageType[];
+  createdAt: string;
+  updatedAt: string;
+  questionBank?: string;
+  userAnswer?:{
+    confidenceType?:string;
+    eliminateOption?: Record<number, number>;
+    option?: Record<number, number>;
+    answersType?:string[]
+  }
 }
 
-export interface QAData {
-  _id?: string;
-  answers?: QuestionItem[];
-  positiveMarks?: number;
-  negativeMarks?: number;
-  stackNumber?: number;
-  [k: string]: any;
+export interface QuestionType {
+  _id: string;
+  userId: string;
+  classesId: string;
+  contestId: string;
+  subjectId: string;
+  stackNumber: number;
+  totalPoints: number;
+  totalRightAnswer: number;
+  totalWrongAnswer: number;
+  totalSkippedAnswer: number;
+  contestStartDate: string;
+  contestEndDate: string;
+  contestStartTime: string | null;
+  contestEndTime: string | null;
+  isFullLength: boolean;
+  rank: number | null;
+  winningPrice: number;
+  contestRankId: string | null;
+  isSubjectShow: boolean;
+  status: string;
+  positiveMarks: number;
+  negativeMarks: number;
+  strategyUsage: boolean;
+  userWiseStrategy: boolean;
+  isPlayed: boolean;
+  isDeleted: boolean;
+  isBlocked: boolean;
+  createdBy: string;
+  updatedBy: string;
+  createdAt: string;
+  updatedAt: string;
+  answers: QuestionAnswer[];
 }
 
-export type AnswerValue = 1 | 0 | undefined;
+export interface QuestionResponse extends MessageStatus {
+  data: QuestionType;
+}
 
-export type AnswersByQuestion = {
-  // keyed by questionId -> { optionIndex: AnswerValue }
-  [questionId: string]: { [optionIndex: number]: AnswerValue };
-};
-
-export type ConfidenceKey =
-  | "sure"
-  | "logic"
-  | "intuition"
-  | "blind"
-  | "fear"
-  | "skip"
-  | string;
-
-export type ConfidenceByQuestion = {
-  [questionId: string]: ConfidenceKey | undefined;
-};
+export interface QuestionApiResponse {
+  data: QuestionResponse;
+  isLoading: boolean;
+}

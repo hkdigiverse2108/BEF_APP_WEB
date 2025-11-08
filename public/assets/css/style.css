@@ -195,6 +195,9 @@ input {
 .question-section .ant-checkbox-label svg {
   @apply text-lg;
 }
+.question-section .question label.ant-checkbox-wrapper .ant-checkbox-label{
+  @apply !m-auto
+}
 
 .answered {
   @apply rounded-b-md rounded-t-2xl bg-green-100 border-green-600;
