@@ -39,9 +39,7 @@ import { Storage } from "../../../Utils";
 import { LANGUAGES, QUE_TYPE } from "../../../Data/Question";
 import { NormalQuestion } from "../../../Components/Common/NormalQuestion";
 import { StatementQuestion } from "../../../Components/Common/StatementQuestion";
-import {
-  PairTable,
-} from "../../../Components/Common/PairHeader";
+import { PairTable } from "../../../Components/Common/PairHeader";
 
 const Question = () => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
@@ -204,20 +202,15 @@ const Question = () => {
             {/* Question Header */}
             <div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
-                <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">
-                  Question : {currentQuestionNumber}
-                </span>
-
                 <div className="relative inline-block">
-                  <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">
-                    +{CheckIsStackNumber(positiveMarks) || 0}
+                  <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">
+                    Question : {currentQuestionNumber}
                   </span>
-
                   {(() => {
                     const currentStack = CheckIsStackNumber(positiveMarks);
                     if (currentStack !== positiveMarks) {
                       return (
-                        <span className="absolute -top-3 -right-2 bg-success text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+                        <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
                           2x
                         </span>
                       );
@@ -225,6 +218,11 @@ const Question = () => {
                     return null;
                   })()}
                 </div>
+
+                <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">
+                  +{CheckIsStackNumber(positiveMarks) || 0}
+                </span>
+
                 <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">
                   -{negativeMarks || 0}{" "}
                 </span>
@@ -327,6 +325,8 @@ const Question = () => {
                       }
                     )}
                   </div>
+                  <span className="border-t border-card-border flex w-full mb-6" />
+
                   <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
                     <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                       {Object.keys(currentQuestion[language]?.options).map(
@@ -367,17 +367,39 @@ const Question = () => {
               currentQuestion?.questionType === QUE_TYPE.PAIR && (
                 <>
                   <div className="space-y-4 pb-6 rounded-2xl">
+                    {/* {Object.keys(currentQuestion[language]?.options)?.map(
+                      (opt, i) => {
+                        console.log(opt);
+                        return (
+                          <div key={i}>
+                            { */}
                     <PairTable
                       pair={currentQuestion[language]?.pairQuestion}
                       pairTitle={
                         currentQuestion[language]?.pairQuestion?.[0]?.combined
                       }
+                      answers={answers}
+                      onCheck={handleCheck}
                     />
+                    {/* }
+                          </div>
+                        );
+                      }
+                    )} */}
+                    {/* <PairTable
+                      pair={currentQuestion[language]?.pairQuestion}
+                      pairTitle={
+                        currentQuestion[language]?.pairQuestion?.[0]?.combined
+                      }
+                      answers={answers}
+                      onCheck={handleCheck}
+                    /> */}
 
                     <span className="font-bold text-xl px-2 rounded">
                       {currentQuestion[language]?.lastQuestion}
                     </span>
                   </div>
+                  <span className="border-t border-card-border flex w-full mb-6" />
 
                   <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
                     <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">

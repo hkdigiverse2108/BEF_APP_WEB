@@ -21,7 +21,7 @@ export const StatementQuestion = ({
   answers,
   onCheck,
 }: StatementQuestionProps) => {
-  console.log("STATEMENT : ", statements);
+  // console.log("STATEMENT : ", statements);
   return (
     <div className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
       <span className="flex-1 font-medium">
