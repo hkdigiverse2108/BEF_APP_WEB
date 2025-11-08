@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
-import { NavLink } from "react-router-dom";
-import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../Constants";
+import { Link, NavLink } from "react-router-dom";
+import { useGetApiQuery } from "../Api/CommonApi";
+import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../Constants";
 import { HeaderMenu } from "../Data";
 import { useAppDispatch } from "../Store/hooks";
 import { setMenuDrawer, setNavMenuDrawer } from "../Store/Slices/DrawerSlice";
+import { Storage } from "../Utils";
 import MenuDrawer from "./MenuDrawer";
 import NavMenuDrawer from "./NavMenuDrawer";
-import { Storage } from "../Utils";
-import { useGetApiQuery } from "../Api/CommonApi";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +43,7 @@ const Header = () => {
       <div className="sticky top-0 w-full z-50">
         <header className={`min-h-[60px] tracking-wide relative z-50 ${isScrolled ? "bg-white/80 backdrop-blur-md" : ""}`}>
           <div className="flex flex-wrap items-center justify-between py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
-            <div className="flex gap-4 items-center">
+            <Link to={ROUTES.HOME} className="flex gap-4 items-center">
               <figure className="w-12 sm:w-18 h-full">
                 <img src={`${ImagePath}logo/Logo.png`} alt="BEF-Logo" className="w-full h-full object-contain" />
               </figure>
@@ -51,7 +51,7 @@ const Header = () => {
                 <h1 className="text-sm sm:text-xl text-primary font-extrabold">Bharat Exam Fest</h1>
                 <p className="text-xs sm:text-sm font-medium text-success ">Learn & Earn</p>
               </section>
-            </div>
+            </Link>
             <div id="collapseMenu" className="max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50">
               <ul className="2xl:!flex 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-theme-bg max-2xl:w-1/2 max-2xl:min-w-[300px] max-2xl:top-0 max-2xl:left-0 max-2xl:px-10 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
                 <li className="mb-6 hidden max-2xl:block">
