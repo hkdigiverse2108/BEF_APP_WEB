@@ -24,6 +24,7 @@ import { useAppDispatch } from "../../../Store/hooks";
 import type { LanguageKey, QuestionApiResponse, QuestionType } from "../../../Types";
 import { Storage, updateStorage } from "../../../Utils";
 import { message } from "antd";
+import { useCountDown } from "../../../Utils/Hook";
 
 const Question = () => {
   const [isAnswers, setAnswers] = useState<{ [key: number]: number | undefined }>({});
@@ -34,7 +35,6 @@ const Question = () => {
   const [isOpen, setOpen] = useState(false);
   const [QAData, setQAData] = useState<QuestionType | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
-
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
   const [language, setLanguage] = useState<LanguageKey>(LANGUAGES.ENGLISH as LanguageKey);
 
@@ -44,8 +44,7 @@ const Question = () => {
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({ url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}` }, { skip: false });
-
-  // const QAData = QAApiData?.data || {};
+  const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
   const stored = Storage.getItem(STORAGE_KEYS.EXAM_QA_ALL);
   useEffect(() => {
@@ -55,11 +54,33 @@ const Question = () => {
       if (!isLoading) {
         updateStorage(STORAGE_KEYS.EXAM_QA_ALL, QAApiData?.data);
         setQAData(QAApiData?.data);
+        const apiAnswers = {
+          qaId: QAApiData?.data?._id || "",
+          answers: QAApiData?.data?.answers?.map((q, i) => {
+            const qIndex = i + 1;
+            const whole = Math.floor(qIndex);
+            const remainder = whole % 10;
+            const finalNumber = remainder === 0 ? 10 : remainder;
+            const is2x = finalNumber === QAApiData?.data?.stackNumber;
+            return {
+              questionId: q._id,
+              type: q?.userAnswer?.confidenceType || "",
+              is2XStack: is2x,
+              eliminateOption: 0,
+              eliminateOptionA: false,
+              eliminateOptionB: false,
+              eliminateOptionC: false,
+              eliminateOptionD: false,
+              answer: "",
+            };
+          }),
+          contestStartTime: new Date().toISOString(),
+          contestEndTime: "",
+        };
+        updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, apiAnswers);
       }
     }
-  }, [QAApiData?.data, isLoading, stored]);
-
-  // const QAData: QuestionType = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ALL) || "{}");
+  }, [QAApiData?.data, QAData?._id, QAData?.contestEndDate, QAData?.contestEndTime, QAData?.contestStartDate, QAData?.contestStartTime, isLoading, stored]);
 
   const QA = QAData?.answers || [];
   const { _id, negativeMarks, positiveMarks, stackNumber } = QAData || {};
@@ -71,10 +92,13 @@ const Question = () => {
     const whole = Math.floor(currentQuestionNumber);
     const remainder = whole % 10;
     const finalNumber = remainder === 0 ? 10 : remainder;
-    const isStack = finalNumber === stackNumber;
-    const isStackNumber = isStack ? number * 2 : number;
-    return isStackNumber;
+    const stack = finalNumber === stackNumber;
+    return {
+      value: stack ? number * 2 : number,
+      stack,
+    };
   };
+  const { value, stack } = CheckIsStackNumber(positiveMarks as number);
 
   const handleQaCheck = (id: number, type: "true" | "false") => {
     setQa((prev) => {
@@ -128,54 +152,99 @@ const Question = () => {
   }, [QAData?.answers, currentQuestion?._id, currentQuestionNumber]);
 
   const handleQuestionNumberClick = (questionNumber: number, id: string) => {
-    const item = QAData?.answers?.find((a) => a._id === id);
-
-    if (!item?.userAnswer?.answersType?.includes("unanswered")) {
-      setAnswersType(item?.userAnswer?.answersType || []);
-    } else {
-      // setAnswersType(["unanswered"]);
-    }
     setCurrentQuestionNumber(questionNumber);
-    const obj = {
-      // confidenceType: isConfidence,
-      // eliminateOption: isAnswers,
-      // option: isQa,
-      answersType: isAnswersType,
-    };
-    console.log(isAnswersType);
-    
-    const data = QAData?.answers?.map((item) => (item._id === id ? { ...item, userAnswer: obj } : item));
-    // updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: data });
+
+    const item = QAData?.answers?.find((a) => a._id === id);
+    window.dispatchEvent(new Event("examStorageUpdate"));
+    if (item?.userAnswer?.answersType?.length) {
+      setAnswers(item?.userAnswer?.eliminateOption || {});
+      setQa(item?.userAnswer?.option || {});
+      setConfidence(item?.userAnswer?.confidenceType || "");
+      setAnswersType(item?.userAnswer?.answersType || []);
+      setSkip(item?.userAnswer?.answersType?.includes("marked") || false);
+    } else {
+      setAnswers({});
+      setQa({});
+      setConfidence("");
+      setAnswersType(["unanswered"]);
+      setSkip(false);
+
+      const obj = {
+        answersType: ["unanswered"],
+      };
+      const data = QAData?.answers?.map((q) => (q._id === id ? { ...q, userAnswer: obj } : q));
+      updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: data });
+    }
   };
 
   const handleLanguageChange = () => setLanguage((prev) => (prev === LANGUAGES.ENGLISH ? (LANGUAGES.HINDI as "hindiQuestion") : (LANGUAGES.ENGLISH as "englishQuestion")));
 
   useEffect(() => {
-    const hasTrue = Object.values(isAnswers).includes(1);
-
+    // const hasTrue = Object.values(isAnswers).includes(1);
     let type: string[] = [];
 
-    if (hasTrue) {
-      if (["skip", "fearDriverSkip"].includes(isConfidence)) type = ["skip"];
-      else type = ["answered"];
-    } else {
-      type = ["unanswered"];
-    }
+    // if (hasTrue) {
+    if (["skip", "fearDriverSkip"].includes(isConfidence)) type = ["skip"];
+    else type = ["answered"];
+    // } else {
+    //   type = ["unanswered"];
+    // }
 
     if (isSkip) type.push("marked");
-
     setAnswersType(type);
   }, [isAnswers, isConfidence, isSkip]);
 
   const handleNextQueClick = () => {
+    if (!QAData) return;
+
     const hasTrue = Object.values(isAnswers).includes(1);
     const hasConfidence = Boolean(isConfidence);
-
-    if (!hasTrue || !hasConfidence) {
-      if (!hasTrue) messageApi.warning("Please choose any one option");
-      else messageApi.warning("Please select strategy");
-      return;
+    if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip") {
+      if (!hasTrue || !hasConfidence) {
+        if (!hasTrue) messageApi.warning("Please choose any one option");
+        else messageApi.warning("Please select strategy");
+        return;
+      }
     }
+
+    const currentId = currentQuestion?._id;
+
+    const convertEliminate = (eliminate: { [key: number]: number | undefined }) => {
+      return {
+        eliminateOptionA: eliminate[0] === 0,
+        eliminateOptionB: eliminate[1] === 0,
+        eliminateOptionC: eliminate[2] === 0,
+        eliminateOptionD: eliminate[3] === 0,
+      };
+    };
+    const getEliminateStats = (data: { [key: number]: number | undefined }) => {
+      const converted = convertEliminate(data);
+
+      const eliminateOption = Object.values(converted).filter((v) => v === true).length;
+      const map = ["A", "B", "C", "D"];
+
+      const eliminated = Object.keys(data)
+        .filter((k) => data[Number(k)] === 1)
+        .map((k) => map[Number(k)]);
+
+      return {
+        ...converted,
+        eliminateOption,
+        answer: eliminated[0],
+      };
+    };
+
+    const stats = getEliminateStats(isAnswers);
+    const userQaAnswers = {
+      type: isConfidence,
+      is2XStack: stack,
+      ...stats,
+    };
+    const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
+    updateStorage(
+      STORAGE_KEYS.EXAM_QA_ANSWERS,
+      QaExamAnswers?.answers?.map((a: any) => (a.questionId === currentId ? { ...a, ...userQaAnswers } : a))
+    );
 
     const obj = {
       confidenceType: isConfidence,
@@ -183,12 +252,44 @@ const Question = () => {
       option: isQa,
       answersType: isAnswersType,
     };
-    const data = QAData?.answers?.map((item) => (item._id === currentQuestion?._id ? { ...item, userAnswer: obj } : item));
-    updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: data });
 
-    const totalQue = QA.length;
-    if (currentQuestionNumber >= totalQue) return;
-    setCurrentQuestionNumber(currentQuestionNumber + 1);
+    const updatedAnswers = QAData.answers.map((item) => (item._id === currentId ? { ...item, userAnswer: obj } : item));
+    const updatedQAData = { ...QAData, answers: updatedAnswers };
+
+    setQAData(updatedQAData as QuestionType);
+
+    updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: updatedAnswers });
+    window.dispatchEvent(new Event("examStorageUpdate"));
+    setCurrentQuestionNumber((prev) => {
+      const next = prev + 1;
+      if (next > updatedAnswers.length) return prev;
+
+      const nextQ = { ...updatedAnswers[next - 1] };
+
+      if (!nextQ.userAnswer?.answersType?.length) {
+        nextQ.userAnswer = { answersType: ["unanswered"] };
+
+        const finalAnswers = updatedAnswers.map((a) => (a._id === nextQ._id ? nextQ : a));
+        const finalQAData = { ...updatedQAData, answers: finalAnswers };
+
+        setQAData(finalQAData as QuestionType);
+        updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: finalAnswers });
+
+        setAnswers({});
+        setQa({});
+        setConfidence("");
+        setAnswersType(["unanswered"]);
+        setSkip(false);
+      } else {
+        setAnswers(nextQ.userAnswer?.eliminateOption || {});
+        setQa(nextQ.userAnswer?.option || {});
+        setConfidence(nextQ.userAnswer?.confidenceType || "");
+        setAnswersType(nextQ.userAnswer?.answersType || ["unanswered"]);
+        setSkip(nextQ.userAnswer?.answersType?.includes("marked") || false);
+      }
+
+      return next;
+    });
   };
 
   const handlePrevQueClick = () => {
@@ -210,7 +311,7 @@ const Question = () => {
       {contextHolder}
       <div className="sub-container pt-4 md:pt-8 question-section">
         {/* Header */}
-        <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time="25 Min 10s Left" />
+        <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex justify-center">
           <p className="font-bold mb-0 bg-input-box p-2 px-5 rounded-lg mt-4 w-fit">Do not exit the web. Press the submit button on last question to lock your.</p>
         </div>
@@ -232,7 +333,7 @@ const Question = () => {
                 <div className="relative inline-block">
                   <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>
                   {(() => {
-                    const currentStack = CheckIsStackNumber(positiveMarks as number);
+                    const currentStack = value;
                     if (currentStack !== positiveMarks) {
                       return <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">2x</span>;
                     }
@@ -240,9 +341,9 @@ const Question = () => {
                   })()}
                 </div>
 
-                <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+{CheckIsStackNumber(positiveMarks as number) || 0}</span>
+                <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+{value || 0}</span>
 
-                <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">-{negativeMarks || 0} </span>
+                <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">{negativeMarks || 0} </span>
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
                   <span onClick={handleLanguageChange} className="text-sm font-bold flex flex-nowrap gap-2">
                     <IoLanguage className="text-xl" />
@@ -290,7 +391,7 @@ const Question = () => {
                 <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                   {Object.keys(currentQuestionLanguage?.options || {}).map((opt, i) => {
                     return (
-                      <div key={i} className={`border-2 border-card-border flex items-center gap-3 p-4 m-0 rounded-2xl cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-300 hover:bg-gray-50"}`}>
+                      <div key={i} className={`border-2 border-card-border flex items-center gap-3 m-0 rounded-2xl cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-300 hover:bg-gray-50"}`}>
                         {<NormalQuestion key={i} id={i} opt={opt} text={currentQuestionLanguage?.options[opt] || ""} answers={isAnswers} onCheck={handleAnswersCheck} />}
                       </div>
                     );
@@ -305,7 +406,7 @@ const Question = () => {
             <section id="QA_Buttons" className="w-full">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 my-8 max-xl:justify-center">
                 {ConfidenceButtons.map((btn, i) => (
-                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:animate-pulse ${btn.color} ${isConfidence === btn.value ? "animate-pulse" : ""}`}>
+                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:animate-pulse ${btn.color} ${isConfidence === btn.value ? "animate-pulse scale-90" : ""}`}>
                     {btn.icon}
                     {btn.label}
                   </button>
@@ -319,9 +420,9 @@ const Question = () => {
           </div>
 
           {/* Right Panel */}
-          <div onClick={() => setOpen(!isOpen)} className="bg-input-box p-6 rounded-2xl w-full max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
+          <div onClick={() => setOpen(!isOpen)} className="bg-input-box p-6 rounded-2xl w-full h-full max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
             {/* Legend */}
-            <div onClick={(e) => e.stopPropagation()} className="2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] w-full max-2xl:max-w-[400px] max-2xl:min-w-[200px] max-2xl:top-0 max-2xl:right-0  max-2xl:px-5 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
+            <div onClick={(e) => e.stopPropagation()} className="2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] w-full max-2xl:max-w-[400px] max-2xl:min-w-[200px] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
               <div className="mb-6 hidden max-2xl:block">
                 <div className="flex justify-between items-center">
                   <a href="javascript:void(0)">Questions</a>
@@ -331,62 +432,66 @@ const Question = () => {
                 </div>
                 <span className="border-t border-card-border flex w-full mt-4 mb-10" />
               </div>
+              <div className="2xl:h-full flex flex-col justify-between">
+                <div>
+                  <div className="grid grid-cols-2 gap-3 text-xs mb-4">
+                    <div className="flex items-center gap-1">
+                      <span className="w-6 h-6 border answered" />
+                      <span>Answered</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="w-6 h-6 border unanswered" />
+                      <span>Unanswered</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="w-6 h-6 border marked relative">
+                        <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" />
+                      </span>
+                      <span>Marked</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="w-6 h-6 border not-visited" />
+                      <span>Not Visited</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="w-6 h-6 border skip" />
+                      <span>Skip</span>
+                    </div>
+                  </div>
+                  <span className="border-t border-card-border flex w-full my-4" />
 
-              <div className="grid grid-cols-2 gap-3 text-xs mb-4">
-                <div className="flex items-center gap-1">
-                  <span className="w-6 h-6 border answered" />
-                  <span>Answered</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="w-6 h-6 border unanswered" />
-                  <span>Unanswered</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="w-6 h-6 border marked relative">
-                    <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" />
-                  </span>
-                  <span>Marked</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="w-6 h-6 border not-visited" />
-                  <span>Not Visited</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="w-6 h-6 border skip" />
-                  <span>Skip</span>
-                </div>
-              </div>
-              <span className="border-t border-card-border flex w-full my-4" />
+                  {/* Question Grid */}
 
-              {/* Question Grid */}
-              <div className="grid grid-cols-5 gap-2">
-                {QA?.map((item, i) => {
-                  const status = item?.userAnswer?.answersType?.[0] || "not-visited";
-                  const isMarked = item?.userAnswer?.answersType?.includes("marked");
-                  return (
-                    <button onClick={() => handleQuestionNumberClick(i + 1, item?._id)} key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${status} ${isMarked ? "relative" : ""}`}>
-                      {i + 1}
-                      {isMarked ? <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" /> : ""}
-                    </button>
-                  );
-                })}
-              </div>
+                  <div className="grid grid-cols-5 gap-2 min-h-[88px] max-h-[440px] overflow-y-auto [&::-webkit-scrollbar]:w-0">
+                    {QA?.map((item, i) => {
+                      const status = item?.userAnswer?.answersType?.[0] || "not-visited";
+                      const isMarked = item?.userAnswer?.answersType?.includes("marked");
+                      return (
+                        <button onClick={() => handleQuestionNumberClick(i + 1, item?._id)} key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${status} ${isMarked ? "relative" : ""}`}>
+                          {i + 1}
+                          {isMarked ? <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" /> : ""}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-              {/* End Test Button */}
-              <div className="flex flex-col gap-3 mt-5">
-                <button onClick={() => dispatch(setInstructionsDrawer())} className="flex justify-center items-center gap-2 bg-white border border-card-border hover:bg-input-box-dark transition-all font-bold text-sm p-2 px-4 rounded cursor-pointer">
-                  <HiMiniInformationCircle size={20} />
-                  Instructions
-                </button>
-                <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="w-full !text-md !font-bold transition-all hover:!bg-red-100 hover:!text-red-700 text-center !p-4 !h-13 uppercase !border-1 !border-danger" />
+                {/* End Test Button */}
+                <div className="flex flex-col gap-3 mt-5 ">
+                  <button onClick={() => dispatch(setInstructionsDrawer())} className="flex justify-center items-center gap-2 bg-white border border-card-border hover:bg-input-box-dark transition-all font-bold text-sm p-2 px-4 rounded cursor-pointer">
+                    <HiMiniInformationCircle size={20} />
+                    Instructions
+                  </button>
+                  <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="w-full !text-md !font-bold transition-all hover:!bg-red-100 hover:!text-red-700 text-center !p-4 !h-13 uppercase !border-1 !border-danger" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <EndTest />
       </div>
       <InstructionsDrawer />
       <ReportModal payload={{ contestId: contestId, questionId: currentQuestion?._id, qaId: _id as string }} />
+      <EndTest />
     </>
   );
 };

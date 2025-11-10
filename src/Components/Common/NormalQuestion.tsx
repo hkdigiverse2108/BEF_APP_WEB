@@ -12,9 +12,9 @@ export interface NormalQuestionProps {
 
 export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuestionProps) => {
   return (
-    <div className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
+    <div className="flex max-sm:flex-col justify-center items-center w-full max-sm:gap-3 question">
       {/* Desktop True Checkbox */}
-      <div onClick={() => onCheck(id, "true")} className="flex w-full">
+      <div onClick={() => onCheck(id, "true")} className="flex w-full py-4 ps-4">
         <div className="hidden sm:flex items-center">
           <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
             <div className="relative">
@@ -29,8 +29,8 @@ export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuesti
       </div>
 
       {/* Mobile True + False */}
-      <div className="flex justify-end max-sm:w-full gap-2">
-        <div className="sm:hidden">
+      <div className="flex justify-end max-sm:w-full max-sm:gap-2">
+        <div className="sm:hidden !py-4 ">
           <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
             <div className="relative">
               {answers[id] === 1 ? <FaRegCircle style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
@@ -39,7 +39,7 @@ export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuesti
           </Checkbox>
         </div>
 
-        <Checkbox checked={answers[id] === 0} onChange={() => onCheck(id, "false")}>
+        <Checkbox checked={answers[id] === 0} onChange={() => onCheck(id, "false")} className="!py-4 !pe-4">
           {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
         </Checkbox>
       </div>
