@@ -4,9 +4,9 @@ import { ImagePath, STORAGE_KEYS } from "../../../Constants";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
 import { setEndTestDrawer } from "../../../Store/Slices/DrawerSlice";
 import { Storage } from "../../../Utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 
-const EndTestDrawer = () => {
+const EndTestDrawer: FC<{ handleEndTest: () => void ,loading:boolean}> = ({ handleEndTest ,loading}) => {
   const [isAnswers, setAnswers] = useState({ total: 0, answered: 0, unanswered: 0, notVisited: 0, skip: 0, marked: 0 });
   const dispatch = useAppDispatch();
   const { isEndTestDrawer } = useAppSelector((state) => state.drawer);
@@ -108,8 +108,8 @@ const EndTestDrawer = () => {
                 </div>
               </div>
               <div className="grid !gap-3 grid-cols-1 sm:grid-cols-2 mt-10">
-                <FormButton text="Resume" className="custom-button-light button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
-                <FormButton text="END TEST" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+                <FormButton onClick={() => dispatch(setEndTestDrawer())} text="Resume" className="custom-button-light button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+                <FormButton onClick={() => handleEndTest()} loading={loading} text="END TEST" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
               </div>
             </div>
           </div>

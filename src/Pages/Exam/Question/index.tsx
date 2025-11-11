@@ -1,3 +1,4 @@
+import { message, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { BsFillAlarmFill } from "react-icons/bs";
 import { FaLightbulb } from "react-icons/fa";
@@ -7,8 +8,8 @@ import { MdLibraryAddCheck, MdVisibility, MdVisibilityOff } from "react-icons/md
 import { RiFileCheckFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { TbMessageQuestion, TbReport } from "react-icons/tb";
-import { useLocation } from "react-router-dom";
-import { useGetApiQuery } from "../../../Api/CommonApi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useGetApiQuery, usePostApiMutation } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import { NormalQuestion } from "../../../Components/Common/NormalQuestion";
@@ -17,13 +18,12 @@ import { StatementQuestion } from "../../../Components/Common/StatementQuestion"
 import EndTest from "../../../Components/Exam/Question/EndTestDrawer";
 import InstructionsDrawer from "../../../Components/Exam/Question/InstructionsDrawer";
 import ReportModal from "../../../Components/Exam/Question/ReportModal";
-import { STORAGE_KEYS, URL_KEYS } from "../../../Constants";
+import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../../Constants";
 import { LANGUAGES, QUE_TYPE } from "../../../Data/Question";
 import { setEndTestDrawer, setInstructionsDrawer, setReportModal } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
 import type { LanguageKey, QuestionApiResponse, QuestionType } from "../../../Types";
 import { Storage, updateStorage } from "../../../Utils";
-import { message } from "antd";
 import { useCountDown } from "../../../Utils/Hook";
 
 const Question = () => {
@@ -37,50 +37,57 @@ const Question = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
   const [language, setLanguage] = useState<LanguageKey>(LANGUAGES.ENGLISH as LanguageKey);
+  const [PostApi, { isLoading: isPostLoading }] = usePostApiMutation();
 
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
-  const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({ url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}` }, { skip: false });
+  const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({ url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}` });
   const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
   const stored = Storage.getItem(STORAGE_KEYS.EXAM_QA_ALL);
   useEffect(() => {
+    if (!isLoading && QAApiData?.data) {
+      updateStorage(STORAGE_KEYS.EXAM_QA_ALL, QAApiData?.data);
+      setQAData(QAApiData?.data);
+      const apiAnswers = {
+        qaId: QAApiData?.data?._id || "",
+        answers: QAApiData?.data?.answers?.map((q, i) => {
+          const qIndex = i + 1;
+          const whole = Math.floor(qIndex);
+          const remainder = whole % 10;
+          const finalNumber = remainder === 0 ? 10 : remainder;
+          const is2x = finalNumber === QAApiData?.data?.stackNumber;
+          return {
+            questionId: q._id,
+            type: q?.userAnswer?.confidenceType || "",
+            is2XStack: is2x,
+            eliminateOption: 0,
+            eliminateOptionA: false,
+            eliminateOptionB: false,
+            eliminateOptionC: false,
+            eliminateOptionD: false,
+            answer: "",
+          };
+        }),
+        contestStartTime: new Date().toISOString(),
+        contestEndTime: "",
+      };
+      updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, apiAnswers);
+    }
+    // if (stored) {
+    //   setQAData(JSON.parse(stored));
+    //   console.log("1");
+    // }
+  }, [QAApiData?.data, isLoading]);
+  useEffect(() => {
     if (stored) {
       setQAData(JSON.parse(stored));
-    } else {
-      if (!isLoading) {
-        updateStorage(STORAGE_KEYS.EXAM_QA_ALL, QAApiData?.data);
-        setQAData(QAApiData?.data);
-        const apiAnswers = {
-          qaId: QAApiData?.data?._id || "",
-          answers: QAApiData?.data?.answers?.map((q, i) => {
-            const qIndex = i + 1;
-            const whole = Math.floor(qIndex);
-            const remainder = whole % 10;
-            const finalNumber = remainder === 0 ? 10 : remainder;
-            const is2x = finalNumber === QAApiData?.data?.stackNumber;
-            return {
-              questionId: q._id,
-              type: q?.userAnswer?.confidenceType || "",
-              is2XStack: is2x,
-              eliminateOption: 0,
-              eliminateOptionA: false,
-              eliminateOptionB: false,
-              eliminateOptionC: false,
-              eliminateOptionD: false,
-              answer: "",
-            };
-          }),
-          contestStartTime: new Date().toISOString(),
-          contestEndTime: "",
-        };
-        updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, apiAnswers);
-      }
     }
-  }, [QAApiData?.data, QAData?._id, QAData?.contestEndDate, QAData?.contestEndTime, QAData?.contestStartDate, QAData?.contestStartTime, isLoading, stored]);
+  }, [stored]);
 
   const QA = QAData?.answers || [];
   const { _id, negativeMarks, positiveMarks, stackNumber } = QAData || {};
@@ -194,12 +201,39 @@ const Question = () => {
     setAnswersType(type);
   }, [isAnswers, isConfidence, isSkip]);
 
-  const handleNextQueClick = () => {
-    if (!QAData) return;
+  const handleEndTestDrawer = async () => {
+    updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, { contestEndTime: new Date() });
+    const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
+    const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
+    if (res?.data?.status === HTTP_STATUS.OK) {
+      Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
+      Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
+      setAnswers({});
+      setQa({});
+      setConfidence("");
+      setAnswersType(["unanswered"]);
+      setSkip(false);
+      setQAData(null);
+      navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || "" } });
+    }
+  };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (isFinished) {
+        clearInterval(timer);
+        handleEndTestDrawer();
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isFinished]);
+
+  const handleNextQueClick = async () => {
+    if (!QAData) return;
     const hasTrue = Object.values(isAnswers).includes(1);
     const hasConfidence = Boolean(isConfidence);
-    if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip") {
+    if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip" && currentQuestionNumber !== QA.length) {
       if (!hasTrue || !hasConfidence) {
         if (!hasTrue) messageApi.warning("Please choose any one option");
         else messageApi.warning("Please select strategy");
@@ -290,6 +324,23 @@ const Question = () => {
 
       return next;
     });
+    if (currentQuestionNumber === QA.length) {
+      // updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, { contestEndTime: new Date() });
+      // const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
+      // const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
+      // if (res?.data?.status === HTTP_STATUS.OK) {
+      //   Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
+      //   Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
+      //   setAnswers({});
+      //   setQa({});
+      //   setConfidence("");
+      //   setAnswersType(["unanswered"]);
+      //   setSkip(false);
+      //   setQAData(null);
+      //   navigate(ROUTES.EXAM.COUNT_DOWN);
+      // }
+      handleEndTestDrawer();
+    }
   };
 
   const handlePrevQueClick = () => {
@@ -305,7 +356,6 @@ const Question = () => {
     { label: "Fear - Driver Skip", value: "fearDriverSkip", color: "bg-green-700", icon: <RiFileCheckFill className="text-lg" /> },
     { label: "Skip", value: "skip", color: "bg-purple-700", icon: <TbMessageQuestion className="text-lg" /> },
   ];
-
   return (
     <>
       {contextHolder}
@@ -331,7 +381,7 @@ const Question = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
                 <div className="relative inline-block">
-                  <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>
+                  {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>}
                   {(() => {
                     const currentStack = value;
                     if (currentStack !== positiveMarks) {
@@ -340,10 +390,8 @@ const Question = () => {
                     return null;
                   })()}
                 </div>
-
-                <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+{value || 0}</span>
-
-                <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">{negativeMarks || 0} </span>
+                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded"> +{value || 0}</span>}
+                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">{negativeMarks || 0} </span>}
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
                   <span onClick={handleLanguageChange} className="text-sm font-bold flex flex-nowrap gap-2">
                     <IoLanguage className="text-xl" />
@@ -360,9 +408,7 @@ const Question = () => {
                 </div>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
-              <div className="mb-4">
-                <p className="font-bold text-lg mb-1">{currentQuestionLanguage?.question}</p>
-              </div>
+              <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <p className="font-bold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
             </div>
             {/* STATEMENT Section */}
             {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
@@ -386,19 +432,21 @@ const Question = () => {
               </>
             )}
             {/* Passage Section */}
-            {QA.length > 0 && (
-              <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
-                <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
-                  {Object.keys(currentQuestionLanguage?.options || {}).map((opt, i) => {
-                    return (
-                      <div key={i} className={`border-2 border-card-border flex items-center gap-3 m-0 rounded-2xl cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-300 hover:bg-gray-50"}`}>
-                        {<NormalQuestion key={i} id={i} opt={opt} text={currentQuestionLanguage?.options[opt] || ""} answers={isAnswers} onCheck={handleAnswersCheck} />}
-                      </div>
-                    );
-                  })}
-                </div>
+            {/* {QA.length > 0 && ( */}
+            <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
+              <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {isLoading
+                  ? [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 15 }} />)
+                  : Object.keys(currentQuestionLanguage?.options || {}).map((opt, i) => {
+                      return (
+                        <div key={i} className={`border-2 border-card-border flex items-center gap-3 m-0 rounded-2xl cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-300 hover:bg-gray-50"}`}>
+                          {<NormalQuestion key={i} id={i} opt={opt} text={currentQuestionLanguage?.options[opt] || ""} answers={isAnswers} onCheck={handleAnswersCheck} />}
+                        </div>
+                      );
+                    })}
               </div>
-            )}
+            </div>
+            {/* )} */}
 
             {/* Confidence Buttons */}
             <span className="border-t border-card-border flex w-full my-6" />
@@ -414,7 +462,7 @@ const Question = () => {
               </div>
               <div className="flex flex-wrap justify-between gap-2 ">
                 <FormButton onClick={handlePrevQueClick} text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase" />
-                <FormButton onClick={handleNextQueClick} text="Save & Next" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
+                <FormButton onClick={handleNextQueClick} text={`${currentQuestionNumber === QA.length ? "Save" : "Save & Next"}`} loading={isPostLoading} className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
               </div>
             </section>
           </div>
@@ -463,16 +511,18 @@ const Question = () => {
                   {/* Question Grid */}
 
                   <div className="grid grid-cols-5 gap-2 min-h-[88px] max-h-[440px] overflow-y-auto [&::-webkit-scrollbar]:w-0">
-                    {QA?.map((item, i) => {
-                      const status = item?.userAnswer?.answersType?.[0] || "not-visited";
-                      const isMarked = item?.userAnswer?.answersType?.includes("marked");
-                      return (
-                        <button onClick={() => handleQuestionNumberClick(i + 1, item?._id)} key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${status} ${isMarked ? "relative" : ""}`}>
-                          {i + 1}
-                          {isMarked ? <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" /> : ""}
-                        </button>
-                      );
-                    })}
+                    {isLoading
+                      ? [...Array(10)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 40, borderRadius: 5 }} />)
+                      : QA?.map((item, i) => {
+                          const status = item?.userAnswer?.answersType?.[0] || "not-visited";
+                          const isMarked = item?.userAnswer?.answersType?.includes("marked");
+                          return (
+                            <button onClick={() => handleQuestionNumberClick(i + 1, item?._id)} key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${status} ${isMarked ? "relative" : ""}`}>
+                              {i + 1}
+                              {isMarked ? <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" /> : ""}
+                            </button>
+                          );
+                        })}
                   </div>
                 </div>
 
@@ -491,7 +541,7 @@ const Question = () => {
       </div>
       <InstructionsDrawer />
       <ReportModal payload={{ contestId: contestId, questionId: currentQuestion?._id, qaId: _id as string }} />
-      <EndTest />
+      <EndTest handleEndTest={handleEndTestDrawer} loading={isPostLoading} />
     </>
   );
 };

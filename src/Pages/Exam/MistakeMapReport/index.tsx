@@ -9,10 +9,12 @@ import type { AttemptType, MistakeMapReportApiResponse, ResultApiResponse } from
 const MistakeMapReport = () => {
   const { id } = useParams();
   const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const contestId = params.get("contestId");
 
   const { data } = useGetApiQuery<MistakeMapReportApiResponse>({ url: `${URL_KEYS.QA.MISTAKE_MAP}${id}` });
   const MistakeMapData = data?.data;
-  const { data: ResultData } = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}${search}&qaFilter=${id}` });
+  const { data: ResultData } = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}?qaFilter=${id}&contestFilter=${contestId}` });
   const FearDriverSkipData = ResultData?.data?.sec1?.polity?.qaTypeMetrics?.fearDriverSkip;
   const FearDriverSkipTotal = (...items: AttemptType[]) => {
     const totalCorrect = items.reduce((a, b) => a + (b?.correct ?? 0), 0);
@@ -77,7 +79,7 @@ const MistakeMapReport = () => {
       <span className="border-t border-card-border flex w-full my-4 " />
       <section className="flex flex-wrap justify-center">
         <OverviewCard img={"mistakeMap/Incorrect.png"} label="Total incorrect" value={Math.round(MistakeMapData?.totalIncorrect || 0)} />
-        <OverviewCard img={"mistakeMap/Fear-driver-skip-incorrect.png"} label="Total Fear Driver Skip incorrect" value={FearDriverSkipTotal(FearDriverSkipData?.direct,FearDriverSkipData?.fiftyFifty,FearDriverSkipData?.oneEliminate)} />
+        <OverviewCard img={"mistakeMap/Fear-driver-skip-incorrect.png"} label="Total Fear Driver Skip incorrect" value={FearDriverSkipTotal(FearDriverSkipData?.direct, FearDriverSkipData?.fiftyFifty, FearDriverSkipData?.oneEliminate)} />
         <OverviewCard img={"mistakeMap/MistakeMapped.png"} label="Mistake mapped" value={Math.round(MistakeMapData?.mistakeMapped || 0)} />
       </section>
       <div className="pt-3">

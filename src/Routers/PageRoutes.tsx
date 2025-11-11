@@ -36,6 +36,7 @@ import SocialMediaEngage from "../Pages/SocialMediaEngage";
 import Contact from "../Pages/Contact";
 import Workshop from "../Pages/Workshop";
 import CourseDetails from "../Pages/Course/Details";
+import CountDown from "../Pages/Exam/CountDown";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -48,6 +49,7 @@ export const PageRoutes = [
   { path: ROUTES.EXAM.RESULT, element: <Result /> },
   { path: ROUTES.EXAM.MISTAKE_MAP_REPORT, element: <MistakeMapReport /> },
   { path: ROUTES.EXAM.SOLUTION, element: <Solution /> },
+  { path: ROUTES.EXAM.COUNT_DOWN, element: <CountDown /> },
   { path: ROUTES.RECHARGE.RECHARGE, element: <Recharge /> },
   { path: ROUTES.MY_INFO.MY_INFO, element: <MyInfo /> },
   { path: ROUTES.KYC.KYC, element: <KYC /> },

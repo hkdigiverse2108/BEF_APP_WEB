@@ -24,7 +24,7 @@ const Result = () => {
   const contestFilter = params.get("contestFilter");
 
   const { data, isLoading } = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}${search}` });
-  const { data: ContestData } = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}` });
+  const { data: ContestData , isLoading: isLoadingContest} = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}` });
 
   const Contest = ContestData?.data.contest_type_data[0];
   
@@ -41,7 +41,7 @@ const Result = () => {
     <div className="sub-container pt-4 md:pt-8 result">
       <CardHeader title="Result" />
       <span className="border-t border-card-border flex w-full my-4" />
-      <ResultBanner contest={Contest} qaId={qaFilter ?? ""} contestId={contestFilter ?? ""} />
+      <ResultBanner contest={Contest} qaId={qaFilter ?? ""} contestId={contestFilter ?? ""} loading={isLoadingContest} />
 
       {/* Mobile Toggle Button */}
       <div className="flex justify-start mt-3">

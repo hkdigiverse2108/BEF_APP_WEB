@@ -36,14 +36,17 @@ export const URL_KEYS = {
     TYPE: {
       TYPE: "/contest-type",
     },
-    QUESTION: "/question/contest",
   },
   QA: {
     ADD: "/qa/add",
+    EDIT: "/qa/edit",
     ALL: "/qa/all",
     CONTEST_RANKS: "/qa/contest/ranks",
     MISTAKE_MAP: "/qa/mistake-map/",
     CONTEST_QUESTION: "/qa/contest/question",
+  },
+  QUESTION: {
+    ID: "/question/",
   },
   TERMS_CONDITION: {
     TERMS_CONDITION: "/terms-condition",

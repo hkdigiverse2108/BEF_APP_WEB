@@ -13,15 +13,15 @@ const ContestDetails = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
-  const { contestData, type } = location.state || {};
+  const { contestData, type, contestDataTime } = location.state || {};
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
   const { data: ContestDetailsData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.CONTEST.ID}${contestData?._id}` }, { skip: false });
 
   useEffect(() => {
-    if (!contestData) navigate(ROUTES.CONTEST.MY_CONTEST);
-  }, [contestData, navigate]);
+    if (!contestData && !contestDataTime) navigate(ROUTES.CONTEST.MY_CONTEST);
+  }, [contestDataTime, contestData, navigate]);
 
   const PrizeTable = ({ prizes }: { prizes: ContestPrize[] }) => (
     <div className="bg-input-box border border-theme/10 p-4 rounded-2xl">
@@ -73,7 +73,7 @@ const ContestDetails = () => {
         ) : (
           <div className="flex flex-col lg:flex-row gap-5">
             <div className="w-full lg:w-2/3">
-              <ContestDetailCard contestData={contestData} type={type} />
+              <ContestDetailCard contestData={contestData} type={type} contestDataTime={contestDataTime} />
             </div>
             <div className="w-full mt-2 lg:mt-0 custom-tab-full">
               <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>

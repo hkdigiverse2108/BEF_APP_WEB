@@ -10,7 +10,7 @@ const Summary: FC<{ AttemptingStrategyWise: SubjectSummaryType; SubWise: Subject
   const allowedTypes = ["skip", "fearDriverSkip"];
 
   const getFilteredTypes = (data: SubjectSummaryItem[] | undefined, allowed = allowedTypes): string[] => {
-    return data?.filter((item) => !allowed.includes(item?.type))?.map((item) => item?.type) ?? [];
+    return data?.filter((item) => item.type?.trim() && !allowed.includes(item.type))?.map((item) => item.type) ?? [];
   };
 
   const aiSections = [

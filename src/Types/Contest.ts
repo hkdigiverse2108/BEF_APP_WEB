@@ -70,6 +70,8 @@ export interface ContestData {
   _id?: string;
   contestStartDate?: string;
   contestEndDate?: string;
+  contestStartTime?: string;
+  contestEndTime?: string;
   rank?: number | null;
   winningPrice?: number;
   status?: string;
@@ -82,6 +84,7 @@ export interface ContestData {
 export interface ContestDetailCardProps {
   contestData: ContestData;
   type?: string;
+  contestDataTime?: ContestData;
 }
 
 /* ---------- API RESPONSE STRUCTURES ---------- */

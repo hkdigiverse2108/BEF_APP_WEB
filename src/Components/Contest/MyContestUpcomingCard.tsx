@@ -17,11 +17,21 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
   const handleJoin = (e: any) => {
     e.stopPropagation();
-    navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`);
+    if (contestData?.contestStartTime && contestData?.contestEndTime) {
+      navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: contestData?.contestStartDate || "", contestEndDate: contestData?.contestEndDate || "" } });
+    } else {
+      navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, { state: contestData });
+    }
+  };
+  const contestDataTime = {
+    contestStartTime: contestData?.contestStartTime,
+    contestEndTime: contestData?.contestEndTime,
+    contestStartDate: contestData?.contestStartDate,
+    contestEndDate: contestData?.contestEndDate,
   };
 
   return (
-    <div onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData: contestData?.contest, type: "myContest" } })} className="border border-primary-light rounded-lg overflow-hidden capitalize flex flex-col justify-between cursor-pointer">
+    <div onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData: contestData?.contest, type: "myContest" ,contestDataTime} })} className="border border-primary-light rounded-lg overflow-hidden capitalize flex flex-col justify-between cursor-pointer">
       {/* Header */}
       <div className="flex flex-col lg:flex-row bg-primary-light px-2 md:px-4 py-2">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full">

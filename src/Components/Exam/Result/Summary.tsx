@@ -30,7 +30,8 @@ const Summary: FC<{ data: Sec1Type }> = ({ data }) => {
   const allowedTypes = ["skip", "fearDriverSkip"];
 
   const getFilteredTypes = (data: QaTypeSubtopicItem[] | undefined, allowed = allowedTypes): string[] => {
-    return data?.filter((item) => !allowed.includes(item.type))?.map((item) => item.type) ?? [];
+    // return data?.filter((item) => !allowed.includes(item.type))?.map((item) => item.type) ?? [];
+    return data?.filter((item) => item.type?.trim() && !allowed.includes(item.type))?.map((item) => item.type) ?? [];
   };
 
   const getBand = (value: number) => {

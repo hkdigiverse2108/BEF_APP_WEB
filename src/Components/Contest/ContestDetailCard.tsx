@@ -10,17 +10,21 @@ import type { ContestCore, ContestDetailCardProps } from "../../Types";
 import { useNavigate } from "react-router-dom";
 import type { FC } from "react";
 
-const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type }) => {
+const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,contestDataTime}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, winningAmountPerFee = 0 }: ContestCore = contestData;
+  const { _id, name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, winningAmountPerFee = 0 }: ContestCore = contestData;
 
   const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
 
   const handleSubtopicDrawer = (e: any) => {
     e.stopPropagation();
     if (type === "myContest") {
-      navigate(ROUTES.EXAM.INSTRUCTION);
+      if (contestDataTime?.contestStartTime && contestDataTime?.contestEndTime) {
+        navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: contestDataTime?.contestStartDate || "", contestEndDate: contestDataTime?.contestEndDate || "" } });
+      } else {
+        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, { state: contestData });
+      }
     } else {
       dispatch(setSubtopicDrawer({ open: true, contest: contestData }));
     }
