@@ -20,6 +20,7 @@ export interface CourseItem {
   priceInStruction: string;
   courseUpgradePrice: number;
   isDeleted: boolean;
+  isUnlocked: boolean;
   createdBy: string;
   updatedBy: string;
   createdAt: string;
@@ -42,6 +43,19 @@ export interface CourseDetailsResponse extends MessageStatus {
   data: CourseItem;
 }
 
-export interface CourseDetailsApiResponse{
+export interface CourseDetailsApiResponse {
   data: CourseDetailsResponse;
+  isLoading: boolean;
+}
+
+// Module
+export interface ModuleType {
+  _id: string;
+  courseId: string;
+  name: string;
+  subTitle: string;
+  totalLecture: number;
+  totalTest: number;
+  image: string;
+  link: string;
 }

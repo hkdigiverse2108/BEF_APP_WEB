@@ -13,3 +13,6 @@ export * from "./Ranks";
 export * from "./MistakeMapReport";
 export * from "./Report";
 export * from "./Question";
+export * from "./Lecture";
+export * from "./Workshop";
+

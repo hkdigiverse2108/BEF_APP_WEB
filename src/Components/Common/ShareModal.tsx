@@ -1,16 +1,22 @@
-import { CopyOutlined, LinkedinOutlined, SendOutlined, TwitterOutlined, WhatsAppOutlined } from "@ant-design/icons";
-import { Button, Modal } from "antd";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Modal, Button } from "antd";
+import { TwitterOutlined } from "@ant-design/icons";
 import { PiShareFat } from "react-icons/pi";
+import { FaLinkedin, FaTelegram } from "react-icons/fa";
+import { RiWhatsappFill } from "react-icons/ri";
+import { LuCopy, LuCopyCheck } from "react-icons/lu";
 
-const ShareModal = () => {
+const ShareModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [pageUrl, setPageUrl] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleOpen = () => {
     const currentUrl = window.location.href;
     setPageUrl(currentUrl);
+
     navigator.clipboard.writeText(currentUrl);
+
     setIsOpen(true);
   };
 
@@ -40,28 +46,59 @@ const ShareModal = () => {
     window.open(shareUrl, "_blank", "noopener,noreferrer");
   };
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(pageUrl);
+    setIsCopied(true);
+
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 5000);
+  };
+
   return (
     <>
-      <Button icon={<PiShareFat />} onClick={handleOpen} className="flex items-center gap-2 max-sm:!bg-white/50 max-sm:!text-white ">
+      <Button
+        icon={<PiShareFat />}
+        onClick={handleOpen}
+        className="flex items-center max-sm:!p-2  "
+      >
         <span className="max-sm:hidden">Share</span>
       </Button>
 
-      <Modal open={isOpen} onCancel={handleClose} footer={null} centered title="Share" className="share-modal">
+      <Modal
+        open={isOpen}
+        onCancel={handleClose}
+        footer={null}
+        centered
+        title="Share"
+        className="share-modal"
+      >
         <div className="flex flex-col gap-4 items-center justify-center text-center ">
-          <div className="flex justify-center gap-6 text-3xl mt-2">
-            <WhatsAppOutlined onClick={() => openShareLink("whatsapp")} className="!text-green-500 cursor-pointer hover:scale-110 transition-transform" />
-            <SendOutlined onClick={() => openShareLink("telegram")} className="!text-blue-500 cursor-pointer hover:scale-110 transition-transform" />
-            <LinkedinOutlined onClick={() => openShareLink("linkedin")} className="!text-blue-700 cursor-pointer hover:scale-110 transition-transform" />
-            <TwitterOutlined onClick={() => openShareLink("twitter")} className="!  !text-sky-500 cursor-pointer hover:scale-110 transition-transform" />
+          <div className="flex justify-center gap-6 text-3xl mt-2 w-full ">
+            <RiWhatsappFill
+              onClick={() => openShareLink("whatsapp")}
+              className="!text-green-500 cursor-pointer hover:scale-110 transition-transform"
+            />
+            {/* <FaTelegram /> */}
+            <FaTelegram
+              onClick={() => openShareLink("telegram")}
+              className="!text-blue-500 cursor-pointer hover:scale-110 transition-transform"
+            />
+            <FaLinkedin
+              onClick={() => openShareLink("linkedin")}
+              className="!text-blue-700 cursor-pointer hover:scale-110 transition-transform"
+            />
+            <TwitterOutlined
+              onClick={() => openShareLink("twitter")}
+              className="!  !text-sky-500 cursor-pointer hover:scale-110 transition-transform"
+            />
           </div>
 
-          <div className="flex justify-between items-center border border-gray-300 rounded-md p-2 w-full  bg-gray-50 break-all">
-            {pageUrl}{" "}
+          <div className="flex  justify-between items-center border border-gray-300 rounded-md p-2 w-full  bg-gray-50 break-all">
+            <p> {pageUrl}</p>
             <Button
-              icon={<CopyOutlined />}
-              onClick={() => {
-                navigator.clipboard.writeText(pageUrl);
-              }}
+              icon={isCopied ? <LuCopyCheck /> : <LuCopy />}
+              onClick={handleCopyLink}
             ></Button>
           </div>
         </div>

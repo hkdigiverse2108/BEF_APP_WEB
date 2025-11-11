@@ -1,57 +1,37 @@
-import { ImagePath } from "../../Constants";
+import { useState } from "react";
+import { useGetApiQuery } from "../../Api/CommonApi";
+import { URL_KEYS } from "../../Constants";
+import type { LectureType } from "../../Types";
+import LectureCard from "../Common/LectureCard";
+import VideoModal from "../Common/VideoModal";
 
-const classes = [
-  {
-    id: 1,
-    img: `${ImagePath}workshop/LectureThumbnail.png`,
-    language: "EN",
-    subject: "INDIAN ECONOMY",
-    title: "Economy For Mains Class 2",
-    instructor: "Shyam Shekhar Engaged",
-    date: "23 March",
-  },
-  {
-    id: 2,
-    img: `${ImagePath}workshop/LectureThumbnail.png`,
-    language: "EN",
-    subject: "INDIAN ECONOMY",
-    title: "Economy For Mains Class 2",
-    instructor: "Shyam Shekhar Engaged",
-    date: "23 March",
-  },
-  {
-    id: 3,
-    img: `${ImagePath}workshop/LectureThumbnail.png`,
-    language: "EN",
-    subject: "INDIAN ECONOMY",
-    title: "Economy For Mains Class 2",
-    instructor: "Shyam Shekhar Engaged",
-    date: "23 March",
-  },
-];
-const WorkshopLecturesTab = () => {
+const WorkshopLecturesTab = ({ id }: { id?: string }) => {
+  const [playVideo, setPlayVideo] = useState(false);
+  const [videoLink, setVideoLink] = useState("");
+
+  const { data } = useGetApiQuery({
+    url: `${URL_KEYS.LECTURE.ALL}?workshopFilter=${id}`,
+  });
+
+  const Lectures = data?.data?.lecture_data;
+
   return (
     <div className="space-y-4" data-aos="fade-up">
-      {classes.map((cls) => (
-        <div key={cls.id} className="flex max-sm:flex-col gap-4 bg-white rounded-lg  border border-gray-200 p-4 h-full items-stretch">
-          {/* Image */}
-          <img src={cls.img} alt={cls.title} className="w-full h-full sm:w-fit sm:h-35 rounded-lg object-cover" />
-          {/* Content */}
-          <div className="flex flex-col sm:py-3 gap-2 justify-between">
-            {/* Tags */}
-            <div className="flex items-center gap-2 text-xs">
-              <span className="bg-gray-200 px-1.5 py-0.5 rounded"> {cls.language} </span>
-              <span className="text-primary font-semibold">{cls.subject}</span>
-            </div>
-            {/* Title */}
-            <h2 className="font-semibold text-sm sm:text-base">{cls.title}</h2>
-            {/* Instructor */}
-            <p className="text-gray-600 text-xs font-medium sm:text-sm">{cls.instructor}</p>
-            {/* Date */}
-            <p className="text-gray-600 text-xs font-medium">{cls.date}</p>
-          </div>
-        </div>
-      ))}
+      <div className="w-full flex flex-col gap-1">
+        {Lectures?.map((lecture: LectureType) => (
+          <LectureCard
+            key={lecture?._id}
+            lecture={lecture}
+            setPlayVideo={setPlayVideo}
+            setVideoLink={setVideoLink}
+          />
+        ))}
+      </div>
+      <VideoModal
+        playVideo={playVideo}
+        setPlayVideo={setPlayVideo}
+        videoLink={videoLink}
+      />
     </div>
   );
 };
