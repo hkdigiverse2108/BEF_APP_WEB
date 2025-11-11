@@ -81,19 +81,22 @@ export const URL_KEYS = {
   FULL_FEST: {
     FULL_FEST: "/full-fest",
   },
+  WORKSHOP: {
+    ALL: "workshop/all",
+    ID: "/workshop/",
+    TESTIMONIAL: "workshop-testimonial/all",
+  },
   COURSE: {
     ALL: "/course/all",
     ID: "/course/",
   },
   MODULE: {
-    COURSE_WISE: "/module/course/",
     ALL: "/module/all",
   },
   FAQ: {
     ALL: "/faq/public",
   },
   LECTURE: {
-    COURSE_WISE: "/lecture/course/",
     ALL: "/lecture/all",
   },
   BALANCE: {

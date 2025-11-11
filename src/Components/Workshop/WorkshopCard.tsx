@@ -3,23 +3,23 @@ import { TbPhoneCall } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import { FormButton } from "../../Attribute/FormFields";
 import { CONTACT, ROUTES } from "../../Constants";
-import type { CourseItem } from "../../Types";
+import type { WorkshopItem } from "../../Types";
 import { IoCall } from "react-icons/io5";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { Popover } from "antd";
 
-const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
+const WorkshopCard: FC<{ data: WorkshopItem }> = ({ data }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const navigate = useNavigate();
 
-  const title = "Have questions about this Course?";
+  const title = "Have questions about this Workshop?";
   const subtitle = "Talk to a counsellor";
 
   const ContactContent = (
     <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
       <Link
         to={`tel:${CONTACT?.NUMBER}`}
-        className="flex flex-nowrap gap-2 cursor-pointer !text-black"
+        className="flex flex-nowrap gap-2 cursor-pointer text-black!"
       >
         <IoCall className="me-2 text-lg text-success" />
         {CONTACT?.NUMBER}
@@ -29,7 +29,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
         to={`https://api.whatsapp.com/send?text=${CONTACT?.NUMBER}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex flex-nowrap gap-2 cursor-pointer !text-black"
+        className="flex flex-nowrap gap-2 cursor-pointer text-black!"
       >
         <IoLogoWhatsapp className="me-2 text-lg text-success" /> Chat With Us
       </Link>
@@ -44,7 +44,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
           // alt="Course"
           // className="object-cover w-full h-full"
           onLoad={() => setImageLoaded(true)}
-          className={`w-full h-full  transition-opacity duration-300 ${
+          className={`w-full h-full max-h-100 md:max-h-70 transition-opacity duration-300 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -53,7 +53,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
             {data?.language}
           </span>
           <span className="bg-white/20 text-white font-bold text-sm p-1 px-3 rounded backdrop-blur-md">
-            {data?.syllabus?.subjectLevel}
+            {data?.syllabus}
           </span>
         </div>
       </div>
@@ -96,13 +96,13 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
           htmlType="button"
           text={"VIEW BATCH DETAILS"}
           onClick={() =>
-            navigate(ROUTES.COURSE.DETAILS.replace(":id", data?._id))
+            navigate(ROUTES.WORKSHOP.DETAILS.replace(":id", data?._id))
           }
-          className="!font-bold custom-button light button button--mimas w-full !h-auto uppercase"
+          className="font-bold! custom-button light button button--mimas w-full h-auto! uppercase"
         />
       </div>
     </div>
   );
 };
 
-export default CourseCard;
+export default WorkshopCard;

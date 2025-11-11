@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
 import ShareModal from "../../../Components/Common/ShareModal";
-import CourseAboutTab from "../../../Components/Course/Details/CourseAboutTab";
+import DetailsAboutTab from "../../../Components/Common/DetailsAboutTab";
 import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
 import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
 import { ImagePath, URL_KEYS } from "../../../Constants";
-import type { CourseDetailsApiResponse } from "../../../Types";
+import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
+import Loader1 from "../../../Components/Common/Loader1";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -20,17 +21,39 @@ const TabsName = [
 
 const CourseDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const { id }: { id?: string } = useParams();
 
-  const { data, isLoading } = useGetApiQuery<CourseDetailsApiResponse>({ url: `${URL_KEYS.COURSE.ID}${id}` });
-  const CourseDetailsData = data?.data;
+  const { data: courseData, isLoading: courseLoading } =
+    useGetApiQuery<CourseDetailsApiResponse>({
+      url: `${URL_KEYS.COURSE.ID}${id}`,
+    });
+  const CourseDetailsData = courseData?.data;
 
-  const { data: modulesData, isLoading: moduleLoading } = useGetApiQuery({ url: `${URL_KEYS.MODULE.COURSE_WISE}${CourseDetailsData?._id}` }, { skip: !CourseDetailsData?._id });
-  const Modules = modulesData?.data;
+  const { data: modulesData } = useGetApiQuery(
+    { url: `${URL_KEYS.MODULE.ALL}?courseFilter=${CourseDetailsData?._id}` },
+    { skip: !CourseDetailsData?._id }
+  );
+  const Modules = modulesData?.data?.module_data || [];
 
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
   };
+
+  const totalLecture = Modules?.reduce(
+    (sum: number, module: ModuleType) => sum + Number(module.totalLecture) || 0,
+    0
+  );
+
+  console.log(totalLecture);
+  const totalTest = Modules?.reduce(
+    (sum: number, module: ModuleType) => sum + module?.totalTest,
+    0
+  );
+
+  if (courseLoading) return <Loader1 />;
+
   return (
     <div className="sub-container space-y-9 pt-9 bg-white rounded-xl">
       <section className="group space-y-6 rounded-md relative">
@@ -40,31 +63,87 @@ const CourseDetails = () => {
           </div>
         </div>
         <figure>
-          <img src={CourseDetailsData?.image} alt={CourseDetailsData?.title} className="w-full h-full rounded-lg " />
+          <img
+            src={CourseDetailsData?.image}
+            alt={CourseDetailsData?.title}
+            onLoad={() => setImageLoaded(true)}
+            className={`w-full h-full rounded-lg  transition-opacity duration-300 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
         </figure>
       </section>
-      <section className="">
+      <section>
         <div className="space-y-6 pb-5">
           <section className=" max-sm:text-sm font-medium flex justify-between gap-3">
             <div className="flex gap-2 items-center">
               <div className="bg-white border border-gray-300 w-fit h-fit px-3 py-1 rounded-md ">
                 <span>{CourseDetailsData?.language}</span>
               </div>
-              <div className="uppercase max-sm:text-xs text-primary font-bold">{CourseDetailsData?.syllabus?.subjectLevel}</div>
+              <div className="uppercase max-sm:text-xs text-primary font-bold">
+                {CourseDetailsData?.syllabus?.subjectLevel}
+              </div>
             </div>
           </section>
           <section className="flex max-sm:flex-col gap-4 justify-between">
-            <h1 className="capitalize font-bold sm:text-2xl">{CourseDetailsData?.title}</h1>
+            <h1 className="capitalize font-bold sm:text-2xl">
+              {CourseDetailsData?.title}
+            </h1>
             <span className="max-sm:hidden">
               <ShareModal />
             </span>
           </section>
           <span className="border-b border-gray-300 flex w-full h-0.5" />
+
           <section className="flex flex-col lg:flex-row gap-5">
+            <div className="bg-input-box  transition-all px-5 py-3 rounded w-full flex flex-col sm:flex-row sm:items-center sm:gap-5">
+              <div className="flex items-center  gap-3 mb-3 sm:mb-0">
+                <figure className="rounded-full bg-primary/10  w-13 h-13 sm:w-15 sm:h-15 flex items-center justify-center  ">
+                  <img
+                    src={`${ImagePath}workshop/users.png`}
+                    alt="Users"
+                    className="w-8 h-8  sm:w-10 sm:h-10"
+                  />
+                </figure>
+                <p className=" sm:hidden font-bold ">Module</p>
+              </div>
+              <div className="space-y-2 w-full ">
+                <p className="max-sm:hidden font-bold ">Module</p>
+                <ul className="w-full text-sm  grid grid-cols-1  sm:grid-cols-2 sm:flex-row gap-2 sm:gap-4">
+                  {Modules?.map((module: { name: string }, i: number) => (
+                    <li key={i}>
+                      {i + 1}. {module.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="bg-input-box  transition-all px-5 py-3 rounded w-full flex flex-col sm:flex-row sm:items-center sm:gap-5">
+              {/* Image + Title (top row on mobile) */}
+              <div className="flex items-center gap-3 sm:mb-0">
+                <figure className="rounded-full bg-primary/10 p-3 sm:p-4 h-fit w-fit">
+                  <img
+                    src={`${ImagePath}workshop/wallet.png`}
+                    alt="Users"
+                    className="w-8 sm:w-10 h-fit"
+                  />
+                </figure>
+                <div className="space-y-2 w-full font-bold ">
+                  <p>{CourseDetailsData?.courseMoneyBack}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* <section className="flex flex-col lg:flex-row gap-5">
             <div className="bg-input-box transition-all px-5 py-3 rounded w-full flex flex-col sm:flex-row sm:items-center sm:gap-5">
               <div className="flex items-center  gap-3 mb-3 sm:mb-0">
                 <figure className="rounded-full bg-primary/10 p-3 sm:p-4 h-fit w-fit">
-                  <img src={`${ImagePath}workshop/users.png`} alt="Users" className="w-8 sm:w-10 h-fit" />
+                  <img
+                    src={`${ImagePath}workshop/users.png`}
+                    alt="Users"
+                    className="w-8 sm:w-10 h-fit"
+                  />
                 </figure>
                 <p className="sm:hidden font-bold">Module</p>
               </div>
@@ -82,14 +161,18 @@ const CourseDetails = () => {
             <div className="bg-input-box  transition-all px-5 py-3 rounded w-full flex flex-col sm:flex-row sm:items-center sm:gap-5">
               <div className="flex items-center gap-3 sm:mb-0">
                 <figure className="rounded-full bg-primary/10 p-3 sm:p-4 h-fit w-fit">
-                  <img src={`${ImagePath}workshop/wallet.png`} alt="Users" className="w-8 sm:w-10 h-fit" />
+                  <img
+                    src={`${ImagePath}workshop/wallet.png`}
+                    alt="Users"
+                    className="w-8 sm:w-10 h-fit"
+                  />
                 </figure>
                 <div className="space-y-2 w-full font-bold ">
                   <p>{CourseDetailsData?.courseMoneyBack}</p>
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
         </div>
         <div>
           <Tabs
@@ -108,41 +191,81 @@ const CourseDetails = () => {
             }}
           >
             {TabsName?.map(({ value, label }, index) => {
-              return <Tab key={index} value={value} label={label} className="!font-bold" />;
+              return (
+                <Tab
+                  key={index}
+                  value={value}
+                  label={label}
+                  className="font-extrabold!"
+                />
+              );
             })}
           </Tabs>
         </div>
         <div className="mt-6">
-          {tabIndex === "about" && <CourseAboutTab data={CourseDetailsData} />}
-          {tabIndex === "lectures" && <CourseLecturesTab id={CourseDetailsData?._id} />}
-          {tabIndex === "module" && <CourseModuleTab id={CourseDetailsData?._id}/>}
+          {tabIndex === "about" && (
+            <DetailsAboutTab
+              data={{
+                pdf: CourseDetailsData?.pdf,
+                totalLecture: totalLecture,
+                description: CourseDetailsData?.description,
+                totalTest: totalTest,
+              }}
+            />
+          )}
+          {tabIndex === "lectures" && <CourseLecturesTab Modules={Modules} />}
+          {tabIndex === "module" && (
+            <CourseModuleTab id={CourseDetailsData?._id} />
+          )}
           {tabIndex === "faqs" && <CourseFaqsTab />}
         </div>
       </section>
       {/* ==== Fixed Section ==== */}
-      <section className="fixed bottom-0 left-0 right-0 z-10 bg-white inset-shadow-sm">
-        <div className="mx-4 md:mx-10 py-3 sm:py-6 flex max-sm:flex-col gap-2 sm:gap-4 sm:justify-between sm:items-end">
+
+      <section className=" fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
+        <div className="py-2 container-p sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
           <div>
             <p className="text-gray-600 font-medium">Price</p>
             {CourseDetailsData?.discountPrice ? (
-              <h1 className=" sm:text-xl font-bold flex gap-[2px] items-end">
+              <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
                 <span>₹{CourseDetailsData?.payingPrice}/</span>
-                <span className="text-base text-gray-600 font-bold">₹{CourseDetailsData?.discountPrice}</span>
-                <span className="text-base font-medium text-red-500 line-through ps-1">{CourseDetailsData?.price}</span>
+                <span className="text-base text-gray-600 font-bold">
+                  ₹{CourseDetailsData?.discountPrice}
+                </span>
+                <span className="text-base font-medium text-red-500 line-through ps-1">
+                  {CourseDetailsData?.price}
+                </span>
               </h1>
             ) : (
-              <h1 className=" sm:text-xl font-bold flex gap-[2px] items-end">
+              <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
                 <span>₹{CourseDetailsData?.payingPrice}</span>
-                <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">{CourseDetailsData?.price}</span>
+                <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">
+                  {CourseDetailsData?.price}
+                </span>
               </h1>
             )}
           </div>
           <div>
-            <p className="max-sm:text-sm font-medium h-full">{CourseDetailsData?.priceInStruction}</p>
+            <p className="max-sm:text-xs text-red-500  font-bold h-full ">
+              {/* Remaining fee pays after prelims cleared */}
+              {CourseDetailsData?.priceInStruction}
+            </p>
           </div>
-          <div className="flex justify-center sm:justify-end">
-            <FormButton htmlType="submit" text="Enroll Now" className="custom-button button button--mimas w-full sm:w-fit !h-auto" />
+          <div className=" ">
+            {/* <Link to={ROUTES.COURSE.REGISTER} state={CourseDetailsData}> */}
+            <FormButton
+              htmlType="submit"
+              text="Enroll Now"
+              className="custom-button button button--mimas w-full sm:w-fit h-auto!"
+            />
+            {/* </Link> */}
           </div>
+          {/* <div className=" md:w-1/4">
+            <NavLink to={ROUTES.COURSE.REGISTER} state={CourseDetailsData}>
+              <button className="btn primary_btn !h-12 !w-full  ">
+                Enroll Now
+              </button>
+          </div> */}
         </div>
       </section>
     </div>

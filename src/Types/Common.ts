@@ -1,4 +1,12 @@
-import type { ButtonProps, DatePickerProps, FormItemProps, GetProp, InputProps, SelectProps, UploadProps } from "antd";
+import type {
+  ButtonProps,
+  DatePickerProps,
+  FormItemProps,
+  GetProp,
+  InputProps,
+  SelectProps,
+  UploadProps,
+} from "antd";
 import type { GlobalConfigProps } from "antd/es/config-provider";
 import type { UploadListType } from "antd/es/upload/interface";
 import type { ReactNode } from "react";
@@ -64,7 +72,12 @@ export interface CardHeaderType {
   };
 }
 
-export type AntdNotificationType = "success" | "error" | "info" | "warning" | "open";
+export type AntdNotificationType =
+  | "success"
+  | "error"
+  | "info"
+  | "warning"
+  | "open";
 
 export interface GlobalConfigPropsWithStack extends GlobalConfigProps {
   stack?: {
@@ -81,7 +94,6 @@ export interface FAQ {
 export interface Params {
   [key: string]: any;
 }
-
 
 // ************ Basic Table Filter Helper Options ***********
 
@@ -142,4 +154,13 @@ export interface ContactFormData {
   website: string;
   company: string;
   message: string;
+}
+
+// ************ Testimonial ***********
+export interface TestimonialType {
+  name: string;
+  designation: string;
+  description: string;
+  rating: number;
+  image: string;
 }

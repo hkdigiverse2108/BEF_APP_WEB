@@ -8,40 +8,74 @@ import { useState } from "react";
 import { FormButton } from "../../Attribute/FormFields";
 
 const Course = () => {
-  const [tabOneLimit, setTabOneLimit] = useState(3);
+  const [myCourseLimit, setMyCourseLimit] = useState(3);
 
-  const { data, isLoading } = useGetApiQuery<CourseApiResponse>({ url: `${URL_KEYS.COURSE.ALL}?page=1&limit=${tabOneLimit}` });
+  const { data, isLoading } = useGetApiQuery<CourseApiResponse>({
+    url: `${URL_KEYS.COURSE.ALL}`,
+  });
+
   const CourseData = data?.data;
+
+  const MyCourse = CourseData?.course_data?.filter(
+    (course) => course?.isUnlocked === true
+  );
+  const AllCourse = CourseData?.course_data?.filter(
+    (course) => course?.isUnlocked === false
+  );
 
   return (
     <>
       <div className="sub-container">
-        {CourseData?.course_data?.length !== 0 && (
+        {MyCourse?.length !== 0 && (
           <>
             <div className="flex justify-between items-center py-2 md:py-5">
-              <CardHeader title="Your Course" />
+              <CardHeader title="My Course" />
             </div>
             <hr className="text-card-border mb-5" />
-            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 15 }} />) : CourseData?.course_data?.map((item, index) => <CourseCard key={index} data={item} onCallClick={() => console.log("Counsellor clicked")} />)}</div>
-            {CourseData?.totalData >= tabOneLimit && (
+            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {isLoading
+                ? [...Array(3)].map((_, i) => (
+                    <Skeleton.Node
+                      key={i}
+                      active
+                      style={{ width: "100%", height: 300, borderRadius: 15 }}
+                    />
+                  ))
+                : MyCourse?.map((item, index) => (
+                    <CourseCard key={index} data={item} />
+                  ))}
+            </div>
+            {CourseData?.totalData >= myCourseLimit && (
               <div className="w-full flex justify-center pt-10">
-                <FormButton loading={isLoading} text="View More" className="custom-button-light button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 3)} />
+                <FormButton
+                  loading={isLoading}
+                  text="View More"
+                  className="custom-button-light button button--mimas text-center w-fit p-4! px-8! h-12! uppercase flex items-end-safe"
+                  onClick={() => setMyCourseLimit(myCourseLimit + 3)}
+                />
               </div>
             )}
           </>
         )}
-        {CourseData?.course_data?.length !== 0 && (
+        {AllCourse?.length !== 0 && (
           <>
             <div className="flex justify-between items-center py-2 md:py-5">
               <CardHeader title="All Course" />
             </div>
             <hr className="text-card-border mb-5" />
-            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 15 }} />) : CourseData?.course_data?.map((item, index) => <CourseCard key={index} data={item} onCallClick={() => console.log("Counsellor clicked")} />)}</div>
-            {CourseData?.totalData >= tabOneLimit && (
-              <div className="w-full flex justify-center pt-10">
-                <FormButton loading={isLoading} text="View More" className="custom-button-light button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 3)} />
-              </div>
-            )}
+            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {isLoading
+                ? [...Array(3)].map((_, i) => (
+                    <Skeleton.Node
+                      key={i}
+                      active
+                      style={{ width: "100%", height: 300, borderRadius: 15 }}
+                    />
+                  ))
+                : AllCourse?.map((item, index) => (
+                    <CourseCard key={index} data={item} />
+                  ))}
+            </div>
           </>
         )}
       </div>
