@@ -53,7 +53,7 @@ const SubjectDrawer = () => {
             onClick={() => handleSubjectClick(subject)}
           >
             <img
-              className="object-cover w-25 max-sm:w-15 rounded-full border-2 border-white"
+              className="object-cover w-14 max-sm:w-14 rounded-full border-2 border-white"
               src={subject.image || `${ImagePath}contest/ContestIcon.png`}
             />
             <div className="grid gap-1 w-full">

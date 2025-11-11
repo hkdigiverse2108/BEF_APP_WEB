@@ -8,7 +8,6 @@ export const STORAGE_KEYS = {
   CONTEST_QA: "BEF_Web_Contest_Qa",
 
   // Contest Flow — Fixed Naming + No Duplicate Keys
-  CONTEST_QA_EDIT: "BEF_Web_Contest_Qa_Edit",
-  CONTEST_ANSWERS: "BEF_Web_Contest_Answers",
-  CONTEST_CONFIDENCE: "BEF_Web_Contest_Confidence",
+  EXAM_QA_ALL: "BEF_Web_Exam_Qa_All",
+  EXAM_QA_ANSWERS: "BEF_Web_Exam_Qa_Answers",
 } as const;

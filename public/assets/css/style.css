@@ -26,7 +26,7 @@ body {
 .ant-input,
 .ant-picker,
 .ant-select-selector {
-  @apply !bg-input-box !py-3 ;
+  @apply !bg-input-box !py-3;
 }
 input {
   @apply !text-theme placeholder:!font-medium placeholder:capitalize;
@@ -43,8 +43,8 @@ input {
 .ant-select-compact-item .ant-select-arrow {
   @apply !bg-input-box !pt-3;
 }
-.ant-select-arrow{
- @apply !text-theme;
+.ant-select-arrow {
+  @apply !text-theme;
 }
 .ant-form-item {
   @apply font-medium tracking-[1px];
@@ -195,13 +195,16 @@ input {
 .question-section .ant-checkbox-label svg {
   @apply text-lg;
 }
+.question-section .question label.ant-checkbox-wrapper .ant-checkbox-label {
+  @apply !m-auto;
+}
 
 .answered {
-  @apply rounded-b-md rounded-t-2xl bg-green-100 border-green-600;
+  @apply rounded-md bg-green-100 border-green-600;
 }
 
 .unanswered {
-  @apply rounded-b-2xl rounded-t-md bg-red-100 border-red-600;
+  @apply rounded-md bg-red-100 border-red-300;
 }
 
 .skip {
@@ -319,7 +322,6 @@ input {
   @apply !text-white;
 }
 
-
 /* ************ Ant Modal ************ */
 .feedback.ant-modal .ant-modal-content {
   @apply !p-0 !rounded-2xl;
@@ -346,7 +348,7 @@ input {
 }
 
 /* Custom Pagination Styling */
-.custom-pagination{
+.custom-pagination {
   @apply flex items-center gap-2;
 }
 .custom-pagination .ant-pagination-item {
@@ -356,7 +358,7 @@ input {
 .custom-pagination .ant-pagination-item-active {
   @apply !opacity-100 !border-primary !text-primary !bg-bg-light;
 }
-.ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover{
+.ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover {
   @apply !border-box-border hover:!border-theme;
 }
 .custom-pagination .ant-pagination-prev .ant-pagination-item-link,

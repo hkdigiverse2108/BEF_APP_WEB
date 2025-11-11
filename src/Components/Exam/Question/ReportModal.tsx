@@ -11,7 +11,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ payload }) => {
   const { isReportModal } = useAppSelector((state) => state.drawer);
   const [form] = Form.useForm();
 
-  const [PostApi] = usePostApiMutation({});
+  const [PostApi, { isLoading }] = usePostApiMutation({});
 
   const handleFormSubmit = async (values: { message: string })  => {
     try {
@@ -64,7 +64,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ payload }) => {
                 <FormInput name="message" label="Your Issue" placeholder="Enter Your Issue" className="!bg-white" />
                 <span className="border-t border-primary flex w-full my-6" />
                 <Form.Item label={null} className="col-span-2 text-center !m-0">
-                  <FormButton htmlType="submit" text="submit" className="custom-button button button--mimas w-full !h-auto" />
+                  <FormButton loading={isLoading} htmlType="submit" text="submit" className="custom-button button button--mimas w-full !h-auto" />
                 </Form.Item>
               </Form>
             </div>

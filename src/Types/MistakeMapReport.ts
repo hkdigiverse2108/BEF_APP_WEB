@@ -17,14 +17,14 @@ export interface CategoriesType {
   currentAffairNotRead: CategoryItem;
 }
 
-export interface MistakeMapReportType {
+export interface MistakeMapReportApiType {
   categories: CategoriesType;
   mistakeMapped: number;
   totalIncorrect: number;
 }
 
 export interface MistakeMapReportResponse extends MessageStatus {
-  data: MistakeMapReportType;
+  data: MistakeMapReportApiType;
 }
 
 export interface MistakeMapReportApiResponse {

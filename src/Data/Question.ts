@@ -1,4 +1,3 @@
-
 export const LANGUAGES = {
   HINDI: "hindiQuestion",
   ENGLISH: "englishQuestion",
