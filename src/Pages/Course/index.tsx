@@ -41,11 +41,14 @@ const Course = () => {
                       style={{ width: "100%", height: 300, borderRadius: 15 }}
                     />
                   ))
-                : MyCourse?.map((item, index) => (
+                : MyCourse?.filter(
+                    (_, i: number) => i + 1 <= myCourseLimit
+                  )?.map((item, index) => (
                     <CourseCard key={index} data={item} />
                   ))}
             </div>
-            {CourseData?.totalData >= myCourseLimit && (
+
+            {MyCourse?.length >= myCourseLimit && (
               <div className="w-full flex justify-center pt-10">
                 <FormButton
                   loading={isLoading}

@@ -15,6 +15,7 @@ export interface WorkshopItem {
   priceInStruction: string;
   courseUpgradePrice: number;
   isDeleted: boolean;
+  isUnlocked: boolean;
   createdBy: string;
   updatedBy: string;
   createdAt: string;

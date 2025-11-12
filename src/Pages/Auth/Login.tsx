@@ -17,7 +17,6 @@ const Login = () => {
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
-      console.log("login btn cliked");
       const payload = {
         ...values,
         userType: "user",

@@ -3,8 +3,13 @@ import { useEffect } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { HTTP_STATUS, ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
-import { Storage } from "../../Utils";
+import {
+  HTTP_STATUS,
+  ImagePath,
+  STORAGE_KEYS,
+  URL_KEYS,
+} from "../../Constants";
+import { Storage, updateStorage } from "../../Utils";
 
 export interface RazorpayResponse {
   razorpay_payment_id: string;
@@ -45,7 +50,10 @@ declare global {
   interface Window {
     Razorpay: new (options: RazorpayOptions) => {
       open: () => void;
-      on: (event: string, callback: (response: RazorpayResponse) => void) => void;
+      on: (
+        event: string,
+        callback: (response: RazorpayResponse) => void
+      ) => void;
     };
   }
 }
@@ -56,9 +64,12 @@ const Recharge = () => {
 
   const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
-  const { data, refetch } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const { data, refetch } = useGetApiQuery({
+    url: `${URL_KEYS.USER.ID}${user._id}`,
+  });
   const userData = data?.data;
 
+  console.log("userData : ", userData?.walletBalance);
   const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
   const RazorPayKey = settingData?.data;
 
@@ -75,12 +86,19 @@ const Recharge = () => {
     form.setFieldsValue({ balance: 50 });
   }, []);
 
-  const handlePayment = async (response: RazorpayResponse, status: "success" | "failed", amount: number) => {
+  const handlePayment = async (
+    response: RazorpayResponse,
+    status: "success" | "failed",
+    amount: number
+  ) => {
     const TdsAmount = 0;
     const TotalAmount = amount + TdsAmount;
 
     const payment_id = response.razorpay_payment_id;
-    const paymentRes = await PostApi({ url: URL_KEYS.BALANCE.VERIFY, data: { payment_id: payment_id } });
+    const paymentRes = await PostApi({
+      url: URL_KEYS.BALANCE.VERIFY,
+      data: { payment_id: payment_id },
+    });
     const paymentData = paymentRes?.data;
 
     const RechargeData = {
@@ -94,19 +112,37 @@ const Recharge = () => {
       type: "deposit",
       paymentType: paymentData?.payment?.method,
       paymentDetails: {
-        ...(paymentData?.payment?.upi?.vpa && { upiId: paymentData.payment.upi.vpa }),
-        ...(paymentData?.payment?.bank && { bankName: paymentData.payment.bank }), //netbanking
-        ...(paymentData?.payment?.card?.name && { accountHolderName: paymentData?.payment?.card?.name }), //card
-        ...(paymentData?.payment?.acquirer_data?.bank_transaction_id && { id: paymentData.payment.acquirer_data.bank_transaction_id }), //netbanking
-        ...(paymentData?.payment?.card_id && { id: paymentData.payment.card_id }), //card
-        ...(paymentData?.payment?.card?.last4 && { cardNumber: paymentData.payment.card?.last4 }), //card
-        ...(paymentData?.payment?.wallet && { walletName: paymentData.payment.wallet }), //wallet
+        ...(paymentData?.payment?.upi?.vpa && {
+          upiId: paymentData.payment.upi.vpa,
+        }),
+        ...(paymentData?.payment?.bank && {
+          bankName: paymentData.payment.bank,
+        }), //netbanking
+        ...(paymentData?.payment?.card?.name && {
+          accountHolderName: paymentData?.payment?.card?.name,
+        }), //card
+        ...(paymentData?.payment?.acquirer_data?.bank_transaction_id && {
+          id: paymentData.payment.acquirer_data.bank_transaction_id,
+        }), //netbanking
+        ...(paymentData?.payment?.card_id && {
+          id: paymentData.payment.card_id,
+        }), //card
+        ...(paymentData?.payment?.card?.last4 && {
+          cardNumber: paymentData.payment.card?.last4,
+        }), //card
+        ...(paymentData?.payment?.wallet && {
+          walletName: paymentData.payment.wallet,
+        }), //wallet
       },
     };
     try {
-      const res = await PostApi({ url: URL_KEYS.BALANCE.ADD, data: RechargeData });
+      const res = await PostApi({
+        url: URL_KEYS.BALANCE.ADD,
+        data: RechargeData,
+      });
       if (res?.data?.status === HTTP_STATUS.OK) {
         refetch();
+        console.log(res?.data);
       }
     } catch (error) {
       console.error("Upload failed:", error);
@@ -122,7 +158,9 @@ const Recharge = () => {
     const amt = Number(values.balance);
 
     if (amt < 50) {
-      return form.setFields([{ name: "balance", errors: ["Minimum recharge amount is ₹50"] }]);
+      return form.setFields([
+        { name: "balance", errors: ["Minimum recharge amount is ₹50"] },
+      ]);
     }
 
     const options: RazorpayOptions = {
@@ -141,11 +179,21 @@ const Recharge = () => {
 
     const rzp = new window.Razorpay(options);
     rzp.on("payment.failed", (res) => {
-      handlePayment({ razorpay_payment_id: res?.error?.metadata?.payment_id || "" }, "failed", amt);
+      handlePayment(
+        { razorpay_payment_id: res?.error?.metadata?.payment_id || "" },
+        "failed",
+        amt
+      );
     });
 
     rzp.open();
   };
+
+  useEffect(() => {
+    updateStorage(STORAGE_KEYS.USER, {
+      walletBalance: userData?.walletBalance,
+    });
+  }, [userData]);
 
   return (
     <div className="sub-container pt-8 recharge">
@@ -154,7 +202,11 @@ const Recharge = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6">
         {/* IMAGE */}
         <div className="rounded-lg overflow-hidden shadow-md">
-          <img src={`${ImagePath}recharge/Recharge-bg.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />
+          <img
+            src={`${ImagePath}recharge/Recharge-bg.png`}
+            alt="Recharge Wallet"
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* RIGHT */}
@@ -162,10 +214,17 @@ const Recharge = () => {
           {/* BALANCE DISPLAY */}
           <div className="w-full relative bg-input-box rounded-xl p-7 flex justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
-            <img className="object-cover w-10" src={`${ImagePath}recharge/Wallet.png`} />
+            <img
+              className="object-cover w-10"
+              src={`${ImagePath}recharge/Wallet.png`}
+            />
             <div className="text-left">
-              <p className="text-base font-bold mt-1 capitalize">Available Balance</p>
-              <h3 className="text-2xl font-extrabold">₹ {userData?.walletBalance || 0}</h3>
+              <p className="text-base font-bold mt-1 capitalize">
+                Available Balance
+              </p>
+              <h3 className="text-2xl font-extrabold">
+                ₹ {userData?.walletBalance || 0}
+              </h3>
             </div>
           </div>
 
@@ -174,15 +233,27 @@ const Recharge = () => {
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
             <span className="font-semibold">Add Amount</span>
 
-            <Form form={form} onFinish={startPayment} className="flex justify-center">
-              <FormInput name="balance" type="number" rules={[{ required: true, message: "Enter minimum ₹50" }]} />
+            <Form
+              form={form}
+              onFinish={startPayment}
+              className="flex justify-center"
+            >
+              <FormInput
+                name="balance"
+                type="number"
+                rules={[{ required: true, message: "Enter minimum ₹50" }]}
+              />
             </Form>
           </div>
 
           <hr className="border-t border-primary" />
 
           <div className="space-y-3">
-            <FormButton onClick={() => form.submit()} text="Add Balance" className="custom-button w-full button button--mimas text-center !p-4 !h-12 uppercase" />
+            <FormButton
+              onClick={() => form.submit()}
+              text="Add Balance"
+              className="custom-button w-full button button--mimas text-center !p-4 !h-12 uppercase"
+            />
           </div>
         </div>
       </div>

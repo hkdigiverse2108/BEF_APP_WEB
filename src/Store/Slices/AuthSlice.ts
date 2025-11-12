@@ -22,7 +22,6 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       Storage.setItem(STORAGE_KEYS.TOKEN, user?.token);
       Storage.setItem(STORAGE_KEYS.USER, Stringify(user));
-
     },
     LogOut(state) {
       state.token = "";

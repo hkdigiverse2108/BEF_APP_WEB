@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
 import type { LectureType } from "../../Types";
-import LectureCard from "../Common/LectureCard";
+import LectureCard from "../WorkshopCourseCommon/LectureCard";
 import VideoModal from "../Common/VideoModal";
 
 const WorkshopLecturesTab = ({ id }: { id?: string }) => {

@@ -60,7 +60,7 @@ import { useGetApiQuery } from "../../../Api/CommonApi";
 // import type { LectureType, ModuleType } from "../../Types";
 // import YoutubeVideoModal from "../Common/YoutubeVideoModal";
 import { Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
-import LectureCard from "../../Common/LectureCard";
+import LectureCard from "../../WorkshopCourseCommon/LectureCard";
 import { URL_KEYS } from "../../../Constants";
 import type { LectureType, ModuleType } from "../../../Types";
 

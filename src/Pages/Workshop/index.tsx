@@ -1,4 +1,3 @@
-import { CardHeader } from "@mui/material";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { ROUTES, URL_KEYS } from "../../Constants";
 import { FormButton } from "../../Attribute/FormFields";
@@ -8,6 +7,7 @@ import { useState } from "react";
 import type { WorkshopItem } from "../../Types";
 import { useNavigate } from "react-router-dom";
 import Loader1 from "../../Components/Common/Loader1";
+import { CardHeader } from "../../Components/Common/CardHeader";
 
 const Workshop = () => {
   const [myWorkshopLimit, setMyWorkshopLimit] = useState(3);
@@ -33,16 +33,25 @@ const Workshop = () => {
     return <Empty />;
   }
 
+  const MyWorkshop = workshop?.filter(
+    (item: WorkshopItem) => item?.isUnlocked === true
+  );
+  const AllWorkshop = workshop?.filter(
+    (item: WorkshopItem) => item?.isUnlocked === false
+  );
+
+  // console.log(MyWorkshop, AllWorkshop);
+
   return (
     <>
       <div className="sub-container">
-        {workshop?.length !== 0 && (
+        {MyWorkshop?.length !== 0 && (
           <>
             <div className="flex justify-between items-center py-2 md:py-5">
-              <CardHeader title="Your Workshop" />
+              <CardHeader title="My Workshop" />
             </div>
             <hr className="text-card-border mb-5" />
-            {/* <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {workshopLoading
                 ? [...Array(3)].map((_, i) => (
                     <Skeleton.Node
@@ -51,11 +60,13 @@ const Workshop = () => {
                       style={{ width: "100%", height: 300, borderRadius: 15 }}
                     />
                   ))
-                : workshop?.map((item, index) => (
+                : MyWorkshop?.filter(
+                    (_: string, i: number) => i + 1 <= myWorkshopLimit
+                  )?.map((item: WorkshopItem, index: number) => (
                     <WorkshopCard key={index} data={item} />
                   ))}
-            </div> */}
-            {workshop?.totalData >= myWorkshopLimit && (
+            </div>
+            {MyWorkshop?.length >= myWorkshopLimit && (
               <div className="w-full flex justify-center pt-10">
                 <FormButton
                   loading={workshopLoading}
@@ -82,20 +93,10 @@ const Workshop = () => {
                       style={{ width: "100%", height: 300, borderRadius: 15 }}
                     />
                   ))
-                : workshop?.map((item: WorkshopItem, index: number) => (
+                : AllWorkshop?.map((item: WorkshopItem, index: number) => (
                     <WorkshopCard key={index} data={item} />
                   ))}
             </div>
-            {/* {workshop?.totalData >= myWorkshopLimit && (
-              <div className="w-full flex justify-center pt-10">
-                <FormButton
-                  loading={workshopLoading}
-                  text="View More"
-                  className="custom-button-light button button--mimas text-center w-fit !p-4 ! -8 !h-12 uppercase flex items-end-safe"
-                  onClick={() => setMyWorkshopLimit(myWorkshopLimit + 3)}
-                />
-              </div>
-            )} */}
           </>
         )}
       </div>

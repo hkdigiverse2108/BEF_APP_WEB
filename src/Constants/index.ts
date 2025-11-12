@@ -16,4 +16,9 @@ export const CONTACT = {
     "501-502, Silver Trade Center, Mota Varachhha, Surat, Gujarat, India-394101.",
 } as const;
 
+export const PAYMENT_STATUS = {
+  COMPLETED: "COMPLETED",
+  FAILED: "FAILED",
+} as const;
+
 export { KEYS, ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS };

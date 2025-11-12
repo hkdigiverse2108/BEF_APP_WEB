@@ -408,3 +408,18 @@ input {
 .custom-pagination .ant-select {
   @apply flex items-center;
 }
+
+/* ================  Purchase Drawer Section Start ================ */
+
+.purchase-Drawer input {
+  @apply !p-[7px] !font-medium;
+}
+
+.paymentSuccess .ant-input-group-addon:last-child .ant-input-search-button {
+  @apply !bg-success;
+}
+.paymentSuccess .ant-input-outlined:focus,
+.paymentSuccess .ant-input-outlined:hover {
+  @apply !border-success;
+}
+/* ================  Purchase Drawer Section End ================ */
