@@ -5,8 +5,9 @@ import { HTTP_STATUS, ImagePath, URL_KEYS } from "../../../Constants";
 import { FormButton, FormInput } from "../../../Attribute/FormFields";
 import { usePostApiMutation } from "../../../Api/CommonApi";
 import type { ReportModalProps } from "../../../Types";
+import type { FC } from "react";
 
-const ReportModal: React.FC<ReportModalProps> = ({ payload }) => {
+const ReportModal: FC<ReportModalProps> = ({ payload }) => {
   const dispatch = useAppDispatch();
   const { isReportModal } = useAppSelector((state) => state.drawer);
   const [form] = Form.useForm();

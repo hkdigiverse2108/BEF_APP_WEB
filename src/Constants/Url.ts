@@ -28,7 +28,7 @@ export const URL_KEYS = {
     ALL: "/subject/all",
   },
   SUB_TOPIC: {
-    ALL: "/sub-topic/all",
+    ID: "/sub-topic/",
   },
   CONTEST: {
     ID: "/contest/",
@@ -44,9 +44,11 @@ export const URL_KEYS = {
     CONTEST_RANKS: "/qa/contest/ranks",
     MISTAKE_MAP: "/qa/mistake-map/",
     CONTEST_QUESTION: "/qa/contest/question",
+    WHY_FALSE: "/qa/why-false",
   },
   QUESTION: {
     ID: "/question/",
+    AI_MENTOR: "/question/ai-mentor",
   },
   TERMS_CONDITION: {
     TERMS_CONDITION: "/terms-condition",

@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import { ImagePath, URL_KEYS } from "../../../Constants";
-import type { FC, ReactNode } from "react";
+import { useEffect, type FC, type ReactNode } from "react";
 import type { AttemptType, MistakeMapReportApiResponse, ResultApiResponse } from "../../../Types";
 
 const MistakeMapReport = () => {
@@ -12,9 +12,9 @@ const MistakeMapReport = () => {
   const params = new URLSearchParams(search);
   const contestId = params.get("contestId");
 
-  const { data } = useGetApiQuery<MistakeMapReportApiResponse>({ url: `${URL_KEYS.QA.MISTAKE_MAP}${id}` });
+  const { data, refetch } = useGetApiQuery<MistakeMapReportApiResponse>({ url: `${URL_KEYS.QA.MISTAKE_MAP}${id}` });
   const MistakeMapData = data?.data;
-  const { data: ResultData } = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}?qaFilter=${id}&contestFilter=${contestId}` });
+  const { data: ResultData , refetch: refetchResult} = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}?qaFilter=${id}&contestFilter=${contestId}` });
   const FearDriverSkipData = ResultData?.data?.sec1?.polity?.qaTypeMetrics?.fearDriverSkip;
   const FearDriverSkipTotal = (...items: AttemptType[]) => {
     const totalCorrect = items.reduce((a, b) => a + (b?.correct ?? 0), 0);
@@ -69,6 +69,11 @@ const MistakeMapReport = () => {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    refetch();
+    refetchResult();
+  }, [id]);
 
   return (
     <div className="sub-container pt-4 md:pt-8 result">

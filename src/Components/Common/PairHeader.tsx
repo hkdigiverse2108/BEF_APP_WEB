@@ -1,5 +1,6 @@
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
+import type { FC } from "react";
 
 export interface PairItem {
   combined: string;
@@ -8,10 +9,10 @@ export interface PairItem {
 export interface PairTableProps {
   pair: PairItem[];
   pairTitle: string;
-  answers: Record<number, number | undefined>;
-  onCheck: (id: number, type: "true" | "false") => void;
+  answers?: Record<number, number | undefined>;
+  onCheck?: (id: number, type: "true" | "false") => void;
 }
-export const PairTable = ({ pair, pairTitle, answers, onCheck }: PairTableProps) => {
+export const PairTable:FC<PairTableProps> = ({ pair, pairTitle, answers, onCheck }) => {
   const [leftHeader, rightHeader] = (pairTitle || "").split("---").map((t) => t.trim());
 
   return (
@@ -36,15 +37,17 @@ export const PairTable = ({ pair, pairTitle, answers, onCheck }: PairTableProps)
                   <td className={` border-r border-gray-300 px-4 py-2 ${isLast ? "" : ""}`}>{left}</td>
                   <td className={` flex justify-between px-4 py-2 ${isLast ? "" : ""}`}>
                     {right}
-                    <div className="flex justify-end max-sm:w-full gap-2 text-center items-center ">
-                      <Checkbox checked={answers[i] === 1} onChange={() => onCheck(i, "true")}>
-                        {answers[i] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined style={{ color: "green" }} />}
-                      </Checkbox>
+                    {(onCheck && answers) && (
+                      <div className="flex justify-end max-sm:w-full gap-2 text-center items-center ">
+                        <Checkbox checked={answers[i] === 1} onChange={() => onCheck(i, "true")}>
+                          {answers[i] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined style={{ color: "green" }} />}
+                        </Checkbox>
 
-                      <Checkbox checked={answers[i] === 0} onChange={() => onCheck(i, "false")}>
-                        {answers[i] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
-                      </Checkbox>
-                    </div>
+                        <Checkbox checked={answers[i] === 0} onChange={() => onCheck(i, "false")}>
+                          {answers[i] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
+                        </Checkbox>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );

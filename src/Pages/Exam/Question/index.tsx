@@ -417,6 +417,7 @@ const Question = () => {
                   {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
                     return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} answers={isQa} onCheck={handleQaCheck} />}</div>;
                   })}
+                  <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                 </div>
                 <span className="border-t border-card-border flex w-full mb-6" />
               </>

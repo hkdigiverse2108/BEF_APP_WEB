@@ -13,3 +13,17 @@ export const HistoryOptions = [
   { label: "Add Balance", value: "deposit" },
   { label: "Withdrawal", value: "withdraw" },
 ];
+
+export const SolutionsOptions = [
+  { label: "All Solutions", value: "all" },
+  { label: "Correct", value: "correct" },
+  { label: "Incorrect", value: "incorrect" },
+  { label: "Unanswered", value: "unanswered" },
+];
+export const WhyFalseOptions = [
+  { label: "Silly Mistake", value: "sillyMistake" },
+  { label: "Concept Mistake", value: "conceptMistake" },
+  { label: "Revision Lacking", value: "revisionLacking" },
+  { label: "Out Of Material", value: "outOfMaterial" },
+  { label: "Current Affair Not Read", value: "currentAffairNotRead" },
+];
