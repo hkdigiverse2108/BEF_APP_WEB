@@ -1,8 +1,9 @@
 import { Rate } from "antd";
 import { RiDoubleQuotesL } from "react-icons/ri";
-import { useGetApiQuery } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
-import type { TestimonialType } from "../../Types";
+import type { TestimonialType } from "../../../Types";
+import { useGetApiQuery } from "../../../Api/CommonApi";
+import { URL_KEYS } from "../../../Constants";
+
 
 const WorkshopTestimonialsTab = () => {
   const { data } = useGetApiQuery({ url: URL_KEYS.WORKSHOP.TESTIMONIAL });

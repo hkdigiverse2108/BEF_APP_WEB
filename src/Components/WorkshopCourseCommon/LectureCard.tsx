@@ -4,16 +4,17 @@ import { FileTextFilled } from "@ant-design/icons";
 
 interface LectureCardProps {
   lecture: LectureType;
+  isUnlocked: boolean;
   setPlayVideo: React.Dispatch<React.SetStateAction<boolean>>;
   setVideoLink: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const LectureCard = ({
   lecture,
+  isUnlocked = false,
   setPlayVideo,
   setVideoLink,
 }: LectureCardProps) => {
-  // console.log("l:", lecture);
   return (
     <div
       key={lecture?._id}
@@ -24,7 +25,8 @@ const LectureCard = ({
         <figure
           className="relative"
           onClick={() => {
-            if (!lecture?.isLocked) {
+            if (!lecture?.isLocked || isUnlocked) {
+              console.log("unlocked");
               setPlayVideo(true);
               setVideoLink(lecture?.link);
             }
@@ -35,7 +37,7 @@ const LectureCard = ({
             alt={lecture?.title}
             className="min-w-20 max-h-30 max-w-60 w-full h-fit  sm:w-full sm:h-23 rounded-lg object-cover"
           />
-          {lecture?.isLocked && (
+          {lecture?.isLocked && !isUnlocked && (
             <span className="absolute -top-1 -left-1 bg-black/10 backdrop-blur-md p-2 rounded-full">
               <FaLock className="text-white max-sm:text-xs" />
             </span>
@@ -59,8 +61,6 @@ const LectureCard = ({
           <p className="max-sm:hidden text-gray-600 text-xs font-medium sm:text-sm">
             {lecture?.subtitle}
           </p>
-
-          {/* <p className="text-gray-600 text-xs font-medium">{lecture?.date}</p> */}
         </div>
       </section>
       <section className="flex max-sm:justify-between  items-end ">

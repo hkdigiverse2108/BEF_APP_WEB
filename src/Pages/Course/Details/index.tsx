@@ -11,9 +11,9 @@ import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab"
 import { ImagePath, URL_KEYS } from "../../../Constants";
 import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
 import Loader1 from "../../../Components/Common/Loader1";
-import PurchaseDrawer from "../../../Components/WorkshopCourseCommon/PurchaseDrawer";
-import { setPurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
+import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
+import CoursePurchaseDrawer from "../../../Components/Course/CoursePurchaseDrawer";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -30,13 +30,16 @@ const CourseDetails = () => {
 
   const { id }: { id?: string } = useParams();
 
-  const { data: courseData, isLoading: courseLoading } =
-    useGetApiQuery<CourseDetailsApiResponse>({
-      url: `${URL_KEYS.COURSE.ID}${id}`,
-    });
+  const {
+    data: courseData,
+    isLoading: courseLoading,
+    refetch,
+  } = useGetApiQuery<CourseDetailsApiResponse>({
+    url: `${URL_KEYS.COURSE.ID}${id}`,
+  });
   const CourseDetailsData = courseData?.data;
 
-  const { data: modulesData } = useGetApiQuery(
+  const { data: modulesData, isLoading: isModuleLoading } = useGetApiQuery(
     { url: `${URL_KEYS.MODULE.ALL}?courseFilter=${CourseDetailsData?._id}` },
     { skip: !CourseDetailsData?._id }
   );
@@ -217,7 +220,12 @@ const CourseDetails = () => {
               }}
             />
           )}
-          {tabIndex === "lectures" && <CourseLecturesTab Modules={Modules} />}
+          {tabIndex === "lectures" && (
+            <CourseLecturesTab
+              isUnlocked={CourseDetailsData?.isUnlocked}
+              Modules={Modules}
+            />
+          )}
           {tabIndex === "module" && (
             <CourseModuleTab id={CourseDetailsData?._id} />
           )}
@@ -225,51 +233,52 @@ const CourseDetails = () => {
         </div>
       </section>
       {/* ==== Fixed Section ==== */}
+      {!CourseDetailsData?.isUnlocked && (
+        <section className=" fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
+          <div className="py-2 container-p sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
+            <div>
+              <p className="text-gray-600 font-medium">Price</p>
+              {CourseDetailsData?.discountPrice ? (
+                <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
+                  <span>₹{CourseDetailsData?.payingPrice}/</span>
+                  <span className="text-base text-gray-600 font-bold">
+                    ₹{CourseDetailsData?.discountPrice}
+                  </span>
+                  <span className="text-base font-medium text-red-500 line-through ps-1">
+                    {CourseDetailsData?.price}
+                  </span>
+                </h1>
+              ) : (
+                <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
+                  <span>₹{CourseDetailsData?.payingPrice}</span>
+                  <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">
+                    {CourseDetailsData?.price}
+                  </span>
+                </h1>
+              )}
+            </div>
+            <div>
+              <p className="max-sm:text-xs text-red-500  font-bold h-full ">
+                {/* Remaining fee pays after prelims cleared */}
+                {CourseDetailsData?.priceInStruction}
+              </p>
+            </div>
+            <div className=" ">
+              <FormButton
+                onClick={() => {
+                  dispatch(setCoursePurchaseDrawer());
+                }}
+                htmlType="submit"
+                text="Enroll Now"
+                className="custom-button button button--mimas w-full sm:w-fit h-auto!"
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
-      <section className=" fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
-        <div className="py-2 container-p sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
-          <div>
-            <p className="text-gray-600 font-medium">Price</p>
-            {CourseDetailsData?.discountPrice ? (
-              <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
-                <span>₹{CourseDetailsData?.payingPrice}/</span>
-                <span className="text-base text-gray-600 font-bold">
-                  ₹{CourseDetailsData?.discountPrice}
-                </span>
-                <span className="text-base font-medium text-red-500 line-through ps-1">
-                  {CourseDetailsData?.price}
-                </span>
-              </h1>
-            ) : (
-              <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
-                <span>₹{CourseDetailsData?.payingPrice}</span>
-                <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">
-                  {CourseDetailsData?.price}
-                </span>
-              </h1>
-            )}
-          </div>
-          <div>
-            <p className="max-sm:text-xs text-red-500  font-bold h-full ">
-              {/* Remaining fee pays after prelims cleared */}
-              {CourseDetailsData?.priceInStruction}
-            </p>
-          </div>
-          <div className=" ">
-            <FormButton
-              onClick={() => {
-                dispatch(setPurchaseDrawer());
-              }}
-              htmlType="submit"
-              text="Enroll Now"
-              className="custom-button button button--mimas w-full sm:w-fit h-auto!"
-            />
-          </div>
-        </div>
-      </section>
-      <PurchaseDrawer
+      <CoursePurchaseDrawer
         data={{
-          type: "Course",
           id: CourseDetailsData?._id,
           title: CourseDetailsData?.title,
           price: {
@@ -279,6 +288,7 @@ const CourseDetails = () => {
           },
           modulesData: Modules,
         }}
+        refetch={refetch}
       />
     </div>
   );

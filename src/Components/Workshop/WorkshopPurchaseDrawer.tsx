@@ -1,33 +1,42 @@
 import { Drawer } from "antd";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
-import { FormButton } from "../../Attribute/FormFields";
-import { setPurchaseDrawer } from "../../Store/Slices/DrawerSlice";
+import {
+  EARNING_TYPE,
+  HTTP_STATUS,
+  ImagePath,
+  PAYMENT_STATUS,
+  STORAGE_KEYS,
+  TRANSACTION_STATUS,
+  TRANSACTION_TYPE,
+  URL_KEYS,
+} from "../../Constants";
+import { setWorkshopPurchaseDrawer } from "../../Store/Slices/DrawerSlice";
 import { BiSolidOffer } from "react-icons/bi";
 import { useState, type FC } from "react";
-import type { PurchaseData, RazorpayResponse } from "../../Types";
+import type {
+  PaymentStatusType,
+  PurchaseData,
+  RazorpayResponse,
+} from "../../Types";
 import PaymentModal from "../Common/PaymentModal";
-import CouponCodeCheck from "./CouponCodeCheck";
+import CouponCodeCheck from "../WorkshopCourseCommon/CouponCodeCheck";
 import { Storage } from "../../Utils";
 import { usePostApiMutation } from "../../Api/CommonApi";
 
-type PaymentStatus = "COMPLETED" | "FAILED";
-
 interface PurchaseDrawerProps {
   data: PurchaseData;
+  refetch: () => void;
 }
 
-const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
+const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
   const [isRefferApplyed, setIsRefferApplyed] = useState(false);
   const [refferCode, setRefferCode] = useState("");
+  const [isRefferLoading, setIsRefferLoading] = useState(false);
 
-  const [openPaymentModal, setOpenPaymentModal] = useState(false);
-
-  const [PostApi, { isLoading: isCoursePurchaseLoading }] =
-    usePostApiMutation();
+  const [PostApi] = usePostApiMutation();
 
   const dispatch = useAppDispatch();
-  const { isPurchaseDrawer } = useAppSelector((state) => state.drawer);
+  const { isWorkshopPurchaseDrawer } = useAppSelector((state) => state.drawer);
 
   const userFromLs = JSON.parse(Storage.getItem(STORAGE_KEYS?.USER) || "");
   const { firstName, lastName, email, contact, city } = userFromLs;
@@ -36,28 +45,30 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
 
   const id = data?.id || "";
   const price = data?.price?.price || 0;
-  const payingPrice = data?.price?.payingPrice || 0;
   let discountPrice = data?.price?.discountPrice || 0;
 
-  const isDiscountPrice = !!data?.price?.discountPrice;
   discountPrice = discountPrice === 0 ? price : discountPrice;
 
-  const amountToPay = isRefferApplyed ? Number(payingPrice) : Number(price);
+  const amountToPay = isRefferApplyed ? Number(discountPrice) : Number(price);
 
   const handlePaymentComplete = async (
-    status: PaymentStatus,
-    response: RazorpayResponse
+    status: PaymentStatusType,
+    response: RazorpayResponse,
+    RazorPayKey?: string
   ) => {
     try {
       console.log("Payment Status:", status);
       console.log("Payment Response:", response);
-      setOpenPaymentModal(false);
 
       const payload = {
         paymentId: response.razorpay_payment_id,
-        courseId: id,
-        amount: amountToPay,
+        workshopId: id,
+        payingPrice: amountToPay,
+        discountPrice: discountPrice,
+        price: price,
         referralCode: refferCode,
+        paymentDate: new Date().toISOString(),
+        merchantId: RazorPayKey,
         name: fullName,
         phone: mobile,
         status: status,
@@ -66,10 +77,33 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
       };
 
       const res = await PostApi({
-        url: URL_KEYS.COURSE.PURCHASE_ADD,
+        url: URL_KEYS.WORKSHOP.REGISTER_ADD,
         data: payload,
       }).unwrap();
       console.log("res : ", res);
+
+      if (res?.status === HTTP_STATUS.OK) {
+        refetch();
+        dispatch(setWorkshopPurchaseDrawer());
+        const transactionPayload = {
+          workshopId: id,
+          amount: amountToPay,
+          totalAmount: amountToPay,
+          tdsAmount: amountToPay,
+          title: data?.title,
+          transactionStatus:
+            res?.data?.status === PAYMENT_STATUS.COMPLETED
+              ? TRANSACTION_STATUS.SUCCESS
+              : TRANSACTION_STATUS.FAILED,
+          transactionType: TRANSACTION_TYPE.DEPOSIT,
+          earningType: EARNING_TYPE.WORKSHOP,
+        };
+
+        await PostApi({
+          url: URL_KEYS.TRANSACTION.ADD,
+          data: transactionPayload,
+        }).unwrap();
+      }
     } catch (error) {}
   };
 
@@ -78,8 +112,8 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
       <Drawer
         placement="right"
         size="large"
-        onClose={() => dispatch(setPurchaseDrawer())}
-        open={isPurchaseDrawer}
+        onClose={() => dispatch(setWorkshopPurchaseDrawer())}
+        open={isWorkshopPurchaseDrawer}
         className="p-0!"
       >
         <div className="flex flex-col items-center justify-center min-h-full">
@@ -96,14 +130,14 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
                 {data?.title}
               </h2>
               <p className="mt-2 text-white text-xl font-bold">
-                {data?.modulesData && "Module Name"}
+                {data?.lecturesData && "Lectures Name"}
               </p>
               <div className="">
                 <ul className=" bg-white/20 py-3 px-3 w-full rounded-sm backdrop-blur-md  text-sm  grid grid-cols-1  sm:grid-cols-2 sm:flex-row gap-2 sm:gap-4">
-                  {data?.modulesData?.map(
-                    (module: { name: string }, i: number) => (
+                  {data?.lecturesData?.map(
+                    (lecture: { title: string }, i: number) => (
                       <li key={i}>
-                        {i + 1}. {module.name}
+                        {i + 1}. {lecture.title}
                       </li>
                     )
                   )}
@@ -119,6 +153,7 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
                     <BiSolidOffer className="text-2xl text-success " />
                   </span>
                   <CouponCodeCheck
+                    setIsRefferLoading={setIsRefferLoading}
                     price={price}
                     isRefferApplyed={isRefferApplyed}
                     setIsRefferApplyed={setIsRefferApplyed}
@@ -154,9 +189,8 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
                 <div className="flex justify-between gap-3">
                   <p className="font-bold">Enrollment Fee</p>
                   <p className="font-bold text-lg ">
-                    {isRefferApplyed ? payingPrice : price}
+                    {isRefferApplyed ? discountPrice : price}
                     {/* 6999 */}
-                    {/* {payingPrice} */}
                   </p>
                 </div>
                 <span className="border-b border-primary flex" />
@@ -164,32 +198,14 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
                   <p className="font-bold">Total (Incl. off all taxes)</p>
                   <div className="space-x-0.5">
                     {isRefferApplyed ? (
-                      <>
-                        {isDiscountPrice ? (
-                          <>
-                            <span className="font-extrabold text-xl text-success">
-                              {/* 999/ */}₹{payingPrice}/
-                            </span>
-                            <span className="font-bold text-md text-gray-600">
-                              {/* 24,000 */}
-                              {discountPrice}
-                            </span>
-                            <span className="font-bold text-md line-through text-red-500 ">
-                              {/* 24,000 */}
-                              {price}
-                            </span>
-                          </>
-                        ) : (
-                          <h1 className="flex gap-0.5 items-end">
-                            <span className="font-extrabold text-xl text-success">
-                              ₹{payingPrice}
-                            </span>
-                            <span className="font-bold text-lg text-red-500 ">
-                              {price}
-                            </span>
-                          </h1>
-                        )}
-                      </>
+                      <h1 className="flex gap-0.5 items-end">
+                        <span className="font-extrabold text-xl text-success">
+                          ₹{discountPrice}
+                        </span>
+                        <span className="font-bold text-base line-through text-red-500 ">
+                          {price}
+                        </span>
+                      </h1>
                     ) : (
                       <p className="font-extrabold text-xl text-success">
                         {price}
@@ -198,31 +214,20 @@ const PurchaseDrawer: FC<PurchaseDrawerProps> = ({ data }) => {
                   </div>
                 </div>
               </section>
-              <div className="">
-                <FormButton
-                  //   onClick={() => dispatch(setPaymentConfirmModal())}
-                  onClick={() => setOpenPaymentModal(true)}
-                  text="Enroll Now"
-                  className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe"
+              <div>
+                <PaymentModal
+                  btnText="Enroll Now"
+                  isLoading={isRefferLoading}
+                  amount={amountToPay}
+                  onPaymentComplete={handlePaymentComplete}
                 />
               </div>
             </div>
           </div>
         </div>
-        {/* <PaymentConfirmModal
-          data={data}
-          isDiscountPrice={isDiscountPrice}
-          amountToPay={amountToPay}
-        /> */}
-        {openPaymentModal && (
-          <PaymentModal
-            amount={amountToPay}
-            onPaymentComplete={handlePaymentComplete}
-          />
-        )}
       </Drawer>
     </>
   );
 };
 
-export default PurchaseDrawer;
+export default WorkshopPurchaseDrawer;

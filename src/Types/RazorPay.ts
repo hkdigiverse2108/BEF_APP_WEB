@@ -34,9 +34,14 @@ export interface RazorpayOptions {
 }
 
 export interface PaymentModalProps {
+  isLoading?: boolean;
+  btnText: string;
   amount: number;
   onPaymentComplete: (
     status: "COMPLETED" | "FAILED",
-    response: RazorpayResponse
+    response: RazorpayResponse,
+    RazorPayKey?: string
   ) => void;
 }
+
+export type PaymentStatusType = "COMPLETED" | "FAILED";

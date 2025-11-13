@@ -1,77 +1,35 @@
 import { Form } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
-import { FormButton, FormInput } from "../../Attribute/FormFields";
+import { FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import {
   HTTP_STATUS,
   ImagePath,
+  PAYMENT_STATUS,
   STORAGE_KEYS,
+  TRANSACTION_STATUS,
   URL_KEYS,
 } from "../../Constants";
 import { Storage, updateStorage } from "../../Utils";
-
-export interface RazorpayResponse {
-  razorpay_payment_id: string;
-  razorpay_order_id?: string;
-  razorpay_signature?: string;
-  error?: {
-    code?: string;
-    description?: string;
-    source?: string;
-    step?: string;
-    reason?: string;
-    metadata?: {
-      payment_id?: string;
-      order_id?: string;
-    };
-  };
-}
-
-export interface RazorpayOptions {
-  key: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description?: string;
-  handler: (response: RazorpayResponse) => void;
-  prefill?: {
-    name?: string;
-    email?: string;
-    contact?: string;
-  };
-  notes?: Record<string, string>;
-  theme?: {
-    color?: string;
-  };
-}
-
-declare global {
-  interface Window {
-    Razorpay: new (options: RazorpayOptions) => {
-      open: () => void;
-      on: (
-        event: string,
-        callback: (response: RazorpayResponse) => void
-      ) => void;
-    };
-  }
-}
+import PaymentModal from "../../Components/Common/PaymentModal";
+import type { PaymentStatusType, RazorpayResponse } from "../../Types";
 
 const Recharge = () => {
   const [form] = Form.useForm();
   const [PostApi] = usePostApiMutation();
+  const [rechargeAmount, setRechargeAmount] = useState(50);
 
   const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
-  const { data, refetch } = useGetApiQuery({
+  const {
+    data,
+    refetch,
+    isLoading: isUserLoading,
+  } = useGetApiQuery({
     url: `${URL_KEYS.USER.ID}${user._id}`,
   });
   const userData = data?.data;
-
-  console.log("userData : ", userData?.walletBalance);
-  const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
-  const RazorPayKey = settingData?.data;
 
   useEffect(() => {
     if (document.getElementById("razorpay-script")) return;
@@ -86,107 +44,78 @@ const Recharge = () => {
     form.setFieldsValue({ balance: 50 });
   }, []);
 
-  const handlePayment = async (
-    response: RazorpayResponse,
-    status: "success" | "failed",
-    amount: number
+  const handlePaymentComplete = async (
+    status: PaymentStatusType,
+    response: RazorpayResponse
   ) => {
-    const TdsAmount = 0;
-    const TotalAmount = amount + TdsAmount;
-
-    const payment_id = response.razorpay_payment_id;
-    const paymentRes = await PostApi({
-      url: URL_KEYS.BALANCE.VERIFY,
-      data: { payment_id: payment_id },
-    });
-    const paymentData = paymentRes?.data;
-
-    const RechargeData = {
-      userId: userData?._id,
-      name: `${userData?.firstName} ${userData?.lastName}`,
-      utrId: response?.razorpay_payment_id ?? null,
-      amount: amount,
-      totalAmount: TotalAmount,
-      tdsAmount: TdsAmount,
-      status: status,
-      type: "deposit",
-      paymentType: paymentData?.payment?.method,
-      paymentDetails: {
-        ...(paymentData?.payment?.upi?.vpa && {
-          upiId: paymentData.payment.upi.vpa,
-        }),
-        ...(paymentData?.payment?.bank && {
-          bankName: paymentData.payment.bank,
-        }), //netbanking
-        ...(paymentData?.payment?.card?.name && {
-          accountHolderName: paymentData?.payment?.card?.name,
-        }), //card
-        ...(paymentData?.payment?.acquirer_data?.bank_transaction_id && {
-          id: paymentData.payment.acquirer_data.bank_transaction_id,
-        }), //netbanking
-        ...(paymentData?.payment?.card_id && {
-          id: paymentData.payment.card_id,
-        }), //card
-        ...(paymentData?.payment?.card?.last4 && {
-          cardNumber: paymentData.payment.card?.last4,
-        }), //card
-        ...(paymentData?.payment?.wallet && {
-          walletName: paymentData.payment.wallet,
-        }), //wallet
-      },
-    };
     try {
-      const res = await PostApi({
-        url: URL_KEYS.BALANCE.ADD,
-        data: RechargeData,
+      // console.log("Payment Status:", status);
+      // console.log("Payment Response:", response);
+      const TdsAmount = 0;
+      const TotalAmount = rechargeAmount + TdsAmount;
+
+      const payment_id = response?.razorpay_payment_id;
+      const paymentRes = await PostApi({
+        url: URL_KEYS.BALANCE.VERIFY,
+        data: { payment_id: payment_id },
       });
-      if (res?.data?.status === HTTP_STATUS.OK) {
-        refetch();
-        console.log(res?.data);
+      const paymentData = paymentRes?.data;
+
+      const RechargeData = {
+        userId: userData?._id,
+        name: `${userData?.firstName} ${userData?.lastName}`,
+        utrId: payment_id ?? null,
+        amount: rechargeAmount,
+        totalAmount: TotalAmount,
+        tdsAmount: TdsAmount,
+        status:
+          status === PAYMENT_STATUS.COMPLETED
+            ? TRANSACTION_STATUS.SUCCESS
+            : TRANSACTION_STATUS.FAILED,
+        type: "deposit",
+        paymentType: paymentData?.payment?.method,
+        paymentDetails: {
+          ...(paymentData?.payment?.upi?.vpa && {
+            upiId: paymentData.payment.upi.vpa,
+          }),
+          ...(paymentData?.payment?.bank && {
+            bankName: paymentData.payment.bank,
+          }), //netbanking
+          ...(paymentData?.payment?.card?.name && {
+            accountHolderName: paymentData?.payment?.card?.name,
+          }), //card
+          ...(paymentData?.payment?.acquirer_data?.bank_transaction_id && {
+            id: paymentData.payment.acquirer_data.bank_transaction_id,
+          }), //netbanking
+          ...(paymentData?.payment?.card_id && {
+            id: paymentData.payment.card_id,
+          }), //card
+          ...(paymentData?.payment?.card?.last4 && {
+            cardNumber: paymentData.payment.card?.last4,
+          }), //card
+          ...(paymentData?.payment?.wallet && {
+            walletName: paymentData.payment.wallet,
+          }), //wallet
+        },
+      };
+      try {
+        const res = await PostApi({
+          url: URL_KEYS.BALANCE.ADD,
+          data: RechargeData,
+        });
+        if (res?.data?.status === HTTP_STATUS.OK) {
+          refetch();
+          console.log(res?.data);
+        }
+      } catch (error) {
+        console.error("Upload failed:", error);
       }
-    } catch (error) {
-      console.error("Upload failed:", error);
-    }
+    } catch (error) {}
   };
 
-  const startPayment = async (values: any) => {
-    if (!window.Razorpay) {
-      console.error("Razorpay not loaded!");
-      return;
-    }
-
-    const amt = Number(values.balance);
-
-    if (amt < 50) {
-      return form.setFields([
-        { name: "balance", errors: ["Minimum recharge amount is ₹50"] },
-      ]);
-    }
-
-    const options: RazorpayOptions = {
-      key: RazorPayKey.apiKey,
-      amount: amt * 100,
-      currency: "INR",
-      name: "BEF",
-      handler: (res) => handlePayment(res, "success", amt),
-      prefill: {
-        name: `${userData?.firstName} ${userData?.lastName}`,
-        email: userData?.email,
-        contact: userData?.contact?.mobile,
-      },
-      theme: { color: "#eb8844" },
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.on("payment.failed", (res) => {
-      handlePayment(
-        { razorpay_payment_id: res?.error?.metadata?.payment_id || "" },
-        "failed",
-        amt
-      );
-    });
-
-    rzp.open();
+  const handleInputChange = (value: { balance: number }) => {
+    setRechargeAmount(value?.balance);
+    console.log("values", value?.balance, rechargeAmount);
   };
 
   useEffect(() => {
@@ -236,7 +165,7 @@ const Recharge = () => {
 
             <Form
               form={form}
-              onFinish={startPayment}
+              onValuesChange={(_, allValues) => handleInputChange(allValues)}
               className="flex justify-center"
             >
               <FormInput
@@ -248,12 +177,12 @@ const Recharge = () => {
           </div>
 
           <hr className="border-t border-primary" />
-
-          <div className="space-y-3">
-            <FormButton
-              onClick={() => form.submit()}
-              text="Add Balance"
-              className="custom-button w-full button button--mimas text-center !p-4 !h-12 uppercase"
+          <div>
+            <PaymentModal
+              btnText="Add Balance"
+              isLoading={isUserLoading}
+              amount={rechargeAmount}
+              onPaymentComplete={handlePaymentComplete}
             />
           </div>
         </div>
