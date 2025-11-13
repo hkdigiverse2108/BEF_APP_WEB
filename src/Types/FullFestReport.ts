@@ -2,9 +2,19 @@ import type { MessageStatus } from "./Common";
 
 // ************ My Winning ***********
 
+interface RanksType {
+  endPlace: string;
+  price: number;
+  startPlace: string;
+  _id: string;
+}
+
 export interface MyWinningContestsListType {
   subject: string;
   totalWin: number;
+  contestName: string;
+  winnerPercentage: number;
+  ranks: RanksType[];
 }
 
 export interface MyWinningListType {

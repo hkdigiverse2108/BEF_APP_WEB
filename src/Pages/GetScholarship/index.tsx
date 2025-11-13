@@ -28,10 +28,10 @@ const GetScholarship = () => {
   const handleFormSubmit = () => {};
 
   return (
-    <div className="sub-container pt-8">
+    <div className="sub-container pt-4">
       <CardHeader title="Get Scholarship" />
-
-      <div className="flex gap-6 pt-8">
+      <hr className="text-card-border mt-4" />
+      <div className="flex gap-6 pt-7">
         <div className="relative bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 w-1/3 h-fit">
           <div className="relative bg-white p-4 rounded-lg z-20">
             <div className="flex items-center justify-between mb-4">

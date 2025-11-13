@@ -44,6 +44,7 @@ const MenuDrawer = () => {
     if (title === "Feedback") dispatch(setFeedbackModal());
     else if (title === "Support") dispatch(setSupportModal());
     else navigate(url);
+    dispatch(setMenuDrawer())
   };
 
   return (

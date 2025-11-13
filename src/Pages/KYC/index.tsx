@@ -6,6 +6,7 @@ import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { Storage } from "../../Utils";
 import { Spin } from "antd";
+import { CardHeader } from "../../Components/Common/CardHeader";
 
 const KYC = () => {
   const navigate = useNavigate();
@@ -15,11 +16,10 @@ const KYC = () => {
   const KYCData = data?.data?.kyc_data[0];
 
   return (
-    <div className="sub-container my-6 min-h-screen">
+    <div className="sub-container mt-4 mb-6 min-h-screen">
+      <CardHeader title="KYC" />
+      <hr className="text-card-border my-4" />
       <section className="flex flex-col gap-5">
-        <h2 className="text-2xl font-semibold">KYC</h2>
-        <span className="border-b border-gray-100 w-full"></span>
-
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
           <div className="rounded-lg overflow-hidden w-full ">
             <img src={`${ImagePath}kyc/KYC_Banner.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />

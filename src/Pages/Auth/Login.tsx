@@ -13,7 +13,7 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
 
-  const [PostGlobalApi] = usePostGlobalApiMutation({});
+  const [PostGlobalApi , { isLoading }] = usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -125,7 +125,7 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
+                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
                      {/* <button
   className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
              bg-gradient-to-r from-orange-500 to-green-600

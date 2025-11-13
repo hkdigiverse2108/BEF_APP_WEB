@@ -1,9 +1,8 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Empty, Input, Pagination, Space } from "antd";
+import { Empty, Input, Pagination, Skeleton, Space } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import Loader from "../../Components/Common/Loader";
 import ContestDetailCard from "../../Components/Contest/ContestDetailCard";
 import HeroBanner from "../../Components/Home/HeroBanner";
 import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
@@ -45,11 +44,11 @@ const Contest = () => {
 
   if (isContestFilters.spots?.min !== undefined) queryParams.append("sportFilter[min]", String(isContestFilters.spots?.min));
   if (isContestFilters.spots?.max !== undefined) queryParams.append("sportFilter[max]", String(isContestFilters.spots?.max));
-  if (isContestFilters.entry?.min !== undefined) queryParams.append("entry[min]", String(isContestFilters.entry?.min));
-  if (isContestFilters.entry?.max !== undefined) queryParams.append("entry[max]", String(isContestFilters.entry?.max));
-  if (isContestFilters.prizePool?.min !== undefined) queryParams.append("prizePool[min]", String(isContestFilters.prizePool?.min));
-  if (isContestFilters.prizePool?.max !== undefined) queryParams.append("prizePool[max]", String(isContestFilters.prizePool?.max));
-  if (isContestFilters.contestType !== "") queryParams.append("contestType", isContestFilters.contestType);
+  if (isContestFilters.entry?.min !== undefined) queryParams.append("feesFilter[min]", String(isContestFilters.entry?.min));
+  if (isContestFilters.entry?.max !== undefined) queryParams.append("feesFilter[max]", String(isContestFilters.entry?.max));
+  if (isContestFilters.prizePool?.min !== undefined) queryParams.append("pricePoolFilter[min]", String(isContestFilters.prizePool?.min));
+  if (isContestFilters.prizePool?.max !== undefined) queryParams.append("pricePoolFilter[max]", String(isContestFilters.prizePool?.max));
+  if (isContestFilters.contestType !== "") queryParams.append("contestTypeFilter", isContestFilters.contestType);
 
   const { data: ContestData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.CONTEST.ALL}?${queryParams.toString()}` }, { skip: false });
 
@@ -73,26 +72,22 @@ const Contest = () => {
       <hr className="text-theme my-8 opacity-20" />
 
       <div className="mb-12 flex flex-col gap-8">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-              {Contest?.length > 0 ? (
-                Contest.map((item, i) => <ContestDetailCard key={i} contestData={item} />)
-              ) : (
-                <div className="flex items-center justify-center w-full col-span-4">
-                  <Empty />
-                </div>
-              )}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+          {isLoading ? (
+            [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 15 }} />)
+          ) : Contest?.length > 0 ? (
+            Contest.map((item, i) => <ContestDetailCard key={i} contestData={item} />)
+          ) : (
+            <div className="flex items-center justify-center w-full col-span-4">
+              <Empty />
             </div>
+          )}
+        </div>
 
-            {Contest?.length > 0 && (
-              <div className="w-full mt-10">
-                <Pagination align="end" current={pageNumber} pageSize={pageSize} total={ContestData?.data?.totalData || 0} showSizeChanger onChange={handlePaginationChange}  className="custom-pagination"/>
-              </div>
-            )}
-          </>
+        {Contest?.length > 0 && (
+          <div className="w-full mt-5">
+            <Pagination align="end" current={pageNumber} pageSize={pageSize} total={ContestData?.data?.totalData || 0} showSizeChanger onChange={handlePaginationChange} className="custom-pagination" />
+          </div>
         )}
       </div>
 

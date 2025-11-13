@@ -251,7 +251,7 @@ const Solution = () => {
                       const isWrongAnswer = hasAnswered && opt === userAnswer && opt !== currentQuestionAnswers?.rightAnswer;
 
                       return (
-                        <div key={i} className={`border-2 border-card-border flex items-center gap-3 p-4 m-0 rounded-2xl cursor-pointer transition-all ${isRightAnswer ? "border-green-500 bg-green-50" : isWrongAnswer ? "border-red-500 bg-red-50" : "border-gray-300 hover:bg-gray-50"}`}>
+                        <div key={i} className={`border-1 border-card-border flex items-center gap-3 p-4 m-0 rounded-md cursor-pointer transition-all ${isRightAnswer ? "border-green-500 bg-green-50" : isWrongAnswer ? "border-red-500 bg-red-50" : "border-gray-200 hover:bg-gray-50"}`}>
                           <div className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
                             <div className="relative">
                               {isRightAnswer ? <FaRegCircle style={{ color: "green" }} /> : isWrongAnswer ? <FaRegCircle style={{ color: "red" }} /> : <FaRegCircle style={{ color: "gray" }} />}

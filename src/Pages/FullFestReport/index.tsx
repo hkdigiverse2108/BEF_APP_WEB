@@ -24,7 +24,7 @@ const FullFestReport = () => {
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
   return (
-    <div className="sub-container pt-8 pb-1">
+    <div className="sub-container pt-4 pb-1">
       <CardHeader title="Full Fest Report" />
       <hr className="text-card-border my-4" />
       <div>

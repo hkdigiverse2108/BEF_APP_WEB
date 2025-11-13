@@ -12,10 +12,10 @@ export interface NormalQuestionProps {
 
 export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuestionProps) => {
   return (
-    <div className="flex max-sm:flex-col justify-center items-center w-full max-sm:gap-3 question">
+    <div className="flex max-sm:flex-col justify-center items-center w-full question" onClick={() => onCheck(id, "true")}>
       {/* Desktop True Checkbox */}
-      <div onClick={() => onCheck(id, "true")} className="flex w-full py-4 ps-4">
-        <div className="hidden sm:flex items-center">
+      <div className="flex w-full py-4 ps-4 max-sm:pe-4">
+        <div onClick={(e) => e.stopPropagation()} className="hidden sm:flex items-center">
           <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
             <div className="relative">
               {answers[id] === 1 ? <FaRegCircle style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
@@ -30,18 +30,23 @@ export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuesti
 
       {/* Mobile True + False */}
       <div className="flex justify-end max-sm:w-full max-sm:gap-2">
-        <div className="sm:hidden !py-4 ">
-          <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
-            <div className="relative">
-              {answers[id] === 1 ? <FaRegCircle style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
-              <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${answers[id] === 1 ? "text-success" : ""}`}>{opt}</span>
-            </div>
-          </Checkbox>
+        <div className="sm:hidden max-sm:pb-3 sm:!py-4">
+          <div onClick={(e) => e.stopPropagation()}>
+            <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
+              <div className="relative">
+                {answers[id] === 1 ? <FaRegCircle style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
+                <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${answers[id] === 1 ? "text-success" : ""}`}>{opt}</span>
+              </div>
+            </Checkbox>
+          </div>
         </div>
-
-        <Checkbox checked={answers[id] === 0} onChange={() => onCheck(id, "false")} className="!py-4 !pe-4">
-          {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
-        </Checkbox>
+        <div className="max-sm:pb-3 sm:py-4 pe-4">
+          <div onClick={(e) => e.stopPropagation()}>
+            <Checkbox checked={answers[id] === 0} onChange={() => onCheck(id, "false")}>
+              {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
+            </Checkbox>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -318,17 +318,17 @@ const Register = () => {
       </div>
 
       {/* Right Form */}
-      <div className="flex xl:w-1/2 2xl:w-3/5 w-full h-screen overflow-y-auto justify-center items-center p-4 sm:p-8 lg:p-12 z-10">
-        <div className="w-full max-w-2xl mx-auto space-y-8">
+      <div className="flex xl:w-1/2 2xl:w-3/5 w-full overflow-y-auto justify-center items-center p-4 sm:p-8 lg:p-12 z-10">
+        <div className="w-full max-w-2xl mx-auto ">
           <Steps
             current={current}
             direction="horizontal"
             items={steps.map((s) => ({ title: s.title }))}
-            className="space-y-6 lg:space-y-8"
+            className="space-y-2 lg:space-y-4"
           />
 
-          <header className="space-y-6 lg:space-y-8">
-            <div className="space-y-3">
+          <header className="mb-3">
+            <div className="space-y-1">
               <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
                 Get Started Now
               </h2>
@@ -345,9 +345,9 @@ const Register = () => {
             onFinish={handleFormSubmit}
             initialValues={{ contact: { countryCode: "+91" } }}
           >
-            <div className="my-6">{steps[current].content}</div>
+            <div className="mt-4">{steps[current].content}</div>
             <Col span={24}>
-              <span className="border-t border-primary flex w-full col-span-2 my-4" />
+              <span className="border-t border-primary flex w-full col-span-2 mb-4" />
             </Col>
             <Col span={24}>
               {/* Footer */}

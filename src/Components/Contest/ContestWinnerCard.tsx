@@ -37,7 +37,7 @@ const ContestWinnerCard: FC<ContestWinnerCardProps> = ({ winner, rank }) => {
       {/* Footer */}
       <div className="flex justify-between items-center bg-success text-white px-4 py-2 text-sm font-semibold">
         <span className="flex items-center gap-2">
-          <FaAward /> Won
+          <FaAward /> Achieved Scholarship
         </span>
         <span className="text-lg">₹{winner.totalAmount}</span>
       </div>

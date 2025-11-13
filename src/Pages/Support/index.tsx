@@ -3,6 +3,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { IoIosCall, IoMdMail } from "react-icons/io";
 import { setSupportModal } from "../../Store/Slices/DrawerSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { CONTACT } from "../../Constants";
 
 const SupportModal = () => {
   const { isSupportModal } = useAppSelector((store) => store.drawer);
@@ -28,8 +29,8 @@ const SupportModal = () => {
                     </div>
                     Send Email
                   </p>
-                  <a href="mailto:bharatexamfest@gamil.com" className="font-bold text-sm flex items-end !text-gray-500 pb-2">
-                    bharatexamfest@gamil.com
+                  <a href={`mailto:${CONTACT?.EMAILHELP}`} className="font-bold text-sm flex items-end !text-gray-500 pb-2">
+                    {CONTACT?.EMAILHELP}
                   </a>
                 </li>
                 <li className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary">
@@ -39,18 +40,18 @@ const SupportModal = () => {
                     </div>
                     Make Call
                   </p>
-                  <a href="tel:111-222-333" className="font-bold text-sm flex items-end !text-gray-500 pb-2">
-                    111-222-333
+                  <a href={`tel:${CONTACT?.NUMBER}`} className="font-bold text-sm flex items-end !text-gray-500 pb-2">
+                    {CONTACT?.NUMBER}
                   </a>
                 </li>
-                <li className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary" onClick={() => window.open("https://wa.me/111222333", "_blank")}>
+                <li className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary" onClick={() => window.open(`https://wa.me/${CONTACT?.NUMBER}`, "_blank")}>
                   <p className="font-bold text-base flex items-center uppercase py-3">
                     <div className="me-3 text-2xl">
                       <FaWhatsapp color="green" />
                     </div>
                     Chat With US
                   </p>
-                  <span className="font-bold text-sm flex items-end !text-gray-500 pb-2">111-222-333</span>
+                  <span className="font-bold text-sm flex items-end !text-gray-500 pb-2">{CONTACT?.NUMBER}</span>
                 </li>
               </ul>
             </div>

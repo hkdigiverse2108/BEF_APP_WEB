@@ -47,9 +47,9 @@ const MyInfo = () => {
   }, [userData, form]);
 
   return (
-    <div className="sub-container pt-8">
+    <div className="sub-container pt-4">
       <CardHeader title="My Info & Setting" />
-
+      <hr className="text-card-border my-4" />
       <Form form={form} layout="vertical" onFinish={handleSaveClick} className="grid grid-cols-1 lg:grid-cols-3 gap-6 !mt-6">
         {/* LEFT SIDE CARD */}
         <div className="max-lg:col-span-2">

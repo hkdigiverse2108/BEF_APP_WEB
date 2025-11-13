@@ -19,10 +19,10 @@ const ContestWinner = () => {
   const Winners = ({ ListData, title, index }: WinnersBox) => {
     return (
       <div className="flex flex-col gap-3">
-        <span className="border border-b border-gray-100 flex w-full my-6 "></span>
+        <span className="border border-b border-gray-100 flex w-full mt-6 mb-2"></span>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row justify-between gap-3">
-            <CardHeader title={title} icon={<BsFillAlarmFill />} pricePool={{ icon: <IoMdTrophy />, price: "11111" }} sliderButton={{ swiperRefs, index }} />
+            <CardHeader title={title} icon={<BsFillAlarmFill />} sliderButton={{ swiperRefs, index }} />
           </div>
 
           <Swiper
@@ -49,7 +49,7 @@ const ContestWinner = () => {
   };
 
   return (
-    <div className="sub-container pt-6">
+    <div className="sub-container pt-4">
       <div className="flex justify-between flex-wrap">
         <h2 className="text-sm sm:text-xl md:text-2xl font-bold">Mega Contest Winners</h2>
         <div className="question-section">

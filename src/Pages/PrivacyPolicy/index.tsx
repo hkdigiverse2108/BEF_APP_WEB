@@ -6,7 +6,7 @@ import { URL_KEYS } from "../../Constants";
 const PrivacyPolicy = () => {
   const { data: PrivacyPolicyData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.PRIVACY_POLICY.PRIVACY_POLICY}?type=course` });
   return (
-    <div className="sub-container">
+    <div className="sub-container pt-4">
       <CardHeader title="Privacy Policy" />
       <span className="border-t border-card-border flex w-full my-4 " />
       {isLoading ? (

@@ -422,4 +422,8 @@ input {
 .paymentSuccess .ant-input-outlined:hover {
   @apply !border-success;
 }
-/* ================  Purchase Drawer Section End ================ */
+
+/* ================  Skeleton ================ */
+.skeleton .ant-skeleton.ant-skeleton-element{
+  @apply !w-full;
+}

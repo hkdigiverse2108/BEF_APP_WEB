@@ -88,7 +88,7 @@ const KYCVerification = () => {
   };
 
   return (
-    <div className="sub-container my-8 min-h-screen ">
+    <div className="sub-container pt-4 mb-8 min-h-screen ">
       {/* ✅ Confirmation Modal */}
       <Modal centered open={open} onCancel={() => setOpen(false)} footer={null} width="500px" className="!p-0">
         <div className="flex flex-col items-center justify-center min-h-full">
@@ -127,7 +127,7 @@ const KYCVerification = () => {
       {/* ✅ KYC Section */}
       <section className="flex flex-col gap-5">
         <h2 className="text-xl font-bold">KYC Verification</h2>
-        <span className="border-b border-gray-200 w-full"></span>
+        <hr className="text-card-border mb-4" />
 
         <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="flex flex-col xl:flex-row justify-between gap-10">
           {/* Left: PAN Preview */}

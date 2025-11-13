@@ -11,8 +11,9 @@ const HowItWork = () => {
   const { data: HowItWorkData, isLoading } = useGetApiQuery<HowItWorkApiResponse>({ url: URL_KEYS.HOW_IT_WORK.ALL });
 
   return (
-    <div className="sub-container pt-8">
+    <div className="sub-container pt-4">
       <CardHeader title="How It Work" />
+      <hr className="text-card-border my-4" />
       <section className="how_it_works" id="how_it_work">
         <div>
           {isLoading ? (

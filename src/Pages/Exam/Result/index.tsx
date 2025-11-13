@@ -27,7 +27,6 @@ const Result = () => {
   const { data: ContestData , isLoading: isLoadingContest} = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}` });
 
   const Contest = ContestData?.data.contest_type_data[0];
-  
 
   const ResultData = data?.data;
   const OverviewData = ResultData?.sec1?.polity;
@@ -53,9 +52,9 @@ const Result = () => {
       {/* Sidebar Drawer / Tab Section */}
       <div className="mx-auto pt-6">
         <div className="flex flex-col md:flex-row 2xl:gap-7">
-          <div className="!sticky !top-6 !self-start z-10">
+          <div className="!sticky !top-32 !self-start max-2xl:z-50">
             <div onClick={() => setOpen(false)} className="max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
-              <div onClick={(e) => e.stopPropagation()} className=" p-6 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed 2xl:w-100 rounded-xl bg-input-box max-2xl:bg-[#ffffff] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
+              <div onClick={(e) => e.stopPropagation()} className=" p-6 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed 2xl:w-100 rounded-xl bg-input-box max-2xl:bg-[#ffffff] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
                 <div className="mb-6 hidden max-2xl:block">
                   <div className="flex justify-between items-center">
                     <h3 className="text-xl font-bold">Result</h3>
@@ -95,7 +94,7 @@ const Result = () => {
               <EliminationSkill data={eliminationReportTypeData} />
             </div>
             <div hidden={tabIndex !== 5}>
-              <Leaderboard tabIndex={tabIndex} />
+              <Leaderboard tabIndex={tabIndex} contest={Contest?.contest}/>
             </div>
           </div>
         </div>

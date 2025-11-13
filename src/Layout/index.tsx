@@ -1,35 +1,33 @@
 import Aos from "aos";
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { Fragment } from "react/jsx-runtime";
-import Footer from "./Footer";
-import Header from "./Header";
 import { STORAGE_KEYS } from "../Constants";
 import { Storage } from "../Utils";
+import Footer from "./Footer";
+import Header from "./Header";
 
 const Layout = () => {
-    const {pathname}  = useLocation();
-    
-  
+  const { pathname } = useLocation();
+
   useEffect(() => {
     Aos.init({
       once: true,
     });
   }, []);
+  
   useEffect(() => {
-    if(!["solution","mistake-map-report"].includes(pathname)){
+    if (!["solution", "mistake-map-report"].includes(pathname)) {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_SOLUTION);
-      console.log("1");
     }
-  },[pathname])
+  }, [pathname]);
   return (
-    <Fragment>
-      <Header />
-      <div className="min-h-screen container">
+    <div className="flex flex-col min-h-screen">
+      {!pathname.includes("question") && <Header />}
+      <div className="flex-1 container">
         <Outlet />
       </div>
-      <Footer />
-    </Fragment>
+      {!pathname.includes("question") && <Footer />}
+    </div>
   );
 };
 

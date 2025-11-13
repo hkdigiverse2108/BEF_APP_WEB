@@ -38,6 +38,8 @@ const ExamInstruction = () => {
       {contextHolder}
       <div className="sub-container pt-8">
         <CardHeader title="Exam Instructions" />
+        <hr className="text-card-border my-4" />
+
         <div className="flex flex-col gap-10 mt-6">
           <div>
             <h2 className="font-semibold text-lg mb-3">1. Practice Actively Label Each Statement True Or False!</h2>

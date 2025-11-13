@@ -6,7 +6,7 @@ import { URL_KEYS } from "../../Constants";
 const TermsConditions = () => {
   const { data: TermsConditionsData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.TERMS_CONDITION.TERMS_CONDITION}?type=course` });
   return (
-    <div className="sub-container">
+    <div className="sub-container pt-4">
       <CardHeader title="Terms & Conditions" />
       <span className="border-t border-card-border flex w-full my-4 " />
       {isLoading ? (

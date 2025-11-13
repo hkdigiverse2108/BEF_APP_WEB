@@ -6,7 +6,7 @@ import { URL_KEYS } from "../../Constants";
 const Illegality = () => {
   const { data: IllegalityData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.ILLEGALITY.ILLEGALITY}?type=course` });
   return (
-    <div className="sub-container">
+    <div className="sub-container pt-4">
       <CardHeader title="Illegality" />
       <span className="border-t border-card-border flex w-full my-4 " />
       {isLoading ? (

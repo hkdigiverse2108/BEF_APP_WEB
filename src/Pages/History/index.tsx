@@ -13,8 +13,9 @@ const History = () => {
   const { data, isLoading } = useGetApiQuery<HistoryApiResponse>({ url: `${URL_KEYS.TRANSACTION.ALL}?page=1&limit=1000&transactionTypeFilter=${isHistory}` });
   const HistoryData = data?.data?.transaction_data || [];
   return (
-    <div className="sub-container pt-8 question-section">
+    <div className="sub-container pt-4 question-section">
       <CardHeader title="Transaction History" />
+      <hr className="text-card-border my-4" />
       <div className="bg-input-box rounded-xl p-3 sm:p-6 mt-5">
         <div className="bg-white rounded-xl p-3 sm:p-5">
           <div className="w-full flex justify-end mb-3">

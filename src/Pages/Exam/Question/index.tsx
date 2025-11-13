@@ -45,11 +45,24 @@ const Question = () => {
 
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+  useEffect(() => {
+    if (!contestId) {
+      Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
+      Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
+      navigate(ROUTES.CONTEST.MY_CONTEST);
+    }
+  }, [contestId, navigate]);
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({ url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}` });
   const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
   const stored = Storage.getItem(STORAGE_KEYS.EXAM_QA_ALL);
   useEffect(() => {
+    if (stored) {
+      setQAData(JSON.parse(stored));
+    }
+  }, [stored]);
+  useEffect(() => {
+    if (stored) return;
     if (!isLoading && QAApiData?.data) {
       updateStorage(STORAGE_KEYS.EXAM_QA_ALL, QAApiData?.data);
       setQAData(QAApiData?.data);
@@ -78,16 +91,7 @@ const Question = () => {
       };
       updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, apiAnswers);
     }
-    // if (stored) {
-    //   setQAData(JSON.parse(stored));
-    //   console.log("1");
-    // }
   }, [QAApiData?.data, isLoading]);
-  useEffect(() => {
-    if (stored) {
-      setQAData(JSON.parse(stored));
-    }
-  }, [stored]);
 
   const QA = QAData?.answers || [];
   const { _id, negativeMarks, positiveMarks, stackNumber } = QAData || {};
@@ -125,26 +129,35 @@ const Question = () => {
       return newAnswers;
     });
   };
-  const OPTION_COUNT = 4;
+
   const handleAnswersCheck = (id: number, type: "true" | "false") => {
     setAnswers((prev) => {
-      const newAnswers: Record<number, number | undefined> = { ...prev };
+      const newAnswers = { ...prev };
+
       if ((type === "true" && newAnswers[id] === 1) || (type === "false" && newAnswers[id] === 0)) {
         newAnswers[id] = undefined;
         return newAnswers;
       }
+
       if (type === "true") {
-        for (let i = 0; i < OPTION_COUNT; i++) {
-          newAnswers[i] = i === id ? 1 : newAnswers[i] === 1 ? undefined : newAnswers[i];
-        }
+        Object.keys(newAnswers).forEach((key) => {
+          if (newAnswers[Number(key)] === 1) newAnswers[Number(key)] = undefined;
+        });
+        newAnswers[id] = 1;
       } else {
-        const falseCount = Object.values(newAnswers).filter((v) => v === 0).length;
-        if (falseCount < OPTION_COUNT - 1) {
+        const falseIds = Object.keys(newAnswers)
+          .filter((key) => newAnswers[Number(key)] === 0)
+          .map(Number);
+
+        if (falseIds.length < 2) {
           newAnswers[id] = 0;
         } else {
-          return prev;
+          const oldestFalse = falseIds[0];
+          newAnswers[oldestFalse] = undefined;
+          newAnswers[id] = 0;
         }
       }
+
       return newAnswers;
     });
   };
@@ -159,6 +172,7 @@ const Question = () => {
   }, [QAData?.answers, currentQuestion?._id, currentQuestionNumber]);
 
   const handleQuestionNumberClick = (questionNumber: number, id: string) => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setCurrentQuestionNumber(questionNumber);
 
     const item = QAData?.answers?.find((a) => a._id === id);
@@ -206,6 +220,8 @@ const Question = () => {
     const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
     const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
     if (res?.data?.status === HTTP_STATUS.OK) {
+      queryParam.delete("contestId");
+      navigate(`${ROUTES.EXAM.QUESTION}${queryParam}`);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
       setAnswers({});
@@ -230,6 +246,7 @@ const Question = () => {
   }, [isFinished]);
 
   const handleNextQueClick = async () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     if (!QAData) return;
     const hasTrue = Object.values(isAnswers).includes(1);
     const hasConfidence = Boolean(isConfidence);
@@ -344,6 +361,7 @@ const Question = () => {
   };
 
   const handlePrevQueClick = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     if (currentQuestionNumber <= 1) return;
     setCurrentQuestionNumber(currentQuestionNumber - 1);
   };
@@ -363,7 +381,7 @@ const Question = () => {
         {/* Header */}
         <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex justify-center">
-          <p className="font-bold mb-0 bg-input-box p-2 px-5 rounded-lg mt-4 w-fit">Do not exit the web. Press the submit button on last question to lock your.</p>
+          <p className="font-bold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit">Press the End Test button to lock your Test.</p>
         </div>
         <span className="border-t border-card-border flex w-full mt-4" />
 
@@ -395,15 +413,12 @@ const Question = () => {
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
                   <span onClick={handleLanguageChange} className="text-sm font-bold flex flex-nowrap gap-2">
                     <IoLanguage className="text-xl" />
-                    Language
                   </span>
                   <span className="text-sm font-bold flex flex-nowrap gap-2" onClick={() => setSkip(!isSkip)}>
                     {isSkip ? <IoBookmark className="text-xl" /> : <IoBookmarkOutline className="text-xl" />}
-                    Save
                   </span>
                   <span className="text-sm font-bold flex flex-nowrap gap-2 cursor-pointer" onClick={() => dispatch(setReportModal())}>
                     <TbReport className="text-xl" />
-                    Report
                   </span>
                 </div>
               </div>
@@ -411,36 +426,38 @@ const Question = () => {
               <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <p className="font-bold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
             </div>
             {/* STATEMENT Section */}
-            {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
+            {isLoading ? (
+              <div className="mb-4">
+                <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block />
+              </div>
+            ) : (
               <>
-                <div className="space-y-6 pb-6 rounded-2xl">
-                  {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
-                    return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} answers={isQa} onCheck={handleQaCheck} />}</div>;
-                  })}
-                  <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
-                </div>
-                <span className="border-t border-card-border flex w-full mb-6" />
-              </>
-            )}
-            {/* PAIR Section */}
-            {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
-              <>
-                <div className="space-y-4 pb-6 rounded-2xl">
-                  <PairTable pair={currentQuestionLanguage?.pairQuestion} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined} answers={isQa} onCheck={handleQaCheck} />
-                  <span className="font-bold text-xl px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
-                </div>
-                <span className="border-t border-card-border flex w-full mb-6" />
+                {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
+                  <div className="space-y-6 pb-6 rounded-2xl">
+                    {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
+                      return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} answers={isQa} onCheck={handleQaCheck} />}</div>;
+                    })}
+                    <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                  </div>
+                )}
+                {/* PAIR Section */}
+                {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
+                  <div className="space-y-4 pb-6 rounded-2xl">
+                    <PairTable pair={currentQuestionLanguage?.pairQuestion} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined} answers={isQa} onCheck={handleQaCheck} />
+                    <span className="font-bold text-xl px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                  </div>
+                )}
               </>
             )}
             {/* Passage Section */}
             {/* {QA.length > 0 && ( */}
-            <div className="bg-input-box p-3 sm:p-6 rounded-2xl">
+            <div className="rounded-2xl">
               <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {isLoading
-                  ? [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 15 }} />)
+                  ? [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 5 }} />)
                   : Object.keys(currentQuestionLanguage?.options || {}).map((opt, i) => {
                       return (
-                        <div key={i} className={`border-2 border-card-border flex items-center gap-3 m-0 rounded-2xl cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-300 hover:bg-gray-50"}`}>
+                        <div key={i} className={`border-1 border-card-border flex items-center gap-3 m-0 rounded-md cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-200 hover:bg-gray-50"}`}>
                           {<NormalQuestion key={i} id={i} opt={opt} text={currentQuestionLanguage?.options[opt] || ""} answers={isAnswers} onCheck={handleAnswersCheck} />}
                         </div>
                       );
@@ -455,7 +472,7 @@ const Question = () => {
             <section id="QA_Buttons" className="w-full">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 my-8 max-xl:justify-center">
                 {ConfidenceButtons.map((btn, i) => (
-                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:animate-pulse ${btn.color} ${isConfidence === btn.value ? "animate-pulse scale-90" : ""}`}>
+                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-semibold text-white rounded-lg transition-all duration-200 ${btn.color} ${isConfidence === "" ? "opacity-100" : isConfidence === btn.value ? "opacity-100" : "opacity-30"}`}>
                     {btn.icon}
                     {btn.label}
                   </button>
@@ -469,7 +486,7 @@ const Question = () => {
           </div>
 
           {/* Right Panel */}
-          <div onClick={() => setOpen(!isOpen)} className="bg-input-box p-6 rounded-2xl w-full h-full max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
+          <div onClick={() => setOpen(!isOpen)} className="border-2 shadow-md border-input-box p-6 rounded-lg w-full h-full max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
             {/* Legend */}
             <div onClick={(e) => e.stopPropagation()} className="2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] w-full max-2xl:max-w-[400px] max-2xl:min-w-[200px] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
               <div className="mb-6 hidden max-2xl:block">

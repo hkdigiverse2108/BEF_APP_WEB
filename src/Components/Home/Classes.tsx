@@ -25,9 +25,11 @@ const Classes = () => {
           <div className="pb-5">
             <div className="flex justify-between items-center pb-5">
               <p className="text-lg font-bold">Your Class</p>
-              <Link to={ROUTES.CLASSES.CLASSES} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded-lg text-white">
-                View All
-              </Link>
+              {(Classes?.length || 0) > 3 && (
+                <Link to={ROUTES.CLASSES.CLASSES} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded-lg text-white">
+                  View All
+                </Link>
+              )}
             </div>
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 15 }} />) : Classes?.slice(0, 3).map((item, index) => <ClassCard key={index} item={item} onClick={HandleClasses} />)}</div>
           </div>

@@ -16,6 +16,7 @@ const NavMenuDrawer = () => {
   const handleClick = (i: number, url: string) => {
     setActiveIndex(i);
     navigate(url);
+    dispatch(setNavMenuDrawer(false))
   };
 
   return (

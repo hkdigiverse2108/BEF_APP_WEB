@@ -196,8 +196,9 @@ const Recharge = () => {
   }, [userData]);
 
   return (
-    <div className="sub-container pt-8 recharge">
+    <div className="sub-container pt-4 recharge">
       <CardHeader title="Recharge" />
+      <hr className="text-card-border mt-4" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6">
         {/* IMAGE */}

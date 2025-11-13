@@ -6,7 +6,6 @@ import { IoMdTrophy } from "react-icons/io";
 import { PiBookOpenUserFill } from "react-icons/pi";
 import type { MyWinningListType } from "../../Types";
 
-
 const MyWinning: FC<{ MyWinningData: MyWinningListType }> = ({ MyWinningData }) => {
   return (
     <>
@@ -34,7 +33,7 @@ const MyWinning: FC<{ MyWinningData: MyWinningListType }> = ({ MyWinningData }) 
             {MyWinningData?.contests?.map((referral, index) => (
               <div key={index} className="rounded-xl overflow-hidden shadow-sm bg-primary">
                 <div className="py-3 px-5">
-                  <h3 className="text-white font-extrabold text-xl">{referral.subject}</h3>
+                  <h3 className="text-white font-extrabold text-xl">{referral.contestName}</h3>
                 </div>
                 <div className="p-4 bg-white border-x-2 rounded-t-xl border-primary">
                   <div className="flex justify-between items-center mb-3">
@@ -43,21 +42,29 @@ const MyWinning: FC<{ MyWinningData: MyWinningListType }> = ({ MyWinningData }) 
                   </div>
                   <div className="flex items-center gap-2 text-base font-medium border-y border-card-border py-3">
                     <PiBookOpenUserFill />
-                    {/* {referral.email} */}
+                    {referral.subject}
                   </div>
                 </div>
                 <div className="bg-success py-4 text-white">
                   <div className=" flex items-center text-xs sm:text-sm  justify-center gap-2 sm:gap-4 md:gap-8 ">
-                    <section className="flex gap-2 items-center">
-                      <FaAward />
-                      <span>{`50,000`}</span>
-                    </section>
-                    <span className="h-3 border border-l border-gray-300"></span>
-                    <section className="flex gap-2 items-center ">
-                      <IoMdTrophy />
-                      <span>10%</span>
-                    </section>
-                    <span className="h-3 border border-l border-gray-300"></span>
+                    {(referral?.ranks[0]?.price && referral?.ranks[0]?.price !== 0) && (
+                      <>
+                        <section className="flex gap-2 items-center">
+                          <FaAward />
+                          <span>{referral?.ranks[0]?.price}</span>
+                        </section>
+                        <span className="h-3 border border-l border-gray-300"></span>
+                      </>
+                    )}
+                    {referral.winnerPercentage && (
+                      <>
+                        <section className="flex gap-2 items-center">
+                          <IoMdTrophy />
+                          <span>{referral.winnerPercentage}%</span>
+                        </section>
+                        <span className="h-3 border border-l border-gray-300"></span>
+                      </>
+                    )}
                     <section className="flex gap-2 items-center ">
                       <HiCheckBadge />
                       <span>Flexible</span>

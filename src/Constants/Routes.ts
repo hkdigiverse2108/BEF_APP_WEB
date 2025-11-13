@@ -19,7 +19,7 @@ export const ROUTES = {
     RESULT: "/exam/result",
     MISTAKE_MAP_REPORT: "/exam/mistake-map-report/:id",
     SOLUTION: "/exam/solution/:id",
-    COUNT_DOWN: "/exam/count-down"
+    COUNT_DOWN: "/exam/count-down",
   },
   KYC: {
     KYC: "/kyc",

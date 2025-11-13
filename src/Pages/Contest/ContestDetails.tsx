@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import { Spin } from "antd";
+import { Skeleton, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CardHeader } from "../../Components/Common/CardHeader";
@@ -66,32 +66,28 @@ const ContestDetails = () => {
       <div className="my-12 flex flex-col gap-6">
         <CardHeader title="Mega Contest" backButton={true} />
 
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <Spin size="large" />
-          </div>
-        ) : (
-          <div className="flex flex-col lg:flex-row gap-5">
-            <div className="w-full lg:w-2/3">
-              <ContestDetailCard contestData={contestData} type={type} contestDataTime={contestDataTime} />
-            </div>
-            <div className="w-full mt-2 lg:mt-0 custom-tab-full">
-              <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
-                {tabs.map((tab, idx) => (
-                  <Tab key={idx} label={tab.label} />
-                ))}
-              </Tabs>
+        <div className="flex flex-col lg:flex-row gap-5">
+          <div className="w-full lg:w-2/3 skeleton">{isLoading ? <Skeleton.Node active style={{ width: "100%", height: 250, borderRadius: 15 }} /> : <ContestDetailCard contestData={contestData} type={type} contestDataTime={contestDataTime} />}</div>
+          <div className="w-full mt-2 lg:mt-0 custom-tab-full">
+            <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
+              {tabs.map((tab, idx) => (
+                <Tab key={idx} label={tab.label} />
+              ))}
+            </Tabs>
 
-              <div className="mt-6">
-                {tabs.map((tab, idx) => (
+            <div className="mt-6 skeleton">
+              {isLoading ? (
+                <Skeleton.Node active style={{ width: "100%", height: 200, borderRadius: 15 }} />
+              ) : (
+                tabs.map((tab, idx) => (
                   <div key={idx} hidden={tabIndex !== idx}>
                     {tab.content}
                   </div>
-                ))}
-              </div>
+                ))
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       <SubtopicDrawer />

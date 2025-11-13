@@ -44,10 +44,10 @@ const KYCRegister = () => {
   };
 
   return (
-    <div className="sub-container my-6 min-h-screen">
+    <div className="sub-container pt-4 mb-6 min-h-screen">
       <section className="flex flex-col gap-5">
         <h2 className="text-2xl font-semibold">KYC Register</h2>
-        <span className="border-b border-gray-100 w-full"></span>
+        <hr className="text-card-border mb-4" />
 
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
           {/* Left Image */}

@@ -38,7 +38,7 @@ export const CardHeader: FC<CardHeaderType> = ({
         {icon && time && (
           <section className="flex gap-1">
             <span className="text-primary">{icon}</span>
-            <span className="text-xs md:text-sm xl:text-lg font-semibold ">
+            <span className="text-sm xl:text-lg font-semibold ">
               {time}
             </span>
           </section>
