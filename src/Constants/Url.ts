@@ -90,10 +90,12 @@ export const URL_KEYS = {
     ALL: "workshop/all",
     ID: "/workshop/",
     TESTIMONIAL: "workshop-testimonial/all",
+    REGISTER_ADD: "/workshop-register/add",
   },
   COURSE: {
     ALL: "/course/all",
     ID: "/course/",
+    PURCHASE_ADD: "course-purchase/add",
   },
   MODULE: {
     ALL: "/module/all",
@@ -121,5 +123,9 @@ export const URL_KEYS = {
   },
   CONTACT_US: {
     ADD: "/contact-us/add",
+  },
+  COUPON: {
+    ALL: "coupon/all",
+    CHECK: "coupon/check",
   },
 } as const;

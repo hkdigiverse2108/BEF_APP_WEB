@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
 import ShareModal from "../../../Components/Common/ShareModal";
-import DetailsAboutTab from "../../../Components/Common/DetailsAboutTab";
+import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
 import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
 import { ImagePath, URL_KEYS } from "../../../Constants";
 import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
 import Loader1 from "../../../Components/Common/Loader1";
+import PurchaseDrawer from "../../../Components/WorkshopCourseCommon/PurchaseDrawer";
+import { setPurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
+import { useAppDispatch } from "../../../Store/hooks";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -22,6 +25,8 @@ const TabsName = [
 const CourseDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const { id }: { id?: string } = useParams();
 
@@ -46,7 +51,6 @@ const CourseDetails = () => {
     0
   );
 
-  console.log(totalLecture);
   const totalTest = Modules?.reduce(
     (sum: number, module: ModuleType) => sum + module?.totalTest,
     0
@@ -252,22 +256,30 @@ const CourseDetails = () => {
             </p>
           </div>
           <div className=" ">
-            {/* <Link to={ROUTES.COURSE.REGISTER} state={CourseDetailsData}> */}
             <FormButton
+              onClick={() => {
+                dispatch(setPurchaseDrawer());
+              }}
               htmlType="submit"
               text="Enroll Now"
               className="custom-button button button--mimas w-full sm:w-fit h-auto!"
             />
-            {/* </Link> */}
           </div>
-          {/* <div className=" md:w-1/4">
-            <NavLink to={ROUTES.COURSE.REGISTER} state={CourseDetailsData}>
-              <button className="btn primary_btn !h-12 !w-full  ">
-                Enroll Now
-              </button>
-          </div> */}
         </div>
       </section>
+      <PurchaseDrawer
+        data={{
+          type: "Course",
+          id: CourseDetailsData?._id,
+          title: CourseDetailsData?.title,
+          price: {
+            discountPrice: CourseDetailsData?.discountPrice,
+            payingPrice: CourseDetailsData?.payingPrice,
+            price: CourseDetailsData?.price,
+          },
+          modulesData: Modules,
+        }}
+      />
     </div>
   );
 };

@@ -16,4 +16,5 @@ export * from "./Question";
 export * from "./Lecture";
 export * from "./Workshop";
 export * from "./Solution";
-
+export * from "./CourseWorkshopType";
+export * from "./RazorPay";

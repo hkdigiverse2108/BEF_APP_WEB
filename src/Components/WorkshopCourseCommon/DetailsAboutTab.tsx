@@ -11,12 +11,6 @@ interface CourseAboutTabProps {
 
 const CourseAboutTab: FC<{ data: CourseAboutTabProps }> = ({ data }) => {
   const [isMore, setIsMore] = useState(false);
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = data?.pdf;
-    link.download = "brochure.pdf";
-    link.click();
-  };
 
   return (
     <section className="space-y-6" data-aos="fade-up">
@@ -54,15 +48,15 @@ const CourseAboutTab: FC<{ data: CourseAboutTabProps }> = ({ data }) => {
         </button>
       </div>
       <div>
-        <button
-          onClick={handleDownload}
+        <a
+          href={data?.pdf}
           className="flex w-full border border-gray-300 rounded-md hover:text-primary hover:border-primary transition-colors text-center justify-center py-4 gap-3 uppercase font-bold"
         >
           <span className="text-2xl">
             <TbCloudDownload />
           </span>
           download brochure
-        </button>
+        </a>
       </div>
     </section>
   );

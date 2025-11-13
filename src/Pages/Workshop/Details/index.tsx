@@ -8,7 +8,7 @@ import { FormButton } from "../../../Attribute/FormFields";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import ShareModal from "../../../Components/Common/ShareModal";
 import Loader1 from "../../../Components/Common/Loader1";
-import DetailsAboutTab from "../../../Components/Common/DetailsAboutTab";
+import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import { useParams } from "react-router-dom";
 
 const TabsName = [
