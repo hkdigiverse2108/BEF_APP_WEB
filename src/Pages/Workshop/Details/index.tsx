@@ -1,15 +1,18 @@
 import { useState, type SyntheticEvent } from "react";
 import { Tab, Tabs } from "@mui/material";
 import { ImagePath, URL_KEYS } from "../../../Constants";
-import WorkshopLecturesTab from "../../../Components/Workshop/WorkshopLecturesTab";
-import WorkshopTestimonialsTab from "../../../Components/Workshop/WorkshopTestimonialsTab";
-import WorkshopFaqsTab from "../../../Components/Workshop/WorkshopFaqsTab";
 import { FormButton } from "../../../Attribute/FormFields";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import ShareModal from "../../../Components/Common/ShareModal";
 import Loader1 from "../../../Components/Common/Loader1";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import { useParams } from "react-router-dom";
+import { useAppDispatch } from "../../../Store/hooks";
+import { setWorkshopPurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
+import WorkshopLecturesTab from "../../../Components/Workshop/Details/WorkshopLecturesTab";
+import WorkshopTestimonialsTab from "../../../Components/Workshop/Details/WorkshopTestimonialsTab";
+import WorkshopFaqTab from "../../../Components/Workshop/Details/WorkshopFaqsTab";
+import WorkshopPurchaseDrawer from "../../../Components/Workshop/WorkshopPurchaseDrawer";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -23,13 +26,29 @@ const WorkshopDetails = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const { id }: { id?: string } = useParams();
+  const dispatch = useAppDispatch();
 
-  const { data: workshopData, isLoading: workshopLoading } = useGetApiQuery({
-    // url: `${URL_KEYS.WORKSHOP.ALL}`,
-    
+  const {
+    data: workshopData,
+    isLoading: workshopLoading,
+    refetch,
+  } = useGetApiQuery({
     url: `${URL_KEYS.WORKSHOP.ID}${id}`,
   });
   const workshop = workshopData?.data || {};
+
+  console.log("Workshop : ", workshop);
+
+  const { data: LectureData, isLoading: isLecturesLoading } = useGetApiQuery(
+    {
+      url: `${URL_KEYS.LECTURE.ALL}?workshopFilter=${workshop?._id}`,
+    },
+    { skip: !workshop?._id }
+  );
+
+  const Lectures = LectureData?.data?.lecture_data;
+
+  console.log("Lectures : ", Lectures);
 
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
@@ -149,35 +168,56 @@ const WorkshopDetails = () => {
             />
           )}
           {tabIndex === "lectures" && (
-            <WorkshopLecturesTab id={workshop?._id} />
+            <WorkshopLecturesTab
+              isUnlocked={workshop?.isUnlocked}
+              id={workshop?._id}
+            />
           )}
           {tabIndex === "Testimonials" && <WorkshopTestimonialsTab />}
-          {tabIndex === "faqs" && <WorkshopFaqsTab />}
+          {tabIndex === "faqs" && <WorkshopFaqTab />}
         </div>
       </section>
 
       {/* ==== Fixed Section ==== */}
-      <section className="fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
-        <div className=" container-p py-2 sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
-          <div>
-            <p className="text-gray-600 font-medium">Price</p>
-            <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
-              <span>₹{workshop?.discountAmount}</span>
-              <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">
-                {workshop?.totalAmount}
-              </span>
-            </h1>
-          </div>
+      {!workshop?.isUnlocked && (
+        <section className="fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
+          <div className=" container-p py-2 sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
+            <div>
+              <p className="text-gray-600 font-medium">Price</p>
+              <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
+                <span>₹{workshop?.discountAmount}</span>
+                <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">
+                  {workshop?.totalAmount}
+                </span>
+              </h1>
+            </div>
 
-          <div>
-            <FormButton
-              htmlType="submit"
-              text="Enroll Now"
-              className="custom-button button button--mimas w-full sm:w-fit h-auto!"
-            />
+            <div>
+              <FormButton
+                onClick={() => {
+                  dispatch(setWorkshopPurchaseDrawer());
+                }}
+                htmlType="submit"
+                text="Enroll Now"
+                className="custom-button button button--mimas w-full sm:w-fit h-auto!"
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      <WorkshopPurchaseDrawer
+        data={{
+          id: workshop?._id,
+          title: workshop?.title,
+          price: {
+            discountPrice: workshop?.discountAmount,
+            price: workshop?.totalAmount,
+          },
+          lecturesData: Lectures,
+        }}
+        refetch={refetch}
+      />
     </div>
   );
 };

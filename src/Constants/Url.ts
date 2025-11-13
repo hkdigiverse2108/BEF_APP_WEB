@@ -74,6 +74,7 @@ export const URL_KEYS = {
     ADD: "/upload",
   },
   TRANSACTION: {
+    ADD: "/transaction/add",
     ALL: "/transaction/all",
   },
   RESULT_REPORT: {

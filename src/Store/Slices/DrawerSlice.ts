@@ -12,7 +12,8 @@ const initialState = {
   isInstructionsDrawer: false,
   isReportModal: false,
   isContestFilterDrawer: { open: false },
-  isPurchaseDrawer: false,
+  isCoursePurchaseDrawer: false,
+  isWorkshopPurchaseDrawer: false,
   isPaymentConfirmModal: false,
 };
 
@@ -53,8 +54,11 @@ const DrawerSlice = createSlice({
     setContestFilterDrawer: (state, actions) => {
       state.isContestFilterDrawer = actions.payload;
     },
-    setPurchaseDrawer: (state) => {
-      state.isPurchaseDrawer = !state.isPurchaseDrawer;
+    setCoursePurchaseDrawer: (state) => {
+      state.isCoursePurchaseDrawer = !state.isCoursePurchaseDrawer;
+    },
+    setWorkshopPurchaseDrawer: (state) => {
+      state.isWorkshopPurchaseDrawer = !state.isWorkshopPurchaseDrawer;
     },
     setPaymentConfirmModal: (state) => {
       state.isPaymentConfirmModal = !state.isPaymentConfirmModal;
@@ -74,7 +78,8 @@ export const {
   setInstructionsDrawer,
   setReportModal,
   setContestFilterDrawer,
-  setPurchaseDrawer,
+  setCoursePurchaseDrawer,
+  setWorkshopPurchaseDrawer,
   setPaymentConfirmModal,
 } = DrawerSlice.actions;
 export default DrawerSlice.reducer;

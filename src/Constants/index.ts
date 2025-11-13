@@ -21,4 +21,24 @@ export const PAYMENT_STATUS = {
   FAILED: "FAILED",
 } as const;
 
+export const TRANSACTION_TYPE = {
+  DEPOSIT: "deposit",
+  WITHDRAW: "withdraw",
+} as const;
+
+export const TRANSACTION_STATUS = {
+  SUCCESS: "success",
+  FAILED: "failed",
+} as const;
+
+export const EARNING_TYPE = {
+  CONTEST: "contest",
+  CONTEST_PAID_USER: "contestPaidUser",
+  REWARD: "reward",
+  CONTEST_USER_REFERRAL: "userReferral",
+  CONTEST_WINNING: "contestWinning",
+  COURSE: "course",
+  WORKSHOP: "workshop",
+} as const;
+
 export { KEYS, ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS };

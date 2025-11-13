@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useGetApiQuery } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
-import type { LectureType } from "../../Types";
-import LectureCard from "../WorkshopCourseCommon/LectureCard";
-import VideoModal from "../Common/VideoModal";
+import type { LectureType } from "../../../Types";
+import { useGetApiQuery } from "../../../Api/CommonApi";
+import { URL_KEYS } from "../../../Constants";
+import LectureCard from "../../WorkshopCourseCommon/LectureCard";
+import VideoModal from "../../Common/VideoModal";
 
-const WorkshopLecturesTab = ({ id }: { id?: string }) => {
+const WorkshopLecturesTab = ({
+  id,
+  isUnlocked,
+}: {
+  id?: string;
+  isUnlocked: boolean;
+}) => {
   const [playVideo, setPlayVideo] = useState(false);
   const [videoLink, setVideoLink] = useState("");
 
@@ -21,6 +27,7 @@ const WorkshopLecturesTab = ({ id }: { id?: string }) => {
         {Lectures?.map((lecture: LectureType) => (
           <LectureCard
             key={lecture?._id}
+            isUnlocked={isUnlocked}
             lecture={lecture}
             setPlayVideo={setPlayVideo}
             setVideoLink={setVideoLink}

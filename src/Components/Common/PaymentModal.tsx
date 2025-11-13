@@ -1,9 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { PAYMENT_STATUS, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { Storage } from "../../Utils";
-import type { PaymentModalProps, RazorpayOptions, RazorpayResponse } from "../../Types";
-
+import type {
+  PaymentModalProps,
+  PaymentStatusType,
+  RazorpayOptions,
+  RazorpayResponse,
+} from "../../Types";
+import { FormButton } from "../../Attribute/FormFields";
 
 declare global {
   interface Window {
@@ -17,13 +22,16 @@ declare global {
   }
 }
 
-
 const PaymentModal: React.FC<PaymentModalProps> = ({
+  isLoading,
+  btnText,
   amount,
   onPaymentComplete,
 }) => {
+  const hasHandledPayment = useRef<string | null>(null);
+
   const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
-  const RazorPayKey = settingData?.data;
+  const RazorPayKey = settingData?.data?.apiKey;
 
   const userFromLs = JSON.parse(Storage.getItem(STORAGE_KEYS?.USER) || "");
   const { firstName, lastName, email, contact } = userFromLs;
@@ -45,14 +53,21 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
       return;
     }
 
-    // const amount = Number(amount);
+    const safeComplete = (status: PaymentStatusType, response: any) => {
+      const currentPaymentId =
+        response?.razorpay_payment_id || "FAILED_ATTEMPT";
+
+      if (hasHandledPayment.current === currentPaymentId) return;
+      hasHandledPayment.current = currentPaymentId;
+      onPaymentComplete(status, response, RazorPayKey);
+    };
 
     const options: RazorpayOptions = {
-      key: RazorPayKey.apiKey,
+      key: RazorPayKey,
       amount: amount * 100,
       currency: "INR",
-      name: "BEF",
-      handler: (res) => onPaymentComplete(PAYMENT_STATUS.COMPLETED, res),
+      name: "BHARAT EXAM FEST",
+      handler: (res) => safeComplete(PAYMENT_STATUS.COMPLETED, res),
       prefill: {
         name: fullName,
         email: email,
@@ -62,22 +77,29 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     };
 
     const rzp = new window.Razorpay(options);
-    rzp.on("payment.failed", (res) => {
+
+    const handleFail = (res: any) => {
       const failedResponse = {
         razorpay_payment_id: res?.error?.metadata?.payment_id || "",
         error: res?.error,
       };
-      onPaymentComplete(PAYMENT_STATUS.FAILED, failedResponse);
-    });
+      safeComplete(PAYMENT_STATUS.FAILED, failedResponse);
+    };
+
+    rzp.on("payment.failed", handleFail);
 
     rzp.open();
   };
 
-  useEffect(() => {
-    if (RazorPayKey?.apiKey) startPayment();
-  }, [RazorPayKey]);
-
-  return null;
+  return (
+    <FormButton
+      onClick={startPayment}
+      disabled={!RazorPayKey || isLoading}
+      loading={isLoading}
+      text={btnText}
+      className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe"
+    />
+  );
 };
 
 export default PaymentModal;

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import type { FAQ } from "../../Types";
-import FaqCard from "../Common/FaqCard";
-import { useGetApiQuery } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
+import { useGetApiQuery } from "../../../Api/CommonApi";
+import { URL_KEYS } from "../../../Constants";
+import type { FAQ } from "../../../Types";
+import FaqCard from "../../Common/FaqCard";
+
 
 const WorkshopFaqTab = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);

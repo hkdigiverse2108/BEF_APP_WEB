@@ -7,6 +7,7 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 const { Search } = Input;
 
 interface CouponCodeCheckProps {
+  setIsRefferLoading: React.Dispatch<React.SetStateAction<boolean>>;
   price: number;
   isRefferApplyed: boolean;
   setIsRefferApplyed: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,13 +16,13 @@ interface CouponCodeCheckProps {
 }
 
 const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
+  setIsRefferLoading,
   price,
   isRefferApplyed,
   setIsRefferApplyed,
   refferCode,
   setRefferCode,
 }) => {
-  // const [refferCode, setRefferCode] = useState("");
   const [error, setError] = useState("");
 
   const [PostApi, { isLoading: isCouponCheckLoading }] = usePostApiMutation();
@@ -32,8 +33,6 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
 
   const defaultCoupon = CouponData?.data?.coupon_data[0]?.code;
 
-  console.log("def", defaultCoupon);
-
   const handleAplyyReferCode = async () => {
     if (!refferCode.trim()) {
       setIsRefferApplyed(false);
@@ -43,6 +42,7 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
 
     try {
       setError("");
+      setIsRefferLoading(true);
 
       const payload = {
         code: refferCode,
@@ -55,6 +55,7 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
       });
 
       const resData = res?.data?.data;
+      setIsRefferLoading(false);
 
       if (resData?.isValid) {
         setIsRefferApplyed(true);
@@ -94,6 +95,13 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
       setRefferCode(defaultCoupon);
     }
   }, [defaultCoupon]);
+
+  useEffect(() => {
+    setIsRefferLoading(true);
+    if (!isCouponLoading) {
+      setIsRefferLoading(false);
+    }
+  }, [isCouponLoading]);
 
   return (
     <div className="font-bold purchase-Drawer  w-full">

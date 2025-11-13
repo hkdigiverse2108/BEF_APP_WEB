@@ -1,4 +1,5 @@
 import type { ModuleType } from "./Course";
+import type { LectureType } from "./Lecture";
 
 export interface PriceInfo {
   discountPrice?: number;
@@ -8,9 +9,9 @@ export interface PriceInfo {
 
 export interface PurchaseData {
   id: string;
-  type: "Course" | "Workshop";
   title?: string;
   price: PriceInfo;
   modulesData?: ModuleType[];
+  lecturesData?: LectureType[];
   // isDiscountPrice? : boolean;
 }
