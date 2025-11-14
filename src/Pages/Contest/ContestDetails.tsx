@@ -1,12 +1,12 @@
 import { Tab, Tabs } from "@mui/material";
-import { Skeleton, Spin } from "antd";
+import { Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useGetApiQuery } from "../../Api/CommonApi";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import ContestDetailCard from "../../Components/Contest/ContestDetailCard";
 import SubtopicDrawer from "../../Components/Home/SubtopicDrawer";
 import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
-import { useGetApiQuery } from "../../Api/CommonApi";
 import type { ContestPrize } from "../../Types";
 
 const ContestDetails = () => {

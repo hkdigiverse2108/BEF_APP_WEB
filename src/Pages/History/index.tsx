@@ -1,4 +1,4 @@
-import { Select, Spin } from "antd";
+import { Empty, Select, Skeleton } from "antd";
 import { useState } from "react";
 import { BsGraphDownArrow, BsGraphUpArrow } from "react-icons/bs";
 import { useGetApiQuery } from "../../Api/CommonApi";
@@ -21,18 +21,19 @@ const History = () => {
           <div className="w-full flex justify-end mb-3">
             <Select defaultValue="All History" size="large" allowClear onChange={(e) => setHistory(e)} options={HistoryOptions} />
           </div>
+
           {isLoading ? (
-            <div className="flex items-center justify-center">
-              <Spin size="large" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[...Array(10)].map((_, i) => (
+                <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 5 }} />
+              ))}
             </div>
-          ) : (
+          ) : HistoryData?.length !== 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {HistoryData?.map((item, index) => (
                 <div key={index} className="flex flex-wrap justify-between items-center gap-3 bg-input-box border border-card-border p-3 rounded-lg">
                   <div className="flex justify-between items-center gap-3">
-                    <div className="bg-white rounded-xl w-10 h-10 flex justify-center items-center">
-                      {item?.transactionType === "withdraw" ? <BsGraphDownArrow className="text-lg"/> : <BsGraphUpArrow className="text-lg"/>}
-                    </div>
+                    <div className="bg-white rounded-xl w-10 h-10 flex justify-center items-center">{item?.transactionType === "withdraw" ? <BsGraphDownArrow className="text-lg" /> : <BsGraphUpArrow className="text-lg" />}</div>
                     <div>
                       <span className="text-md font-bold capitalize">{item?.title}</span>
                       <p className="capitalize flex text-xs">{FormatDateTime(item?.createdAt)}</p>
@@ -45,6 +46,10 @@ const History = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : (
+            <div className="">
+              <Empty />
             </div>
           )}
         </div>
