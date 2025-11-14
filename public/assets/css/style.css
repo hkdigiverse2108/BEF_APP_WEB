@@ -365,7 +365,7 @@ input {
 /* ================  Video Modal Section End ================ */
 
 .video-Modal .ant-modal-content {
-  @apply !p-0;
+  @apply !p-0  ;
 }
 .video-Modal .ant-modal-close {
   @apply !hidden;
