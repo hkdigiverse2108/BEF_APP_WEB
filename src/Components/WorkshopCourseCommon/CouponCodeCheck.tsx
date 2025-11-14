@@ -104,7 +104,7 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
   }, [isCouponLoading]);
 
   return (
-    <div className="font-bold purchase-Drawer  w-full">
+    <div className="font-bold purchase-Drawer w-full">
       <div className={`${isRefferApplyed ? "paymentSuccess" : ""}`}>
         <Search
           placeholder="Referral Code"

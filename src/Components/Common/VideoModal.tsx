@@ -6,11 +6,7 @@ interface VideoModalType {
   videoLink: string;
 }
 
-const VideoModal = ({
-  playVideo,
-  setPlayVideo,
-  videoLink,
-}: VideoModalType) => {
+const VideoModal = ({ playVideo, setPlayVideo, videoLink }: VideoModalType) => {
   const getEmbedLink = (url: string): string => {
     if (!url) return "";
 
@@ -62,17 +58,27 @@ const VideoModal = ({
         centered
         destroyOnHidden={true}
         className="video-Modal"
+        // width={1000}
+        width={{
+          xs: "90%",
+          sm: "80%",
+          md: "70%",
+          lg: "60%",
+          xl: "50%",
+          xxl: "40%",
+        }}
       >
         {playVideo && (
           <iframe
             width="100%"
-            height="400"
+            // height="400"
             src={embedUrl}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
+            className=" h-[250px] w-full sm:h-[400px] md:h-[500px]  scale-120"
           ></iframe>
         )}
       </Modal>
