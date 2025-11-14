@@ -16,15 +16,14 @@ const KYC = () => {
   const KYCData = data?.data?.kyc_data[0];
 
   return (
-    <div className="sub-container mt-4 mb-6 min-h-screen">
+    <div className="sub-container mt-4 mb-6">
       <CardHeader title="KYC" />
       <hr className="text-card-border my-4" />
       <section className="flex flex-col gap-5">
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
           <div className="rounded-lg overflow-hidden w-full ">
-            <img src={`${ImagePath}kyc/KYC_Banner.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />
+            <img src={`${ImagePath}kyc/KYC_Banner.jpg`} alt="Recharge Wallet" className="w-full h-full object-cover" />
           </div>
-
           <div className="flex flex-col w-full  h-full justify-center">
             <h3 className="text-2xl font-bold mb-2">Nexify Learning Solution LLP</h3>
             <p className=" text-gray-700 mb-6">KYC verification is mandatory for cash withdrawal to ensure authenticity and compliance with legal regulations. Any incomplete or incorrect information may Result in delays in the process.</p>

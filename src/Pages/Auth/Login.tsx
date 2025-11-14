@@ -13,7 +13,7 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
 
-  const [PostGlobalApi , { isLoading }] = usePostGlobalApiMutation({});
+  const [PostGlobalApi, { isLoading }] = usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -43,9 +43,9 @@ const Login = () => {
       <div className="flex justify-between h-screen items-center w-full p-3">
         {/* Left side */}
         <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
-          <div className="w-full p-4 sm:p-8 lg:p-12 ">
+          {/* <div className="w-full p-4 sm:p-8 lg:p-12 ">
             <div className="z-20 text-center w-full 2xl:top-14 flex flex-col gap-3 ">
-              <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
+            <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
                 Our Learning
                 <br />
                 Dashboard
@@ -55,9 +55,10 @@ const Login = () => {
             <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
             <figure className="absolute inset-x-0 bottom-40 flex justify-center">
               <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/LoginVectorBox.png" />
-            </figure>
+              </figure>
             <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
-          </div>
+          </div> */}
+          <img className="w-full " alt="Group" src="/assets/images/auth/login.jpg" />
         </div>
 
         {/* Right side */}
@@ -126,7 +127,7 @@ const Login = () => {
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
                       <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
-                     {/* <button
+                      {/* <button
   className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
              bg-gradient-to-r from-orange-500 to-green-600
              shadow-md transition-all duration-500 ease-out
@@ -140,7 +141,6 @@ const Login = () => {
                opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
   ></span>
 </button> */}
-
                     </Form.Item>
                   </Col>
                 </Row>

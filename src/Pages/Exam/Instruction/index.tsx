@@ -17,15 +17,38 @@ const ExamInstruction = () => {
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
 
+  console.log(contestStartDate);
   const handleNextButton = () => {
-    const now = Date.now();
-    const start = new Date(contestStartDate).getTime();
-    const endLimit = start + 10 * 60 * 1000;
+    // const now = Date.now();
+    // const start = new Date(contestStartDate).getTime();
+    // const endLimit = start + 10 * 60 * 1000;
 
-    if (now >= start && now <= endLimit) {
+    // if (now >= start && now <= endLimit) {
+    //   navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
+    // } else {
+    //   if (now <= start) {
+    //     messageApi.warning("Contest has not started yet!");
+    //   } else {
+    //     messageApi.warning("Contest time window is closed!");
+    //   }
+    // }
+
+    const now = new Date();
+    now.setSeconds(0, 0); // remove seconds + ms
+
+    const startDate = new Date(contestStartDate);
+    startDate.setSeconds(0, 0); // remove seconds + ms
+
+    const nowMs = now.getTime();
+    const startMs = startDate.getTime();
+
+    // 10 min window
+    const endLimit = startMs + 10 * 60 * 1000;
+
+    if (nowMs >= startMs && nowMs <= endLimit) {
       navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
     } else {
-      if (now <= start) {
+      if (nowMs < startMs) {
         messageApi.warning("Contest has not started yet!");
       } else {
         messageApi.warning("Contest time window is closed!");

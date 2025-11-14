@@ -133,7 +133,7 @@ const Recharge = () => {
         {/* IMAGE */}
         <div className="rounded-lg overflow-hidden shadow-md">
           <img
-            src={`${ImagePath}recharge/Recharge-bg.png`}
+            src={`${ImagePath}recharge/Recharge-bg.jpg`}
             alt="Recharge Wallet"
             className="w-full h-full object-cover"
           />

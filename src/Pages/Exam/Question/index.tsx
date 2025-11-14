@@ -41,26 +41,47 @@ const Question = () => {
 
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
 
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+
   useEffect(() => {
     if (!contestId) {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
-      navigate(ROUTES.CONTEST.MY_CONTEST);
+      Navigate(ROUTES.CONTEST.MY_CONTEST);
     }
-  }, [contestId, navigate]);
+  }, [contestId, Navigate]);
+
+useEffect(() => {
+  // 🔙 Block Back Button only
+  const handleBack = (e: PopStateEvent) => {
+    e.preventDefault();
+    alert("Please click End Test before leaving!");
+    window.history.pushState(null, "", window.location.href);
+  };
+
+  // Back button trap
+  window.history.pushState(null, "", window.location.href);
+  window.addEventListener("popstate", handleBack);
+
+  return () => {
+    window.removeEventListener("popstate", handleBack);
+  };
+}, []);
+
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({ url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}` });
   const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
   const stored = Storage.getItem(STORAGE_KEYS.EXAM_QA_ALL);
+
   useEffect(() => {
     if (stored) {
       setQAData(JSON.parse(stored));
     }
   }, [stored]);
+
   useEffect(() => {
     if (stored) return;
     if (!isLoading && QAApiData?.data) {
@@ -221,7 +242,7 @@ const Question = () => {
     const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
     if (res?.data?.status === HTTP_STATUS.OK) {
       queryParam.delete("contestId");
-      navigate(`${ROUTES.EXAM.QUESTION}${queryParam}`);
+      Navigate(`${ROUTES.EXAM.QUESTION}${queryParam}`);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
       setAnswers({});
@@ -230,7 +251,7 @@ const Question = () => {
       setAnswersType(["unanswered"]);
       setSkip(false);
       setQAData(null);
-      navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || "" } });
+      Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || "" } });
     }
   };
 
@@ -244,6 +265,18 @@ const Question = () => {
 
     return () => clearInterval(timer);
   }, [isFinished]);
+
+//   useEffect(() => {
+//   const handler = () => {
+//     // handleEndTestDrawer(); // works here!
+//     alert("Please click End Test before leaving!");
+//   };
+//   window.addEventListener("visibilitychange", () => {
+//     if (document.visibilityState === "hidden") handler();
+//   });
+//   return () => window.removeEventListener("visibilitychange", handler);
+// }, []);
+
 
   const handleNextQueClick = async () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -342,20 +375,6 @@ const Question = () => {
       return next;
     });
     if (currentQuestionNumber === QA.length) {
-      // updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, { contestEndTime: new Date() });
-      // const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
-      // const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
-      // if (res?.data?.status === HTTP_STATUS.OK) {
-      //   Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
-      //   Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
-      //   setAnswers({});
-      //   setQa({});
-      //   setConfidence("");
-      //   setAnswersType(["unanswered"]);
-      //   setSkip(false);
-      //   setQAData(null);
-      //   navigate(ROUTES.EXAM.COUNT_DOWN);
-      // }
       handleEndTestDrawer();
     }
   };
