@@ -69,7 +69,7 @@ const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType 
           <div className="h-full relative py-6 ps-4 flex items-center gap-2">
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
             <div className="text-left">
-              <h3 className="text-2xl font-bold">LogicPlay</h3>
+              <h3 className="text-2xl font-bold">Logic Play</h3>
               <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">Questions answered with complete confidence and accuracy.</p>
             </div>
           </div>
@@ -88,7 +88,7 @@ const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType 
           <div className="h-full relative py-6 ps-4 flex items-center gap-2">
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
             <div className="text-left">
-              <h3 className="text-2xl font-bold">IntuitionHit</h3>
+              <h3 className="text-2xl font-bold">Intuition Hit</h3>
               <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">Questions answered with complete confidence and accuracy.</p>
             </div>
           </div>
@@ -107,7 +107,7 @@ const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType 
           <div className="h-full relative py-6 ps-4 flex items-center gap-2">
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
             <div className="text-left">
-              <h3 className="text-2xl font-bold">BlindFire</h3>
+              <h3 className="text-2xl font-bold">Blind Fire</h3>
               <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">Questions answered with complete confidence and accuracy.</p>
             </div>
           </div>

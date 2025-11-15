@@ -29,7 +29,12 @@ const Summary: FC<{ AttemptingStrategyWise: SubjectSummaryType; SubWise: Subject
     { title: "Very Strong", color: "bg-success-light", range: "80% - 100%", items: AttemptingStrategyWise?.["Very Strong"]?.map((item) => item?.subjectName) },
   ];
   const currentSections = tabIndex === 0 ? Sections : aiSections;
-
+  const formatType = (str: string) => {
+    return str
+      .replace(/([A-Z])/g, " $1")
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  };
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -57,7 +62,7 @@ const Summary: FC<{ AttemptingStrategyWise: SubjectSummaryType; SubWise: Subject
                 <div className="px-8 py-4 rounded-b-lg">
                   <ul className="list-disc space-y-2">
                     {items?.map((item, j) => (
-                      <li key={j}>{item}</li>
+                      <li key={j} className="capitalize">{formatType(item)}</li>
                     ))}
                   </ul>
                 </div>

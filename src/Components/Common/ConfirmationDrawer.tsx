@@ -31,7 +31,7 @@ const ConfirmationDrawer = () => {
 
   const handleJoinButton = async () => {
     try {
-      if (UserData?.walletBalance > Number(data.fees)) {
+      if (UserData?.walletBalance >= Number(data.fees)) {
         const balancePayload = {
           contestId: data._id,
           amount: Number(totalAmount),

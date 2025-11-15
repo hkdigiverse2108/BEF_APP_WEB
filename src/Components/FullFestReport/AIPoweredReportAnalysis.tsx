@@ -12,7 +12,7 @@ const AIPoweredReportAnalysis: FC<{ data: FullFestReportSec1Type; isLoading: boo
       <div className="h-full relative py-6 ps-4 flex items-center gap-2">
         <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
         <div className="text-left">
-          <h3 className="text-2xl font-bold">{item?.type || title}</h3>
+          <h3 className="text-2xl font-bold">{title}</h3>
           <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">Questions answered with complete confidence and accuracy.</p>
         </div>
       </div>
@@ -38,10 +38,10 @@ const AIPoweredReportAnalysis: FC<{ data: FullFestReportSec1Type; isLoading: boo
             [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 15 }} />)
           ) : (
             <>
-              {SubjectReport({ item: data?.firstPoweredReport[0], title: "100%Sure" })}
-              {SubjectReport({ item: data?.firstPoweredReport[1], title: "LogicPlay" })}
-              {SubjectReport({ item: data?.firstPoweredReport[2], title: "IntuitionHit" })}
-              {SubjectReport({ item: data?.firstPoweredReport[3], title: "BlindFire" })}
+              {SubjectReport({ item: data?.firstPoweredReport[0], title: "100% Sure" })}
+              {SubjectReport({ item: data?.firstPoweredReport[1], title: "Logic Play" })}
+              {SubjectReport({ item: data?.firstPoweredReport[2], title: "Intuition Hit" })}
+              {SubjectReport({ item: data?.firstPoweredReport[3], title: "Blind Fire" })}
             </>
           )}
         </div>

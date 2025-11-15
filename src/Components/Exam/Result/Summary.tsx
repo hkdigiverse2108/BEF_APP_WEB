@@ -57,6 +57,12 @@ const Summary: FC<{ data: Sec1Type }> = ({ data }) => {
   ];
 
   const currentSections = tabIndex === 0 ? sections : aiSections;
+  const formatType = (str: string) => {
+    return str
+      .replace(/([A-Z])/g, " $1")
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  };
 
   return (
     <>
@@ -81,7 +87,9 @@ const Summary: FC<{ data: Sec1Type }> = ({ data }) => {
                 <div className="px-8 py-4 rounded-b-lg">
                   <ul className="list-disc space-y-2">
                     {items?.map((item, j) => (
-                      <li key={j}>{item}</li>
+                      <li key={j} className="capitalize">
+                        {formatType(item)}
+                      </li>
                     ))}
                   </ul>
                 </div>

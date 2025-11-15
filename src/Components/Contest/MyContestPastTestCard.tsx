@@ -48,15 +48,15 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center border-t border-gray-200 px-4 text-sm font-semibold">
-        <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
+      <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-4 text-sm font-semibold">
+        <div className="flex flex-row max-sm:flex-col items-center sm:gap-4 w-full h-full p-3">
           <img className="object-cover w-10 h-10 rounded-full border-2 border-white" src={subjectImage} alt={subjectName} />
           <div className="grid gap-1 w-full">
             <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">{subjectName}</h3>
           </div>
         </div>
 
-        <section className="flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
+        <section className="max-sm:hidden flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
           <span className="text-2xl">
             <BsFillAlarmFill />
           </span>

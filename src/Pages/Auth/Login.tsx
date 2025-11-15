@@ -2,7 +2,7 @@ import { Col, Form, Row } from "antd";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
-import { ROUTES, URL_KEYS } from "../../Constants";
+import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import { useAppDispatch } from "../../Store/hooks";
@@ -40,25 +40,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
-      <div className="flex justify-between h-screen items-center w-full p-3">
+      <div className="flex justify-between h-screen items-center w-full ">
         {/* Left side */}
-        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
-          {/* <div className="w-full p-4 sm:p-8 lg:p-12 ">
-            <div className="z-20 text-center w-full 2xl:top-14 flex flex-col gap-3 ">
-            <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
-                Our Learning
-                <br />
-                Dashboard
-              </h1>
-              <p className="font-medium text-xl leading-relaxed mx-auto">Track your progress, get instant performance insights.</p>
-            </div>
-            <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
-            <figure className="absolute inset-x-0 bottom-40 flex justify-center">
-              <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/LoginVectorBox.png" />
-              </figure>
-            <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
-          </div> */}
-          <img className="w-full " alt="Group" src="/assets/images/auth/login.jpg" />
+        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-r border-gray-100 overflow-hidden">
+          <img className="w-full " alt="Group" src={`${ImagePath}auth/login.jpg`} />
         </div>
 
         {/* Right side */}

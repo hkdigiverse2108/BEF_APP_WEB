@@ -20,32 +20,11 @@ const HeroBanner = () => {
           Banners?.map((item: any) => {
             return (
               <SwiperSlide>
-                <img src={item?.image} alt="banner" className="w-full rounded-2xl overflow-hidden" />
+                <img src={item?.image} alt="banner" className="w-full rounded-lg overflow-hidden" />
               </SwiperSlide>
             );
           })
         )}
-        {/* <SwiperSlide>
-          <img
-            src={`${ImagePath}banner/Banner1.jpg`}
-            alt="logo"
-            className="w-full max-sm:h-[137px]"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src={`${ImagePath}banner/Banner1.jpg`}
-            alt="logo"
-            className="w-full max-sm:h-[137px]"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src={`${ImagePath}banner/Banner1.jpg`}
-            alt="logo"
-            className="w-full max-sm:h-[137px]"
-          />
-        </SwiperSlide> */}
       </Swiper>
     </div>
   );

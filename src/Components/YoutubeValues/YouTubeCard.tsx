@@ -16,7 +16,7 @@ const YouTubeCard: React.FC<YouTubeCardProps> = ({ videoId, title, type, thumbna
   };
 
   return (
-    <div className="w-full h-fit rounded-2xl overflow-hidden cursor-pointer shadow transition hover:shadow-lg">
+    <div className="w-full h-fit rounded-lg overflow-hidden cursor-pointer shadow transition hover:shadow-lg">
       {type === "instagram" ? (
         <div className="h-full">
           <InstagramEmbed url={videoId} width="100%"  />

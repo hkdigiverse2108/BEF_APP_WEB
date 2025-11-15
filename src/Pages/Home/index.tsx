@@ -1,7 +1,6 @@
 import Classes from "../../Components/Home/Classes";
 import Course from "../../Components/Home/Course";
 import HeroBanner from "../../Components/Home/HeroBanner";
-// import SocialMediaEngage from "../../Components/Home/SocialMediaEngage";
 import YoutubeValues from "../../Components/Home/YoutubeValues";
 
 const Home = () => {
