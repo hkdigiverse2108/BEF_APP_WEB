@@ -17,8 +17,6 @@ const Leaderboard: FC<{ tabIndex: number; contest: { endDate: string; startDate:
 
   const LeaderboardData = data?.data?.[0]?.ranks?.flatMap((rank) => rank?.winners?.filter((win) => win?.userId === user?._id) || []);
 
-  console.log("LeaderboardData", LeaderboardData);
-
   // const players = [
   //   { id: 2, name: "MADELYN DIAS", score: "1,469 QP", color: "bg-success", img: `${ImagePath}user/User2.png`, size: "w-40 h-35 text-3xl" },
   //   { id: 1, name: "DAVIS CURTIS", score: "1,469 QP", color: "bg-primary", img: `${ImagePath}user/User3.png`, size: "w-50 h-45 text-6xl" },

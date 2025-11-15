@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCountDown } from "../../../Utils/Hook";
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import { ImagePath, ROUTES } from "../../../Constants";
 
 const CountDown = () => {
@@ -11,8 +11,22 @@ const CountDown = () => {
 
   if (isFinished) navigate(ROUTES.CONTEST.MY_CONTEST);
 
+  useEffect(() => {
+    // 🔙 Block Back Button only
+    const handleBack = (e: PopStateEvent) => {
+      e.preventDefault();
+      window.history.pushState(null, "", window.location.href);
+    };
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handleBack);
+
+    return () => {
+      window.removeEventListener("popstate", handleBack);
+    };
+  }, []);
+
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center  bg-cover bg-center" style={{backgroundImage: `url(${ImagePath}CountDown.jpg)`}}>
+    <div className="w-full min-h-screen flex flex-col items-center justify-center  bg-cover bg-center" style={{ backgroundImage: `url(${ImagePath}CountDown.jpg)` }}>
       {/* Timer Wrapper */}
       <div className="mb-40">
         <div className="flex items-center gap-6">
@@ -32,9 +46,9 @@ const CountDown = () => {
 };
 
 const TimeBox: FC<{ title: string; value: string }> = ({ title, value }) => (
-  <div className="flex flex-col items-center rounded-xl shadow-2xl overflow-hidden bg-white/30 py-2 sm:py-4 backdrop-blur-md px-5 sm:px-11" >
-    <p className="text-3xl sm:text-4xl font-normal text-green-600">{value}</p>
-    <p className="text-black font-semibold text-center text-base">{title}</p>
+  <div className="flex flex-col items-center rounded-xl shadow-2xl overflow-hidden bg-white/30 py-2 sm:py-4 backdrop-blur-md px-5 sm:px-11">
+    <p className="text-3xl sm:text-4xl font-semibold text-green-600">{value}</p>
+    <p className="text-black font-bold text-center text-base">{title}</p>
   </div>
 );
 

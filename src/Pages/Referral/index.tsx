@@ -3,10 +3,11 @@ import { useState } from "react";
 import { FaCalendarAlt, FaUsers } from "react-icons/fa";
 import { IoCheckmarkDoneSharp, IoCopyOutline } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormButton } from "../../Attribute/FormFields";
-import HeroBanner from "../../Components/Home/HeroBanner";
-import { STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import type { ReferralApiResponse } from "../../Types";
 import { SecondFormatDate, Storage } from "../../Utils";
 
@@ -31,7 +32,13 @@ const Referral = () => {
 
   return (
     <div className="sub-container">
-      <HeroBanner />
+      <div className="my-5 rounded-md overflow-hidden">
+        <Swiper modules={[Pagination, Autoplay, EffectFade]} spaceBetween={50} slidesPerView={1} loop={true} effect={"fade"} autoplay={{ delay: 10000 }} pagination={{ clickable: true }}>
+          <SwiperSlide>
+            <img src={`${ImagePath}referral/Referral.jpg`} alt="banner" className="w-full rounded-md overflow-hidden" />
+          </SwiperSlide>
+        </Swiper>
+      </div>
       <div className="pt-6">
         <div className="flex flex-col md:flex-row justify-between gap-6 md:items-center mb-6">
           <div className="relative pl-4">

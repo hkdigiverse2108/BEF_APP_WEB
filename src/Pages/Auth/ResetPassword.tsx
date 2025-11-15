@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import type { LoginForm } from "../../Types";
-import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { Storage } from "../../Utils";
 
 const ResetPassword = () => {
@@ -41,36 +41,8 @@ const ResetPassword = () => {
   return (
     <div className="min-h-screen bg-white relative flex">
       {/* Left Side Illustration */}
-      <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10  overflow-hidden p-3">
-        <div className="w-full p-4 sm:p-8 lg:p-15 relative bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
-          <div className="z-20 text-center w-full flex flex-col gap-3">
-            <h1 className="font-semibold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
-              Pick up your
-              <br />
-              Quiz again
-            </h1>
-            <p className="font-medium text-xl leading-relaxed mx-auto">
-              Continue your learning journey.
-            </p>
-          </div>
-          <img
-            className="w-full absolute left-0 top-0"
-            alt="Group"
-            src="/assets/images/auth/VecrorGroup.png"
-          />
-          <figure className="absolute inset-x-0 bottom-20 flex justify-center">
-            <img
-              className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10"
-              alt="Group"
-              src="/assets/images/auth/Verify.png"
-            />
-          </figure>
-          <img
-            className="w-full absolute left-0 bottom-0"
-            alt="Group"
-            src="/assets/images/auth/OrangeFooter.png"
-          />
-        </div>
+       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
+               <img className="w-full" alt="Group" src={`${ImagePath}auth/ResetPassword.jpg`} />
       </div>
 
       {/* Right Side Form (scrollable) */}

@@ -5,35 +5,61 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { FormButton } from "../../Attribute/FormFields";
 import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { AntdNotification, Storage } from "../../Utils";
-import { usePostApiMutation } from "../../Api/CommonApi";
+import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { useNavigate } from "react-router-dom";
 import type { ContestCore } from "../../Types";
 
 const ConfirmationDrawer = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userData = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+
+  const { data: user } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${userData._id}` });
+  const UserData = user?.data;
+
   const { isConfirmationDrawer } = useAppSelector((state) => state.drawer);
   const { data }: { data: ContestCore } = isConfirmationDrawer;
 
   const [PostApi, { isLoading }] = usePostApiMutation();
 
+  const baseAmount = Number(data.fees || 0);
+  const gstRate = 0.18;
+
+  const amount = baseAmount.toFixed(2);
+  const totalAmount = (baseAmount * (1 + gstRate)).toFixed(2);
+  const totalGST = (baseAmount * gstRate).toFixed(2);
+
   const handleJoinButton = async () => {
     try {
-      const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
+      if (Number(UserData?.walletBalance) >= baseAmount) {
+        const balancePayload = {
+          contestId: data._id,
+          amount: Number(totalAmount),
+          title: data.name,
+          transactionStatus: "success",
+          transactionType: "withdraw",
+          earningType: "contestPaidUser",
+        };
+        const balance = await PostApi({ url: URL_KEYS.TRANSACTION.ADD, data: balancePayload });
 
-      const payload = {
-        ...data.payload,
-        ...existingLsData,
-      };
+        const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
+        const payload = {
+          ...data.payload,
+          ...existingLsData,
+        };
 
-      const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
-      
-      if (res?.data?.status === HTTP_STATUS.OK) {
-        Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
-        AntdNotification(notification, "info", "join more contests to complete win more");
-        dispatch(setConfirmationDrawer({ open: false, data: {} }));
-        navigate(ROUTES.CONTEST.MY_CONTEST);
-        console.log("payload : ", payload, res);
+        const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
+
+        if (res?.data?.status === HTTP_STATUS.OK && balance?.data?.status === HTTP_STATUS.OK) {
+          Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
+          AntdNotification(notification, "info", "join more contests to complete win more");
+          dispatch(setConfirmationDrawer({ open: false, data: {} }));
+          navigate(ROUTES.CONTEST.MY_CONTEST);
+        }
+      } else {
+        console.log("aa");
+        
+        // navigate(ROUTES.RECHARGE.RECHARGE);
       }
     } catch (error) {
       console.log(error);
@@ -61,27 +87,21 @@ const ConfirmationDrawer = () => {
               <div className="space-y-1 bg-white p-3 rounded-lg">
                 <div className="flex justify-between text-gray-800 text-sm font-semibold">
                   <span>Entry Fee</span>
-                  <span>
-                    {data.fees}
-                    {/* {data.fees || "₹35.00"} */}
-                  </span>
+                  <span>₹{amount}</span>
                 </div>
-                <div className="flex justify-between text-gray-800 text-sm font-semibold">
-                  <span>Bonus Applied</span>
-                  <span>-₹00.00</span>
+                <div className="flex justify-between text-gray-800 text-sm font-bold">
+                  <span>Govt. Tax (18% GST)</span>
+                  <span>₹{totalGST}</span>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between font-normal text-xl">
                   <span>Total Pay</span>
-                  <span className="text-green-600">
-                    ₹{data.fees}
-                    {/* {data.fees || "₹35.00"} */}
-                  </span>
+                  <span className="text-green-600">₹{totalAmount}</span>
                 </div>
 
                 <div className="mt-4 border border-red-200 bg-red-50 rounded-md p-3 text-xs text-gray-600 flex items-start gap-2">
                   <ExclamationCircleOutlined className="text-red-500 mt-0.5" />
-                  <p>By joining, you confirm you are not a resident of Assam, Odisha, Telangana, Nagaland, or Sikkim, and agree to NBA Fantasy’s T&Cs.</p>
+                  <p>By joining the test, you confirm that you are agree our T&C.</p>
                 </div>
               </div>
 

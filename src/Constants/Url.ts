@@ -126,7 +126,10 @@ export const URL_KEYS = {
     ADD: "/contact-us/add",
   },
   COUPON: {
-    ALL: "coupon/all",
-    CHECK: "coupon/check",
+    ALL: "/coupon/all",
+    CHECK: "/coupon/check",
   },
+  YOUTUBE_VISUALS:{
+    All:"/youtube-visuals/all"
+  }
 } as const;

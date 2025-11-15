@@ -80,17 +80,17 @@ export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onChec
 
   return (
     <div className="w-full overflow-x-auto mb-4 question">
-      <div className="w-full border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
-        <table className="w-full border-collapse text-sm bg-white">
+      <div className="min-w-full border border-gray-300 rounded-lg overflow-x-auto bg-gray-100">
+        <table className="min-w-full border-collapse text-sm bg-white ">
           {/* --------- Header --------- */}
           <thead>
             <tr className="bg-gray-100 border-b border-gray-300">
-              {headers?.map((header, i) => (
-                <th key={i} className={`px-4 py-2 text-left font-semibold border-gray-300 ${i === headers.length - 1 ? "" : "border-e"}`}>
+              {headers.map((header, i) => (
+                <th key={i} className={`px-4 py-2 min-w-[200px] text-left font-semibold border-gray-300 ${i === headers.length - 1 ? "" : "border-e"}`}>
                   {header}
                 </th>
               ))}
-              <th className="px-4 py-2 text-center font-semibold w-[120px] border-l border-gray-300">Check</th>
+              {onCheck && answers && <th className="px-4 py-2 text-center font-semibold w-[120px] border-l border-gray-300">Action</th>}
             </tr>
           </thead>
 
@@ -102,15 +102,15 @@ export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onChec
 
               return (
                 <tr key={i} className={`${isLast ? "" : "border-b border-gray-300"}`}>
-                  {cols?.map((val, j) => (
-                    <td key={j} className={`px-4 py-2 border-gray-300 border-e`}>
+                  {cols.map((val, j) => (
+                    <td key={j} className={`px-4 py-2 border-gray-300 ${j === headers.length? "" : "border-e"}`}>
                       {val}
                     </td>
                   ))}
 
                   {/* Checkboxes */}
-                  <td className="px-4 py-2 text-center">
-                    {onCheck && answers && (
+                  {onCheck && answers && (
+                    <td className="px-4 py-2 text-center">
                       <div className="flex justify-center gap-2 text-center items-center">
                         <Checkbox checked={answers[i] === 1} onChange={() => onCheck(i, "true")}>
                           {answers[i] === 1 ? <CheckCircleFilled style={{ color: "green" }} /> : <CheckCircleOutlined style={{ color: "green" }} />}
@@ -120,8 +120,8 @@ export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onChec
                           {answers[i] === 0 ? <CloseCircleFilled style={{ color: "red" }} /> : <CloseCircleOutlined style={{ color: "red" }} />}
                         </Checkbox>
                       </div>
-                    )}
-                  </td>
+                    </td>
+                  )}
                 </tr>
               );
             })}

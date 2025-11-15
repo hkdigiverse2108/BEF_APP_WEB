@@ -20,5 +20,5 @@ export const FormatTime = (dateInput: string | Date): string => {
 };
 
 export const FormatDateTime = (dateInput: string | Date): string => {
-  return dayjs(dateInput).isValid() ? dayjs(dateInput).format("DD/MM/YYYY hh:mm A") : "";
+  return dayjs(dateInput).isValid() ? dayjs(dateInput).format("DD/MM/YYYY hh:mm") : "";
 };

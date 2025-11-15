@@ -2,7 +2,7 @@ import { Col, Form, Row } from "antd";
 import "react-international-phone/style.css";
 import { NavLink } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
-import { ROUTES, URL_KEYS } from "../../Constants";
+import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import { useAppDispatch } from "../../Store/hooks";
@@ -13,7 +13,7 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
 
-  const [PostGlobalApi , { isLoading }] = usePostGlobalApiMutation({});
+  const [PostGlobalApi, { isLoading }] = usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -40,24 +40,14 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
-      <div className="flex justify-between h-screen items-center w-full p-3">
+      <div className="flex justify-between h-screen items-center w-full ">
         {/* Left side */}
-        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
-          <div className="w-full p-4 sm:p-8 lg:p-12 ">
-            <div className="z-20 text-center w-full 2xl:top-14 flex flex-col gap-3 ">
-              <h1 className="font-semibold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
-                Our Learning
-                <br />
-                Dashboard
-              </h1>
-              <p className="font-medium text-xl leading-relaxed mx-auto">Track your progress, get instant performance insights.</p>
-            </div>
-            <img className="w-full absolute left-0 top-0" alt="Group" src="/assets/images/auth/VecrorGroup.png" />
-            <figure className="absolute inset-x-0 bottom-40 flex justify-center">
-              <img className="w-5/6 sm:w-2/3 md:w-1/2 lg:w-3/5 z-10" alt="Group" src="/assets/images/auth/LoginVectorBox.png" />
-            </figure>
-            <img className="w-full absolute left-0 bottom-0" alt="Group" src="/assets/images/auth/OrangeFooter.png" />
-          </div>
+        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-r border-gray-100 overflow-hidden">
+          <img
+            className="w-full "
+            alt="Group"
+            src={`${ImagePath}auth/login.jpg`}
+          />
         </div>
 
         {/* Right side */}
@@ -67,14 +57,23 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
+                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                    Create an Account
+                  </h2>
+                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                    Create an account or log in to explore about our website
+                  </p>
                 </div>
               </header>
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleFormSubmit}
+                className="space-y-8 lg:space-y-10"
+              >
                 <Row gutter={16}>
                   <Col span={24}>
                     <FormInput
@@ -106,7 +105,10 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="mb-1">
                       <p className="text-end text-sm lg:text-base">
-                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-semibold cursor-pointer hover:!underline !text-primary">
+                        <NavLink
+                          to={ROUTES.AUTH.FORGOT_PASSWORD}
+                          className="font-semibold cursor-pointer hover:!underline !text-primary"
+                        >
                           Forgot password ?
                         </NavLink>
                       </p>
@@ -116,8 +118,13 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
-                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-semibold cursor-pointer hover:!underline !text-primary">
+                        <span className="font-medium text-black">
+                          ARE YOU NEW HERE ?{" "}
+                        </span>
+                        <NavLink
+                          to={ROUTES.AUTH.REGISTER}
+                          className="font-semibold cursor-pointer hover:!underline !text-primary"
+                        >
                           SIGN UP
                         </NavLink>
                       </p>
@@ -125,9 +132,14 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
-                     {/* <button
-  className="w-full group relative px-10 py-3 rounded-full font-normal text-white overflow-hidden
+                      <FormButton
+                        loading={isLoading}
+                        htmlType="submit"
+                        text="LOGIN"
+                        className="custom-button button button--mimas w-full !h-auto"
+                      />
+                      {/* <button
+  className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
              bg-gradient-to-r from-orange-500 to-green-600
              shadow-md transition-all duration-500 ease-out
               hover:shadow-[0_0_25px_rgba(255,128,0,0.4)]"
@@ -140,7 +152,6 @@ const Login = () => {
                opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
   ></span>
 </button> */}
-
                     </Form.Item>
                   </Col>
                 </Row>

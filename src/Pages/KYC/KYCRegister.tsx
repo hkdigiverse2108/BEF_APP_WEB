@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
-import { ROUTES, STORAGE_KEYS } from "../../Constants";
+import { ImagePath, ROUTES, STORAGE_KEYS } from "../../Constants";
 import { updateStorage } from "../../Utils";
 
 const KYCRegister = () => {
@@ -44,7 +44,7 @@ const KYCRegister = () => {
   };
 
   return (
-    <div className="sub-container pt-4 mb-6 min-h-screen">
+    <div className="sub-container pt-4 mb-6">
       <section className="flex flex-col gap-5">
         <h2 className="text-2xl font-normal">KYC Register</h2>
         <hr className="text-card-border mb-4" />
@@ -52,12 +52,12 @@ const KYCRegister = () => {
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
           {/* Left Image */}
           <div className="rounded-lg overflow-hidden w-full">
-            <img src={`/assets/images/kyc/KYC_Banner.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />
+            <img src={`${ImagePath}kyc/KYC_Register.jpg`} alt="Recharge Wallet" className="w-full h-full object-cover" />
           </div>
 
           {/* Right Form */}
           <div className="flex flex-col w-full h-full justify-center">
-            <h3 className="text-2xl font-semibold mb-2">Nexify Learning Solution LLP</h3>
+            <h3 className="text-2xl font-bold mb-2">HK DigiVerse LLP</h3>
             <p className="text-gray-700 mb-6">KYC verification is mandatory for cash withdrawal to ensure authenticity and compliance with legal regulations. Any incomplete or incorrect information may result in delays in the process.</p>
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">

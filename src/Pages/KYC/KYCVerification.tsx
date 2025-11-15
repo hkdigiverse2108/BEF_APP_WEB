@@ -88,7 +88,7 @@ const KYCVerification = () => {
   };
 
   return (
-    <div className="sub-container pt-4 mb-8 min-h-screen ">
+    <div className="sub-container pt-4 mb-8">
       {/* ✅ Confirmation Modal */}
       <Modal centered open={open} onCancel={() => setOpen(false)} footer={null} width="500px" className="!p-0">
         <div className="flex flex-col items-center justify-center min-h-full">

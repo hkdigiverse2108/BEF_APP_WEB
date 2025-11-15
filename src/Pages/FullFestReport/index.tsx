@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@mui/material";
+import { Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { CiCircleRemove } from "react-icons/ci";
 import { FaDiscord } from "react-icons/fa";
@@ -17,23 +17,70 @@ import type { FullFestReportApiResponse } from "../../Types";
 
 const FullFestReport = () => {
   const [tabIndex, setTabIndex] = useState(1);
-  const { data ,isLoading} = useGetApiQuery<FullFestReportApiResponse>({ url: URL_KEYS.FULL_FEST.FULL_FEST });
+  const { data, isLoading } = useGetApiQuery<FullFestReportApiResponse>({ url: URL_KEYS.FULL_FEST.FULL_FEST });
   const Sec1 = data?.data?.sec1;
   const Sec2 = data?.data?.sec2;
   const Sec3 = data?.data?.sec3;
+  const isVerySmall = useMediaQuery("(max-width: 484px)");
+  const isMedium = useMediaQuery("(max-width: 1032px)");
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
+  const tabData = [
+    { title: "My Winning", icon: <GiTrophy className="text-xl" /> },
+    { title: "AI Powered Report Analysis", icon: <FaDiscord className="text-xl" /> },
+    { title: "Summary", icon: <TbBookmarkFilled className="text-xl" /> },
+    { title: "Elimination Skill Report", icon: <FaEarthAmericas className="text-xl" /> },
+    { title: "Mistake Map Report", icon: <CiCircleRemove className="text-xl" /> },
+  ];
   return (
     <div className="sub-container pt-4 pb-1">
       <CardHeader title="Full Fest Report" />
       <hr className="text-card-border my-4" />
       <div>
-        <Tabs className="horizontal-more-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange} allowScrollButtonsMobile>
-          <Tab label="My Winning" icon={<GiTrophy />} iconPosition="start" />
-          <Tab label="AI Powered Report Analysis" icon={<FaDiscord />} iconPosition="start" />
-          <Tab label="Summary" icon={<TbBookmarkFilled />} iconPosition="start" />
-          <Tab label="Elimination Skill Report" icon={<FaEarthAmericas />} iconPosition="start" />
-          <Tab label="Mistake Map Report" icon={<CiCircleRemove />} iconPosition="start" />
+        <Tabs
+          value={tabIndex}
+          onChange={handleChange}
+          variant="scrollable"
+          orientation={isVerySmall ? "vertical" : "horizontal"}
+         slotProps={{ indicator: { style: { display: "none" } } }}
+          sx={{
+            "& .MuiTabs-flexContainer": {
+              flexDirection: isVerySmall ? "column" : "row",
+              flexWrap: "wrap",
+              gap: "5px",
+            },
+          }}
+        >
+          {tabData.map((item, idx) => (
+            <Tab
+              key={idx}
+              disableRipple
+              onClick={() => setTabIndex(idx)}
+              label={
+                <div>
+                  <div className="flex items-center gap-2">
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </div>
+
+                  <div
+                    style={{
+                      height: "3px",
+                      width: tabIndex === idx ? "100%" : "0px",
+                      background: "linear-gradient(to right, #f28c28, #0b8d41)",
+                      marginTop: "6px",
+                      transition: "0.3s",
+                    }}
+                  />
+                </div>
+              }
+              sx={{
+                textTransform: "none",
+                paddingBottom: "6px",
+                width: isVerySmall ? "100%" : isMedium ? "calc(50% - 16px)" : "auto",
+              }}
+            />
+          ))}
         </Tabs>
         <div className="w-full pt-10">
           <div hidden={tabIndex !== 0}>

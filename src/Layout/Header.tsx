@@ -42,14 +42,14 @@ const Header = () => {
     <>
       <div className="sticky top-0 w-full z-50">
         <header className={`min-h-[60px] tracking-wide relative z-50 ${isScrolled ? "bg-white/80 backdrop-blur-md" : ""}`}>
-          <div className="flex flex-wrap items-center justify-between py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
-            <Link to={ROUTES.HOME} className="flex gap-4 items-center">
-              <figure className="w-12 sm:w-18 h-full">
+          <div className="flex flex-wrap items-center justify-between max-sm:px-2 py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
+            <Link to={ROUTES.HOME} className="flex max-sm:gap-1.5 gap-2.5 items-center">
+              <figure className="w-9 sm:w-12 md:w-16 h-full">
                 <img src={`${ImagePath}logo/Logo.png`} alt="BEF-Logo" className="w-full h-full object-contain" />
               </figure>
-              <section className="flex flex-col justify-center max-md:hidden">
-                <h1 className="text-sm sm:text-xl text-primary font-bold">Bharat Exam Fest</h1>
-                <p className="text-xs sm:text-sm font-medium text-success ">Learn & Earn</p>
+              <section className="flex flex-col justify-center">
+                <h1 className="text-xs md:text-lg text-primary font-bold sm:font-extrabold">Bharat Exam Fest</h1>
+                <p className="text-xs md:text-sm font-medium text-success ">Learn & Earn</p>
               </section>
             </Link>
             <div id="collapseMenu" className="max-2xl:hidden 2xl:!flex 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50">

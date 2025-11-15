@@ -47,23 +47,25 @@ const MyWinning: FC<{ MyWinningData: MyWinningListType }> = ({ MyWinningData }) 
                 </div>
                 <div className="bg-success py-4 text-white">
                   <div className=" flex items-center text-xs sm:text-sm  justify-center gap-2 sm:gap-4 md:gap-8 ">
-                    {(referral?.ranks[0]?.price && referral?.ranks[0]?.price !== 0) && (
+                    {referral?.ranks[0]?.price && referral?.ranks[0]?.price !== 0 && (
                       <>
                         <section className="flex gap-2 items-center">
                           <FaAward />
-                          <span>{referral?.ranks[0]?.price}</span>
+                          <span>₹ {referral?.ranks[0]?.price}</span>
                         </section>
                         <span className="h-3 border border-l border-gray-300"></span>
                       </>
                     )}
-                    {referral.winnerPercentage && (
+                    {referral.winnerPercentage ? (
                       <>
                         <section className="flex gap-2 items-center">
                           <IoMdTrophy />
-                          <span>{referral.winnerPercentage}%</span>
+                          <span>{referral.winnerPercentage || 0}%</span>
                         </section>
                         <span className="h-3 border border-l border-gray-300"></span>
                       </>
+                    ) : (
+                      ""
                     )}
                     <section className="flex gap-2 items-center ">
                       <HiCheckBadge />

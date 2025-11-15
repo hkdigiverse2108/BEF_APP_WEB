@@ -16,20 +16,19 @@ const KYC = () => {
   const KYCData = data?.data?.kyc_data[0];
 
   return (
-    <div className="sub-container mt-4 mb-6 min-h-screen">
+    <div className="sub-container mt-4 mb-6">
       <CardHeader title="KYC" />
       <hr className="text-card-border my-4" />
       <section className="flex flex-col gap-5">
-        <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
+        <div className="flex flex-col xl:flex-row justify-between gap-10 items-start">
           <div className="rounded-lg overflow-hidden w-full ">
-            <img src={`${ImagePath}kyc/KYC_Banner.png`} alt="Recharge Wallet" className="w-full h-full object-cover" />
+            <img src={`${ImagePath}kyc/KYC_Banner.jpg`} alt="Recharge Wallet" className="w-full h-full object-cover" />
           </div>
-
           <div className="flex flex-col w-full  h-full justify-center">
-            <h3 className="text-2xl font-semibold mb-2">Nexify Learning Solution LLP</h3>
+            <h3 className="text-2xl font-bold mb-2">HK DigiVerse LLP</h3>
             <p className=" text-gray-700 mb-6">KYC verification is mandatory for cash withdrawal to ensure authenticity and compliance with legal regulations. Any incomplete or incorrect information may Result in delays in the process.</p>
             <div className="grid grid-cols-1 gap-5">
-              <div className="h-full relative bg-input-box rounded-xl p-5 flex justify-between items-center gap-2">
+              {/* <div className="h-full relative bg-input-box rounded-xl p-5 flex justify-between items-center gap-2">
                 <div className="w-1 h-[70%] bg-primary rounded-r absolute top-1/2 left-0 -translate-y-1/2" />
                 <div className="flex items-center gap-3">
                   <MdPhoneAndroid className="text-5xl text-success" />
@@ -38,8 +37,8 @@ const KYC = () => {
                     <h3 className="text-sm font-normal text-neutral-500">{user.contact.mobile}</h3>
                   </div>
                 </div>
-                <p className={`text-lg font-semibold mt-1 uppercase ${user.isMobileVerified ? "text-success" : "text-danger"}`}>{user.isMobileVerified ? "Verified" : "Unverified"}</p>
-              </div>
+                <p className={`text-lg font-bold mt-1 uppercase ${user.isMobileVerified ? "text-success" : "text-danger"}`}>{user.isMobileVerified ? "Verified" : "Unverified"}</p>
+              </div> */}
               <div className="h-full relative bg-input-box rounded-xl p-5 flex justify-between items-center gap-2">
                 <div className="w-1 h-[70%] bg-primary rounded-r absolute top-1/2 left-0 -translate-y-1/2" />
                 <div className="flex items-center gap-3">

@@ -9,7 +9,7 @@ export const LanguageOptions = [
 ];
 
 export const HistoryOptions = [
-  { label: "All History", value: "" },
+  { label: "All History", value: "all" },
   { label: "Add Balance", value: "deposit" },
   { label: "Withdrawal", value: "withdraw" },
 ];

@@ -1,9 +1,8 @@
-import { BsFillAlarmFill } from "react-icons/bs";
-import { ROUTES, ImagePath } from "../../Constants";
-import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import type { ContestDetailCardProps } from "../../Types";
 import type { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { ImagePath, ROUTES } from "../../Constants";
+import type { ContestDetailCardProps } from "../../Types";
 
 const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
@@ -22,17 +21,17 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       </div>
 
       {/* Body */}
-      <div className="px-2 md:px-4 py-2">
+      <div className="px-3 md:px-4 py-2">
         <div className="py-2 flex flex-col gap-2 text-black">
-          <div className="flex justify-between text-sm font-normal">
-            <section className="flex flex-col gap-2">
+          <div className="flex max-sm:flex-col justify-between text-sm font-normal">
+            <section className="flex sm:flex-col max-sm:justify-between gap-2">
               <h1>Get Scholarship</h1>
               <p className="font-semibold text-lg">₹{pricePool}</p>
             </section>
 
-            <span className="flex border border-gray-100 w-fit my-2" />
+            <span className="max-sm:hidden flex border border-gray-100 w-fit my-2" />
 
-            <section className="flex flex-col justify-end items-end gap-2">
+            <section className="flex sm:flex-col justify-between max-sm:items-center sm:justify-end items-end gap-2">
               <h1>Achieved Scholarship</h1>
               <p className="font-semibold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
             </section>
@@ -48,15 +47,17 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center border-t border-gray-200 px-4 text-sm font-normal">
-        <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
-          <img className="object-cover w-10 h-10 rounded-full border-2 border-white" src={subjectImage} alt={subjectName} />
-          <div className="grid gap-1 w-full">
-            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">{subjectName}</h3>
+      <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-3 text-sm font-semibold">
+        <div className="flex max-sm:justify-center items-center gap-4 w-full h-full py-3">
+          <img className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white" src={subjectImage} alt={subjectName} />
+          <div className="grid w-full">
+            <h3 className="text-lg text-left font-medium tracking-tight">{subjectName}</h3>
+            <span className="text-sm font-bold">
+              {dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}
+            </span>
           </div>
         </div>
-
-        <section className="flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
+        {/* <section className="max-sm:hidden flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
           <span className="text-2xl">
             <BsFillAlarmFill />
           </span>
@@ -64,7 +65,7 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
             <span>{dayjs(contestStartDate).format("h:mm A")}</span>
             <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

@@ -115,11 +115,20 @@ const Solution = () => {
 
   const handleLanguageChange = () => setLanguage((prev) => (prev === LANGUAGES.ENGLISH ? (LANGUAGES.HINDI as "hindiQuestion") : (LANGUAGES.ENGLISH as "englishQuestion")));
 
-  const handleNextQueClick = () => setCurrentQuestionNumber((prev) => prev + 1);
+  const handleNextQueClick = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    setCurrentQuestionNumber((prev) => prev + 1);
+  };
 
-  const handlePrevQueClick = () => setCurrentQuestionNumber((prev) => prev - 1);
+  const handlePrevQueClick = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    setCurrentQuestionNumber((prev) => prev - 1);
+  };
 
-  const handleQuestionNumberClick = (questionNumber: number) => setCurrentQuestionNumber(questionNumber);
+  const handleQuestionNumberClick = (questionNumber: number) => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    setCurrentQuestionNumber(questionNumber);
+  };
 
   const ALMentor = (className: string) => (
     <span className={`${className} flex gap-2 bg-input-box font-semibold text-sm p-2 px-3 rounded capitalize`}>
@@ -218,26 +227,20 @@ const Solution = () => {
                   </div>
                   {/* STATEMENT Section */}
                   {QaAnswers.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
-                    <>
-                      <div className="space-y-6 pb-6 rounded-2xl">
-                        {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
-                          return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} />}</div>;
-                        })}
-                        <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
-                      </div>
-                      <span className="border-t border-card-border flex w-full mb-6" />
-                    </>
+                    <div className="space-y-6 pb-6 rounded-2xl">
+                      {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
+                        return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} />}</div>;
+                      })}
+                      <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                    </div>
                   )}
 
                   {/* PAIR Section */}
                   {QaAnswers.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
-                    <>
-                      <div className="space-y-4 pb-6 rounded-2xl">
-                        <PairTable pair={currentQuestionLanguage?.pairQuestion || []} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined || ""} />
-                        <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
-                      </div>
-                      <span className="border-t border-card-border flex w-full mb-6" />
-                    </>
+                    <div className="space-y-4 pb-6 rounded-2xl">
+                      <PairTable pair={currentQuestionLanguage?.pairQuestion || []} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined || ""} />
+                      <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                    </div>
                   )}
                 </>
               )}

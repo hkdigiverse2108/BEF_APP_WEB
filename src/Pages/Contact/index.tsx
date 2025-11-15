@@ -7,7 +7,7 @@ import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { usePostApiMutation } from "../../Api/CommonApi";
 import type { ContactFormData } from "../../Types";
-import { HTTP_STATUS, URL_KEYS } from "../../Constants";
+import { CONTACT, HTTP_STATUS, URL_KEYS } from "../../Constants";
 
 const Contact = () => {
   const [form] = Form.useForm();
@@ -71,8 +71,8 @@ const Contact = () => {
         </div>
       </div> */}
       <section id="contact" className="flex justify-center">
-        <div className="flex flex-col lg:flex-row justify-center gap-12 lg:gap-24 items-center !overflow-hidden py-10  rounded-2xl w-[1240px] sm:shadow-lg">
-          <div className="bg-white shadow-lg transition-all duration-100 rounded-2xl p-5 sm:p-10 w-full max-w-lg border border-card-border">
+        <div className="flex flex-col lg:flex-row justify-center gap-12 lg:gap-24 items-center !overflow-hidden py-10  rounded-2xl w-[1240px]">
+          <div className="bg-white transition-all duration-100 rounded-2xl p-5 sm:p-10 w-full max-w-lg border border-card-border">
             <Form layout="vertical" form={form} onFinish={onFinish} className="space-y-4">
               <FormInput name="name" placeholder="name*" rules={[{ required: true, message: "Please enter your name" }]} />
               <FormInput
@@ -92,13 +92,47 @@ const Contact = () => {
                   { len: 10, message: "Phone number must be 10 digits" },
                 ]}
               />
-              <FormInput name="website" placeholder="website*" rules={[{ required: true, message: "Please enter your name" }]}/>
-              <FormInput name="message" placeholder="Your message*" type="textArea" rules={[{ required: true, message: "Please enter your message" }]}/>
+              <FormInput name="website" placeholder="website*" rules={[{ required: true, message: "Please enter your name" }]} />
+              <FormInput name="message" placeholder="Your message*" type="textArea" rules={[{ required: true, message: "Please enter your message" }]} />
               <FormButton htmlType="submit" text="submit" className="custom-button button button--mimas w-full !h-auto" />
             </Form>
           </div>
-          <div className="max-w-lg ">
-            <h2 className="text-2xl md:text-5xl font-semibold text-primary my-6">Have any question?</h2>
+          <div className="max-w-xl">
+            <div className="flex flex-col gap-4 justify-between h-full">
+              <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
+                <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div>
+                  <IoCallSharp className="text-5xl text-primary" />
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-xl font-extrabold">Emergency Number</h3>
+                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.NUMBER}</p>
+                </div>
+              </div>
+              <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
+                <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div>
+                  <MdEmail className="text-5xl text-primary" />
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-xl font-extrabold">Email Address</h3>
+                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.EMAILHELP}</p>
+                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.EMAILINFO}</p>
+                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.EMAILSALES}</p>
+                </div>
+              </div>
+              <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
+                <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div>
+                  <FaRoute className="text-5xl text-primary" />
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-xl font-extrabold">Address</h3>
+                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.ADDRESS}</p>
+                </div>
+              </div>
+            </div>
+            {/* <h2 className="text-2xl md:text-5xl font-bold text-primary my-6">Have any question?</h2>
             <ul className="space-y-6 md:space-y-12">
               <li className="flex items-start gap-4">
                 <div className="border border-primary/15 rounded-full p-4">
@@ -137,7 +171,7 @@ const Contact = () => {
                   <p className="max-sm:text-sm text-gray-600">S-251 Angle Business Center-2, Mota Varachha, Surat, Gujarat, India-394101</p>
                 </div>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </section>

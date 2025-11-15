@@ -1,12 +1,12 @@
 import { Tab, Tabs } from "@mui/material";
 import { Form } from "antd";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
-import { Link, Route } from "react-router-dom";
 import { Storage } from "../../Utils";
-import { useGetApiQuery } from "../../Api/CommonApi";
 
 const GetScholarship = () => {
   const [amount, setAmount] = useState("");
@@ -31,8 +31,8 @@ const GetScholarship = () => {
     <div className="sub-container pt-4">
       <CardHeader title="Get Scholarship" />
       <hr className="text-card-border mt-4" />
-      <div className="flex gap-6 pt-7">
-        <div className="relative bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 w-1/3 h-fit">
+      <div className="flex flex-col lg:flex-row gap-6 pt-7">
+        <div className="relative bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 lg:w-1/3 h-fit">
           <div className="relative bg-white p-4 rounded-lg z-20">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -41,7 +41,7 @@ const GetScholarship = () => {
                   <p className="text-sm text-gray-600 capitalize">
                     {userData?.firstName} {userData?.lastName}
                   </p>
-                  <h3 className="text-lg font-normal text-gray-900">₹{userData?.walletBalance}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">₹{userData?.walletBalance.toFixed(2)}</h3>
                 </div>
               </div>
               <Link to={ROUTES.HISTORY.HISTORY} className="bg-input-box font-semibold text-sm p-2 px-4 rounded">
@@ -67,7 +67,7 @@ const GetScholarship = () => {
           </div>
         </div>
 
-        <div className="bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 w-2/3">
+        <div className="bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 lg:w-2/3">
           <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
             <Tab label="UPI" />
             <Tab label="BANK ACCOUNT" />
