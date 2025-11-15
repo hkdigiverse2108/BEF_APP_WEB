@@ -197,7 +197,11 @@ input {
   @apply text-lg;
 }
 .question-section .question label.ant-checkbox-wrapper .ant-checkbox-label {
-  @apply !m-auto;
+  @apply !m-auto flex items-center;
+}
+
+.question-section .question .icon svg {
+  @apply !text-[21px];
 }
 
 .answered {

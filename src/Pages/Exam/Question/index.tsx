@@ -58,7 +58,6 @@ const Question = () => {
     // 🔙 Block Back Button only
     const handleBack = (e: PopStateEvent) => {
       e.preventDefault();
-      alert("Please click End Test before leaving!");
       window.history.pushState(null, "", window.location.href);
     };
 
@@ -195,7 +194,7 @@ const Question = () => {
   const handleQuestionNumberClick = (questionNumber: number, id: string) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setCurrentQuestionNumber(questionNumber);
-
+    setOpen(false);
     const item = QAData?.answers?.find((a) => a._id === id);
     window.dispatchEvent(new Event("examStorageUpdate"));
     if (item?.userAnswer?.answersType?.length) {
@@ -371,7 +370,7 @@ const Question = () => {
         setSkip(nextQ.userAnswer?.answersType?.includes("marked") || false);
       }
 
-    return next;
+      return next;
     });
     if (currentQuestionNumber === QA.length) {
       handleEndTestDrawer();

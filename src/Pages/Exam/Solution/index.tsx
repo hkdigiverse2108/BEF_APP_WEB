@@ -74,7 +74,7 @@ const Solution = () => {
   const currentQuestion = QAData?.questions?.find((q) => q._id === currentQuestionAnswers?.questionId);
   const currentQuestionLanguage = currentQuestion?.[language];
 
-  const { data: SubTopicApiData, isLoading: isSubTopicLoading } = useGetApiQuery(currentQuestion?.subtopicId ? { url: `${URL_KEYS.SUB_TOPIC.ID}/${currentQuestion?.subtopicId}` } : { skip: true });
+  const { data: SubTopicApiData, isLoading: isSubTopicLoading } = useGetApiQuery(currentQuestion?.subtopicId ? { url: `${URL_KEYS.SUB_TOPIC.ID}${currentQuestion?.subtopicId}` } : { skip: true });
   const { data: AiMentorData } = useGetApiQuery(currentQuestion?._id ? { url: `${URL_KEYS.QUESTION.AI_MENTOR}?questionId=${currentQuestion?._id}` } : { skip: true });
   const AiMentor = AiMentorData?.data;
 
