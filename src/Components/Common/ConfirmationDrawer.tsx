@@ -22,7 +22,7 @@ const ConfirmationDrawer = () => {
 
   const [PostApi, { isLoading }] = usePostApiMutation();
 
-  const baseAmount = Number(data.fees);
+  const baseAmount = Number(data.fees || 0);
   const gstRate = 0.18;
 
   const amount = baseAmount.toFixed(2);
@@ -31,7 +31,7 @@ const ConfirmationDrawer = () => {
 
   const handleJoinButton = async () => {
     try {
-      if (UserData?.walletBalance >= Number(data.fees)) {
+      if (Number(UserData?.walletBalance) >= baseAmount) {
         const balancePayload = {
           contestId: data._id,
           amount: Number(totalAmount),
@@ -57,7 +57,9 @@ const ConfirmationDrawer = () => {
           navigate(ROUTES.CONTEST.MY_CONTEST);
         }
       } else {
-        navigate(ROUTES.RECHARGE.RECHARGE);
+        console.log("aa");
+        
+        // navigate(ROUTES.RECHARGE.RECHARGE);
       }
     } catch (error) {
       console.log(error);

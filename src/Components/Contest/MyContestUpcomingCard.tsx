@@ -31,7 +31,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   };
 
   return (
-    <div onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData: contestData?.contest, type: "myContest" ,contestDataTime} })} className="border border-primary-light rounded-lg overflow-hidden capitalize flex flex-col justify-between cursor-pointer">
+    <div onClick={() => navigate(ROUTES.CONTEST.CONTEST_DETAILS, { state: { contestData: contestData?.contest, type: "myContest", contestDataTime } })} className="border border-primary-light rounded-lg overflow-hidden capitalize flex flex-col justify-between cursor-pointer">
       {/* Header */}
       <div className="flex flex-col lg:flex-row bg-primary-light px-2 md:px-4 py-2">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full">
@@ -67,16 +67,17 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center border-t border-gray-200 px-1 text-sm font-semibold">
-        <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
-          <img className="object-cover w-10 rounded-full border-2 border-white" src={subjectImage || `${ImagePath}contest/ContestIcon.png`} alt={subjectName} />
+      <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-1 text-sm font-semibold">
+        <div className="flex max-sm:justify-center items-center gap-4 w-full h-full p-3">
+          <img className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white" src={subjectImage || `${ImagePath}contest/ContestIcon.png`} alt={subjectName} />
 
-          <div className="grid gap-1 w-full">
-            <h3 className="text-lg max-sm:text-center text-left font-medium tracking-tight">{subjectName}</h3>
+          <div className="grid w-full">
+            <h3 className="text-lg text-left font-medium tracking-tight">{subjectName}</h3>
+            <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
           </div>
         </div>
 
-        <section className="flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
+        {/* <section className="flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
           <span className="text-2xl">
             <BsFillAlarmFill />
           </span>
@@ -84,7 +85,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
             <span>{dayjs(contestStartDate).format("h:mm A")}</span>
             <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

@@ -45,13 +45,27 @@ const ExamInstruction = () => {
     // 10 min window
     const endLimit = startMs + 10 * 60 * 1000;
 
+    const timeIST = startDate.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
+    });
+
     if (nowMs >= startMs && nowMs <= endLimit) {
       navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
     } else {
       if (nowMs < startMs) {
-        messageApi.warning("Contest has not started yet!");
+        messageApi.open({
+          type: "error",
+          content: `You can join after ${timeIST}`,
+          className: "custom-class",
+          style: {
+            marginTop: "20vh",
+          },
+        });
       } else {
-        messageApi.warning("Contest time window is closed!");
+        messageApi.error("Your time is up! Better luck next time...");
       }
     }
   };

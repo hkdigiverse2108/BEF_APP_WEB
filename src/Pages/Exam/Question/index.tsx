@@ -54,22 +54,22 @@ const Question = () => {
     }
   }, [contestId, Navigate]);
 
-useEffect(() => {
-  // 🔙 Block Back Button only
-  const handleBack = (e: PopStateEvent) => {
-    e.preventDefault();
-    alert("Please click End Test before leaving!");
+  useEffect(() => {
+    // 🔙 Block Back Button only
+    const handleBack = (e: PopStateEvent) => {
+      e.preventDefault();
+      alert("Please click End Test before leaving!");
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    // Back button trap
     window.history.pushState(null, "", window.location.href);
-  };
+    window.addEventListener("popstate", handleBack);
 
-  // Back button trap
-  window.history.pushState(null, "", window.location.href);
-  window.addEventListener("popstate", handleBack);
-
-  return () => {
-    window.removeEventListener("popstate", handleBack);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("popstate", handleBack);
+    };
+  }, []);
 
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({ url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}` });
   const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
@@ -266,17 +266,16 @@ useEffect(() => {
     return () => clearInterval(timer);
   }, [isFinished]);
 
-//   useEffect(() => {
-//   const handler = () => {
-//     // handleEndTestDrawer(); // works here!
-//     alert("Please click End Test before leaving!");
-//   };
-//   window.addEventListener("visibilitychange", () => {
-//     if (document.visibilityState === "hidden") handler();
-//   });
-//   return () => window.removeEventListener("visibilitychange", handler);
-// }, []);
-
+  //   useEffect(() => {
+  //   const handler = () => {
+  //     // handleEndTestDrawer(); // works here!
+  //     alert("Please click End Test before leaving!");
+  //   };
+  //   window.addEventListener("visibilitychange", () => {
+  //     if (document.visibilityState === "hidden") handler();
+  //   });
+  //   return () => window.removeEventListener("visibilitychange", handler);
+  // }, []);
 
   const handleNextQueClick = async () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -325,10 +324,9 @@ useEffect(() => {
       ...stats,
     };
     const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
-    updateStorage(
-      STORAGE_KEYS.EXAM_QA_ANSWERS,
-      QaExamAnswers?.answers?.map((a: any) => (a.questionId === currentId ? { ...a, ...userQaAnswers } : a))
-    );
+    const QaUpdatedAnswers = QaExamAnswers?.answers?.map((a: any) => (a.questionId === currentId ? { ...a, ...userQaAnswers } : a));
+
+    updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, { ...QaExamAnswers, answers: QaUpdatedAnswers });
 
     const obj = {
       confidenceType: isConfidence,
@@ -344,6 +342,7 @@ useEffect(() => {
 
     updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: updatedAnswers });
     window.dispatchEvent(new Event("examStorageUpdate"));
+
     setCurrentQuestionNumber((prev) => {
       const next = prev + 1;
       if (next > updatedAnswers.length) return prev;
@@ -372,7 +371,7 @@ useEffect(() => {
         setSkip(nextQ.userAnswer?.answersType?.includes("marked") || false);
       }
 
-      return next;
+    return next;
     });
     if (currentQuestionNumber === QA.length) {
       handleEndTestDrawer();

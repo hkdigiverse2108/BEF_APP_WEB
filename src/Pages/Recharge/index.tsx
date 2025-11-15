@@ -153,7 +153,7 @@ const Recharge = () => {
                 Available Balance
               </p>
               <h3 className="text-2xl font-extrabold">
-                ₹ {userData?.walletBalance || 0}
+                ₹ {userData?.walletBalance.toFixed(2) || 0}
               </h3>
             </div>
           </div>
