@@ -45,7 +45,7 @@ const Login = () => {
         <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
           <div className="w-full p-4 sm:p-8 lg:p-12 ">
             <div className="z-20 text-center w-full 2xl:top-14 flex flex-col gap-3 ">
-              <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
+              <h1 className="font-semibold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
                 Our Learning
                 <br />
                 Dashboard
@@ -67,7 +67,7 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
+                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
                   <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
                 </div>
               </header>
@@ -106,7 +106,7 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="mb-1">
                       <p className="text-end text-sm lg:text-base">
-                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-semibold cursor-pointer hover:!underline !text-primary">
                           Forgot password ?
                         </NavLink>
                       </p>
@@ -117,7 +117,7 @@ const Login = () => {
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
                         <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
-                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-semibold cursor-pointer hover:!underline !text-primary">
                           SIGN UP
                         </NavLink>
                       </p>
@@ -127,7 +127,7 @@ const Login = () => {
                     <Form.Item label={null} className="col-span-2 text-center">
                       <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
                      {/* <button
-  className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
+  className="w-full group relative px-10 py-3 rounded-full font-normal text-white overflow-hidden
              bg-gradient-to-r from-orange-500 to-green-600
              shadow-md transition-all duration-500 ease-out
               hover:shadow-[0_0_25px_rgba(255,128,0,0.4)]"

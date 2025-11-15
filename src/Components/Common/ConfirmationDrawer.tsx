@@ -51,27 +51,27 @@ const ConfirmationDrawer = () => {
         >
           {/* Header */}
           <div className="text-white text-center p-3 sm:p-6 !pb-0">
-            <h2 className="text-3xl font-semibold">Confirmation</h2>
-            <div className="inline-block bg-white text-black font-semibold px-4 py-1 rounded">{data.name || " Mega Contest"}</div>
+            <h2 className="text-3xl font-normal">Confirmation</h2>
+            <div className="inline-block bg-white text-black font-normal px-4 py-1 rounded">{data.name || " Mega Contest"}</div>
           </div>
 
           {/* Body */}
           <div className="p-3 sm:p-6">
             <div className="space-y-3">
               <div className="space-y-1 bg-white p-3 rounded-lg">
-                <div className="flex justify-between text-gray-800 text-sm font-bold">
+                <div className="flex justify-between text-gray-800 text-sm font-semibold">
                   <span>Entry Fee</span>
                   <span>
                     {data.fees}
                     {/* {data.fees || "₹35.00"} */}
                   </span>
                 </div>
-                <div className="flex justify-between text-gray-800 text-sm font-bold">
+                <div className="flex justify-between text-gray-800 text-sm font-semibold">
                   <span>Bonus Applied</span>
                   <span>-₹00.00</span>
                 </div>
                 <hr className="my-2" />
-                <div className="flex justify-between font-semibold text-xl">
+                <div className="flex justify-between font-normal text-xl">
                   <span>Total Pay</span>
                   <span className="text-green-600">
                     ₹{data.fees}

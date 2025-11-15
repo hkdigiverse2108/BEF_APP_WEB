@@ -53,7 +53,7 @@ const EndTestDrawer: FC<{ handleEndTest: () => void ,loading:boolean}> = ({ hand
         <div className="rounded-lg overflow-hidden shadow-2xl bg-white bg-cover bg-top" style={{ backgroundImage: `url(${ImagePath}confirmation/Confirmation-bg.png)` }}>
           {/* Header */}
           <div className="text-white text-center p-3 sm:p-6 !pb-0">
-            <h2 className="text-2xl font-semibold">Want to End the Test ?</h2>
+            <h2 className="text-2xl font-normal">Want to End the Test ?</h2>
             <p className="mt-2 text-white text-sm">No Changes would be allowed after submission.</p>
           </div>
 
@@ -65,7 +65,7 @@ const EndTestDrawer: FC<{ handleEndTest: () => void ,loading:boolean}> = ({ hand
                   <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}question/Total.png`} />
                   <div className="grid w-full">
                     <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Total Questions</h3>
-                    <p className="text-xl font-bold text-left">{isAnswers?.total}</p>
+                    <p className="text-xl font-semibold text-left">{isAnswers?.total}</p>
                   </div>
                 </div>
 
@@ -73,28 +73,28 @@ const EndTestDrawer: FC<{ handleEndTest: () => void ,loading:boolean}> = ({ hand
                   <span className="w-15 h-10 border answered" />
                   <div className="grid w-full">
                     <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Answered</h3>
-                    <p className="text-xl font-bold text-left">{isAnswers?.answered}</p>
+                    <p className="text-xl font-semibold text-left">{isAnswers?.answered}</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
                   <span className="w-15 h-10 border unanswered" />
                   <div className="grid w-full">
                     <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">unanswered</h3>
-                    <p className="text-xl font-bold text-left">{isAnswers?.unanswered}</p>
+                    <p className="text-xl font-semibold text-left">{isAnswers?.unanswered}</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
                   <span className="w-15 h-10 border-3 not-visited" />
                   <div className="grid w-full">
                     <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Not Visited</h3>
-                    <p className="text-xl font-bold text-left">{isAnswers?.notVisited}</p>
+                    <p className="text-xl font-semibold text-left">{isAnswers?.notVisited}</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
                   <span className="w-15 h-10 border skip" />
                   <div className="grid w-full">
                     <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Skip</h3>
-                    <p className="text-xl font-bold text-left">{isAnswers?.skip}</p>
+                    <p className="text-xl font-semibold text-left">{isAnswers?.skip}</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center bg-input-box gap-4 w-full h-full rounded-xl py-2 px-3 border-2 border-gray-200">
@@ -103,7 +103,7 @@ const EndTestDrawer: FC<{ handleEndTest: () => void ,loading:boolean}> = ({ hand
                   </span>
                   <div className="grid w-full">
                     <h3 className="text-lg text-left font-medium tracking-tight text-black capitalize">Marked</h3>
-                    <p className="text-xl font-bold text-left">{isAnswers?.marked}</p>
+                    <p className="text-xl font-semibold text-left">{isAnswers?.marked}</p>
                   </div>
                 </div>
               </div>

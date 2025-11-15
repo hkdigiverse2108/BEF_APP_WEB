@@ -10,16 +10,16 @@ const ChartCell = ({ color, value, label }: { color: string; value: number; labe
   <div className="flex justify-center items-center gap-2">
     <div className="relative flex justify-center items-center">
       <ReactApexChart options={AiPoweredRadialBarChart(color)} series={[value || 0]} type="radialBar" height={150} width={150} />
-      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold">{label}</span>
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">{label}</span>
     </div>
-    <span className="text-lg font-bold">{value}%</span>
+    <span className="text-lg font-semibold">{value}%</span>
   </div>
 );
 
 const ProgressCell = ({ title, value, color }: { title: string; value: number; color: string }) => (
-  <td className="py-4 px-4 font-semibold text-gray-700">
+  <td className="py-4 px-4 font-normal text-gray-700">
     <div className="flex flex-col gap-2">
-      <div className="flex justify-between items-center text-sm font-bold">
+      <div className="flex justify-between items-center text-sm font-semibold">
         <span className="text-xl">{title}</span>
         <span>{value}%</span>
       </div>
@@ -96,14 +96,14 @@ const AiPowered: FC<{ data: QaTypeMetricsType }> = ({ data }) => {
       {/* Header */}
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-bold text-gray-800">Polity</h2>
-        <p className="text-sm text-gray-500 font-semibold">AI Powered Report Analysis</p>
+        <h2 className="text-xl font-semibold text-gray-800">Polity</h2>
+        <p className="text-sm text-gray-500 font-normal">AI Powered Report Analysis</p>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto rounded-lg">
         <table className="min-w-full text-sm text-left">
-          <thead className="border-b border-card-border text-gray-700 text-xl font-bold text-center">
+          <thead className="border-b border-card-border text-gray-700 text-xl font-semibold text-center">
             <tr>
               <th className="py-3 px-4">Progress</th>
               <th className="py-3 px-4">Direct</th>
@@ -112,7 +112,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType }> = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, i) => (
+            {rows?.map((row, i) => (
               <tr key={i} className="border-b border-card-border">
                 <ProgressCell title={row.title} value={row.value} color={row.color} />
                 <td className="px-4 w-1/4">
@@ -127,17 +127,17 @@ const AiPowered: FC<{ data: QaTypeMetricsType }> = ({ data }) => {
               </tr>
             ))}
             <tr>
-              {cards.map((card, i) => (
+              {cards?.map((card, i) => (
                 <td key={i} className="px-4">
                   <div className={`relative ${card.bg} rounded-xl p-5 grid grid-cols-1 gap-1 h-36 my-5 overflow-hidden`}>
                     <div className={`w-1 h-[60%] ${card.barColor} rounded-r absolute left-0 top-1/2 -translate-y-1/2`} />
                     {i === 0 && <img className="absolute bottom-0 right-0 object-cover w-32" src={`${ImagePath}result/Objects.png`} />}
                     <div className={`text-left border-b-2 ${i === 0 ? "border-white/50" : "border-card-border"}`}>
-                      {card?.title && <p className={`${i === 0 ? "text-2xl" : "text-base"} font-bold mt-1 uppercase`}>{card?.title}</p>}
-                      {card.topText && <h3 className="text-3xl font-extrabold">{card.topText}</h3>}
+                      {card?.title && <p className={`${i === 0 ? "text-2xl" : "text-base"} font-semibold mt-1 uppercase`}>{card?.title}</p>}
+                      {card.topText && <h3 className="text-3xl font-bold">{card.topText}</h3>}
                     </div>
                     {card.bottomText && (
-                      <h3 className={`text-2xl font-extrabold flex items-center ${Number(card.bottomValue) >= 0.1 ? "text-success" : "text-danger"}`}>
+                      <h3 className={`text-2xl font-bold flex items-center ${Number(card.bottomValue) >= 0.1 ? "text-success" : "text-danger"}`}>
                         {Number(card.bottomValue) >= 0.1 ? <IoMdArrowDropup /> : <IoMdArrowDropdown />} {card.bottomValue}
                         <span className={`text-sm ${i === 0 ? "text-black" : "text-neutral-500"} ps-2`}>{card.bottomText}</span>
                       </h3>

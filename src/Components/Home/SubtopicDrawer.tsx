@@ -108,14 +108,14 @@ const SubtopicDrawer = () => {
         <div className="space-y-6">
           {/* Title */}
           <div className="relative">
-            <h2 className="font-semibold text-lg">2x The Stakes, 2x The Thrill</h2>
+            <h2 className="font-normal text-lg">2x The Stakes, 2x The Thrill</h2>
           </div>
 
           {/* Question Numbers */}
           <Form form={form} className="space-y-6 " onFinish={handleDrawerSubmit}>
             <p className="font-medium mb-2">Select Question No!</p>
             <div className="flex gap-2 flex-wrap">
-              {Array.from({ length: 10 }, (_, i) => i).map((num) => (
+              {Array.from({ length: 10 }, (_, i) => i)?.map((num) => (
                 <button key={num} type="button" onClick={() => handleQuestionClick(num)} className={`px-3 py-1 border rounded-md transition-all duration-200 ${selectedQuestion === num ? "bg-orange-500 text-white border-orange-500" : "border-orange-400 text-orange-500 hover:bg-orange-50"}`}>
                   {num}
                 </button>
@@ -135,7 +135,7 @@ const SubtopicDrawer = () => {
               className="!border-theme/40"
             />
             <div className="p-4 bg-input-box border-1 rounded-md border-theme/40">
-              <p className="font-semibold text-lg text-theme">
+              <p className="font-normal text-lg text-theme">
                 Selected:&nbsp;
                 <span>{selectedTime ? (dayjs(selectedTime).isValid() ? dayjs(selectedTime).format("dddd, MMM D • h:mm A") : selectedTime) : "No time selected"}</span>
               </p>
@@ -146,13 +146,13 @@ const SubtopicDrawer = () => {
                   Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
                     <div key={date}>
                       {/* 🗓️ Date Header */}
-                      <p className="font-semibold text-lg mb-2">{dayjs(date).format("dddd, MMM D")}</p>
+                      <p className="font-normal text-lg mb-2">{dayjs(date).format("dddd, MMM D")}</p>
                       {/* 🕒 Time Buttons */}
                       <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
                         {times?.map((time) => {
                           const displayTime = dayjs(time).format("h:mm A");
                           return (
-                            <button type="button" key={time} onClick={() => handleSelect(time)} className={`p-2 text-sm font-semibold rounded-lg ${selectedTime === time ? "bg-primary text-white" : "bg-white hover:bg-primary-light"}`}>
+                            <button type="button" key={time} onClick={() => handleSelect(time)} className={`p-2 text-sm font-normal rounded-lg ${selectedTime === time ? "bg-primary text-white" : "bg-white hover:bg-primary-light"}`}>
                               {displayTime}
                             </button>
                           );

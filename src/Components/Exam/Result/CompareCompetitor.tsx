@@ -59,7 +59,7 @@ const CompareCompetitor: FC<{ data: Sec2Type }> = ({ data }) => {
 
   const qaReport = data?.qaTypeStrategyReport ?? {};
 
-  const aiSections = qaTypeLabels.map(({ key, title }) => {
+  const aiSections = qaTypeLabels?.map(({ key, title }) => {
     const item = qaReport[key];
     return {
       title,
@@ -82,18 +82,18 @@ const CompareCompetitor: FC<{ data: Sec2Type }> = ({ data }) => {
     <>
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-bold text-gray-800">Polity</h2>
-        <p className="text-sm text-gray-500 font-semibold">let's compare with your Competitor</p>
+        <h2 className="text-xl font-semibold text-gray-800">Polity</h2>
+        <p className="text-sm text-gray-500 font-normal">let's compare with your Competitor</p>
       </div>
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 pb-6">
-        {compare.map(({ title, color, items }, i) => (
+        {compare?.map(({ title, color, items }, i) => (
           <div key={i} className="rounded-lg shadow-lg">
             <div className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between`}>
               <h3>{title}</h3>
             </div>
             <div className="px-3 sm:px-8 py-4 rounded-b-lg">
               <ul className="list-disc space-y-2">
-                {items.map((item, j) => (
+                {items?.map((item, j) => (
                   <li key={j} className="flex justify-between w-full">
                     <span>{item.items}</span>
                     <span>{item.value || 0}</span>

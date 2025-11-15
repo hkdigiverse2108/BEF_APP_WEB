@@ -275,8 +275,8 @@ const Question = () => {
       const map = ["A", "B", "C", "D"];
 
       const eliminated = Object.keys(data)
-        .filter((k) => data[Number(k)] === 1)
-        .map((k) => map[Number(k)]);
+        ?.filter((k) => data[Number(k)] === 1)
+        ?.map((k) => map[Number(k)]);
 
       return {
         ...converted,
@@ -304,7 +304,7 @@ const Question = () => {
       answersType: isAnswersType,
     };
 
-    const updatedAnswers = QAData.answers.map((item) => (item._id === currentId ? { ...item, userAnswer: obj } : item));
+    const updatedAnswers = QAData.answers?.map((item) => (item._id === currentId ? { ...item, userAnswer: obj } : item));
     const updatedQAData = { ...QAData, answers: updatedAnswers };
 
     setQAData(updatedQAData as QuestionType);
@@ -320,7 +320,7 @@ const Question = () => {
       if (!nextQ.userAnswer?.answersType?.length) {
         nextQ.userAnswer = { answersType: ["unanswered"] };
 
-        const finalAnswers = updatedAnswers.map((a) => (a._id === nextQ._id ? nextQ : a));
+        const finalAnswers = updatedAnswers?.map((a) => (a._id === nextQ._id ? nextQ : a));
         const finalQAData = { ...updatedQAData, answers: finalAnswers };
 
         setQAData(finalQAData as QuestionType);
@@ -381,7 +381,7 @@ const Question = () => {
         {/* Header */}
         <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex justify-center">
-          <p className="font-bold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit">Press the End Test button to lock your Test.</p>
+          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit">Press the End Test button to lock your Test.</p>
         </div>
         <span className="border-t border-card-border flex w-full mt-4" />
 
@@ -399,31 +399,31 @@ const Question = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
                 <div className="relative inline-block">
-                  {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>}
+                  {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-input-box font-semibold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>}
                   {(() => {
                     const currentStack = value;
                     if (currentStack !== positiveMarks) {
-                      return <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">2x</span>;
+                      return <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">2x</span>;
                     }
                     return null;
                   })()}
                 </div>
-                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded"> +{value || 0}</span>}
-                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">{negativeMarks || 0} </span>}
+                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-green-100 text-green-700 text-sm font-semibold py-2 px-4 rounded"> +{value || 0}</span>}
+                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-red-100 text-red-700 text-sm font-semibold py-2 px-4 rounded">{negativeMarks || 0} </span>}
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                  <span onClick={handleLanguageChange} className="text-sm font-bold flex flex-nowrap gap-2">
+                  <span onClick={handleLanguageChange} className="text-sm font-semibold flex flex-nowrap gap-2">
                     <IoLanguage className="text-xl" />
                   </span>
-                  <span className="text-sm font-bold flex flex-nowrap gap-2" onClick={() => setSkip(!isSkip)}>
+                  <span className="text-sm font-semibold flex flex-nowrap gap-2" onClick={() => setSkip(!isSkip)}>
                     {isSkip ? <IoBookmark className="text-xl" /> : <IoBookmarkOutline className="text-xl" />}
                   </span>
-                  <span className="text-sm font-bold flex flex-nowrap gap-2 cursor-pointer" onClick={() => dispatch(setReportModal())}>
+                  <span className="text-sm font-semibold flex flex-nowrap gap-2 cursor-pointer" onClick={() => dispatch(setReportModal())}>
                     <TbReport className="text-xl" />
                   </span>
                 </div>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
-              <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <p className="font-bold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
+              <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
             </div>
             {/* STATEMENT Section */}
             {isLoading ? (
@@ -437,14 +437,14 @@ const Question = () => {
                     {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
                       return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} answers={isQa} onCheck={handleQaCheck} />}</div>;
                     })}
-                    <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                    <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                   </div>
                 )}
                 {/* PAIR Section */}
                 {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
                   <div className="space-y-4 pb-6 rounded-2xl">
                     <PairTable pair={currentQuestionLanguage?.pairQuestion} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined} answers={isQa} onCheck={handleQaCheck} />
-                    <span className="font-bold text-xl px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                    <span className="font-semibold text-xl px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
                   </div>
                 )}
               </>
@@ -454,8 +454,8 @@ const Question = () => {
             <div className="rounded-2xl">
               <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {isLoading
-                  ? [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 5 }} />)
-                  : Object.keys(currentQuestionLanguage?.options || {}).map((opt, i) => {
+                  ? [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 5 }} />)
+                  : Object.keys(currentQuestionLanguage?.options || {})?.map((opt, i) => {
                       return (
                         <div key={i} className={`border-1 border-card-border flex items-center gap-3 m-0 rounded-md cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-200 hover:bg-gray-50"}`}>
                           {<NormalQuestion key={i} id={i} opt={opt} text={currentQuestionLanguage?.options[opt] || ""} answers={isAnswers} onCheck={handleAnswersCheck} />}
@@ -471,8 +471,8 @@ const Question = () => {
 
             <section id="QA_Buttons" className="w-full">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 my-8 max-xl:justify-center">
-                {ConfidenceButtons.map((btn, i) => (
-                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-semibold text-white rounded-lg transition-all duration-200 ${btn.color} ${isConfidence === "" ? "opacity-100" : isConfidence === btn.value ? "opacity-100" : "opacity-30"}`}>
+                {ConfidenceButtons?.map((btn, i) => (
+                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-normal text-white rounded-lg transition-all duration-200 ${btn.color} ${isConfidence === "" ? "opacity-100" : isConfidence === btn.value ? "opacity-100" : "opacity-30"}`}>
                     {btn.icon}
                     {btn.label}
                   </button>
@@ -546,11 +546,11 @@ const Question = () => {
 
                 {/* End Test Button */}
                 <div className="flex flex-col gap-3 mt-5 ">
-                  <button onClick={() => dispatch(setInstructionsDrawer())} className="flex justify-center items-center gap-2 bg-white border border-card-border hover:bg-input-box-dark transition-all font-bold text-sm p-2 px-4 rounded cursor-pointer">
+                  <button onClick={() => dispatch(setInstructionsDrawer())} className="flex justify-center items-center gap-2 bg-white border border-card-border hover:bg-input-box-dark transition-all font-semibold text-sm p-2 px-4 rounded cursor-pointer">
                     <HiMiniInformationCircle size={20} />
                     Instructions
                   </button>
-                  <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="w-full !text-md !font-bold transition-all hover:!bg-red-100 hover:!text-red-700 text-center !p-4 !h-13 uppercase !border-1 !border-danger" />
+                  <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="w-full !text-md !font-semibold transition-all hover:!bg-red-100 hover:!text-red-700 text-center !p-4 !h-13 uppercase !border-1 !border-danger" />
                 </div>
               </div>
             </div>

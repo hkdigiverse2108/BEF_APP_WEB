@@ -19,7 +19,7 @@ export const CardHeader: FC<CardHeaderType> = ({
   const navigate = useNavigate();
   // console.log(sliderButton);
   return (
-    <div className="w-full flex justify-between text-lg xl:text-2xl font-bold items-center flex-wrap gap-3">
+    <div className="w-full flex justify-between text-lg xl:text-2xl font-semibold items-center flex-wrap gap-3">
       <section className="flex gap-2 flex-wrap">
         {backButton && (
           <button onClick={() => navigate(-1)}>
@@ -28,7 +28,7 @@ export const CardHeader: FC<CardHeaderType> = ({
         )}
         {title && <h1 className="capitalize">{title}</h1>}
         {pricePool && (
-          <section className="flex  gap-2 bg-gradient-to-r from-[var(--primary)] to-[var(--success)] text-white text-sm items-center rounded-md font-semibold  px-3 py-1">
+          <section className="flex  gap-2 bg-gradient-to-r from-[var(--primary)] to-[var(--success)] text-white text-sm items-center rounded-md font-normal  px-3 py-1">
             <span className="text-xl">{pricePool.icon}</span>
             <span>{pricePool.price}</span>
           </section>
@@ -38,7 +38,7 @@ export const CardHeader: FC<CardHeaderType> = ({
         {icon && time && (
           <section className="flex gap-1">
             <span className="text-primary">{icon}</span>
-            <span className="text-sm xl:text-lg font-semibold ">
+            <span className="text-sm xl:text-lg font-normal ">
               {time}
             </span>
           </section>

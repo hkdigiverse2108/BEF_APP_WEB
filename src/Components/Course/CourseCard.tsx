@@ -25,10 +25,10 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
           }`}
         />
         <div className="p-2 rounded-t-xl flex justify-between gap-7 mb-0.5 absolute top-0 left-0 w-full z-10">
-          <span className="bg-white/20 text-white font-bold text-sm p-1 px-1.5 rounded backdrop-blur-md">
+          <span className="bg-white/20 text-white font-semibold text-sm p-1 px-1.5 rounded backdrop-blur-md">
             {data?.language}
           </span>
-          <span className="bg-white/20 text-white font-bold text-sm p-1 px-1.5 rounded backdrop-blur-md">
+          <span className="bg-white/20 text-white font-semibold text-sm p-1 px-1.5 rounded backdrop-blur-md">
             {data?.syllabus?.subjectLevel}
           </span>
         </div>
@@ -45,7 +45,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
             <Popover
               content={ContactContent}
               trigger="click"
-              // className="transition-colors text-nowrap hover:bg-input-box-dark/60 border border-input-box-dark font-semibold text-sm p-1 px-3 rounded-sm capitalize flex items-center cursor-pointer"
+              // className="transition-colors text-nowrap hover:bg-input-box-dark/60 border border-input-box-dark font-normal text-sm p-1 px-3 rounded-sm capitalize flex items-center cursor-pointer"
 
               className="w-fit text-nowrap transition-colors hover:bg-input-box-dark/60 border border-input-box-dark  font-normal text-xs p-1 px-3 rounded-sm capitalize flex items-center cursor-pointer"
             >
@@ -61,7 +61,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
           </span>
           <span
             onClick={onCallClick}
-            className="transition-colors hover:bg-input-box-dark/60 border border-input-box-dark font-semibold text-sm p-1 px-3 rounded-sm capitalize flex items-center cursor-pointer"
+            className="transition-colors hover:bg-input-box-dark/60 border border-input-box-dark font-normal text-sm p-1 px-3 rounded-sm capitalize flex items-center cursor-pointer"
           >
             <TbPhoneCall className="me-2 text-lg text-success" />
             Talk to a counsellor
@@ -74,7 +74,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
           onClick={() =>
             navigate(ROUTES.COURSE.DETAILS.replace(":id", data?._id))
           }
-          className="font-bold! custom-button light button button--mimas w-full h-auto! uppercase"
+          className="font-semibold! custom-button light button button--mimas w-full h-auto! uppercase"
         />
       </div>
     </div>

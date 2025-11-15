@@ -3,7 +3,7 @@ import { useGetApiQuery } from "../../../Api/CommonApi";
 import { URL_KEYS } from "../../../Constants";
 import type { FAQ } from "../../../Types";
 import FaqCard from "../../Common/FaqCard";
-
+import { Empty } from "antd";
 
 const WorkshopFaqTab = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -17,6 +17,7 @@ const WorkshopFaqTab = () => {
   const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+  if (Faqs?.length === 0) return <Empty />;
 
   return (
     <div>

@@ -42,7 +42,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
       <div className="flex flex-row px-2 md:px-4 relative">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 max-sm:gap-0 w-full h-full p-3   ">
           <div className="grid gap-0.5 w-full">
-            <h3 className="text-xl max-sm:text-center text-left font-bold tracking-tight capitalize text-white">
+            <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">
               {name}
               {/* {name || "Mega Contest"} */}
             </h3>
@@ -56,7 +56,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
 
       <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
         <div className=" py-2 flex flex-col gap-1">
-          <section className="flex justify-between text-sm md:text-lg  font-bold flex-wrap ">
+          <section className="flex justify-between text-sm md:text-lg  font-semibold flex-wrap ">
             <h3 className="capitalize">{name}</h3>
             <p>
               ₹{pricePool}
@@ -71,7 +71,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
               {filledSpots} Filled
               {/* {filledSpots || "25000 Filled"} */}
             </h4>
-            <h4 className="font-bold">
+            <h4 className="font-semibold">
               {totalSpots} Total Student
               {/* {totalSpots || "50000 Spots"} */}
             </h4>

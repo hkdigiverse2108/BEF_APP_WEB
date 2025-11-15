@@ -63,8 +63,8 @@ const MistakeMapReport = () => {
           <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}${img}`} />
         </div>
         <div className="text-left">
-          <p className="text-base font-bold mt-1 uppercase">{label}</p>
-          <h3 className="text-xl font-extrabold">{value}</h3>
+          <p className="text-base font-semibold mt-1 uppercase">{label}</p>
+          <h3 className="text-xl font-bold">{value}</h3>
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@ const MistakeMapReport = () => {
   return (
     <div className="sub-container pt-4 md:pt-8 result">
       <CardHeader title="Mistake Map Report" />
-      <p className="text-base font-semibold">
+      <p className="text-base font-normal">
         Please, first fill <span className="text-primary">Why false</span> Reason in Each question...
       </p>
       <span className="border-t border-card-border flex w-full my-4 " />
@@ -89,7 +89,7 @@ const MistakeMapReport = () => {
       </section>
       <div className="pt-3">
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 w-full">
-          {compare.map(({ title, color, items, value }, i) => (
+          {compare?.map(({ title, color, items, value }, i) => (
             <div key={i} className="rounded-lg shadow-lg">
               <div className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between capitalize`}>
                 <h3>{title}</h3>
@@ -98,7 +98,7 @@ const MistakeMapReport = () => {
               <div className="rounded-b-lg overflow-hidden">
                 <ul className="list-disc space-y-2 max-h-100 overflow-y-auto overflow-x-hidden">
                   {items &&
-                    Object.entries(items).map(([subtopic, count]) => (
+                    Object.entries(items)?.map(([subtopic, count]) => (
                       <li key={subtopic} className="flex justify-between w-full border-b border-card-border p-3 sm:px-4 m-0">
                         <span>{subtopic}</span>
                         <span>{count}</span>

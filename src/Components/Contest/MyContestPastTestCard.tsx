@@ -24,31 +24,31 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       {/* Body */}
       <div className="px-2 md:px-4 py-2">
         <div className="py-2 flex flex-col gap-2 text-black">
-          <div className="flex justify-between text-sm font-semibold">
+          <div className="flex justify-between text-sm font-normal">
             <section className="flex flex-col gap-2">
               <h1>Get Scholarship</h1>
-              <p className="font-bold text-lg">₹{pricePool}</p>
+              <p className="font-semibold text-lg">₹{pricePool}</p>
             </section>
 
             <span className="flex border border-gray-100 w-fit my-2" />
 
             <section className="flex flex-col justify-end items-end gap-2">
               <h1>Achieved Scholarship</h1>
-              <p className="font-bold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
+              <p className="font-semibold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
             </section>
           </div>
 
           <span className="flex border border-gray-200 w-full my-2" />
 
-          <section className="flex justify-between items-center font-bold">
+          <section className="flex justify-between items-center font-semibold">
             <h1>All India Rank</h1>
-            <h1 className="font-semibold border bg-input-box border-card-border px-4 py-1 rounded-md">{rank || 0}</h1>
+            <h1 className="font-normal border bg-input-box border-card-border px-4 py-1 rounded-md">{rank || 0}</h1>
           </section>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center border-t border-gray-200 px-4 text-sm font-semibold">
+      <div className="flex justify-between items-center border-t border-gray-200 px-4 text-sm font-normal">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
           <img className="object-cover w-10 h-10 rounded-full border-2 border-white" src={subjectImage} alt={subjectName} />
           <div className="grid gap-1 w-full">
@@ -60,7 +60,7 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           <span className="text-2xl">
             <BsFillAlarmFill />
           </span>
-          <div className="flex flex-col text-xs font-bold">
+          <div className="flex flex-col text-xs font-semibold">
             <span>{dayjs(contestStartDate).format("h:mm A")}</span>
             <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
           </div>

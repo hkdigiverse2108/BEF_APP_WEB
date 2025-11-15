@@ -2,9 +2,9 @@ import { useGetApiQuery } from "../../Api/CommonApi";
 import { ROUTES, URL_KEYS } from "../../Constants";
 import { FormButton } from "../../Attribute/FormFields";
 import { Empty, Skeleton } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { WorkshopItem } from "../../Types";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loader1 from "../../Components/Common/Loader1";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import WorkshopCard from "../../Components/Workshop/WorkshopCard";
@@ -13,25 +13,29 @@ const Workshop = () => {
   const [myWorkshopLimit, setMyWorkshopLimit] = useState(3);
 
   const navigate = useNavigate();
-
   const { data: workshopData, isLoading: workshopLoading } = useGetApiQuery({
     url: `${URL_KEYS.WORKSHOP.ALL}`,
   });
   const workshop = workshopData?.data?.workshop_data || [];
-  console.log(workshop);
 
-  if (workshopLoading) return <Loader1 />;
-
-  if (workshop?.length === 1) {
+  if (!workshopLoading && workshop.length === 1) {
     navigate(ROUTES.WORKSHOP.DETAILS.replace(":id", workshop[0]?._id), {
       replace: true,
     });
-    return null;
   }
 
-  if (workshop?.length === 0) {
-    return <Empty />;
-  }
+  // 🚀 Redirect safely
+  useEffect(() => {
+    if (!workshopLoading && workshop.length === 1) {
+      navigate(ROUTES.WORKSHOP.DETAILS.replace(":id", workshop[0]?._id), {
+        replace: true,
+      });
+    }
+  }, [workshopLoading, workshop]);
+
+  // ❗ NOW handle early returns AFTER hooks
+  if (workshopLoading) return <Loader1 />;
+  if (!workshopLoading && workshop.length === 0) return <Empty />;
 
   const MyWorkshop = workshop?.filter(
     (item: WorkshopItem) => item?.isUnlocked === true
@@ -39,9 +43,6 @@ const Workshop = () => {
   const AllWorkshop = workshop?.filter(
     (item: WorkshopItem) => item?.isUnlocked === false
   );
-
-  // console.log(MyWorkshop, AllWorkshop);
-
   return (
     <>
       <div className="sub-container">
@@ -53,7 +54,7 @@ const Workshop = () => {
             <hr className="text-card-border mb-5" />
             <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {workshopLoading
-                ? [...Array(3)].map((_, i) => (
+                ? [...Array(3)]?.map((_, i) => (
                     <Skeleton.Node
                       key={i}
                       active

@@ -122,7 +122,7 @@ const Solution = () => {
   const handleQuestionNumberClick = (questionNumber: number) => setCurrentQuestionNumber(questionNumber);
 
   const ALMentor = (className: string) => (
-    <span className={`${className} flex gap-2 bg-input-box font-bold text-sm p-2 px-3 rounded capitalize`}>
+    <span className={`${className} flex gap-2 bg-input-box font-semibold text-sm p-2 px-3 rounded capitalize`}>
       <Tooltip title={"AL Mentor: Unlock strategies by exploring how others tackled this question and discover your most effective weapon bases on past performance!"}>
         <BsExclamationCircle className="text-xl" />
       </Tooltip>
@@ -141,35 +141,35 @@ const Solution = () => {
             {/* Question Header */}
             <div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
-                <span className="bg-input-box font-bold text-sm p-2 rounded cursor-pointer" onClick={() => setOpenQuestion(!isOpenQuestion)}>
+                <span className="bg-input-box font-semibold text-sm p-2 rounded cursor-pointer" onClick={() => setOpenQuestion(!isOpenQuestion)}>
                   <Tooltip title="All Questions">
                     <HiOutlineBars3BottomLeft className="text-xl" />
                   </Tooltip>
                 </span>
                 <Select placeholder="All Solutions" options={SolutionsOptions} className="!m-0" onChange={handleSolutionsFilter} allowClear defaultValue={isSolutionsFilter} />
-                <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", id || "")}${search}`} className="bg-input-box font-bold text-sm p-2 px-4 rounded capitalize">
+                <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", id || "")}${search}`} className="bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize">
                   mistake map report
                 </Link>
-                {/* <span className="bg-input-box font-bold text-sm p-2  rounded">
+                {/* <span className="bg-input-box font-semibold text-sm p-2  rounded">
                   <PiFilePdf className="text-xl" />
                 </span> */}
               </div>
               <span className="border-t border-card-border flex w-full my-6" />
               <div className="flex flex-wrap items-center gap-3 mt-3">
                 <div className="relative inline-block">
-                  <span className="bg-input-box font-bold text-sm p-2 px-4 rounded">Question : {currentQuestionAnswers?.qaNumber}</span>
+                  <span className="bg-input-box font-semibold text-sm p-2 px-4 rounded">Question : {currentQuestionAnswers?.qaNumber}</span>
                   {(() => {
                     const currentStack = CheckIsStackNumber(QAData?.positiveMarks as number);
                     if (currentStack !== QAData?.positiveMarks) {
-                      return <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">2x</span>;
+                      return <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">2x</span>;
                     }
                     return null;
                   })()}
                 </div>
-                {CheckRightAndWrongAnswers(currentQuestionAnswers) === "correct" && <span className="bg-green-100 text-green-700 text-sm font-bold py-2 px-4 rounded">+ {CheckIsStackNumber(QAData?.positiveMarks as number) || 0}</span>}
-                {CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" && <span className="bg-red-100 text-red-700 text-sm font-bold py-2 px-4 rounded">{CheckIsStackNumber(QAData?.negativeMarks as number) || 0}</span>}
+                {CheckRightAndWrongAnswers(currentQuestionAnswers) === "correct" && <span className="bg-green-100 text-green-700 text-sm font-semibold py-2 px-4 rounded">+ {CheckIsStackNumber(QAData?.positiveMarks as number) || 0}</span>}
+                {CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" && <span className="bg-red-100 text-red-700 text-sm font-semibold py-2 px-4 rounded">{CheckIsStackNumber(QAData?.negativeMarks as number) || 0}</span>}
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                  <span onClick={handleLanguageChange} className={`flex gap-2 bg-input-box font-bold text-sm p-2 px-4 rounded capitalize ${language === "hindiQuestion" ? "border border-input-box-dark" : ""}`}>
+                  <span onClick={handleLanguageChange} className={`flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize ${language === "hindiQuestion" ? "border border-input-box-dark" : ""}`}>
                     <IoLanguage className="text-xl" />
                   </span>
                   {CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" && <Select allowClear loading={isPostLoading} onChange={handleWhyFalseChange} placeholder="Why False" options={WhyFalseOptions} className="!m-0" defaultValue={currentQuestionAnswers?.whyFalse} />}
@@ -177,30 +177,30 @@ const Solution = () => {
               </div>
               <span className="border-t border-card-border flex w-full my-6" />
               <div className="flex flex-wrap items-center gap-3">
-                {isSubTopicLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <p className="bg-input-box font-bold text-sm p-2 px-4 rounded text-neutral-500">{SubTopicApiData?.data?.name}</p>}
-                <p className="bg-input-box font-bold text-sm p-2 px-4 rounded text-neutral-500">
+                {isSubTopicLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <p className="bg-input-box font-semibold text-sm p-2 px-4 rounded text-neutral-500">{SubTopicApiData?.data?.name}</p>}
+                <p className="bg-input-box font-semibold text-sm p-2 px-4 rounded text-neutral-500">
                   Strategy :<span className="text-black"> {currentQuestionAnswers?.type}</span>
                 </p>
                 {ALMentor("sm:hidden")}
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
                   {ALMentor("max-sm:hidden")}
-                  <span className="2xl:hidden flex gap-2 bg-input-box font-bold text-sm p-2 px-4 rounded capitalize cursor-pointer" onClick={() => setOpenSolution(!isOpenSolution)}>
+                  <span className="2xl:hidden flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize cursor-pointer" onClick={() => setOpenSolution(!isOpenSolution)}>
                     Solution
                   </span>
                 </div>
               </div>
               <div className="relative my-6 shadow-lg rounded-2xl p-[1px] animate-gradient-border bg-gradient-to-r from-[var(--primary)] via-[var(--success)] to-[var(--primary)] bg-[length:200%_200%]">
                 <div className="bg-white rounded-2xl p-6">
-                  <p className="font-bold mb-2 text-2xl">AI Mentor</p>
+                  <p className="font-semibold mb-2 text-2xl">AI Mentor</p>
                   <ul className="list-[square] ps-5">
-                    <li className="font-semibold mb-2">
-                      In This Subject : <span className="italic font-bold capitalize"> {AiMentor?.type} </span> based question
+                    <li className="font-normal mb-2">
+                      In This Subject : <span className="italic font-semibold capitalize"> {AiMentor?.type} </span> based question
                     </li>
-                    <li className="font-semibold mb-2">
-                      Other : <span className="italic font-bold"> {AiMentor?.otherStrategy?.strategyPercentage}% </span>Accuracy using<span className="italic font-bold"> {AiMentor?.otherStrategy?.strategyType} </span>
+                    <li className="font-normal mb-2">
+                      Other : <span className="italic font-semibold"> {AiMentor?.otherStrategy?.strategyPercentage}% </span>Accuracy using<span className="italic font-semibold"> {AiMentor?.otherStrategy?.strategyType} </span>
                     </li>
-                    <li className="font-semibold">
-                      Your : <span className="italic font-bold"> {AiMentor?.youStrategy?.percentage}% </span>Accuracy using<span className="italic font-bold"> {AiMentor?.youStrategy?.type} </span>
+                    <li className="font-normal">
+                      Your : <span className="italic font-semibold"> {AiMentor?.youStrategy?.percentage}% </span>Accuracy using<span className="italic font-semibold"> {AiMentor?.youStrategy?.type} </span>
                     </li>
                   </ul>
                 </div>
@@ -214,7 +214,7 @@ const Solution = () => {
               ) : (
                 <>
                   <div className="mb-4">
-                    <p className="font-bold text-lg mb-1">{currentQuestionLanguage?.question}</p>
+                    <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>
                   </div>
                   {/* STATEMENT Section */}
                   {QaAnswers.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
@@ -223,7 +223,7 @@ const Solution = () => {
                         {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
                           return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} />}</div>;
                         })}
-                        <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                        <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                       </div>
                       <span className="border-t border-card-border flex w-full mb-6" />
                     </>
@@ -234,7 +234,7 @@ const Solution = () => {
                     <>
                       <div className="space-y-4 pb-6 rounded-2xl">
                         <PairTable pair={currentQuestionLanguage?.pairQuestion || []} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined || ""} />
-                        <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                        <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                       </div>
                       <span className="border-t border-card-border flex w-full mb-6" />
                     </>
@@ -243,8 +243,8 @@ const Solution = () => {
               )}
               <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {isQaLoading
-                  ? [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 15 }} />)
-                  : Object.keys(currentQuestionLanguage?.options || {}).map((opt, i) => {
+                  ? [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 15 }} />)
+                  : Object.keys(currentQuestionLanguage?.options || {})?.map((opt, i) => {
                       const userAnswer = currentQuestionAnswers?.answer;
                       const hasAnswered = !!userAnswer;
                       const isRightAnswer = hasAnswered && opt === currentQuestionAnswers?.rightAnswer;
@@ -276,7 +276,7 @@ const Solution = () => {
             <div onClick={(e) => e.stopPropagation()} className="2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] w-full max-2xl:max-w-[600px] max-2xl:min-w-[200px] max-2xl:top-0 max-2xl:left-0  max-2xl:px-5 max-2xl:py-4 h-fit max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
               <div className="mb-6">
                 <div className="flex justify-between items-center">
-                  <p className="font-semibold text-base mb-1">Solution</p>
+                  <p className="font-normal text-base mb-1">Solution</p>
                   <button id="toggleClose" onClick={() => setOpenSolution(!isOpenSolution)} className="hidden max-2xl:flex justify-center items-center z-[100] rounded-xl bg-input-box w-9 h-9 cursor-pointer">
                     <RxCross2 className="w-5 h-5" />
                   </button>
@@ -285,12 +285,12 @@ const Solution = () => {
               </div>
 
               <div className="p-3 rounded-lg border border-primary my-6" style={{ backgroundImage: `url(${ImagePath}/question/Solution-bg.png)` }}>
-                <p className="font-bold text-lg text-white">Correct Answer: {currentQuestionAnswers?.rightAnswer}</p>
+                <p className="font-semibold text-lg text-white">Correct Answer: {currentQuestionAnswers?.rightAnswer}</p>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
 
               <div className="max-h-[550px] 2xl:h-100 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
-                <p className="font-bold text-base mb-1 text-neutral-500" dangerouslySetInnerHTML={{ __html: currentQuestionLanguage?.solution?.replace(/\n/g, "<br/>") || "" }}></p>
+                <p className="font-semibold text-base mb-1 text-neutral-500" dangerouslySetInnerHTML={{ __html: currentQuestionLanguage?.solution?.replace(/\n/g, "<br/>") || "" }}></p>
               </div>
 
               {/* End Test Button */}

@@ -256,7 +256,7 @@ const Register = () => {
               name="examTypeId"
               label="Exam Type"
               required
-              options={(examTypeData || []).map((type: any) => ({
+              options={(examTypeData || [])?.map((type: any) => ({
                 label: type?.name,
                 value: type?._id,
               }))}
@@ -290,7 +290,7 @@ const Register = () => {
       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden p-3">
         <div className="w-full p-4 sm:p-8 lg:p-15 relative bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
           <div className="z-20 text-center w-full flex flex-col gap-3">
-            <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
+            <h1 className="font-semibold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
               Join Thousands <br /> of Learners
             </h1>
             <p className="font-medium text-xl leading-relaxed mx-auto">
@@ -323,13 +323,13 @@ const Register = () => {
           <Steps
             current={current}
             direction="horizontal"
-            items={steps.map((s) => ({ title: s.title }))}
+            items={steps?.map((s) => ({ title: s.title }))}
             className="space-y-2 lg:space-y-4"
           />
 
           <header className="mb-3">
             <div className="space-y-1">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+              <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
                 Get Started Now
               </h2>
               <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
@@ -358,7 +358,7 @@ const Register = () => {
                   </span>
                   <NavLink
                     to="/"
-                    className="font-bold  cursor-pointer hover:underline !text-primary"
+                    className="font-semibold  cursor-pointer hover:underline !text-primary"
                   >
                     Login
                   </NavLink>

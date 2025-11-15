@@ -33,7 +33,7 @@ const InstructionsDrawer = () => {
     <Drawer placement="right" title="Instructions" size="large" onClose={() => handleClose()} open={isInstructionsDrawer} className="!p-0">
       <div className="flex flex-col gap-10 mt-6">
         <div>
-          <h2 className="font-semibold text-lg mb-3">1. Practice Actively Label Each Statement True Or False!</h2>
+          <h2 className="font-normal text-lg mb-3">1. Practice Actively Label Each Statement True Or False!</h2>
           <div className="grid grid-cols-1">
             <div className="border border-card-border p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
               <span className="flex-1 font-medium">1. Both Statement-1 and statement-2 are correct and Statement-2 explains Statement-1</span>
@@ -50,7 +50,7 @@ const InstructionsDrawer = () => {
         </div>
         <span className="border-t border-card-border flex w-full" />
         <div>
-          <h2 className="font-semibold text-lg mb-3">2. Improve accuracy : use the elimination icon for 50-50 or 33-33-33!</h2>
+          <h2 className="font-normal text-lg mb-3">2. Improve accuracy : use the elimination icon for 50-50 or 33-33-33!</h2>
           <div className="grid grid-cols-1 gap-3">
             <div className="border border-card-border p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
               <div className="flex items-center w-full">
@@ -72,12 +72,12 @@ const InstructionsDrawer = () => {
         </div>
         <span className="border-t border-card-border flex w-full" />
         <div className="min-h-48">
-          <h2 className="font-semibold text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
+          <h2 className="font-normal text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
           <div className="flex justify-center">
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {InstructionButtons.map((btn, i) => (
+              {InstructionButtons?.map((btn, i) => (
                 <div key={i} className="grid grid-cols-1 gap-5">
-                  <button className={`flex items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>
+                  <button className={`flex items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-normal text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>
                     {btn.icon}
                     {btn.label}
                   </button>
@@ -92,12 +92,12 @@ const InstructionsDrawer = () => {
         </div>
         <span className="border-t border-card-border flex w-full" />
         <div>
-          <h2 className="font-semibold text-lg mb-3">4. "2X The Stakes, 2X The Thrill!"</h2>
+          <h2 className="font-normal text-lg mb-3">4. "2X The Stakes, 2X The Thrill!"</h2>
           <div className="pt-4 flex items-center gap-3">
             <div className="flex max-sm:flex-col items-center gap-5">
               <Badge count={"2X"} color="#FE6E13">
                 <div className="text-sm py-2 px-4 bg-input-box shadow-btn-shadow">
-                  <span className="font-bold rounded">Question : 01</span>
+                  <span className="font-semibold rounded">Question : 01</span>
                 </div>
               </Badge>
               <div className="sm:col-span-2 relative bg-input-box p-3 rounded-lg shadow-md">
@@ -110,10 +110,10 @@ const InstructionsDrawer = () => {
         <span className="border-t border-card-border flex w-full" />
 
         <div>
-          <h2 className="font-semibold text-lg mb-3">5. You Can Change Language</h2>
+          <h2 className="font-normal text-lg mb-3">5. You Can Change Language</h2>
           <div className="flex items-center gap-3">
             <Tooltip title="English / Hindi" color="#ffe2e2" open={isOpen} placement="right">
-              <span className="text-sm font-bold  flex flex-nowrap gap-2">
+              <span className="text-sm font-semibold  flex flex-nowrap gap-2">
                 <IoLanguage className="text-xl" />
                 Language
               </span>

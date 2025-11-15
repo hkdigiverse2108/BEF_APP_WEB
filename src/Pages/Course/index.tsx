@@ -34,7 +34,7 @@ const Course = () => {
             <hr className="text-card-border mb-5" />
             <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {isLoading
-                ? [...Array(3)].map((_, i) => (
+                ? [...Array(3)]?.map((_, i) => (
                     <Skeleton.Node
                       key={i}
                       active
@@ -68,7 +68,7 @@ const Course = () => {
             <hr className="text-card-border mb-5" />
             <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {isLoading
-                ? [...Array(3)].map((_, i) => (
+                ? [...Array(3)]?.map((_, i) => (
                     <Skeleton.Node
                       key={i}
                       active

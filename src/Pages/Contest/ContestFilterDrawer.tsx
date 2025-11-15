@@ -32,11 +32,11 @@ const ContestFilterDrawer = () => {
   const renderRangeSection = (title: string, key: keyof ContestFilters, data: RangeOption[], selected: RangeOption | null) => (
     <div>
       <div className="flex justify-between items-end">
-        <h3 className="text-lg font-bold">{title}</h3>
-        <span onClick={() => handleClearFilter(key)} className="text-sm font-semibold underline">Clear</span>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <span onClick={() => handleClearFilter(key)} className="text-sm font-normal underline">Clear</span>
       </div>
       <ul className="flex flex-wrap gap-3 pt-3">
-        {data.map((item, i) => (
+        {data?.map((item, i) => (
           <li key={i} onClick={() => updateFilter(key, item)} className={`border py-2 px-3 w-fit rounded-full cursor-pointer transition-colors duration-200 text-theme bg-input-box ${selected?.label === item.label ? "border-primary !text-primary !bg-bg-light" : "border-box-border hover:border-theme"}`}>
             <p className="font-normal text-base">{item.label}</p>
           </li>
@@ -48,8 +48,8 @@ const ContestFilterDrawer = () => {
   const renderStringSection = (title: string, key: keyof ContestFilters, data: { _id: string; name: string }[] = [], selected: string) => (
     <div className="flex flex-col w-full">
       <div className="flex justify-between items-end">
-        <h3 className="text-lg font-bold">{title}</h3>
-        <span onClick={() => handleClearFilter(key)} className="text-sm font-semibold underline">Clear</span>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <span onClick={() => handleClearFilter(key)} className="text-sm font-normal underline">Clear</span>
       </div>
       {isLoading ? (
         <div className="flex items-center justify-center w-full col-span-4">
@@ -57,7 +57,7 @@ const ContestFilterDrawer = () => {
         </div>
       ) : (
         <ul className="flex flex-wrap gap-3 pt-3">
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <li key={i} onClick={() => updateFilter(key, item.name)} className={`border py-2 px-3 w-fit rounded-full cursor-pointer transition-colors duration-200 text-theme bg-input-box ${selected === item.name ? "border-primary !text-primary !bg-bg-light" : "border-box-border hover:border-theme"}`}>
               <p className="font-normal text-base">{item.name}</p>
             </li>

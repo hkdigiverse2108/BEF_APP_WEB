@@ -25,7 +25,7 @@ const Classes = () => {
           <CardHeader title="All Class" />
         </div>
         <hr className="text-card-border mb-5" />
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 15 }} />) : Classes?.map((item, index) => <ClassCard key={index} item={item} onClick={HandleClasses} />)}</div>
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(6)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 15 }} />) : Classes?.map((item, index) => <ClassCard key={index} item={item} onClick={HandleClasses} />)}</div>
       </div>
       <SubjectDrawer />
     </>

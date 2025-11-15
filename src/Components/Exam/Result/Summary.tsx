@@ -62,8 +62,8 @@ const Summary: FC<{ data: Sec1Type }> = ({ data }) => {
     <>
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-bold text-gray-800">Polity</h2>
-        <p className="text-sm text-gray-500 font-semibold">Summary</p>
+        <h2 className="text-xl font-semibold text-gray-800">Polity</h2>
+        <p className="text-sm text-gray-500 font-normal">Summary</p>
       </div>
       <div>
         <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>

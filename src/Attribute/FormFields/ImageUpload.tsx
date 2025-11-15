@@ -72,7 +72,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ multiple, accept, isListType, disab
         listType={isListType ?? "picture-card"}
         multiple={multiple}
         disabled={disabled}
-        fileList={fileList.map((url, index) => ({
+        fileList={fileList?.map((url, index) => ({
           uid: String(index),
           name: `file-${index}.jpg`,
           status: isLoading ? "uploading" : "done",

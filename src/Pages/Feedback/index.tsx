@@ -16,7 +16,7 @@ const FeedbackModal = () => {
       <div className="flex flex-col items-center justify-center min-h-full">
         <div className="w-full !rounded-2xl overflow-hidden border border-gray-200 bg-input-box bg-cover bg-top">
           <div className="text-center p-3 sm:p-6 !pb-0">
-            <h2 className="text-2xl font-semibold">Feedback</h2>
+            <h2 className="text-2xl font-normal">Feedback</h2>
           </div>
 
           <div className="p-3 sm:p-6 flex flex-col gap-6">

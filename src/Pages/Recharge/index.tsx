@@ -149,10 +149,10 @@ const Recharge = () => {
               src={`${ImagePath}recharge/Wallet.png`}
             />
             <div className="text-left">
-              <p className="text-base font-bold mt-1 capitalize">
+              <p className="text-base font-semibold mt-1 capitalize">
                 Available Balance
               </p>
-              <h3 className="text-2xl font-extrabold">
+              <h3 className="text-2xl font-bold">
                 ₹ {userData?.walletBalance || 0}
               </h3>
             </div>
@@ -161,7 +161,7 @@ const Recharge = () => {
           {/* FORM */}
           <div className="w-full relative bg-input-box rounded-xl p-5 flex flex-wrap justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
-            <span className="font-semibold">Add Amount</span>
+            <span className="font-normal">Add Amount</span>
 
             <Form
               form={form}

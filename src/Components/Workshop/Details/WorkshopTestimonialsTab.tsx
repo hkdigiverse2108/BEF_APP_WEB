@@ -1,15 +1,14 @@
-import { Rate } from "antd";
+import { Empty, Rate } from "antd";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import type { TestimonialType } from "../../../Types";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { URL_KEYS } from "../../../Constants";
 
-
 const WorkshopTestimonialsTab = () => {
   const { data } = useGetApiQuery({ url: URL_KEYS.WORKSHOP.TESTIMONIAL });
 
   const testimonials = data?.data?.webinar_testimonial_data;
-
+  if (testimonials?.length === 0) return <Empty />;
   return (
     <div
       className="flex flex-col items-center justify-center gap-5 "
@@ -18,20 +17,20 @@ const WorkshopTestimonialsTab = () => {
       {testimonials?.map((t: TestimonialType) => {
         const { description, name, designation, image, rating } = t;
         return (
-          <div className="bg-white flex flex-col sm:flex-row justify-between items-center rounded-xl p-4 sm:p-6 gap-2 sm:gap-6 border border-gray-200 w-full ">
+          <div className="bg-white flex flex-col sm:flex-row justify-between  rounded-xl p-4 sm:p-6 gap-2 sm:gap-6 border border-gray-200 w-full ">
             {/* Left Content */}
             <div className="order-2 sm:order-1 flex-1">
-              <div className="text-3xl sm:text-6xl text-primary  font-serif ">
+              <div className="text-3xl sm:text-6xl text-primary ">
                 <RiDoubleQuotesL />
               </div>
 
-              <p className="sm:text-lg mb-6">{description}</p>
+              <p className="sm:text-lg mb-6 font-semibold">{description}</p>
 
               <div>
                 <span className="flex max-sm:flex-col sm:gap-3 gap-1">
                   <p className="font-semibold ">{name}</p>
                   <span className="max-sm:hidden border-0.5 border-e border-gray-300  " />
-                  <p className="text-sm ">{designation}</p>
+                  <p className="text-sm capitalize ">{designation}</p>
                 </span>
                 <div className="text-primary font-bold tracking-widest mt-2">
                   <Rate
@@ -45,7 +44,7 @@ const WorkshopTestimonialsTab = () => {
             </div>
 
             {/* Right - Image */}
-            <div className="order-1 sm:order-2 flex-shrink-0">
+            <div className="order-1 sm:order-2 flex-shrink-0 flex justify-center items-center">
               <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-primary">
                 <img
                   src={image}

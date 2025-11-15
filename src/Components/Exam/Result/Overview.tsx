@@ -15,8 +15,8 @@ const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData 
         </div>
       </div>
       <div className="text-left">
-        <p className="text-base font-bold mt-1 uppercase">{label}</p>
-        <h3 className="text-xl font-extrabold">
+        <p className="text-base font-semibold mt-1 uppercase">{label}</p>
+        <h3 className="text-xl font-bold">
           {value} {subValue && <span className="text-base text-neutral-500">{subValue}</span>}
         </h3>
       </div>
@@ -29,12 +29,12 @@ const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData 
     <>
       <div className="relative px-4 mb-4">
         <div className="w-1 h-[100%] bg-success rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-bold ">Overview</h2>
-        <span className="text-base font-bold text-neutral-400">Summary of marks scored in the test attempted on {dayjs(contest?.contestStartDate).format("MMM DD , h:mm A")}</span>
+        <h2 className="text-xl font-semibold ">Overview</h2>
+        <span className="text-base font-semibold text-neutral-400">Summary of marks scored in the test attempted on {dayjs(contest?.contestStartDate).format("MMM DD , h:mm A")}</span>
       </div>
       <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
         {isLoading ? (
-          [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 150, borderRadius: 10 }} />)
+          [...Array(6)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 150, borderRadius: 10 }} />)
         ) : (
           <>
             <OverviewCard img={"result/Total.png"} label="Total Marks Scored" value={`${data?.totalPoints.toFixed(2) || 0} /`} subValue={`${Math.round(((totalQuestion * 11) / 10) * data?.positiveMarks) || 0} Marks`} />

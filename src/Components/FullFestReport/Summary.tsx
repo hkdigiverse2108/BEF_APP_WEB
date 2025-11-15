@@ -35,7 +35,7 @@ const Summary: FC<{ AttemptingStrategyWise: SubjectSummaryType; SubWise: Subject
       <div className="flex justify-between items-center">
         <div className="relative px-4">
           <div className="w-1 h-[100%] bg-success rounded-full absolute left-0 top-0" />
-          <h2 className="text-xl font-bold ">Summary</h2>
+          <h2 className="text-xl font-semibold ">Summary</h2>
         </div>
         <div className="flex justify-end question-section">
           <FormSelect name="Language" placeholder="Subject" options={LanguageOptions} className="!m-0" value="english" />

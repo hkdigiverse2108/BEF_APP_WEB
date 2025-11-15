@@ -46,7 +46,7 @@ const KYCRegister = () => {
   return (
     <div className="sub-container pt-4 mb-6 min-h-screen">
       <section className="flex flex-col gap-5">
-        <h2 className="text-2xl font-semibold">KYC Register</h2>
+        <h2 className="text-2xl font-normal">KYC Register</h2>
         <hr className="text-card-border mb-4" />
 
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
@@ -57,7 +57,7 @@ const KYCRegister = () => {
 
           {/* Right Form */}
           <div className="flex flex-col w-full h-full justify-center">
-            <h3 className="text-2xl font-bold mb-2">Nexify Learning Solution LLP</h3>
+            <h3 className="text-2xl font-semibold mb-2">Nexify Learning Solution LLP</h3>
             <p className="text-gray-700 mb-6">KYC verification is mandatory for cash withdrawal to ensure authenticity and compliance with legal regulations. Any incomplete or incorrect information may result in delays in the process.</p>
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
@@ -106,8 +106,8 @@ const KYCRegister = () => {
               {/* Button */}
               <FormButton htmlType="submit" text="Next" className="custom-button button button--mimas w-full !h-auto" />
 
-              {/* <p className="mt-4 text-center font-bold">
-                RETURN TO <span className="text-orange-500 font-semibold cursor-pointer hover:underline">INDIAN QUIZ PRIVET LIMITED</span>
+              {/* <p className="mt-4 text-center font-semibold">
+                RETURN TO <span className="text-orange-500 font-normal cursor-pointer hover:underline">INDIAN QUIZ PRIVET LIMITED</span>
               </p> */}
             </Form>
           </div>

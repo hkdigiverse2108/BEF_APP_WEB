@@ -44,7 +44,7 @@ const ResetPassword = () => {
       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10  overflow-hidden p-3">
         <div className="w-full p-4 sm:p-8 lg:p-15 relative bg-bg-light border-2 border-primary-light rounded-2xl overflow-hidden">
           <div className="z-20 text-center w-full flex flex-col gap-3">
-            <h1 className="font-bold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
+            <h1 className="font-semibold text-black text-xl sm:text-2xl xl:text-5xl 2xl:text-6xl leading-tight">
               Pick up your
               <br />
               Quiz again
@@ -79,7 +79,7 @@ const ResetPassword = () => {
           {/* Header */}
           <header className="space-y-6 lg:space-y-8">
             <div className="space-y-3">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+              <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
                 Confirm your Email
               </h2>
               <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
@@ -117,7 +117,7 @@ const ResetPassword = () => {
                     </span>
                     <NavLink
                       to="/"
-                      className="font-bold  cursor-pointer hover:underline !text-primary"
+                      className="font-semibold  cursor-pointer hover:underline !text-primary"
                     >
                       Login
                     </NavLink>

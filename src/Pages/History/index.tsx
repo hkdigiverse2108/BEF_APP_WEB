@@ -34,12 +34,12 @@ const History = () => {
                       {item?.transactionType === "withdraw" ? <BsGraphDownArrow className="text-lg"/> : <BsGraphUpArrow className="text-lg"/>}
                     </div>
                     <div>
-                      <span className="text-md font-bold capitalize">{item?.title}</span>
+                      <span className="text-md font-semibold capitalize">{item?.title}</span>
                       <p className="capitalize flex text-xs">{FormatDateTime(item?.createdAt)}</p>
                     </div>
                   </div>
                   <div className="">
-                    <p className={`text-base font-bold ${item?.transactionType === "withdraw" ? "text-danger" : "text-success"}`}>
+                    <p className={`text-base font-semibold ${item?.transactionType === "withdraw" ? "text-danger" : "text-success"}`}>
                       {item?.transactionType === "withdraw" ? "-" : "+"} ₹{item?.amount}
                     </p>
                   </div>

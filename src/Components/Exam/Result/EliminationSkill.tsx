@@ -23,11 +23,11 @@ const EliminationSkill: FC<{ data: Sec3Type }> = ({ data }) => {
   const dynamicBarSeries = [
     {
       name: "Your Correct Elimination Accuracy",
-      data: (chartCorrectSeries as number[]).map((item) => Math.round(item)),
+      data: (chartCorrectSeries as number[])?.map((item) => Math.round(item)),
     },
     {
       name: "Right Answer Accuracy After Elimination",
-      data: (chartIncorrectSeries as number[]).map((item) => Math.round(item)),
+      data: (chartIncorrectSeries as number[])?.map((item) => Math.round(item)),
     },
   ];
 
@@ -35,8 +35,8 @@ const EliminationSkill: FC<{ data: Sec3Type }> = ({ data }) => {
     <>
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-bold text-gray-800">Polity</h2>
-        <p className="text-sm text-gray-500 font-semibold">Elimination Skill Report</p>
+        <h2 className="text-xl font-semibold text-gray-800">Polity</h2>
+        <p className="text-sm text-gray-500 font-normal">Elimination Skill Report</p>
       </div>
 
       <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
@@ -48,12 +48,12 @@ const EliminationSkill: FC<{ data: Sec3Type }> = ({ data }) => {
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
           <div className="flex flex-col items-center">
             <ReactApexChart options={EliminationSkillRadialBarCharts("#FE6E13", { left: RightEliminatedYes, right: TotalQuestions })} series={[Math.round(eliminationReport?.correctPercentage || 0)]} type="radialBar" height={250} />
-            <p className="mt-2 font-semibold">Your Correct Elimination Accuracy</p>
+            <p className="mt-2 font-normal">Your Correct Elimination Accuracy</p>
           </div>
 
           <div className="flex flex-col items-center">
             <ReactApexChart options={EliminationSkillRadialBarCharts("#288F66", { left: RightChosenAfterEliminationYes, right: RightEliminatedYes })} series={[Math.round(eliminationReport?.incorrectPercentage || 0)]} type="radialBar" height={250} />
-            <p className="mt-2 font-semibold">Right Answer Accuracy After Elimination</p>
+            <p className="mt-2 font-normal">Right Answer Accuracy After Elimination</p>
           </div>
         </div>
         <div className="pt-6">
