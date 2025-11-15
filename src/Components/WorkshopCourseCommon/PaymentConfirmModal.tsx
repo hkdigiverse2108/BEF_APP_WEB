@@ -69,16 +69,16 @@ const PaymentConfirmModal: FC<PaymentConfirmModalProps> = ({
         >
           {/* Header */}
           <div className="text-white text-center">
-            <h2 className="text-2xl font-semibold">Confirm Payment</h2>
+            <h2 className="text-2xl font-normal">Confirm Payment</h2>
           </div>
 
           {/* Body */}
           <div className=" flex flex-col gap-6">
             <div className="bg-white space-y-1 rounded-md p-6 ">
               <div className=" flex  justify-between gap-5 text-lg">
-                <p className="font-bold">Available Balance :</p>
+                <p className="font-semibold">Available Balance :</p>
                 <p
-                  className={` font-bold  ${
+                  className={` font-semibold  ${
                     isSufficientBalance ? "text-success" : "text-danger"
                   } `}
                 >
@@ -100,8 +100,8 @@ const PaymentConfirmModal: FC<PaymentConfirmModalProps> = ({
             {/* )} */}
             <div className="bg-white space-y-1 rounded-md p-6 text-lg">
               <div className=" flex  justify-between gap-5">
-                <p className="font-bold">Discount</p>
-                <p className=" font-semibold">
+                <p className="font-semibold">Discount</p>
+                <p className=" font-normal">
                   -
                   {isDiscountPrice
                     ? Number(data?.price?.price) -
@@ -113,8 +113,8 @@ const PaymentConfirmModal: FC<PaymentConfirmModalProps> = ({
               <span className="border-b border-primary flex" />
 
               <div className=" flex  justify-between gap-5">
-                <p className="font-bold">Total Amount To Pay</p>
-                <p className="text-success font-semibold">{amountToPay}</p>
+                <p className="font-semibold">Total Amount To Pay</p>
+                <p className="text-success font-normal">{amountToPay}</p>
               </div>
             </div>
           </div>

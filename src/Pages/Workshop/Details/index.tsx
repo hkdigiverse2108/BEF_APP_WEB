@@ -39,7 +39,7 @@ const WorkshopDetails = () => {
 
   console.log("Workshop : ", workshop);
 
-  const { data: LectureData, isLoading: isLecturesLoading } = useGetApiQuery(
+  const { data: LectureData } = useGetApiQuery(
     {
       url: `${URL_KEYS.LECTURE.ALL}?workshopFilter=${workshop?._id}`,
     },
@@ -77,8 +77,8 @@ const WorkshopDetails = () => {
         </figure>
       </section>
       <section>
-        <div className="space-y-6">
-          <section className=" max-sm:text-sm font-medium flex justify-between  gap-3">
+        <div className="space-y-6 font-semibold">
+          <section className=" max-sm:text-sm  flex justify-between  gap-3">
             <div className="flex  gap-2 items-center">
               <div className="bg-white border border-gray-300  w-fit h-fit px-3 py-1  rounded-md ">
                 <span>{workshop?.language}</span>
@@ -89,17 +89,15 @@ const WorkshopDetails = () => {
             </div>
           </section>
           <section className="flex max-sm:flex-col gap-4 justify-between">
-            <h1 className="capitalize font-semibold sm:text-2xl">
-              {workshop?.title}
-            </h1>
+            <h1 className="capitalize  sm:text-2xl">{workshop?.title}</h1>
             <span className="max-sm:hidden">
               <ShareModal />
             </span>
           </section>
           <span className="border-b border-gray-300 flex w-full h-0.5" />
 
-          <section className="flex flex-col lg:flex-row gap-5">
-            <div className="bg-input-box  transition-all px-5 py-3 rounded w-full flex items-center gap-5">
+          <section className="flex flex-col lg:flex-row gap-5 font-semibold">
+            <div className="bg-input-box  transition-all gap-3 px-3 sm:px-5 py-3 rounded w-full flex items-center sm:gap-5">
               <figure className="rounded-full bg-primary/10 p-3 sm:p-4 h-fit w-fit">
                 <img
                   src={`${ImagePath}workshop/users.png`}
@@ -107,13 +105,13 @@ const WorkshopDetails = () => {
                   className="w-8 sm:w-10 h-fit"
                 />
               </figure>
-              <p className="font-semibold sm:font-bold capitalize max-sm:text-xs">
+              <p className=" capitalize max-sm:text-xs">
                 Secret Workshop on What toppers do differently
               </p>
             </div>
-            <div className="bg-input-box  transition-all px-5 py-3 rounded w-full flex flex-col sm:flex-row sm:items-center sm:gap-5">
+            <div className="bg-input-box  transition-all gap-3 px-3 sm:px-5 py-3 rounded w-full flex items-center sm:gap-5">
               {/* Image + Title (top row on mobile) */}
-              <div className="flex items-center gap-5 sm:mb-0">
+              <div className="flex items-center gap-3 sm:mb-0">
                 <figure className="rounded-full bg-primary/10 p-3 sm:p-4 h-fit w-fit">
                   <img
                     src={`${ImagePath}workshop/wallet.png`}
@@ -121,9 +119,9 @@ const WorkshopDetails = () => {
                     className="w-8 sm:w-10 h-fit"
                   />
                 </figure>
-                <div className="space-y-2 w-fullfont-semibold sm:font-bold max-sm:text-xs ">
-                  <p>{workshop?.moneyBack}</p>
-                </div>
+                <p className=" capitalize max-sm:text-xs ">
+                  {workshop?.moneyBack}
+                </p>
               </div>
             </div>
           </section>
@@ -136,8 +134,8 @@ const WorkshopDetails = () => {
             textColor="primary"
             variant="scrollable"
             aria-label="primary tabs example"
-            allowScrollButtonsMobile
-            className="about-tabs w-full! flex! justify-between! gap-4! border-b border-gray-300 mt-6 "
+            // allowScrollButtonsMobile
+            className="about-tabs  w-full! flex! justify-between! sm:gap-4! border-b border-gray-300 mt-6 "
             sx={{
               "& .MuiTabs-flexContainer": {
                 justifyContent: "space-between",
@@ -146,12 +144,7 @@ const WorkshopDetails = () => {
           >
             {TabsName?.map(({ value, label }, index) => {
               return (
-                <Tab
-                  key={index}
-                  value={value}
-                  label={label}
-                  className="font-extrabold!"
-                />
+                <Tab key={index} value={value} label={label} className=" " />
               );
             })}
           </Tabs>
@@ -184,9 +177,9 @@ const WorkshopDetails = () => {
           <div className=" container-p py-2 sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
             <div>
               <p className="text-gray-600 font-medium">Price</p>
-              <h1 className=" sm:text-xl font-bold flex gap-0.5 items-end">
+              <h1 className=" sm:text-xl font-semibold flex gap-0.5 items-end">
                 <span>₹{workshop?.discountAmount}</span>
-                <span className="text-base text-red-500 font-semibold line-through decoration-2 ps-1">
+                <span className="text-base text-red-500 font-normal line-through decoration-2 ps-1">
                   {workshop?.totalAmount}
                 </span>
               </h1>

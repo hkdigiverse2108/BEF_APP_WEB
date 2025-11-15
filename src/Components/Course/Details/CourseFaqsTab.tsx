@@ -3,22 +3,34 @@ import FaqCard from "../../Common/FaqCard";
 import type { FAQ } from "../../../Types";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { URL_KEYS } from "../../../Constants";
+import { Empty } from "antd";
 
 const CourseFaqsTab = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
-  const { data } = useGetApiQuery({ url: `${URL_KEYS.FAQ.ALL}?typeFilter=course` });
+  const { data } = useGetApiQuery({
+    url: `${URL_KEYS.FAQ.ALL}?typeFilter=course`,
+  });
 
   const Faqs = data?.data?.faq_data;
 
   const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  if (Faqs?.length === 0) return <Empty />;
+
   return (
     <div>
       <div className="space-y-4">
         {Faqs?.map((faq: FAQ, index: number) => (
-          <FaqCard key={index} faq={faq} index={index} activeIndex={activeIndex} onToggle={toggleFAQ} />
+          <FaqCard
+            key={index}
+            faq={faq}
+            index={index}
+            activeIndex={activeIndex}
+            onToggle={toggleFAQ}
+          />
         ))}
       </div>
     </div>

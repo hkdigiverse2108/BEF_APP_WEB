@@ -45,9 +45,7 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
 
   const id = data?.id || "";
   const price = data?.price?.price || 0;
-  let discountPrice = data?.price?.discountPrice || 0;
-
-  discountPrice = discountPrice === 0 ? price : discountPrice;
+  const discountPrice = data?.price?.discountPrice || 0;
 
   const amountToPay = isRefferApplyed ? Number(discountPrice) : Number(price);
 
@@ -114,7 +112,7 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
         size="large"
         onClose={() => dispatch(setWorkshopPurchaseDrawer())}
         open={isWorkshopPurchaseDrawer}
-        className="p-0!"
+        className="p-0! purchase-Drawer"
       >
         <div className="flex flex-col items-center justify-center min-h-full">
           <div
@@ -125,11 +123,11 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
           >
             {/* Header */}
             <div className="text-white pb-0!">
-              <h2 className="text-2xl font-semibold text-center">
+              <h2 className="text-2xl font-normal text-center">
                 {/* UPSC CSE - GS - Subscription */}
                 {data?.title}
               </h2>
-              <p className="mt-2 text-white text-xl font-bold">
+              <p className="mt-2 text-white text-xl font-semibold">
                 {data?.lecturesData && "Lectures Name"}
               </p>
               <div className="">
@@ -147,9 +145,9 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
             <span className="border-b border-white/50 flex" />
             {/* Body */}
             <div className="space-y-4">
-              <section className="bg-white rounded-lg p-3 space-y-1  ">
+              <section className="sm:bg-white rounded-lg sm:p-3 space-y-1  ">
                 <div className="flex gap-3 items-center w-full ">
-                  <span>
+                  <span className="max-sm:hidden">
                     <BiSolidOffer className="text-2xl text-success " />
                   </span>
                   <CouponCodeCheck
@@ -161,11 +159,11 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                     setRefferCode={setRefferCode}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <p className="text-gray-700  font-medium">
                     (If 60 marks min. not from our course 100% money back)
                   </p>
-                </div>
+                </div> */}
               </section>
               {isRefferApplyed && (
                 <section className="bg-white rounded-lg p-3 space-y-1 ">
@@ -173,10 +171,10 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                     <span>
                       <BiSolidOffer className="text-2xl text-primary " />
                     </span>
-                    <p className="font-bold text-lg">Offer applied</p>
+                    <p className="font-semibold text-lg">Offer applied</p>
                   </div>
                   <div>
-                    <p className="text-gray-700  font-medium ">
+                    <p className="text-gray-700 max-sm:text-xs font-medium ">
                       Pay just enrollment fee — Remaining after prelims cleared.
                     </p>
                   </div>
@@ -187,27 +185,27 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
             <div className="space-y-4">
               <section className="bg-white rounded-lg p-3 space-y-3">
                 <div className="flex justify-between gap-3">
-                  <p className="font-bold">Enrollment Fee</p>
-                  <p className="font-bold text-lg ">
+                  <p className="font-semibold">Enrollment Fee</p>
+                  <p className="font-semibold text-lg ">
                     {isRefferApplyed ? discountPrice : price}
                     {/* 6999 */}
                   </p>
                 </div>
                 <span className="border-b border-primary flex" />
                 <div className="flex justify-between gap-3">
-                  <p className="font-bold">Total (Incl. off all taxes)</p>
+                  <p className="font-semibold">Total (Incl. off all taxes)</p>
                   <div className="space-x-0.5">
                     {isRefferApplyed ? (
                       <h1 className="flex gap-0.5 items-end">
-                        <span className="font-extrabold text-xl text-success">
+                        <span className="font-bold text-xl text-success">
                           ₹{discountPrice}
                         </span>
-                        <span className="font-bold text-base line-through text-red-500 ">
+                        <span className="font-semibold text-base line-through text-red-500 ">
                           {price}
                         </span>
                       </h1>
                     ) : (
-                      <p className="font-extrabold text-xl text-success">
+                      <p className="font-bold text-xl text-success">
                         {price}
                       </p>
                     )}

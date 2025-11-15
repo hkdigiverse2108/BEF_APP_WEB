@@ -64,7 +64,7 @@ const Contest = () => {
             <Input addonBefore={<SearchOutlined className="!text-theme" />} value={params.search} onChange={(e) => handleSetSearch(e.target.value)} placeholder="Search By Contest" className="!w-full" />
           </Space.Compact>
         </span>
-        <span onClick={() => dispatch(setContestFilterDrawer({ open: true }))} className="bg-input-box font-bold text-sm p-2 px-4 rounded w-24 flex flex-col cursor-pointer">
+        <span onClick={() => dispatch(setContestFilterDrawer({ open: true }))} className="bg-input-box font-semibold text-sm p-2 px-4 rounded w-24 flex flex-col cursor-pointer">
           Filter By
         </span>
       </div>
@@ -74,9 +74,9 @@ const Contest = () => {
       <div className="mb-12 flex flex-col gap-8">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
           {isLoading ? (
-            [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 15 }} />)
+            [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 15 }} />)
           ) : Contest?.length > 0 ? (
-            Contest.map((item, i) => <ContestDetailCard key={i} contestData={item} />)
+            Contest?.map((item, i) => <ContestDetailCard key={i} contestData={item} />)
           ) : (
             <div className="flex items-center justify-center w-full col-span-4">
               <Empty />

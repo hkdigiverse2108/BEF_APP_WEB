@@ -44,22 +44,22 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       {/* Body */}
       <div className="px-2 md:px-4 py-2">
         <div className="py-2 flex flex-col gap-2 text-black">
-          <div className="flex justify-between text-sm font-semibold">
+          <div className="flex justify-between text-sm font-normal">
             <section className="flex flex-col gap-2">
               <h1>Get Scholarship</h1>
-              <p className="font-bold text-lg">₹{pricePool}</p>
+              <p className="font-semibold text-lg">₹{pricePool}</p>
             </section>
 
             <span className="flex border border-gray-100 w-fit my-2" />
 
             <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
-              <p className="font-bold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
+              <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
             </section>
           </div>
 
           <Progress percent={progress} showInfo={false} strokeColor="green" />
 
-          <section className="flex justify-between items-center font-semibold">
+          <section className="flex justify-between items-center font-normal">
             <h1 className="text-gray-600">{filledSpots} Filled</h1>
             <h1>{totalSpots} Total Spots</h1>
           </section>
@@ -67,7 +67,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-1 text-sm font-semibold">
+      <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-1 text-sm font-normal">
         <div className="flex max-sm:justify-center items-center gap-4 w-full h-full p-3">
           <img className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white" src={subjectImage || `${ImagePath}contest/ContestIcon.png`} alt={subjectName} />
 
@@ -81,7 +81,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           <span className="text-2xl">
             <BsFillAlarmFill />
           </span>
-          <div className="flex flex-col text-xs font-bold">
+          <div className="flex flex-col text-xs font-semibold">
             <span>{dayjs(contestStartDate).format("h:mm A")}</span>
             <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
           </div>

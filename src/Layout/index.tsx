@@ -5,6 +5,7 @@ import { STORAGE_KEYS } from "../Constants";
 import { Storage } from "../Utils";
 import Footer from "./Footer";
 import Header from "./Header";
+import WhatsappIcon from "../Components/Common/WhatsappIcon";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -14,7 +15,7 @@ const Layout = () => {
       once: true,
     });
   }, []);
-  
+
   useEffect(() => {
     if (!["solution", "mistake-map-report"].includes(pathname)) {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_SOLUTION);
@@ -27,6 +28,7 @@ const Layout = () => {
         <Outlet />
       </div>
       {!pathname.includes("question") && <Footer />}
+      <WhatsappIcon />
     </div>
   );
 };

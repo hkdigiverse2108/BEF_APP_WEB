@@ -104,7 +104,7 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
   }, [isCouponLoading]);
 
   return (
-    <div className="font-bold purchase-Drawer w-full">
+    <div className="font-semibold  w-full">
       <div className={`${isRefferApplyed ? "paymentSuccess" : ""}`}>
         <Search
           placeholder="Referral Code"
@@ -116,7 +116,8 @@ const CouponCodeCheck: FC<CouponCodeCheckProps> = ({
           enterButton={
             isRefferApplyed ? (
               <span className={`flex items-center gap-1  `}>
-                <CheckCircleOutlined /> Applied
+                <CheckCircleOutlined />{" "}
+                <span className="max-sm:hidden">Applied </span>
               </span>
             ) : (
               "Apply"

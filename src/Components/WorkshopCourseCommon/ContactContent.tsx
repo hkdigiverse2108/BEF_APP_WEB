@@ -15,7 +15,9 @@ const ContactContent = () => {
       </Link>
       <span className=" border-t flex border-gray-200  "></span>
       <Link
-        to={`https://api.whatsapp.com/send?text=${CONTACT?.NUMBER}`}
+        to={`https://api.whatsapp.com/send?phone=${
+          CONTACT?.NUMBER
+        }&text=${encodeURIComponent(`I Need Help In Bharat Exam Fest Web`)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex flex-nowrap gap-2 cursor-pointer text-black!"

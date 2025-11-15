@@ -55,7 +55,7 @@ const ReportModal: FC<ReportModalProps> = ({ payload }) => {
         >
           {/* Header */}
           <div className="text-white text-center p-3 sm:p-6 !pb-0">
-            <h2 className="text-2xl font-semibold">Report Issue</h2>
+            <h2 className="text-2xl font-normal">Report Issue</h2>
           </div>
 
           {/* Body */}

@@ -36,9 +36,9 @@ const theme = createTheme({
       xl: 1280,
     },
   },
-  typography: {
-    fontFamily: "var(--font-nunito), var(--font-serif)",
-  },
+  // typography: {
+  //   // fontFamily: "var(--font-nunito), var(--font-serif)",
+  // },
 });
 
 const App = () => {
@@ -60,7 +60,7 @@ const App = () => {
         <GlobalStyles
           styles={{
             "*": {
-              fontFamily: "var(--font-nunito), var(--font-serif)",
+              // fontFamily: "var(--font-nunito), var(--font-serif)",
             },
           }}
         />

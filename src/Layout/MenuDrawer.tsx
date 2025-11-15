@@ -59,7 +59,7 @@ const MenuDrawer = () => {
             <div className="flex justify-between items-center gap-3 cursor-pointer">
               <img src={UserData?.profileImage ||`${ImagePath}user/User.png`} alt="profile" className="w-12 h-12 rounded-xl" />
               <div>
-                <span className="text-md font-bold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
+                <span className="text-md font-semibold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
                 <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
               </div>
             </div>
@@ -67,9 +67,9 @@ const MenuDrawer = () => {
         }
       >
         <ul className="grid grid-cols-1 gap-3 relative z-20">
-          {MenuData.map((item, i) => (
+          {MenuData?.map((item, i) => (
             <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme bg-input-box ${activeIndex === i ? "border-primary !text-primary !bg-bg-light" : "border-box-border hover:border-theme"}`}>
-              <p className="font-bold text-base flex items-center uppercase">
+              <p className="font-semibold text-base flex items-center uppercase">
                 <span className="me-3 text-2xl">{item.icon}</span>
                 {item.title}
               </p>

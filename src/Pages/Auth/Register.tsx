@@ -273,7 +273,7 @@ const Register = () => {
               name="examTypeId"
               label="Exam Type"
               required
-              options={(examTypeData || []).map((type: any) => ({
+              options={(examTypeData || [])?.map((type: any) => ({
                 label: type?.name,
                 value: type?._id,
               }))}

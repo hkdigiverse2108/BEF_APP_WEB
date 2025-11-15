@@ -24,7 +24,7 @@ const SocialMediaEngage = () => {
       <hr className="text-card-border mb-5" />
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {videos.map((video, index) => (
+        {videos?.map((video, index) => (
           <YouTubeCard key={index} videoId={video.id} title={video.title} />
         ))}
       </div>

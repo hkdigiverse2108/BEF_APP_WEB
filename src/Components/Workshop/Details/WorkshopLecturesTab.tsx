@@ -4,6 +4,7 @@ import { useGetApiQuery } from "../../../Api/CommonApi";
 import { URL_KEYS } from "../../../Constants";
 import LectureCard from "../../WorkshopCourseCommon/LectureCard";
 import VideoModal from "../../Common/VideoModal";
+import { Empty } from "antd";
 
 const WorkshopLecturesTab = ({
   id,
@@ -20,6 +21,8 @@ const WorkshopLecturesTab = ({
   });
 
   const Lectures = data?.data?.lecture_data;
+
+  if (Lectures?.length === 0) return <Empty />;
 
   return (
     <div className="space-y-4" data-aos="fade-up">

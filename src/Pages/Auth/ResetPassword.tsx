@@ -51,7 +51,7 @@ const ResetPassword = () => {
           {/* Header */}
           <header className="space-y-6 lg:space-y-8">
             <div className="space-y-3">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+              <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
                 Confirm your Email
               </h2>
               <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
@@ -89,7 +89,7 @@ const ResetPassword = () => {
                     </span>
                     <NavLink
                       to="/"
-                      className="font-bold  cursor-pointer hover:underline !text-primary"
+                      className="font-semibold  cursor-pointer hover:underline !text-primary"
                     >
                       Login
                     </NavLink>

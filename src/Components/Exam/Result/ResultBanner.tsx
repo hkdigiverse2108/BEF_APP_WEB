@@ -10,7 +10,7 @@ const ResultBanner: FC<{ contest: ContestData; qaId: string; contestId: string; 
   return (
     <div className="w-full sm:h-[380px] rounded-2xl p-6 shadow-sm lg:flex-row max-sm:bg-center flex justify-center sm:justify-end items-center" style={{ backgroundImage: `url(${ImagePath}result/Result-bg1.jpg)` }}>
       <div className="max-sm:w-full h-fit bg-white rounded-2xl text-center p-4">
-        <h2 className="text-xl font-bold capitalize">{loading ? <Skeleton.Input active style={{ height: 30, borderRadius: 5 }} block /> : contest?.contest?.name}</h2>
+        <h2 className="text-xl font-semibold capitalize">{loading ? <Skeleton.Input active style={{ height: 30, borderRadius: 5 }} block /> : contest?.contest?.name}</h2>
         <div className="border-y border-card-border p-4 my-5 ">
           <div className="flex flex-row max-sm:flex-col items-center sm:gap-4 w-full h-full">
             {loading ? (

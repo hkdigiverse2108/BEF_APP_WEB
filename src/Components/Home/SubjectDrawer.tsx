@@ -37,7 +37,7 @@ const SubjectDrawer = () => {
     <Drawer title="Explore Topics" placement="right" size={"large"} onClose={() => dispatch(setSubjectDrawer({ open: false }))} open={isSubjectDrawer.open} className="text-theme">
       <div className="grid gap-3 grid-cols-1 md:grid-cols-2 place-items-center skeleton">
         {isLoading
-          ? [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 70, borderRadius: 15 }} />)
+          ? [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 70, borderRadius: 15 }} />)
           : Subjects?.map((subject, i) => (
               <NavLink key={i} to={ROUTES.CONTEST.CONTEST} state={subject._id} className="flex flex-row max-sm:flex-col items-center !bg-input-box gap-4 max-sm:gap-0 w-full h-full rounded-xl p-3 border border-box-border hover:border-theme shadow-neutral-400 hover:shadow-sm" onClick={() => handleSubjectClick(subject)}>
                 <img className="object-cover w-14 max-sm:w-14 rounded-full border-2 border-white" src={subject.image || `${ImagePath}contest/ContestIcon.png`} />

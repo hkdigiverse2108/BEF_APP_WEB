@@ -13,8 +13,8 @@ const Course = () => {
       {CourseData?.length !== 0 && (
         <div className="pb-5">
           <div className="flex justify-between items-center pb-5">
-            <p className="text-lg font-bold">Your Course</p>
-            <Link to={ROUTES.COURSE.COURSE} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded text-white">
+            <p className="text-lg font-semibold">Your Course</p>
+            <Link to={ROUTES.COURSE.COURSE} className="text-base font-normal bg-primary m-0 py-1 px-3 rounded text-white">
               View All
             </Link>
           </div>

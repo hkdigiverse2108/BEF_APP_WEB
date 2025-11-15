@@ -15,7 +15,7 @@ const MistakeMapReport: FC<{ MistakeMapReport: MistakeMapReportType[] }> = ({ Mi
       <div className="flex justify-between items-center">
         <div className="relative px-4">
           <div className="w-1 h-[100%] bg-success rounded-full absolute left-0 top-0" />
-          <h2 className="text-xl font-bold ">Mistake Map Report</h2>
+          <h2 className="text-xl font-semibold ">Mistake Map Report</h2>
         </div>
         <div className="flex justify-end question-section">
           <FormSelect name="Language" placeholder="Subject" options={LanguageOptions} className="!m-0" value="english" />

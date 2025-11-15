@@ -36,7 +36,7 @@ const YouTubeCard: React.FC<YouTubeCardProps> = ({ videoId, title, type, thumbna
         </>
       )}
       <div className="p-4">
-        <span className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 font-bold text-lg line-clamp-2">{title}</span>
+        <span className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 font-semibold text-lg line-clamp-2">{title}</span>
       </div>
     </div>
   );

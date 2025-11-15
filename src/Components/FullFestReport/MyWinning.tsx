@@ -12,33 +12,33 @@ const MyWinning: FC<{ MyWinningData: MyWinningListType }> = ({ MyWinningData }) 
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
         <div className="max-md:w-full max-lg:w-1/2 max-xl:w-1/3">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold">My Winning</h2>
+            <h2 className="text-lg font-semibold">My Winning</h2>
           </div>
           <div className="w-full">
             <div className="h-full relative bg-input-box rounded-xl p-7 flex flex-col justify-center items-center gap-2">
               <div className="w-[70%] h-1 bg-primary rounded-b absolute top-0 left-1/2 -translate-x-1/2" />
               <GiWallet className="text-6xl text-success" />
               <div className="text-left">
-                <p className="text-base font-bold mt-1 uppercase">Total Winning</p>
-                <h3 className="text-2xl font-extrabold text-center">₹{MyWinningData?.totalWinning || 0}</h3>
+                <p className="text-base font-semibold mt-1 uppercase">Total Winning</p>
+                <h3 className="text-2xl font-bold text-center">₹{MyWinningData?.totalWinning || 0}</h3>
               </div>
             </div>
           </div>
         </div>
         <div className="col-span-1 xl:col-span-4">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold">Previous Contest</h2>
+            <h2 className="text-lg font-semibold">Previous Contest</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {MyWinningData?.contests?.map((referral, index) => (
               <div key={index} className="rounded-xl overflow-hidden shadow-sm bg-primary">
                 <div className="py-3 px-5">
-                  <h3 className="text-white font-extrabold text-xl">{referral.contestName}</h3>
+                  <h3 className="text-white font-bold text-xl">{referral.contestName}</h3>
                 </div>
                 <div className="p-4 bg-white border-x-2 rounded-t-xl border-primary">
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-lg font-bold">TOTAL WIN</span>
-                    <span className="text-2xl font-extrabold">₹ {referral.totalWin}</span>
+                    <span className="text-lg font-semibold">TOTAL WIN</span>
+                    <span className="text-2xl font-bold">₹ {referral.totalWin}</span>
                   </div>
                   <div className="flex items-center gap-2 text-base font-medium border-y border-card-border py-3">
                     <PiBookOpenUserFill />

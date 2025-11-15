@@ -22,7 +22,7 @@ const CourseAboutTab: FC<{ data: CourseAboutTabProps }> = ({ data }) => {
             className="w-8 h-fit"
           />
           <div>
-            <h4 className="font-bold">Lectures</h4>
+            <h4 className="font-semibold">Lectures</h4>
             <p>{data?.totalLecture}</p>
           </div>
         </section>
@@ -33,7 +33,7 @@ const CourseAboutTab: FC<{ data: CourseAboutTabProps }> = ({ data }) => {
             className="w-8 h-fit"
           />
           <div>
-            <h4 className="font-bold">Tests</h4>
+            <h4 className="font-semibold">Tests</h4>
             <p>{data?.totalTest}</p>
           </div>
         </section>
@@ -43,16 +43,16 @@ const CourseAboutTab: FC<{ data: CourseAboutTabProps }> = ({ data }) => {
           className={`  ${isMore ? "" : "line-clamp-8 sm:line-clamp-5"}  `}
           dangerouslySetInnerHTML={{ __html: data?.description }}
         />
-        <button onClick={() => setIsMore(!isMore)} className="font-bold">
+        <button onClick={() => setIsMore(!isMore)} className="font-semibold">
           {isMore ? "Less" : "More..."}
         </button>
       </div>
       <div>
         <a
           href={data?.pdf}
-          className="flex w-full border border-gray-300 rounded-md hover:text-primary hover:border-primary transition-colors text-center justify-center py-4 gap-3 uppercase font-bold"
+          className="flex w-full border max-sm:text-sm border-gray-300 rounded-md hover:text-primary hover:border-primary transition-colors text-center justify-center py-2 px-2 sm:py-4 gap-3 uppercase font-semibold"
         >
-          <span className="text-2xl">
+          <span className="text-xl sm:text-2xl">
             <TbCloudDownload />
           </span>
           download brochure

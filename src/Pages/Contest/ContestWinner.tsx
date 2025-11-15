@@ -51,7 +51,7 @@ const ContestWinner = () => {
   return (
     <div className="sub-container pt-4">
       <div className="flex justify-between flex-wrap">
-        <h2 className="text-sm sm:text-xl md:text-2xl font-bold">Mega Contest Winners</h2>
+        <h2 className="text-sm sm:text-xl md:text-2xl font-semibold">Mega Contest Winners</h2>
         <div className="question-section">
           <FormSelect name="Filter By" placeholder="Filter By" options={[{ label: "1", value: "one" }]} className="!m-0" />
         </div>

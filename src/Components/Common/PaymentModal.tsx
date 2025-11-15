@@ -48,6 +48,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   }, []);
 
   const startPayment = async () => {
+    if (amount <= 0) {
+      return onPaymentComplete(
+        PAYMENT_STATUS.COMPLETED,
+        { razorpay_payment_id: "" },
+        ""
+      );
+    }
+
     if (!window.Razorpay) {
       console.error("Razorpay not loaded!");
       return;

@@ -57,7 +57,7 @@ const Result = () => {
               <div onClick={(e) => e.stopPropagation()} className=" p-6 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed 2xl:w-100 rounded-xl bg-input-box max-2xl:bg-[#ffffff] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
                 <div className="mb-6 hidden max-2xl:block">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-xl font-bold">Result</h3>
+                    <h3 className="text-xl font-semibold">Result</h3>
                     <button id="toggleClose" onClick={() => setOpen(!isOpen)} className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer">
                       <RxCross2 className="w-5 h-5" />
                     </button>

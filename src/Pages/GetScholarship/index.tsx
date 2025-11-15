@@ -44,15 +44,15 @@ const GetScholarship = () => {
                   <h3 className="text-lg font-semibold text-gray-900">₹{userData?.walletBalance.toFixed(2)}</h3>
                 </div>
               </div>
-              <Link to={ROUTES.HISTORY.HISTORY} className="bg-input-box font-bold text-sm p-2 px-4 rounded">
+              <Link to={ROUTES.HISTORY.HISTORY} className="bg-input-box font-semibold text-sm p-2 px-4 rounded">
                 History
               </Link>
             </div>
 
             <hr className="my-4 text-card-border" />
 
-            <div className="text-center font-semibold p-5">
-              <input type="text" value={amount} onChange={handleAmountChange} placeholder="₹0.0" className="text-center text-3xl font-bold text-gray-800 w-full outline-none border-none focus:ring-0" />
+            <div className="text-center font-normal p-5">
+              <input type="text" value={amount} onChange={handleAmountChange} placeholder="₹0.0" className="text-center text-3xl font-semibold text-gray-800 w-full outline-none border-none focus:ring-0" />
               <p className="mt-2 text-base ">Enter The Amount You Want To Withdraw</p>
 
               {amount && +amount < 1 && (

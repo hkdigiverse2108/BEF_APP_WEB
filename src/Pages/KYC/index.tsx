@@ -33,8 +33,8 @@ const KYC = () => {
                 <div className="flex items-center gap-3">
                   <MdPhoneAndroid className="text-5xl text-success" />
                   <div className="text-left">
-                    <p className="text-lg font-bold mt-1 uppercase">Mobile Number</p>
-                    <h3 className="text-sm font-semibold text-neutral-500">{user.contact.mobile}</h3>
+                    <p className="text-lg font-semibold mt-1 uppercase">Mobile Number</p>
+                    <h3 className="text-sm font-normal text-neutral-500">{user.contact.mobile}</h3>
                   </div>
                 </div>
                 <p className={`text-lg font-bold mt-1 uppercase ${user.isMobileVerified ? "text-success" : "text-danger"}`}>{user.isMobileVerified ? "Verified" : "Unverified"}</p>
@@ -44,11 +44,11 @@ const KYC = () => {
                 <div className="flex items-center gap-3">
                   <IoMailOutline className="text-5xl text-success" />
                   <div className="text-left">
-                    <p className="text-lg font-bold mt-1 uppercase">KYC Verification</p>
-                    <h3 className="text-sm font-semibold text-neutral-500">{KYCData?.idNumber}</h3>
+                    <p className="text-lg font-semibold mt-1 uppercase">KYC Verification</p>
+                    <h3 className="text-sm font-normal text-neutral-500">{KYCData?.idNumber}</h3>
                   </div>
                 </div>
-                {isLoading ? <Spin /> : <p className={`text-lg font-bold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status || "Unverified"}</p>}
+                {isLoading ? <Spin /> : <p className={`text-lg font-semibold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status || "Unverified"}</p>}
               </div>
               {!["verified", "pending"].includes(KYCData?.status) && <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />}
             </div>

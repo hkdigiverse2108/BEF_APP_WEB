@@ -5,6 +5,7 @@ export interface HowItWorkType {
   createdAt: string;
   createdBy: string;
   description: string;
+  thumbnailImage: string;
   image: string;
   isBlocked: boolean;
   isDeleted: boolean;

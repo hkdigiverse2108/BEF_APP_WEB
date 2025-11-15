@@ -43,7 +43,11 @@ const Login = () => {
       <div className="flex justify-between h-screen items-center w-full ">
         {/* Left side */}
         <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-r border-gray-100 overflow-hidden">
-          <img className="w-full " alt="Group" src={`${ImagePath}auth/login.jpg`} />
+          <img
+            className="w-full "
+            alt="Group"
+            src={`${ImagePath}auth/login.jpg`}
+          />
         </div>
 
         {/* Right side */}
@@ -53,14 +57,23 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
+                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                    Create an Account
+                  </h2>
+                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                    Create an account or log in to explore about our website
+                  </p>
                 </div>
               </header>
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleFormSubmit}
+                className="space-y-8 lg:space-y-10"
+              >
                 <Row gutter={16}>
                   <Col span={24}>
                     <FormInput
@@ -92,7 +105,10 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="mb-1">
                       <p className="text-end text-sm lg:text-base">
-                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <NavLink
+                          to={ROUTES.AUTH.FORGOT_PASSWORD}
+                          className="font-semibold cursor-pointer hover:!underline !text-primary"
+                        >
                           Forgot password ?
                         </NavLink>
                       </p>
@@ -102,8 +118,13 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
-                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-bold cursor-pointer hover:!underline !text-primary">
+                        <span className="font-medium text-black">
+                          ARE YOU NEW HERE ?{" "}
+                        </span>
+                        <NavLink
+                          to={ROUTES.AUTH.REGISTER}
+                          className="font-semibold cursor-pointer hover:!underline !text-primary"
+                        >
                           SIGN UP
                         </NavLink>
                       </p>
@@ -111,7 +132,12 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
+                      <FormButton
+                        loading={isLoading}
+                        htmlType="submit"
+                        text="LOGIN"
+                        className="custom-button button button--mimas w-full !h-auto"
+                      />
                       {/* <button
   className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
              bg-gradient-to-r from-orange-500 to-green-600

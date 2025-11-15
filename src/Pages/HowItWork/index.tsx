@@ -1,59 +1,79 @@
 import { useState } from "react";
-import { CardHeader } from "../../Components/Common/CardHeader";
-import { ImagePath, URL_KEYS } from "../../Constants";
-import { useGetApiQuery } from "../../Api/CommonApi";
+import { URL_KEYS } from "../../Constants";
+import VideoModal from "../../Components/Common/VideoModal";
 import type { HowItWorkApiResponse } from "../../Types";
-import { Spin } from "antd";
+import { useGetApiQuery } from "../../Api/CommonApi";
 
 const HowItWork = () => {
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const openVideo = (link: string) => setActiveVideo(link);
-  const { data: HowItWorkData, isLoading } = useGetApiQuery<HowItWorkApiResponse>({ url: URL_KEYS.HOW_IT_WORK.ALL });
+  const [playVideo, setPlayVideo] = useState(false);
+  const [videoLink, setVideoLink] = useState("");
+
+  const { data: HowItWorkData, isLoading } =
+    useGetApiQuery<HowItWorkApiResponse>({ url: URL_KEYS.HOW_IT_WORK.ALL });
+
+  const howItWork = HowItWorkData?.data.how_it_work_data;
 
   return (
-    <div className="sub-container pt-4">
-      <CardHeader title="How It Work" />
-      <hr className="text-card-border my-4" />
-      <section className="how_it_works" id="how_it_work">
-        <div>
-          {isLoading ? (
-            <div className="flex justify-center items-center h-100">
-              <Spin size="large" />
-            </div>
-          ) : (
-            <div className="how_it_inner">
-              <div className="step_block">
-                <ul>
-                  {HowItWorkData?.data.how_it_work_data.map((step, i) => (
-                    <li key={i} className={i % 2 === 1 ? `even-step` : `odd-step`}>
-                      <div className={`step_text aos-init aos-animate capitalize ${i % 2 === 0 ? `text-right` : `text-left`}`} data-aos="fade-right" data-aos-duration={1500}>
-                        <h4>{step.title}</h4>
-                        <p>{step.description}</p>
-                      </div>
-                      <div className="step_number">
-                        <h3>{String(i + 1).padStart(2, "0")}</h3>
-                      </div>
-                      <div className="step_img aos-init aos-animate" onClick={() => openVideo(step.link)} data-aos="fade-left" data-aos-duration={1500}>
-                        <a className="popup-youtube play-button" data-toggle="modal" data-target="#myModal" title="Download & Sign Up with Referral Code">
-                          <img src={step.image || `${ImagePath}howToPlay/how1.jpg`} alt="image" />
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                {activeVideo && (
-                  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => setActiveVideo(null)}>
-                    <div className="bg-black rounded-lg overflow-hidden w-[90%] md:w-[800px] aspect-video" onClick={(e) => e.stopPropagation()}>
-                      <iframe width="100%" height="100%" src={`${activeVideo}`} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+    <section
+      id="howItWork"
+      className="pb-20 sm:pb-30 md:pb-40 lg:pb-55  container-p  "
+    >
+      <div
+        className="how_it_works container bg-white rounded-2xl sm:p-4 py-9  "
+        id="how_it_work"
+      >
+        <div className="how_it_inner ">
+          <div className="step_block max-lg:px-3 max-lg:overflow-hidden ">
+            <ul>
+              {howItWork?.map((step, i) => (
+                <li
+                  className={`${i % 2 === 1 ? `even-step` : `odd-step`}  px-5 `}
+                  key={i}
+                >
+                  <div className="step_text !px-0" data-aos="fade-right">
+                    <h4 className=" max-md:text-start max-sm:text-sm">
+                      {step.title}
+                    </h4>
+                    <p className="max-md:text-start max-sm:text-sm">
+                      {step.description}
+                    </p>
+                  </div>
+
+                  <div
+                    className={`${
+                      i % 2 === 1 ? ` md:me-7` : `md:ms-7`
+                    } step_number `}
+                  >
+                    <h3 className="mb-5">{String(i + 1).padStart(2, "0")}</h3>
+                  </div>
+
+                  <div className="step_img" data-aos="fade-left">
+                    <div
+                      onClick={() => {
+                        setPlayVideo(true);
+                        setVideoLink(step?.link);
+                      }}
+                      className="popup-youtube play-button"
+                      data-toggle="modal"
+                      data-target="#myModal"
+                      title="Download & Sign Up with Referral Code"
+                    >
+                      <img src={`${step?.thumbnailImage}`} alt="image" />
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
-          )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </section>
-    </div>
+
+        <VideoModal
+          playVideo={playVideo}
+          setPlayVideo={setPlayVideo}
+          videoLink={videoLink}
+        />
+      </div>
+    </section>
   );
 };
 

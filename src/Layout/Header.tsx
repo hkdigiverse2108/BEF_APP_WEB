@@ -61,15 +61,15 @@ const Header = () => {
                         <img src={`${ImagePath}logo/Logo.png`} alt="BEF-Logo" className="w-full h-full object-contain" />
                       </figure>
                       <section className="flex flex-col justify-center max-md:hidden">
-                        <h1 className="text-sm sm:text-xl text-primary font-extrabold">Bharat Exam Fest</h1>
+                        <h1 className="text-sm sm:text-xl text-primary font-bold">Bharat Exam Fest</h1>
                         <p className="text-xs sm:text-sm text-success font-medium">Learn & Earn</p>
                       </section>
                     </div>
                   </div>
                 </li>
-                {HeaderMenu.map((item, index) => (
+                {HeaderMenu?.map((item, index) => (
                   <li key={index} className="max-2xl:py-3 relative hover:after:absolute after:!bg-theme after:w-0 hover:after:w-full hover:after:h-[2px] after:block after:-bottom-1 2xl:after:-bottom-4 after:transition-all after:duration-300">
-                    <NavLink to={item.link} className="block text-lg font-semibold capitalize ">
+                    <NavLink to={item.link} className="block text-lg  capitalize ">
                       {item.text}
                     </NavLink>
                   </li>
@@ -104,7 +104,7 @@ const Header = () => {
                   <div className="flex justify-between items-center gap-3" onClick={() => dispatch(setMenuDrawer())}>
                     <img src={UserData?.profileImage ||`${ImagePath}user/User.png`} alt="profile" className="w-8 h-8 rounded-xl" />
                     <div className="flex-1 hidden sm:block">
-                      <span className="text-md font-bold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
+                      <span className="text-md font-semibold capitalize">{UserData?.firstName} {UserData?.lastName}</span>
                       <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
                     </div>
                     <IoIosArrowDown className="hidden sm:block " />

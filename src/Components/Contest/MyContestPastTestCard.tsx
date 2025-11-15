@@ -38,30 +38,29 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           </div>
         </div>
 
-        {/* Body */}
-        <div className="px-3 md:px-4 py-2">
-          <div className="py-2 flex flex-col gap-2 text-black">
-            <div className="flex max-sm:flex-col justify-between text-sm font-semibold">
-              <section className="flex sm:flex-col max-sm:justify-between gap-2">
-                <h1>Get Scholarship</h1>
-                <p className="font-bold text-lg">₹{pricePool}</p>
-              </section>
+      {/* Body */}
+      <div className="px-3 md:px-4 py-2">
+        <div className="py-2 flex flex-col gap-2 text-black">
+          <div className="flex max-sm:flex-col justify-between text-sm font-normal">
+            <section className="flex sm:flex-col max-sm:justify-between gap-2">
+              <h1>Get Scholarship</h1>
+              <p className="font-semibold text-lg">₹{pricePool}</p>
+            </section>
 
               <span className="max-sm:hidden flex border border-gray-100 w-fit my-2" />
 
-              <section className="flex sm:flex-col justify-between max-sm:items-center sm:justify-end items-end gap-2">
-                <h1>Achieved Scholarship</h1>
-                <p className="font-bold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
-              </section>
-            </div>
-
-            <span className="flex border border-gray-200 w-full my-2" />
-
-            <section className="flex justify-between items-center font-bold">
-              <h1>All India Rank</h1>
-              <h1 className="font-semibold border bg-input-box border-card-border px-4 py-1 rounded-md">{rank || 0}</h1>
+            <section className="flex sm:flex-col justify-between max-sm:items-center sm:justify-end items-end gap-2">
+              <h1>Achieved Scholarship</h1>
+              <p className="font-semibold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
             </section>
           </div>
+
+          <span className="flex border border-gray-200 w-full my-2" />
+
+          <section className="flex justify-between items-center font-semibold">
+            <h1>All India Rank</h1>
+            <h1 className="font-normal border bg-input-box border-card-border px-4 py-1 rounded-md">{rank || 0}</h1>
+          </section>
         </div>
 
         {/* Footer */}
@@ -77,7 +76,7 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           <span className="text-2xl">
             <BsFillAlarmFill />
           </span>
-          <div className="flex flex-col text-xs font-bold">
+          <div className="flex flex-col text-xs font-semibold">
             <span>{dayjs(contestStartDate).format("h:mm A")}</span>
             <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
           </div>

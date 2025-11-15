@@ -32,14 +32,14 @@ const CountDown = () => {
         <div className="flex items-center gap-6">
           {/* ITEM */}
           <TimeBox title="HOUR" value={hours} />
-          {/* <span className="text-3xl font-bold text-black">:</span> */}
+          {/* <span className="text-3xl font-semibold text-black">:</span> */}
           <TimeBox title="MIN" value={minutes} />
-          {/* <span className="text-3xl font-bold text-black">:</span> */}
+          {/* <span className="text-3xl font-semibold text-black">:</span> */}
           <TimeBox title="SEC" value={seconds} />
         </div>
 
         {/* Message */}
-        <p className="mt-8 px-5 py-3 rounded-md font-semibold text-center bg-white/45 backdrop-blur-md shadow-2xl">Result will be announced soon</p>
+        <p className="mt-8 px-5 py-3 rounded-md font-normal text-center bg-white/45 backdrop-blur-md shadow-2xl">Result will be announced soon</p>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import LectureCard from "../../WorkshopCourseCommon/LectureCard";
 import { URL_KEYS } from "../../../Constants";
 import type { LectureType, ModuleType } from "../../../Types";
 import VideoModal from "../../Common/VideoModal";
+import { Empty } from "antd";
 
 const CourseLecturesTab = ({
   Modules,
@@ -34,6 +35,8 @@ const CourseLecturesTab = ({
     setSelectedModule(newValue);
   };
 
+  if (Lectures?.length === 0) return <Empty />;
+
   return (
     <>
       <div className="flex max-sm:flex-col gap-4" data-aos="fade-up">
@@ -44,7 +47,7 @@ const CourseLecturesTab = ({
             textColor="primary"
             variant="scrollable"
             scrollButtons="auto"
-            allowScrollButtonsMobile
+            // allowScrollButtonsMobile
             orientation={isMdUp ? "vertical" : "horizontal"}
             aria-label="primary tabs example"
             className="LecturesTabs max-sm:w-full! sm:!w-full !flex !justify-between !gap-4 border-b sm:border  sm:rounded-lg border-gray-300 "

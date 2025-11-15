@@ -20,7 +20,7 @@ const LectureCard = ({
       key={lecture?._id}
       className=" flex max-sm:flex-col flex-nowrap gap-2 justify-between bg-white rounded-lg  border border-gray-200 p-2 h-fit items-stretch"
     >
-      <section className="flex max-sm: gap-4 h-fit ">
+      <section className="flex max-sm:gap-1 gap-4 h-fit ">
         {/* Image */}
         <figure
           className="relative"
@@ -35,17 +35,17 @@ const LectureCard = ({
           <img
             src={lecture?.image}
             alt={lecture?.title}
-            className="min-w-20 max-h-30 max-w-60 w-full h-fit  sm:w-full sm:h-23 rounded-lg object-cover"
+            className="min-w-20 max-h-30 max-w-60 w-full h-fit sm:h-23 rounded-lg object-cover"
           />
           {lecture?.isLocked && !isUnlocked && (
             <span className="absolute -top-1 -left-1 bg-black/10 backdrop-blur-md p-2 rounded-full">
-              <FaLock className="text-white max-sm:text-xs" />
+              <FaLock className="text-white max-sm:text-[10px]" />
             </span>
           )}
         </figure>
 
-        <div className="flex flex-col  gap-2 sm:justify-between ">
-          <div className="flex items-center gap-2 text-xs">
+        <div className="flex flex-col gap-0.5 sm:gap-2 sm:justify-between overflow-hidden   ">
+          <div className="hidden sm:flex items-center gap-2 text-xs">
             <span className="bg-gray-200 px-1.5 py-0.5 rounded">
               {lecture?.language}{" "}
             </span>
@@ -54,19 +54,16 @@ const LectureCard = ({
             </span>
           </div>
 
-          <h2 className="font-semibold text-sm sm:text-base">
+          <h2 className="text-wrap font-semibold text-[10px] sm:text-base block truncate">
             {lecture?.title}
           </h2>
 
-          <p className="max-sm:hidden text-gray-600 text-xs font-medium sm:text-sm">
+          <p className=" text-gray-600 text-[10px]  font-medium sm:text-sm   line-clamp-2">
             {lecture?.subtitle}
           </p>
         </div>
       </section>
       <section className="flex max-sm:justify-between  items-end ">
-        <p className="sm:hidden  text-gray-600 text-xs font-medium sm:text-sm">
-          {lecture?.subtitle}
-        </p>
         {lecture?.pdf && (
           <a
             href={lecture?.pdf}

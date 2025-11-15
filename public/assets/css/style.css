@@ -1,8 +1,10 @@
 body {
   background-color: var(--theme-bg-color) !important;
-  font-size: var(--body-font-size) !important;
+  /* font-size: var(--body-font-size) !important; */
   overflow-x: hidden;
-  font-family: var(--font-nunito), var(--font-serif) !important;
+  font-family: var(--font-poppins) !important;
+
+  /* font-family: var(--font-nunito), var(--font-serif) !important; */
   color: var(--theme-color) !important;
 }
 
@@ -142,13 +144,13 @@ input {
   @apply justify-evenly;
 }
 .MuiTypography-root {
-  @apply !text-lg !font-bold;
+  @apply !text-lg !font-semibold;
 }
 .full-date .MuiPickersDay-root,
 .full-date .MuiPickersCalendarHeader-label,
 .full-date .MuiYearCalendar-button,
 .full-date .MuiMonthCalendar-button {
-  @apply !text-sm !font-semibold;
+  @apply !text-sm !font-normal;
 }
 
 .full-date .Mui-selected,
@@ -165,7 +167,7 @@ input {
 }
 
 .ant-drawer-title {
-  @apply !text-lg !font-semibold;
+  @apply !text-lg !font-normal;
 }
 
 /* ************ question section *********** */
@@ -176,7 +178,7 @@ input {
 }
 
 .question-section .ant-select-selection-placeholder {
-  @apply !text-sm !font-bold;
+  @apply !text-sm !font-semibold;
 }
 
 /* .question-section .ant-select-arrow {
@@ -255,8 +257,23 @@ input {
 .about-tabs .MuiTabs-list.MuiTabs-flexContainer {
   @apply flex sm:grid grid-cols-4 gap-0;
 }
+.about-tabs .MuiTabs-list.MuiTabs-flexContainer button {
+  @apply font-extrabold! max-sm:text-[10px]! max-sm:p-0!;
+}
+
+.LecturesTabs .MuiTabs-list.MuiTabs-flexContainer button {
+  @apply !font-semibold;
+}
+.LecturesTabs .MuiTabs-list.MuiTabs-flexContainer .Mui-selected {
+  @apply !bg-input-box !rounded-l-lg;
+}
+
+.LecturesTabs .MuiTabs-list.MuiTabs-flexContainer button {
+  @apply font-bold! max-sm:text-[10px]! max-sm:p-2!;
+}
+
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button {
-  @apply !max-w-full  tracking-[1px] font-bold px-9;
+  @apply !max-w-full  tracking-[1px] font-semibold px-9;
 }
 
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:first-child {
@@ -265,13 +282,6 @@ input {
 
 .horizontal-tabs .MuiTabs-list.MuiTabs-flexContainer button:last-child {
   @apply !rounded-r-lg !rounded-l-none;
-}
-
-.LecturesTabs .MuiTabs-list.MuiTabs-flexContainer button {
-  @apply !font-bold;
-}
-.LecturesTabs .MuiTabs-list.MuiTabs-flexContainer .Mui-selected {
-  @apply !bg-input-box !rounded-l-lg;
 }
 
 /* ************ progress *********** */
@@ -369,7 +379,7 @@ input {
 /* ================  Video Modal Section End ================ */
 
 .video-Modal .ant-modal-content {
-  @apply !p-0  ;
+  @apply !p-0;
 }
 .video-Modal .ant-modal-close {
   @apply !hidden;
@@ -406,7 +416,7 @@ input {
 }
 
 .custom-pagination .ant-select-selection-placeholder {
-  @apply !text-sm !font-bold;
+  @apply !text-sm !font-semibold;
 }
 
 .custom-pagination .ant-select {
@@ -427,7 +437,11 @@ input {
   @apply !border-success;
 }
 
+.purchase-Drawer .ant-drawer-body {
+  @apply max-sm:p-2!;
+}
+
 /* ================  Skeleton ================ */
-.skeleton .ant-skeleton.ant-skeleton-element{
+.skeleton .ant-skeleton.ant-skeleton-element {
   @apply !w-full;
 }

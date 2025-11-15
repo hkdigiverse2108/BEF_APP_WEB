@@ -46,7 +46,7 @@ const KYCRegister = () => {
   return (
     <div className="sub-container pt-4 mb-6">
       <section className="flex flex-col gap-5">
-        <h2 className="text-2xl font-semibold">KYC Register</h2>
+        <h2 className="text-2xl font-normal">KYC Register</h2>
         <hr className="text-card-border mb-4" />
 
         <div className="flex flex-col xl:flex-row justify-between gap-10 items-center">
@@ -106,8 +106,8 @@ const KYCRegister = () => {
               {/* Button */}
               <FormButton htmlType="submit" text="Next" className="custom-button button button--mimas w-full !h-auto" />
 
-              {/* <p className="mt-4 text-center font-bold">
-                RETURN TO <span className="text-orange-500 font-semibold cursor-pointer hover:underline">INDIAN QUIZ PRIVET LIMITED</span>
+              {/* <p className="mt-4 text-center font-semibold">
+                RETURN TO <span className="text-orange-500 font-normal cursor-pointer hover:underline">INDIAN QUIZ PRIVET LIMITED</span>
               </p> */}
             </Form>
           </div>

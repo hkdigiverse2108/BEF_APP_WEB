@@ -13,7 +13,7 @@
 //   onCheck?: (id: number, type: "true" | "false") => void;
 // }
 // export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onCheck }) => {
-//   const [leftHeader, rightHeader] = (pairTitle || "").split("---").map((t) => t.trim());
+//   const [leftHeader, rightHeader] = (pairTitle || "").split("---")?.map((t) => t.trim());
 
 //   return (
 //     <div className="w-full overflow-x-auto mb-4 question">
@@ -21,9 +21,9 @@
 //         <table className="w-full table-fixed border-collapse text-sm bg-white">
 //           <thead>
 //             <tr className="bg-gray-100 border-b border-gray-300">
-//               <th className="border-e border-gray-300 px-4 py-2 text-left font-bold w-1/2 rounded-tl-lg">{leftHeader}</th>
-//               <th className="border-e border-gray-300 px-4 py-2 text-left font-bold w-1/2 rounded-tl-lg">{rightHeader}</th>
-//               <th className="px-4 py-2 text-left font-bold w-[100px] rounded-tr-lg">Check</th>
+//               <th className="border-e border-gray-300 px-4 py-2 text-left font-semibold w-1/2 rounded-tl-lg">{leftHeader}</th>
+//               <th className="border-e border-gray-300 px-4 py-2 text-left font-semibold w-1/2 rounded-tl-lg">{rightHeader}</th>
+//               <th className="px-4 py-2 text-left font-semibold w-[100px] rounded-tr-lg">Check</th>
 //             </tr>
 //           </thead>
 
@@ -76,7 +76,7 @@ export interface PairTableProps {
 
 export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onCheck }) => {
   // Split headers dynamically (e.g. ["Waterfall", "Region", "River"])
-  const headers = (pairTitle || "").split("---").map((t) => t.trim());
+  const headers = (pairTitle || "")?.split("---")?.map((t) => t.trim());
 
   return (
     <div className="w-full overflow-x-auto mb-4 question">
@@ -86,18 +86,18 @@ export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onChec
           <thead>
             <tr className="bg-gray-100 border-b border-gray-300">
               {headers.map((header, i) => (
-                <th key={i} className={`px-4 py-2 min-w-[200px] text-left font-bold border-gray-300 ${i === headers.length - 1 ? "" : "border-e"}`}>
+                <th key={i} className={`px-4 py-2 min-w-[200px] text-left font-semibold border-gray-300 ${i === headers.length - 1 ? "" : "border-e"}`}>
                   {header}
                 </th>
               ))}
-              {onCheck && answers && <th className="px-4 py-2 text-center font-bold w-[120px] border-l border-gray-300">Action</th>}
+              {onCheck && answers && <th className="px-4 py-2 text-center font-semibold w-[120px] border-l border-gray-300">Action</th>}
             </tr>
           </thead>
 
           {/* --------- Body --------- */}
           <tbody>
-            {(pair || []).slice(1).map((p, i) => {
-              const cols = p.combined.split("---").map((txt) => txt.trim());
+            {(pair || []).slice(1)?.map((p, i) => {
+              const cols = p.combined.split("---")?.map((txt) => txt.trim());
               const isLast = i === pair.length - 2;
 
               return (

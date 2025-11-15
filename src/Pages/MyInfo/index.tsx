@@ -60,7 +60,7 @@ const MyInfo = () => {
                   <ImageUpload multiple={false} isListType="picture-circle" />
                 </Form.Item>
               </div>
-              <h3 className="font-semibold text-lg mt-3 capitalize">
+              <h3 className="font-normal text-lg mt-3 capitalize">
                 {userData?.firstName} {userData?.lastName}
               </h3>
               <p className="text-sm text-gray-500">{userData?.userType === "user" ? "Student" : "Admin"}</p>

@@ -100,7 +100,7 @@ const KYCVerification = () => {
           >
             {/* Header */}
             <div className="text-white text-center p-3 sm:p-6 !pb-0">
-              <h2 className="text-2xl font-semibold">Review</h2>
+              <h2 className="text-2xl font-normal">Review</h2>
             </div>
 
             {/* Body */}
@@ -110,7 +110,7 @@ const KYCVerification = () => {
                   <img src={`${ImagePath}kyc/KycReview.png`} alt="" className="max-w-xs" />
                 </div>
                 <div className="flex flex-col text-center">
-                  <p className="text-lg sm:text-2xl font-bold capitalize">Review still in process</p>
+                  <p className="text-lg sm:text-2xl font-semibold capitalize">Review still in process</p>
                   <p className="sm:text-lg capitalize">rest assured you will be notified within</p>
                 </div>
               </div>
@@ -126,7 +126,7 @@ const KYCVerification = () => {
 
       {/* ✅ KYC Section */}
       <section className="flex flex-col gap-5">
-        <h2 className="text-xl font-bold">KYC Verification</h2>
+        <h2 className="text-xl font-semibold">KYC Verification</h2>
         <hr className="text-card-border mb-4" />
 
         <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="flex flex-col xl:flex-row justify-between gap-10">
@@ -137,7 +137,7 @@ const KYCVerification = () => {
 
           {/* Right: Upload Section */}
           <div className="flex flex-col w-full xl:w-1/2 gap-6">
-            <h3 className="text-lg font-bold">Indian Quiz Private Limited</h3>
+            <h3 className="text-lg font-semibold">Indian Quiz Private Limited</h3>
 
             {/* Sample Images */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-between">
@@ -175,7 +175,7 @@ const KYCVerification = () => {
                   message: "Please upload your PAN card!",
                 },
               ]}
-              className="!font-bold"
+              className="!font-semibold"
             >
               <Dragger {...props}>
                 <p className="ant-upload-drag-icon text-6xl flex justify-center">

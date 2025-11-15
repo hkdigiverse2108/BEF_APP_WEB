@@ -25,7 +25,7 @@ const ContestWinnerCard: FC<ContestWinnerCardProps> = ({ winner, rank }) => {
             <span className="absolute bg-primary left-0 h-[70%] w-1 rounded-r-2xl"></span>
             <img src={winner?.profileImage || "https://api.dicebear.com/7.x/miniavs/svg?seed=5"} alt={winner.firstName} className="w-12 h-12 rounded-full object-cover border border-gray-200" />
             <div>
-              <h4 className="font-bold text-gray-800">Rank #{rank}</h4>
+              <h4 className="font-semibold text-gray-800">Rank #{rank}</h4>
               <p className="text-sm text-gray-600 capitalize">{`${winner.firstName} ${winner.lastName}`}</p>
             </div>
           </div>
@@ -35,7 +35,7 @@ const ContestWinnerCard: FC<ContestWinnerCardProps> = ({ winner, rank }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center bg-success text-white px-4 py-2 text-sm font-semibold">
+      <div className="flex justify-between items-center bg-success text-white px-4 py-2 text-sm font-normal">
         <span className="flex items-center gap-2">
           <FaAward /> Achieved Scholarship
         </span>

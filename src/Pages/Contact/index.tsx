@@ -45,8 +45,8 @@ const Contact = () => {
             <FaRoute className="text-5xl text-primary" />
           </div>
           <div className="text-center sm:text-left">
-            <h3 className="text-xl font-extrabold">Address</h3>
-            <p className="text-base font-bold mt-1 uppercase">S-251 Angle Business Center-2, Mota Varachha, Surat, Gujrat, India-394101</p>
+            <h3 className="text-xl font-bold">Address</h3>
+            <p className="text-base font-semibold mt-1 uppercase">S-251 Angle Business Center-2, Mota Varachha, Surat, Gujrat, India-394101</p>
           </div>
         </div>
         <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
@@ -55,8 +55,8 @@ const Contact = () => {
             <MdEmail className="text-5xl text-primary" />
           </div>
           <div className="text-center sm:text-left">
-            <h3 className="text-xl font-extrabold">Email Address</h3>
-            <p className="text-base font-bold mt-1 uppercase">help@bharatexamfest.com</p>
+            <h3 className="text-xl font-bold">Email Address</h3>
+            <p className="text-base font-semibold mt-1 uppercase">help@bharatexamfest.com</p>
           </div>
         </div>
         <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
@@ -65,8 +65,8 @@ const Contact = () => {
             <IoCallSharp className="text-5xl text-primary" />
           </div>
           <div className="text-center sm:text-left">
-            <h3 className="text-xl font-extrabold">Emergency Number</h3>
-            <p className="text-base font-bold mt-1 uppercase">+91 91063 60330</p>
+            <h3 className="text-xl font-bold">Emergency Number</h3>
+            <p className="text-base font-semibold mt-1 uppercase">+91 91063 60330</p>
           </div>
         </div>
       </div> */}
@@ -139,7 +139,7 @@ const Contact = () => {
                   <FaRoute className="text-2xl text-primary" />
                 </div>
                 <div>
-                  <span className="font-bold block text-lg lg:text-2xl text-primary">Email Us</span>
+                  <span className="font-semibold block text-lg lg:text-2xl text-primary">Email Us</span>
                   <Link to="" className="block max-sm:text-sm text-gray-600 hover:text-primary">
                     Student: help@bharatexamfest.com
                   </Link>
@@ -156,7 +156,7 @@ const Contact = () => {
                   <MdEmail className="text-2xl text-primary" />
                 </div>
                 <div>
-                  <span className="font-bold block text-lg lg:text-2xl text-primary">Call Us</span>
+                  <span className="font-semibold block text-lg lg:text-2xl text-primary">Call Us</span>
                   <Link to="tel:+919106360330" className="max-sm:text-sm text-gray-600 hover:text-primary">
                     +91 91063 60330
                   </Link>
@@ -167,7 +167,7 @@ const Contact = () => {
                   <IoCallSharp className="text-2xl text-primary" />
                 </div>
                 <div>
-                  <span className="font-bold block text-lg lg:text-2xl text-primary">Visit Us</span>
+                  <span className="font-semibold block text-lg lg:text-2xl text-primary">Visit Us</span>
                   <p className="max-sm:text-sm text-gray-600">S-251 Angle Business Center-2, Mota Varachha, Surat, Gujarat, India-394101</p>
                 </div>
               </li>

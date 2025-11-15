@@ -24,9 +24,9 @@ const Classes = () => {
         <>
           <div className="pb-5">
             <div className="flex justify-between items-center pb-5">
-              <p className="text-lg font-bold">Your Class</p>
+              <p className="text-lg font-normal">Your Class</p>
               {(Classes?.length || 0) > 3 && (
-                <Link to={ROUTES.CLASSES.CLASSES} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded text-white">
+                <Link to={ROUTES.CLASSES.CLASSES} className="text-base font-normal bg-primary m-0 py-1 px-3 rounded text-white">
                   View All
                 </Link>
               )}

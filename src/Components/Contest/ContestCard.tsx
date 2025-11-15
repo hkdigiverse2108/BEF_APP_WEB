@@ -37,7 +37,7 @@ const ContestCard = () => {
       </div>
       <div className="px-2 md:px-4 py-2 ">
         <div className=" py-2 flex flex-col gap-2 text-black">
-          <section className="flex justify-between text-sm md:text-lg lg:text-xl font-bold ">
+          <section className="flex justify-between text-sm md:text-lg lg:text-xl font-semibold ">
             <h1 className="uppercase">Prize Pool</h1>
             <p>$1 Crore</p>
           </section>
@@ -46,7 +46,7 @@ const ContestCard = () => {
           </section>
           <section className="flex justify-between  ">
             <h1>434 Left </h1>
-            <h1 className="text-black font-semibold">1,500 Spots</h1>
+            <h1 className="text-black font-normal">1,500 Spots</h1>
           </section>
         </div>
         <span className=" flex border border-gray-200 w-full my-2  "></span>
