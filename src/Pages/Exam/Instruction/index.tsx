@@ -60,7 +60,7 @@ const ExamInstruction = () => {
     } else {
       if (nowMs < startMs) {
         AntMessage("error", `You can join after ${timeIST}`, {
-          marginTop: "20vh",
+          marginTop: "10vh",
         });
       } else {
         AntMessage("error", "Your time is up! Better luck next time...");

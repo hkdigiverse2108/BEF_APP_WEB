@@ -164,3 +164,9 @@ export interface TestimonialType {
   rating: number;
   image: string;
 }
+
+export interface GlobalConfigPropsWithStack extends GlobalConfigProps {
+  stack?: {
+    threshold?: number;
+  };
+}

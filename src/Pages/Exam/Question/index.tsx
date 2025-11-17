@@ -1,23 +1,17 @@
-import { message, Skeleton } from "antd";
+import { notification, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { BsFillAlarmFill } from "react-icons/bs";
 import { FaLightbulb } from "react-icons/fa";
-import {
-  HiMiniInformationCircle,
-  HiOutlineBars3BottomRight,
-} from "react-icons/hi2";
+import { HiMiniInformationCircle, HiOutlineBars3BottomRight } from "react-icons/hi2";
 import { IoBookmark, IoBookmarkOutline, IoLanguage } from "react-icons/io5";
-import {
-  MdLibraryAddCheck,
-  MdVisibility,
-  MdVisibilityOff,
-} from "react-icons/md";
+import { MdLibraryAddCheck, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { RiFileCheckFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { TbMessageQuestion, TbReport } from "react-icons/tb";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetApiQuery, usePostApiMutation } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
+import { AntMessage } from "../../../Components/Common/AntMessage";
 import { CardHeader } from "../../../Components/Common/CardHeader";
 import { NormalQuestion } from "../../../Components/Common/NormalQuestion";
 import { PairTable } from "../../../Components/Common/PairHeader";
@@ -25,23 +19,14 @@ import { StatementQuestion } from "../../../Components/Common/StatementQuestion"
 import EndTest from "../../../Components/Exam/Question/EndTestDrawer";
 import InstructionsDrawer from "../../../Components/Exam/Question/InstructionsDrawer";
 import ReportModal from "../../../Components/Exam/Question/ReportModal";
-import {
-  HTTP_STATUS,
-  ROUTES,
-  STORAGE_KEYS,
-  URL_KEYS,
-} from "../../../Constants";
+import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../../Constants";
 import { LANGUAGES, QUE_TYPE } from "../../../Data/Question";
-import {
-  setEndTestDrawer,
-  setInstructionsDrawer,
-  setReportModal,
-} from "../../../Store/Slices/DrawerSlice";
+import { setEndTestDrawer, setInstructionsDrawer, setReportModal } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
 import type { LanguageKey, QuestionApiResponse, QuestionType } from "../../../Types";
 import { isImage, Storage, updateStorage } from "../../../Utils";
 import { useCountDown } from "../../../Utils/Hook";
-import { AntMessage } from "../../../Components/Common/AntMessage";
+import { AntdNotification } from "../../../Utils/AntNotification";
 
 const Question = () => {
   const [isAnswers, setAnswers] = useState<{
@@ -54,9 +39,7 @@ const Question = () => {
   const [isOpen, setOpen] = useState(false);
   const [QAData, setQAData] = useState<QuestionType | null>(null);
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
-  const [language, setLanguage] = useState<LanguageKey>(
-    LANGUAGES.ENGLISH as LanguageKey
-  );
+  const [language, setLanguage] = useState<LanguageKey>(LANGUAGES.ENGLISH as LanguageKey);
   const [PostApi, { isLoading: isPostLoading }] = usePostApiMutation();
 
   const dispatch = useAppDispatch();
@@ -87,32 +70,32 @@ const Question = () => {
     // -----------------------------
     // FORCE FULLSCREEN
     // -----------------------------
-    const requestRealFullscreen = () => {
-      const el: any = document.documentElement;
+    // const requestRealFullscreen = () => {
+    //   const el: any = document.documentElement;
 
-      if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    //   if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+    //   else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    //   else if (el.msRequestFullscreen) el.msRequestFullscreen();
 
-      window.removeEventListener("click", requestRealFullscreen);
-      window.removeEventListener("keydown", requestRealFullscreen);
-      window.removeEventListener("touchstart", requestRealFullscreen);
-    };
+    //   window.removeEventListener("click", requestRealFullscreen);
+    //   window.removeEventListener("keydown", requestRealFullscreen);
+    //   window.removeEventListener("touchstart", requestRealFullscreen);
+    // };
 
-    window.addEventListener("click", requestRealFullscreen);
-    window.addEventListener("keydown", requestRealFullscreen);
-    window.addEventListener("touchstart", requestRealFullscreen);
+    // window.addEventListener("click", requestRealFullscreen);
+    // window.addEventListener("keydown", requestRealFullscreen);
+    // window.addEventListener("touchstart", requestRealFullscreen);
 
     // -----------------------------
     // LOCK ESC KEY
     // -----------------------------
-    const blockEsc = (e: any) => {
-      if (e.key === "escape") {
-        e.preventDefault();
-        messageApi.error("Fullscreen mode is locked");
-      }
-    };
-    window.addEventListener("keydown", blockEsc);
+    // const blockEsc = (e: any) => {
+    //   if (e.key === "escape") {
+    //     e.preventDefault();
+    //     AntMessage("error", "Fullscreen mode is locked");
+    //   }
+    // };
+    // window.addEventListener("keydown", blockEsc);
 
     // -----------------------------
     // TAB SWITCH / WINDOW BLUR / MINIMIZE DETECTION
@@ -123,14 +106,14 @@ const Question = () => {
       if (document.hidden || document.visibilityState !== "visible") {
         violationCount++;
 
-        messageApi.error(`Do not switch tabs! (${violationCount})`);
-
         // Force fullscreen again immediately
-        requestRealFullscreen();
+        // requestRealFullscreen();
 
-        if (violationCount >= 10) {
-          messageApi.error("Exam auto-submitted due to repeated switching!");
-          // handleEndTestDrawer?.(); // Call exam submit function
+        if (violationCount > 3) {
+          handleEndTestDrawer();
+          AntdNotification(notification, "error", `Exam auto-submitted due to repeated tab switching.`);
+        } else {
+          AntdNotification(notification, "error", `Tab switch detected! Attempt ${violationCount}/3`);
         }
       }
     };
@@ -155,7 +138,7 @@ const Question = () => {
 
       if (e.type === "contextmenu" || (e.type === "keydown" && (isDevToolsKey || isWindowsShift2 || isPrintScreen || isEscape))) {
         e.preventDefault();
-        messageApi.error("Content is protected");
+        AntMessage("error", "Content is protected");
 
         if (isPrintScreen) {
           try {
@@ -174,7 +157,7 @@ const Question = () => {
     // -----------------------------
     return () => {
       window.removeEventListener("popstate", handleBack);
-      window.removeEventListener("keydown", blockEsc);
+      // window.removeEventListener("keydown", blockEsc);
 
       document.removeEventListener("visibilitychange", handleLeaveScreen);
       window.removeEventListener("blur", handleLeaveScreen);
@@ -184,15 +167,12 @@ const Question = () => {
         document.removeEventListener(evt, p);
       }
     };
-  }, [messageApi]);
+  }, []);
 
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({
     url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}`,
   });
-  const { hours, minutes, seconds, isFinished } = useCountDown(
-    QAData?.contestStartDate || "",
-    QAData?.contestEndDate || ""
-  );
+  const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
   const stored = Storage.getItem(STORAGE_KEYS.EXAM_QA_ALL);
 
@@ -229,6 +209,8 @@ const Question = () => {
         }),
         contestStartTime: new Date().toISOString(),
         contestEndTime: "",
+        contestStartDate: QAApiData?.data?.contestStartDate || "",
+        contestEndDate: QAApiData?.data?.contestEndDate || "",
       };
       updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, apiAnswers);
     }
@@ -255,10 +237,7 @@ const Question = () => {
   const handleQaCheck = (id: number, type: "true" | "false") => {
     setQa((prev) => {
       const newAnswers: Record<number, number | undefined> = { ...prev };
-      if (
-        (type === "true" && newAnswers[id] === 1) ||
-        (type === "false" && newAnswers[id] === 0)
-      ) {
+      if ((type === "true" && newAnswers[id] === 1) || (type === "false" && newAnswers[id] === 0)) {
         newAnswers[id] = undefined;
         return newAnswers;
       }
@@ -278,18 +257,14 @@ const Question = () => {
     setAnswers((prev) => {
       const newAnswers = { ...prev };
 
-      if (
-        (type === "true" && newAnswers[id] === 1) ||
-        (type === "false" && newAnswers[id] === 0)
-      ) {
+      if ((type === "true" && newAnswers[id] === 1) || (type === "false" && newAnswers[id] === 0)) {
         newAnswers[id] = undefined;
         return newAnswers;
       }
 
       if (type === "true") {
         Object.keys(newAnswers).forEach((key) => {
-          if (newAnswers[Number(key)] === 1)
-            newAnswers[Number(key)] = undefined;
+          if (newAnswers[Number(key)] === 1) newAnswers[Number(key)] = undefined;
         });
         newAnswers[id] = 1;
       } else {
@@ -341,19 +316,12 @@ const Question = () => {
       const obj = {
         answersType: ["unanswered"],
       };
-      const data = QAData?.answers?.map((q) =>
-        q._id === id ? { ...q, userAnswer: obj } : q
-      );
+      const data = QAData?.answers?.map((q) => (q._id === id ? { ...q, userAnswer: obj } : q));
       updateStorage(STORAGE_KEYS.EXAM_QA_ALL, { answers: data });
     }
   };
 
-  const handleLanguageChange = () =>
-    setLanguage((prev) =>
-      prev === LANGUAGES.ENGLISH
-        ? (LANGUAGES.HINDI as "hindiQuestion")
-        : (LANGUAGES.ENGLISH as "englishQuestion")
-    );
+  const handleLanguageChange = () => setLanguage((prev) => (prev === LANGUAGES.ENGLISH ? (LANGUAGES.HINDI as "hindiQuestion") : (LANGUAGES.ENGLISH as "englishQuestion")));
 
   useEffect(() => {
     // const hasTrue = Object.values(isAnswers).includes(1);
@@ -372,9 +340,8 @@ const Question = () => {
 
   const handleEndTestDrawer = async () => {
     updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, { contestEndTime: new Date() });
-    const QaExamAnswers = JSON.parse(
-      Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}"
-    );
+    const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
+    
     const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
     if (res?.data?.status === HTTP_STATUS.OK) {
       queryParam.delete("contestId");
@@ -387,8 +354,8 @@ const Question = () => {
       setAnswersType(["unanswered"]);
       setSkip(false);
       setQAData(null);
-      document?.exitFullscreen();
-      Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || "" } });
+      // document?.exitFullscreen();
+      Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || QaExamAnswers?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || QaExamAnswers?.contestEndDate || "" } });
     }
   };
 
@@ -419,11 +386,7 @@ const Question = () => {
     if (!QAData) return;
     const hasTrue = Object.values(isAnswers).includes(1);
     const hasConfidence = Boolean(isConfidence);
-    if (
-      isConfidence !== "fearDriverSkip" &&
-      isConfidence !== "skip" &&
-      currentQuestionNumber !== QA.length
-    ) {
+    if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip" && currentQuestionNumber !== QA.length) {
       if (!hasTrue || !hasConfidence) {
         if (!hasTrue) AntMessage("warning", "Please choose any one option");
         else AntMessage("warning", "Please select strategy");
@@ -433,9 +396,7 @@ const Question = () => {
 
     const currentId = currentQuestion?._id;
 
-    const convertEliminate = (eliminate: {
-      [key: number]: number | undefined;
-    }) => {
+    const convertEliminate = (eliminate: { [key: number]: number | undefined }) => {
       return {
         eliminateOptionA: eliminate[0] === 0,
         eliminateOptionB: eliminate[1] === 0,
@@ -446,9 +407,7 @@ const Question = () => {
     const getEliminateStats = (data: { [key: number]: number | undefined }) => {
       const converted = convertEliminate(data);
 
-      const eliminateOption = Object.values(converted).filter(
-        (v) => v === true
-      ).length;
+      const eliminateOption = Object.values(converted).filter((v) => v === true).length;
       const map = ["A", "B", "C", "D"];
 
       const eliminated = Object.keys(data)
@@ -468,12 +427,8 @@ const Question = () => {
       is2XStack: stack,
       ...stats,
     };
-    const QaExamAnswers = JSON.parse(
-      Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}"
-    );
-    const QaUpdatedAnswers = QaExamAnswers?.answers?.map((a: any) =>
-      a.questionId === currentId ? { ...a, ...userQaAnswers } : a
-    );
+    const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
+    const QaUpdatedAnswers = QaExamAnswers?.answers?.map((a: any) => (a.questionId === currentId ? { ...a, ...userQaAnswers } : a));
 
     updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, {
       ...QaExamAnswers,
@@ -487,9 +442,7 @@ const Question = () => {
       answersType: isAnswersType,
     };
 
-    const updatedAnswers = QAData.answers?.map((item) =>
-      item._id === currentId ? { ...item, userAnswer: obj } : item
-    );
+    const updatedAnswers = QAData.answers?.map((item) => (item._id === currentId ? { ...item, userAnswer: obj } : item));
     const updatedQAData = { ...QAData, answers: updatedAnswers };
 
     setQAData(updatedQAData as QuestionType);
@@ -506,9 +459,7 @@ const Question = () => {
       if (!nextQ.userAnswer?.answersType?.length) {
         nextQ.userAnswer = { answersType: ["unanswered"] };
 
-        const finalAnswers = updatedAnswers?.map((a) =>
-          a._id === nextQ._id ? nextQ : a
-        );
+        const finalAnswers = updatedAnswers?.map((a) => (a._id === nextQ._id ? nextQ : a));
         const finalQAData = { ...updatedQAData, answers: finalAnswers };
 
         setQAData(finalQAData as QuestionType);
@@ -582,24 +533,15 @@ const Question = () => {
     <>
       <div className="sub-container pt-4 md:pt-8 question-section">
         {/* Header */}
-        <CardHeader
-          title="Question & answer"
-          icon={<BsFillAlarmFill />}
-          time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`}
-        />
+        <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex justify-center">
-          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit">
-            Press the End Test button to lock your Test.
-          </p>
+          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit">Press the End Test button to lock your Test.</p>
         </div>
         <span className="border-t border-card-border flex w-full mt-4" />
 
         {/* Main Content */}
         <div className="flex justify-end mt-3">
-          <button
-            onClick={() => setOpen(!isOpen)}
-            className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box"
-          >
+          <button onClick={() => setOpen(!isOpen)} className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
             <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
           </button>
         </div>
@@ -611,70 +553,25 @@ const Question = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
                 <div className="relative inline-block">
-                  {isLoading ? (
-                    <Skeleton.Node
-                      active
-                      style={{ width: 70, height: 35, borderRadius: 5 }}
-                    />
-                  ) : (
-                    <span className="bg-input-box font-semibold text-sm p-2 px-4 rounded">
-                      Question : {currentQuestionNumber}
-                    </span>
-                  )}
+                  {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-input-box font-semibold text-sm p-2 px-4 rounded">Question : {currentQuestionNumber}</span>}
                   {(() => {
                     const currentStack = value;
                     if (currentStack !== positiveMarks) {
-                      return (
-                        <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                          2x
-                        </span>
-                      );
+                      return <span className="absolute -top-3 -right-2 bg-primary text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">2x</span>;
                     }
                     return null;
                   })()}
                 </div>
-                {isLoading ? (
-                  <Skeleton.Node
-                    active
-                    style={{ width: 70, height: 35, borderRadius: 5 }}
-                  />
-                ) : (
-                  <span className="bg-green-100 text-green-700 text-sm font-semibold py-2 px-4 rounded">
-                    {" "}
-                    +{value || 0}
-                  </span>
-                )}
-                {isLoading ? (
-                  <Skeleton.Node
-                    active
-                    style={{ width: 70, height: 35, borderRadius: 5 }}
-                  />
-                ) : (
-                  <span className="bg-red-100 text-red-700 text-sm font-semibold py-2 px-4 rounded">
-                    {negativeMarks || 0}{" "}
-                  </span>
-                )}
+                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-green-100 text-green-700 text-sm font-semibold py-2 px-4 rounded"> +{value || 0}</span>}
+                {isLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <span className="bg-red-100 text-red-700 text-sm font-semibold py-2 px-4 rounded">{negativeMarks || 0} </span>}
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                  <span
-                    onClick={handleLanguageChange}
-                    className="text-sm font-semibold flex flex-nowrap gap-2"
-                  >
+                  <span onClick={handleLanguageChange} className="text-sm font-semibold flex flex-nowrap gap-2">
                     <IoLanguage className="text-xl" />
                   </span>
-                  <span
-                    className="text-sm font-semibold flex flex-nowrap gap-2"
-                    onClick={() => setSkip(!isSkip)}
-                  >
-                    {isSkip ? (
-                      <IoBookmark className="text-xl" />
-                    ) : (
-                      <IoBookmarkOutline className="text-xl" />
-                    )}
+                  <span className="text-sm font-semibold flex flex-nowrap gap-2" onClick={() => setSkip(!isSkip)}>
+                    {isSkip ? <IoBookmark className="text-xl" /> : <IoBookmarkOutline className="text-xl" />}
                   </span>
-                  <span
-                    className="text-sm font-semibold flex flex-nowrap gap-2 cursor-pointer"
-                    onClick={() => dispatch(setReportModal())}
-                  >
+                  <span className="text-sm font-semibold flex flex-nowrap gap-2 cursor-pointer" onClick={() => dispatch(setReportModal())}>
                     <TbReport className="text-xl" />
                   </span>
                 </div>
@@ -685,11 +582,7 @@ const Question = () => {
             {/* STATEMENT Section */}
             {isLoading ? (
               <div className="mb-4">
-                <Skeleton.Input
-                  active
-                  style={{ height: 35, borderRadius: 5 }}
-                  block
-                />
+                <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block />
               </div>
             ) : (
               <>
@@ -702,22 +595,12 @@ const Question = () => {
                   </div>
                 )}
                 {/* PAIR Section */}
-                {QA.length > 0 &&
-                  currentQuestion?.questionType === QUE_TYPE.PAIR && (
-                    <div className="space-y-4 pb-6 rounded-2xl">
-                      <PairTable
-                        pair={currentQuestionLanguage?.pairQuestion}
-                        pairTitle={
-                          currentQuestionLanguage?.pairQuestion?.[0]?.combined
-                        }
-                        answers={isQa}
-                        onCheck={handleQaCheck}
-                      />
-                      <span className="font-semibold text-xl px-2 rounded">
-                        {currentQuestionLanguage?.lastQuestion}
-                      </span>
-                    </div>
-                  )}
+                {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
+                  <div className="space-y-4 pb-6 rounded-2xl">
+                    <PairTable pair={currentQuestionLanguage?.pairQuestion} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined} answers={isQa} onCheck={handleQaCheck} />
+                    <span className="font-semibold text-xl px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                  </div>
+                )}
               </>
             )}
             {/* Passage Section */}
@@ -725,42 +608,14 @@ const Question = () => {
             <div className="rounded-2xl">
               <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {isLoading
-                  ? [...Array(4)]?.map((_, i) => (
-                      <Skeleton.Node
-                        key={i}
-                        active
-                        style={{ width: "100%", height: 60, borderRadius: 5 }}
-                      />
-                    ))
-                  : Object.keys(currentQuestionLanguage?.options || {})?.map(
-                      (opt, i) => {
-                        return (
-                          <div
-                            key={i}
-                            className={`border-1 border-card-border flex items-center gap-3 m-0 rounded-md cursor-pointer transition-all ${
-                              isAnswers[i] === 1
-                                ? "border-green-500 bg-green-50"
-                                : isAnswers[i] === 0
-                                ? ""
-                                : "border-gray-200 hover:bg-gray-50"
-                            }`}
-                          >
-                            {
-                              <NormalQuestion
-                                key={i}
-                                id={i}
-                                opt={opt}
-                                text={
-                                  currentQuestionLanguage?.options[opt] || ""
-                                }
-                                answers={isAnswers}
-                                onCheck={handleAnswersCheck}
-                              />
-                            }
-                          </div>
-                        );
-                      }
-                    )}
+                  ? [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 5 }} />)
+                  : Object.keys(currentQuestionLanguage?.options || {})?.map((opt, i) => {
+                      return (
+                        <div key={i} className={`border-1 border-card-border flex items-center gap-3 m-0 rounded-md cursor-pointer transition-all ${isAnswers[i] === 1 ? "border-green-500 bg-green-50" : isAnswers[i] === 0 ? "" : "border-gray-200 hover:bg-gray-50"}`}>
+                          {<NormalQuestion key={i} id={i} opt={opt} text={currentQuestionLanguage?.options[opt] || ""} answers={isAnswers} onCheck={handleAnswersCheck} />}
+                        </div>
+                      );
+                    })}
               </div>
             </div>
             {/* )} */}
@@ -771,61 +626,27 @@ const Question = () => {
             <section id="QA_Buttons" className="w-full">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 my-8 max-xl:justify-center">
                 {ConfidenceButtons?.map((btn, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setConfidence(btn.value)}
-                    className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-normal text-white rounded-lg transition-all duration-200 ${
-                      btn.color
-                    } ${
-                      isConfidence === ""
-                        ? "opacity-100"
-                        : isConfidence === btn.value
-                        ? "opacity-100"
-                        : "opacity-30"
-                    }`}
-                  >
+                  <button key={i} onClick={() => setConfidence(btn.value)} className={`flex justify-center items-center gap-3 shadow-btn-shadow color-1 p-3 text-sm font-normal text-white rounded-lg transition-all duration-200 ${btn.color} ${isConfidence === "" ? "opacity-100" : isConfidence === btn.value ? "opacity-100" : "opacity-30"}`}>
                     {btn.icon}
                     {btn.label}
                   </button>
                 ))}
               </div>
               <div className="flex flex-wrap justify-between gap-2 ">
-                <FormButton
-                  onClick={handlePrevQueClick}
-                  text="Previous"
-                  className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase"
-                />
-                <FormButton
-                  onClick={handleNextQueClick}
-                  text={`${
-                    currentQuestionNumber === QA.length ? "Save" : "Save & Next"
-                  }`}
-                  loading={isPostLoading}
-                  className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase"
-                />
+                <FormButton onClick={handlePrevQueClick} text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase" />
+                <FormButton onClick={handleNextQueClick} text={`${currentQuestionNumber === QA.length ? "Save" : "Save & Next"}`} loading={isPostLoading} className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
               </div>
             </section>
           </div>
 
           {/* Right Panel */}
-          <div
-            onClick={() => setOpen(!isOpen)}
-            className="border-2 shadow-md border-input-box p-6 rounded-lg w-full h-full max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50"
-            style={{ display: isOpen ? "block" : "none" }}
-          >
+          <div onClick={() => setOpen(!isOpen)} className="border-2 shadow-md border-input-box p-6 rounded-lg w-full h-full max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
             {/* Legend */}
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] w-full max-2xl:max-w-[400px] max-2xl:min-w-[200px] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50"
-            >
+            <div onClick={(e) => e.stopPropagation()} className="2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-[#ffffff] w-full max-2xl:max-w-[400px] max-2xl:min-w-[200px] max-2xl:top-0 max-2xl:right-0 max-2xl:px-5 max-2xl:py-4 h-full max-2xl:shadow-md max-2xl:overflow-auto max-2xl:z-50">
               <div className="mb-6 hidden max-2xl:block">
                 <div className="flex justify-between items-center">
                   <a href="javascript:void(0)">Questions</a>
-                  <button
-                    id="toggleClose"
-                    onClick={() => setOpen(!isOpen)}
-                    className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer"
-                  >
+                  <button id="toggleClose" onClick={() => setOpen(!isOpen)} className=" z-[100] rounded-xl bg-input-box w-9 h-9 flex items-center justify-center cursor-pointer">
                     <RxCross2 className="w-5 h-5" />
                   </button>
                 </div>
@@ -875,26 +696,12 @@ const Question = () => {
                           />
                         ))
                       : QA?.map((item, i) => {
-                          const status =
-                            item?.userAnswer?.answersType?.[0] || "not-visited";
-                          const isMarked =
-                            item?.userAnswer?.answersType?.includes("marked");
+                          const status = item?.userAnswer?.answersType?.[0] || "not-visited";
+                          const isMarked = item?.userAnswer?.answersType?.includes("marked");
                           return (
-                            <button
-                              onClick={() =>
-                                handleQuestionNumberClick(i + 1, item?._id)
-                              }
-                              key={i}
-                              className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${status} ${
-                                isMarked ? "relative" : ""
-                              }`}
-                            >
+                            <button onClick={() => handleQuestionNumberClick(i + 1, item?._id)} key={i} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${status} ${isMarked ? "relative" : ""}`}>
                               {i + 1}
-                              {isMarked ? (
-                                <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" />
-                              ) : (
-                                ""
-                              )}
+                              {isMarked ? <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-success" /> : ""}
                             </button>
                           );
                         })}
@@ -903,18 +710,11 @@ const Question = () => {
 
                 {/* End Test Button */}
                 <div className="flex flex-col gap-3 mt-5 ">
-                  <button
-                    onClick={() => dispatch(setInstructionsDrawer())}
-                    className="flex justify-center items-center gap-2 bg-white border border-card-border hover:bg-input-box-dark transition-all font-semibold text-sm p-2 px-4 rounded cursor-pointer"
-                  >
+                  <button onClick={() => dispatch(setInstructionsDrawer())} className="flex justify-center items-center gap-2 bg-white border border-card-border hover:bg-input-box-dark transition-all font-semibold text-sm p-2 px-4 rounded cursor-pointer">
                     <HiMiniInformationCircle size={20} />
                     Instructions
                   </button>
-                  <FormButton
-                    text="END TEST"
-                    onClick={() => dispatch(setEndTestDrawer())}
-                    className="w-full !text-md !font-semibold transition-all hover:!bg-red-100 hover:!text-red-700 text-center !p-4 !h-13 uppercase !border-1 !border-danger"
-                  />
+                  <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="w-full !text-md !font-semibold transition-all hover:!bg-red-100 hover:!text-red-700 text-center !p-4 !h-13 uppercase !border-1 !border-danger" />
                 </div>
               </div>
             </div>

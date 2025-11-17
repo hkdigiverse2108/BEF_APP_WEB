@@ -300,18 +300,18 @@ input {
 .ant-notification-notice.ant-notification-notice-info {
   @apply !p-3 flex  rounded  !max-w-xl !w-lg;
 }
-.anticon-info-circle.ant-notification-notice-icon.ant-notification-notice-icon-info
+/* .anticon-info-circle.ant-notification-notice-icon.ant-notification-notice-icon-info
   path {
   @apply !bg-green-500;
-}
-.ant-notification-notice-info .ant-notification-notice-icon svg path {
+} */
+/* .ant-notification-notice-info .ant-notification-notice-icon svg path {
   fill: #ffffff;
-}
-.ant-notification-notice-close {
-  @apply !mb-3 !top-3 !right-2 !text-xs !text-white;
-}
+} */
+/* .ant-notification-notice-close {
+  @apply !mb-3 !top-3 !right-2 !text-xs;
+} */
 .ant-notification-notice-message {
-  @apply !text-white !uppercase;
+  @apply !capitalize;
 }
 
 /* ************ recharge *********** */

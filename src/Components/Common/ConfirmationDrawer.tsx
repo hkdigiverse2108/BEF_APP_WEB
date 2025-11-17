@@ -52,7 +52,7 @@ const ConfirmationDrawer = () => {
 
         if (res?.data?.status === HTTP_STATUS.OK && balance?.data?.status === HTTP_STATUS.OK) {
           Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
-          AntdNotification(notification, "info", "join more contests to complete win more");
+          AntdNotification(notification, "success", "join more contests to complete win more");
           dispatch(setConfirmationDrawer({ open: false, data: {} }));
           navigate(ROUTES.CONTEST.MY_CONTEST);
         }

@@ -5,7 +5,7 @@ import { ImagePath, ROUTES } from "../../../Constants";
 
 const CountDown = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   const { hours, minutes, seconds, isFinished } = useCountDown(location.state?.contestStartDate || "", location.state?.contestEndDate || "");
 
