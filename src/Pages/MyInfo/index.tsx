@@ -1,20 +1,35 @@
 import { Col, Form, Input, Row, Space } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
-import { FormButton, FormInput, FormSelect, ImageUpload } from "../../Attribute/FormFields";
+import {
+  FormButton,
+  FormInput,
+  FormSelect,
+  ImageUpload,
+} from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { HTTP_STATUS, ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import {
+  HTTP_STATUS,
+  ImagePath,
+  STORAGE_KEYS,
+  URL_KEYS,
+} from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
 import { useAppDispatch } from "../../Store/hooks";
 import { LogOut } from "../../Store/Slices/AuthSlice";
 import { EditPayload, Storage, updateStorage } from "../../Utils";
+import LogoutConfirmModal from "../../Components/MyInfo/LogoutConfirmModal";
 
 const MyInfo = () => {
   const [form] = Form.useForm();
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+
   const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
-  const { data, refetch } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const { data, refetch } = useGetApiQuery({
+    url: `${URL_KEYS.USER.ID}${user._id}`,
+  });
   const userData = data?.data;
   const [PostApi, { isLoading }] = usePostApiMutation();
   const dispatch = useAppDispatch();
@@ -50,10 +65,20 @@ const MyInfo = () => {
     <div className="sub-container pt-4">
       <CardHeader title="My Info & Setting" />
       <hr className="text-card-border my-4" />
-      <Form form={form} layout="vertical" onFinish={handleSaveClick} className="grid grid-cols-1 lg:grid-cols-3 gap-6 !mt-6">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleSaveClick}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6 !mt-6"
+      >
         {/* LEFT SIDE CARD */}
         <div className="max-lg:col-span-2">
-          <div className="p-3 sm:p-6 grid grid-cols-1 gap-4 rounded-lg overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${ImagePath}confirmation/Confirmation-bg.png)` }}>
+          <div
+            className="p-3 sm:p-6 grid grid-cols-1 gap-4 rounded-lg overflow-hidden bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${ImagePath}confirmation/Confirmation-bg.png)`,
+            }}
+          >
             <div className="flex flex-col p-6 items-center bg-white rounded-lg">
               <div className="relative">
                 <Form.Item name="profileImage" rules={[{ required: false }]}>
@@ -63,9 +88,15 @@ const MyInfo = () => {
               <h3 className="font-normal text-lg mt-3 capitalize">
                 {userData?.firstName} {userData?.lastName}
               </h3>
-              <p className="text-sm text-gray-500">{userData?.userType === "user" ? "Student" : "Admin"}</p>
+              <p className="text-sm text-gray-500">
+                {userData?.userType === "user" ? "Student" : "Admin"}
+              </p>
             </div>
-            <FormButton text="LOGOUT" onClick={() => dispatch(LogOut())} className="custom-button button button--mimas w-full !h-auto" />
+            <FormButton
+              text="LOGOUT"
+              onClick={() => setLogoutModalOpen(true)}
+              className="custom-button button button--mimas w-full !h-auto"
+            />
           </div>
         </div>
 
@@ -82,7 +113,16 @@ const MyInfo = () => {
               <Col span={24} md={12}>
                 <Form.Item label="Phone Number" required>
                   <Space.Compact block size="large">
-                    <Form.Item name={["contact", "countryCode"]} noStyle rules={[{ required: true, message: "Please select country code" }]}>
+                    <Form.Item
+                      name={["contact", "countryCode"]}
+                      noStyle
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select country code",
+                        },
+                      ]}
+                    >
                       <PhoneInput
                         defaultCountry="in"
                         value={form.getFieldValue("countryCode")}
@@ -109,22 +149,42 @@ const MyInfo = () => {
                         },
                       ]}
                     >
-                      <Input placeholder="Mobile Number" maxLength={10} inputMode="numeric" pattern="[0-9]*" />
+                      <Input
+                        placeholder="Mobile Number"
+                        maxLength={10}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                      />
                     </Form.Item>
                   </Space.Compact>
                 </Form.Item>
               </Col>
               <Col span={24} md={12}>
-                <FormInput name="email" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
+                <FormInput
+                  name="email"
+                  label="Email"
+                  rules={[
+                    { required: true, type: "email", message: "Invalid email" },
+                  ]}
+                />
               </Col>
               <Col span={24} md={12}>
                 <FormInput name="upscNumber" label="Attempt Number" required />
               </Col>
               <Col span={24} md={12}>
-                <FormSelect name="gender" label="Gender" options={GenderOptions} />
+                <FormSelect
+                  name="gender"
+                  label="Gender"
+                  options={GenderOptions}
+                />
               </Col>
               <Col span={24} md={12}>
-                <FormSelect name="language" label="Language" required options={LanguageOptions} />
+                <FormSelect
+                  name="language"
+                  label="Language"
+                  required
+                  options={LanguageOptions}
+                />
               </Col>
               <Col span={24} md={12}>
                 <FormInput name="city" label="City" />
@@ -140,10 +200,19 @@ const MyInfo = () => {
               </Col> */}
             </Row>
             <span className="border-t border-primary flex w-full" />
-            <FormButton htmlType="submit" text="UPDATE PROFILE" loading={isLoading} className="custom-button button button--mimas w-full !h-auto" />
+            <FormButton
+              htmlType="submit"
+              text="UPDATE PROFILE"
+              loading={isLoading}
+              className="custom-button button button--mimas w-full !h-auto"
+            />
           </div>
         </div>
       </Form>
+      <LogoutConfirmModal
+        logoutModalOpen={logoutModalOpen}
+        setLogoutModalOpen={setLogoutModalOpen}
+      />
     </div>
   );
 };
