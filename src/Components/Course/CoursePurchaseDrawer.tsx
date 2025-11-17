@@ -83,14 +83,11 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
 
       if (res?.status === HTTP_STATUS.OK) {
         refetch();
-        dispatch(setCoursePurchaseDrawer());
         if (status === PAYMENT_STATUS.COMPLETED) {
-          AntMessage(
-            "success",
-            res?.message || "Course Purchased Successfully."
-          );
+          dispatch(setCoursePurchaseDrawer());
+          AntMessage("success", "Enrollment completed. You’re now registered for this course.");
         } else {
-          AntMessage("error", "Course Purchased Failed.");
+          AntMessage("error", "Something went wrong while enrolling. Please try again shortly.");
         }
         const transactionPayload = {
           courseId: id,
@@ -112,8 +109,11 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
         }).unwrap();
       }
     } catch (error) {
-      console.log("error", error);
-      AntMessage("error", "Course Purchased Failed. Try Again later");
+      // console.log("error", error);
+      AntMessage(
+        "error",
+        "Oops! We couldn’t process your enrollment. Please try again."
+      );
     }
   };
 

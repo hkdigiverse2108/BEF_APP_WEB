@@ -55,6 +55,17 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const currentUser = UserData || user;
+
+  const genderWiseImage =
+    currentUser?.gender === "male"
+      ? `${ImagePath}user/User_Male.png`
+      : `${ImagePath}user/User_Female.png`;
+
+  const ProfileImage = currentUser?.profileImage
+    ? currentUser?.profileImage
+    : genderWiseImage;
+
   return (
     <>
       <div className="sticky top-0 w-full z-50">
@@ -155,9 +166,7 @@ const Header = () => {
                     onClick={() => dispatch(setMenuDrawer())}
                   >
                     <img
-                      src={
-                        UserData?.profileImage || `${ImagePath}user/User.png`
-                      }
+                      src={ProfileImage}
                       alt="profile"
                       className="w-8 h-8 rounded-xl"
                     />

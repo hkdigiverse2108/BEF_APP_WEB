@@ -2,7 +2,7 @@ import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
-import Loader from "../Common/Loader";
+import SpinLoader from "../Common/SpinLoader";
 
 const HeroBanner = () => {
   const { data: BannersData, isLoading } = useGetApiQuery({
@@ -13,14 +13,28 @@ const HeroBanner = () => {
 
   return (
     <div className="my-5 rounded-lg overflow-hidden">
-      <Swiper modules={[Pagination, Autoplay, EffectFade]} spaceBetween={50} slidesPerView={1} loop={true} effect={'fade'} autoplay={{ delay: 10000 }} pagination={{ clickable: true }}>
+      <Swiper
+        modules={[Pagination, Autoplay, EffectFade]}
+        spaceBetween={50}
+        slidesPerView={1}
+        loop={true}
+        effect={"fade"}
+        autoplay={{ delay: 10000 }}
+        pagination={{ clickable: true }}
+      >
         {isLoading ? (
-          <Loader />
+          <div className="flex w-full h-full justify-center items-center">
+            <SpinLoader />
+          </div>
         ) : (
           Banners?.map((item: any) => {
             return (
               <SwiperSlide>
-                <img src={item?.image} alt="banner" className="w-full rounded-lg overflow-hidden" />
+                <img
+                  src={item?.image}
+                  alt="banner"
+                  className="w-full rounded-lg overflow-hidden"
+                />
               </SwiperSlide>
             );
           })

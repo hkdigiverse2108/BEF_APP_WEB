@@ -1,7 +1,13 @@
 import { Col, Form, Row } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
-import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import {
+  HTTP_STATUS,
+  ImagePath,
+  ROUTES,
+  STORAGE_KEYS,
+  URL_KEYS,
+} from "../../Constants";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import type { LoginForm } from "../../Types";
 import { Storage } from "../../Utils";
@@ -11,7 +17,8 @@ const ForgotPassword = () => {
 
   const navigate = useNavigate();
 
-  const [PostGlobalApi] = usePostGlobalApiMutation({});
+  const [PostGlobalApi, { isLoading: isPostApiLoading }] =
+    usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -44,7 +51,11 @@ const ForgotPassword = () => {
     <div className="min-h-screen bg-white relative flex">
       {/* Left Side Illustration */}
       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
-        <img className="w-full" alt="Group" src={`${ImagePath}auth/ForgotPassword.jpg`} />
+        <img
+          className="w-full"
+          alt="Group"
+          src={`${ImagePath}auth/ForgotPassword.jpg`}
+        />
       </div>
 
       {/* Right Side Form (scrollable) */}
@@ -53,18 +64,33 @@ const ForgotPassword = () => {
           {/* Header */}
           <header className="space-y-6 lg:space-y-8">
             <div className="space-y-3">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Confirm your Email</h2>
-              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Enter the code we sent to your email</p>
+              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                Confirm your Email
+              </h2>
+              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                Enter the code we sent to your email
+              </p>
             </div>
           </header>
 
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleFormSubmit}
+            initialValues={{ countryCode: "+91" }}
+          >
             <Row gutter={24}>
               <Col span={24} className="text-center">
-                <FormInput name="uniqueId" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
+                <FormInput
+                  name="uniqueId"
+                  label="Email"
+                  rules={[
+                    { required: true, type: "email", message: "Invalid email" },
+                  ]}
+                />
               </Col>
               <Col span={24}>
                 <span className="border-t border-primary flex w-full col-span-2 my-4" />
@@ -72,8 +98,13 @@ const ForgotPassword = () => {
               <Col span={24}>
                 <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                   <p className="text-center text-sm lg:text-base">
-                    <span className="font-medium text-black">Already have an account? </span>
-                    <NavLink to={ROUTES.AUTH.LOGIN} className="font-bold  cursor-pointer hover:underline !text-primary">
+                    <span className="font-medium text-black">
+                      Already have an account?{" "}
+                    </span>
+                    <NavLink
+                      to={ROUTES.AUTH.LOGIN}
+                      className="font-bold  cursor-pointer hover:underline !text-primary"
+                    >
                       Login
                     </NavLink>
                   </p>
@@ -82,7 +113,12 @@ const ForgotPassword = () => {
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <FormButton htmlType="submit" text="CONTINUE" className="custom-button button button--mimas w-full !h-auto" />
+                  <FormButton
+                    loading={isPostApiLoading}
+                    htmlType="submit"
+                    text="CONTINUE"
+                    className="custom-button button button--mimas w-full !h-auto"
+                  />
                 </Form.Item>
               </Col>
             </Row>

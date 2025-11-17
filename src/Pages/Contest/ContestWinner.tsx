@@ -1,7 +1,5 @@
-import { Spin } from "antd";
 import { useRef } from "react";
 import { BsFillAlarmFill } from "react-icons/bs";
-import { IoMdTrophy } from "react-icons/io";
 import { Swiper as SwiperType } from "swiper";
 import { A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,10 +9,13 @@ import { CardHeader } from "../../Components/Common/CardHeader";
 import ContestWinnerCard from "../../Components/Contest/ContestWinnerCard";
 import { URL_KEYS } from "../../Constants";
 import type { WinnerApiResponse, WinnersBox } from "../../Types";
+import SpinLoader from "../../Components/Common/SpinLoader";
 
 const ContestWinner = () => {
   const swiperRefs = useRef<SwiperType[]>([]);
-  const { data: winnerData, isLoading } = useGetApiQuery<WinnerApiResponse>({ url: URL_KEYS.USER.WINNER_LIST });
+  const { data: winnerData, isLoading } = useGetApiQuery<WinnerApiResponse>({
+    url: URL_KEYS.USER.WINNER_LIST,
+  });
 
   const Winners = ({ ListData, title, index }: WinnersBox) => {
     return (
@@ -22,7 +23,11 @@ const ContestWinner = () => {
         <span className="border border-b border-gray-100 flex w-full mt-6 mb-2"></span>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row justify-between gap-3">
-            <CardHeader title={title} icon={<BsFillAlarmFill />} sliderButton={{ swiperRefs, index }} />
+            <CardHeader
+              title={title}
+              icon={<BsFillAlarmFill />}
+              sliderButton={{ swiperRefs, index }}
+            />
           </div>
 
           <Swiper
@@ -51,22 +56,53 @@ const ContestWinner = () => {
   return (
     <div className="sub-container pt-4">
       <div className="flex justify-between flex-wrap">
-        <h2 className="text-sm sm:text-xl md:text-2xl font-semibold">Mega Contest Winners</h2>
+        <h2 className="text-sm sm:text-xl md:text-2xl font-semibold">
+          Mega Contest Winners
+        </h2>
         <div className="question-section">
-          <FormSelect name="Filter By" placeholder="Filter By" options={[{ label: "1", value: "one" }]} className="!m-0" />
+          <FormSelect
+            name="Filter By"
+            placeholder="Filter By"
+            options={[{ label: "1", value: "one" }]}
+            className="!m-0"
+          />
         </div>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-100">
-          <Spin size="large" />
+          <SpinLoader />
         </div>
       ) : (
         <>
-          {winnerData?.data?.todayUsers.length !== 0 && <Winners ListData={winnerData?.data?.todayUsers} title={"Last Day"} index={0} />}
-          {winnerData?.data?.lastWeekUsers.length !== 0 &&<Winners ListData={winnerData?.data?.lastWeekUsers} title={"Last Week"} index={1} />}
-          {winnerData?.data?.lastMonthUsers.length !== 0 &&<Winners ListData={winnerData?.data?.lastMonthUsers} title={"Last Month"} index={2} />}
-          {winnerData?.data?.lastYearUsers.length !== 0 &&<Winners ListData={winnerData?.data?.lastYearUsers} title={"Last Year"} index={3} />}
+          {winnerData?.data?.todayUsers.length !== 0 && (
+            <Winners
+              ListData={winnerData?.data?.todayUsers}
+              title={"Last Day"}
+              index={0}
+            />
+          )}
+          {winnerData?.data?.lastWeekUsers.length !== 0 && (
+            <Winners
+              ListData={winnerData?.data?.lastWeekUsers}
+              title={"Last Week"}
+              index={1}
+            />
+          )}
+          {winnerData?.data?.lastMonthUsers.length !== 0 && (
+            <Winners
+              ListData={winnerData?.data?.lastMonthUsers}
+              title={"Last Month"}
+              index={2}
+            />
+          )}
+          {winnerData?.data?.lastYearUsers.length !== 0 && (
+            <Winners
+              ListData={winnerData?.data?.lastYearUsers}
+              title={"Last Year"}
+              index={3}
+            />
+          )}
         </>
       )}
     </div>

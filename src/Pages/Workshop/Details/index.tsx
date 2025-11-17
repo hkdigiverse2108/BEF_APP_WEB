@@ -4,7 +4,6 @@ import { ImagePath, URL_KEYS } from "../../../Constants";
 import { FormButton } from "../../../Attribute/FormFields";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import ShareModal from "../../../Components/Common/ShareModal";
-import Loader1 from "../../../Components/Common/Loader1";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../Store/hooks";
@@ -13,6 +12,7 @@ import WorkshopLecturesTab from "../../../Components/Workshop/Details/WorkshopLe
 import WorkshopTestimonialsTab from "../../../Components/Workshop/Details/WorkshopTestimonialsTab";
 import WorkshopFaqTab from "../../../Components/Workshop/Details/WorkshopFaqsTab";
 import WorkshopPurchaseDrawer from "../../../Components/Workshop/WorkshopPurchaseDrawer";
+import MainLoader from "../../../Components/Common/MainLoader";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -54,7 +54,7 @@ const WorkshopDetails = () => {
     setTabIndex(newValue);
   };
 
-  if (workshopLoading) return <Loader1 />;
+  if (workshopLoading) return <MainLoader />;
 
   return (
     <div

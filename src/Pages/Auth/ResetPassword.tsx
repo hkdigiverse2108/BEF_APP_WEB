@@ -3,7 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import type { LoginForm } from "../../Types";
-import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import {
+  HTTP_STATUS,
+  ImagePath,
+  ROUTES,
+  STORAGE_KEYS,
+  URL_KEYS,
+} from "../../Constants";
 import { Storage } from "../../Utils";
 
 const ResetPassword = () => {
@@ -11,7 +17,8 @@ const ResetPassword = () => {
 
   const navigate = useNavigate();
 
-  const [PostGlobalApi] = usePostGlobalApiMutation({});
+  const [PostGlobalApi, { isLoading: isPostApiLoading }] =
+    usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -41,8 +48,12 @@ const ResetPassword = () => {
   return (
     <div className="min-h-screen bg-white relative flex">
       {/* Left Side Illustration */}
-       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
-               <img className="w-full" alt="Group" src={`${ImagePath}auth/ResetPassword.jpg`} />
+      <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
+        <img
+          className="w-full"
+          alt="Group"
+          src={`${ImagePath}auth/ResetPassword.jpg`}
+        />
       </div>
 
       {/* Right Side Form (scrollable) */}
@@ -100,10 +111,11 @@ const ResetPassword = () => {
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
                   <FormButton
+                    loading={isPostApiLoading}
                     htmlType="submit"
                     text="CONTINUE"
                     className="custom-button button button--mimas w-full !h-auto"
-                  />             
+                  />
                 </Form.Item>
               </Col>
             </Row>
