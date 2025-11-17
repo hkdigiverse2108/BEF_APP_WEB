@@ -7,6 +7,7 @@ import { useGetApiQuery } from "../../Api/CommonApi";
 import { Storage } from "../../Utils";
 import { Spin } from "antd";
 import { CardHeader } from "../../Components/Common/CardHeader";
+import SpinLoader from "../../Components/Common/SpinLoader";
 
 const KYC = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const KYC = () => {
                     <h3 className="text-sm font-normal text-neutral-500">{KYCData?.idNumber}</h3>
                   </div>
                 </div>
-                {isLoading ? <Spin /> : <p className={`text-lg font-semibold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status || "Unverified"}</p>}
+                {isLoading ?  <SpinLoader /> : <p className={`text-lg font-semibold mt-1 uppercase ${KYCData?.status === "verified" ? "text-success" : KYCData?.status === "pending" ? "text-warning" : "text-danger"}`}>{KYCData?.status || "Unverified"}</p>}
               </div>
               {!["verified", "pending"].includes(KYCData?.status) && <FormButton onClick={() => navigate(ROUTES.KYC.KYC_REGISTER)} htmlType="button" text="Go To KYC Verification" className="custom-button button button--mimas w-full !h-auto" />}
             </div>

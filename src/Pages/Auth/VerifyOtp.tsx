@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import type { LoginForm } from "../../Types";
-import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import {
+  HTTP_STATUS,
+  ImagePath,
+  ROUTES,
+  STORAGE_KEYS,
+  URL_KEYS,
+} from "../../Constants";
 import { useEffect, useState } from "react";
 import { Storage } from "../../Utils";
 
@@ -14,7 +20,8 @@ const Verify = () => {
 
   const navigate = useNavigate();
 
-  const [PostGlobalApi] = usePostGlobalApiMutation({});
+  const [PostGlobalApi, { isLoading: isPostApiLoading }] =
+    usePostGlobalApiMutation({});
 
   const handleFormSubmit = async (values: LoginForm) => {
     try {
@@ -101,7 +108,11 @@ const Verify = () => {
     <div className="min-h-screen bg-white relative flex">
       {/* Left Side Illustration */}
       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
-        <img className="w-full" alt="Group" src={`${ImagePath}auth/VerifyOtp.jpg`} />
+        <img
+          className="w-full"
+          alt="Group"
+          src={`${ImagePath}auth/VerifyOtp.jpg`}
+        />
       </div>
 
       {/* Right Side Form (scrollable) */}
@@ -110,15 +121,24 @@ const Verify = () => {
           {/* Header */}
           <header className="space-y-6 lg:space-y-8">
             <div className="space-y-3">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Confirm your Number</h2>
-              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Enter the 6-digit Verification Code</p>
+              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                Confirm your Number
+              </h2>
+              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                Enter the 6-digit Verification Code
+              </p>
             </div>
           </header>
 
           <span className="border-t border-primary flex w-full"></span>
 
           {/* Form */}
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ countryCode: "+91" }}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleFormSubmit}
+            initialValues={{ countryCode: "+91" }}
+          >
             <Row gutter={24}>
               <Col span={24} className="text-center">
                 <FormInput name="otp" type="otp" required />
@@ -130,15 +150,33 @@ const Verify = () => {
                 {/* Footer */}
                 <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                   <p className="text-center text-sm lg:text-base uppercase">
-                    <span className="font-medium text-black">Didn’t get the code? </span>
-                    {seconds > 0 ? <span className="font-bold text-primary">Resend in {formatTime(seconds)}</span> : <FormButton htmlType="button" text="Resend Code" onClick={handleResend} className="!border-none !bg-none !shadow-none !text-primary !font-bold !cursor-pointer hover:!underline " />}
+                    <span className="font-medium text-black">
+                      Didn’t get the code?{" "}
+                    </span>
+                    {seconds > 0 ? (
+                      <span className="font-bold text-primary">
+                        Resend in {formatTime(seconds)}
+                      </span>
+                    ) : (
+                      <FormButton
+                        htmlType="button"
+                        text="Resend Code"
+                        onClick={handleResend}
+                        className="!border-none !bg-none !shadow-none !text-primary !font-bold !cursor-pointer hover:!underline "
+                      />
+                    )}
                   </p>
                 </footer>
               </Col>
               {/* Actions */}
               <Col span={24}>
                 <Form.Item label={null} className="col-span-2 text-center">
-                  <FormButton htmlType="submit" text="CONTINUE" className="custom-button button button--mimas w-full !h-auto" />
+                  <FormButton
+                    loading={isPostApiLoading}
+                    htmlType="submit"
+                    text="CONTINUE"
+                    className="custom-button button button--mimas w-full !h-auto"
+                  />
                 </Form.Item>
               </Col>
             </Row>

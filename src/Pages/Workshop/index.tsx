@@ -2,12 +2,12 @@ import { FormButton } from "../../Attribute/FormFields";
 import { Empty, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import type { WorkshopItem } from "../../Types";
-import Loader1 from "../../Components/Common/Loader1";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import WorkshopCard from "../../Components/Workshop/WorkshopCard";
 import { useAppSelector } from "../../Store/hooks";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants";
+import MainLoader from "../../Components/Common/MainLoader";
 
 const Workshop = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Workshop = () => {
     }
   }, [workshopLoading, workshop]);
 
-  if (workshopLoading) return <Loader1 />;
+  if (workshopLoading) return <MainLoader />;
   if (!workshopLoading && workshop.length === 0)
     return (
       <div className="w-full h-screen  flex justify-center items-center">

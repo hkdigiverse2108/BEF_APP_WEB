@@ -10,10 +10,10 @@ import CourseLecturesTab from "../../../Components/Course/Details/CourseLectures
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
 import { ImagePath, URL_KEYS } from "../../../Constants";
 import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
-import Loader1 from "../../../Components/Common/Loader1";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
 import CoursePurchaseDrawer from "../../../Components/Course/CoursePurchaseDrawer";
+import MainLoader from "../../../Components/Common/MainLoader";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -59,7 +59,7 @@ const CourseDetails = () => {
     0
   );
 
-  if (courseLoading) return <Loader1 />;
+  if (courseLoading) return <MainLoader />;
 
   return (
     <div className="sub-container space-y-9 pt-9 bg-white rounded-xl">

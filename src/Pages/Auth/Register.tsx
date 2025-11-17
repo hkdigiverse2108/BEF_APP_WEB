@@ -2,8 +2,16 @@ import { Col, Form, Input, Row, Space, Steps } from "antd";
 import { useEffect, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import { NavLink } from "react-router-dom";
-import { FormButton, FormDatePicker, FormInput, FormSelect } from "../../Attribute/FormFields";
-import { useGetGlobalApiQuery, usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
+import {
+  FormButton,
+  FormDatePicker,
+  FormInput,
+  FormSelect,
+} from "../../Attribute/FormFields";
+import {
+  useGetGlobalApiQuery,
+  usePostGlobalApiMutation,
+} from "../../Api/CommonGlobalApi";
 import { HTTP_STATUS, ImagePath, URL_KEYS } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
 import { RemoveEmptyFields } from "../../Utils";
@@ -23,14 +31,17 @@ const Register = () => {
 
   const dispatch = useAppDispatch();
 
-  const [PostGlobalApi, { isLoading }] = usePostGlobalApiMutation({});
+  const [PostGlobalApi, { isLoading: isPostApiLoading }] =
+    usePostGlobalApiMutation({});
 
   const { data: examTypeApi } = useGetGlobalApiQuery({
     url: URL_KEYS.EXAM.TYPE,
   });
   let examTypeData = examTypeApi?.data;
 
-  const { data: CouponData, isLoading: isCouponLoading } = useGetApiQuery({ url: `${URL_KEYS.COUPON.ALL}?audienceFilter=default` });
+  const { data: CouponData, isLoading: isCouponLoading } = useGetApiQuery({
+    url: `${URL_KEYS.COUPON.ALL}?audienceFilter=default`,
+  });
 
   const defaultCoupon = CouponData?.data?.coupon_data[0]?.code;
 
@@ -120,10 +131,13 @@ const Register = () => {
       let hasError = false;
 
       if (email) {
-        const resEmail: { data: any } | { error: FetchBaseQueryError | SerializedError } = await PostGlobalApi({
-          url: URL_KEYS.USER.CHECK,
-          data: { email },
-        });
+        const resEmail:
+          | { data: any }
+          | { error: FetchBaseQueryError | SerializedError } =
+          await PostGlobalApi({
+            url: URL_KEYS.USER.CHECK,
+            data: { email },
+          });
         if ("error" in resEmail) {
           const errorData = (resEmail.error as FetchBaseQueryError).data as {
             status?: number;
@@ -199,7 +213,13 @@ const Register = () => {
             <FormInput name="lastName" label="Last Name" required />
           </Col>
           <Col span={24}>
-            <FormInput name="email" label="Email" rules={[{ required: true, type: "email", message: "Invalid email" }]} />
+            <FormInput
+              name="email"
+              label="Email"
+              rules={[
+                { required: true, type: "email", message: "Invalid email" },
+              ]}
+            />
           </Col>
           <Col span={24}>
             <FormSelect name="gender" label="Gender" options={GenderOptions} />
@@ -209,7 +229,13 @@ const Register = () => {
     },
     {
       title: "Verity Number",
-      fields: [["contact", "countryCode"], ["contact", "mobile"], "language", "dob", "city"],
+      fields: [
+        ["contact", "countryCode"],
+        ["contact", "mobile"],
+        "language",
+        "dob",
+        "city",
+      ],
       content: (
         <Row gutter={16}>
           <Col span={24}>
@@ -219,13 +245,24 @@ const Register = () => {
             <FormInput name="city" label="City" />
           </Col>
           <Col span={24}>
-            <FormSelect name="language" label="Language" required options={LanguageOptions} />
+            <FormSelect
+              name="language"
+              label="Language"
+              required
+              options={LanguageOptions}
+            />
           </Col>
           <Col span={24}>
             {/* Phone Number */}
             <Form.Item label="Phone Number" required>
               <Space.Compact block size="large">
-                <Form.Item name={["contact", "countryCode"]} noStyle rules={[{ required: true, message: "Please select country code" }]}>
+                <Form.Item
+                  name={["contact", "countryCode"]}
+                  noStyle
+                  rules={[
+                    { required: true, message: "Please select country code" },
+                  ]}
+                >
                   <PhoneInput
                     defaultCountry="in"
                     value={form.getFieldValue("countryCode")}
@@ -252,7 +289,12 @@ const Register = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Mobile Number" maxLength={10} inputMode="numeric" pattern="[0-9]*" />
+                  <Input
+                    placeholder="Mobile Number"
+                    maxLength={10}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                  />
                 </Form.Item>
               </Space.Compact>
             </Form.Item>
@@ -266,7 +308,11 @@ const Register = () => {
       content: (
         <Row gutter={16}>
           <Col span={24}>
-            <FormInput name="referralCode" label="Referral Code" onChange={(e) => handleReferralCheck(e.target.value)}/>
+            <FormInput
+              name="referralCode"
+              label="Referral Code"
+              onChange={(e) => handleReferralCheck(e.target.value)}
+            />
           </Col>
           <Col span={24}>
             <FormSelect
@@ -280,7 +326,12 @@ const Register = () => {
             />
           </Col>
           <Col span={24}>
-            <FormInput name="upscNumber" type="number" label="Attempt number UPSC" required />
+            <FormInput
+              name="upscNumber"
+              type="number"
+              label="Attempt number UPSC"
+              required
+            />
           </Col>
           <Col span={24}>
             <FormInput
@@ -305,23 +356,41 @@ const Register = () => {
     <div className="min-h-screen bg-white relative flex">
       {/* Left Illustration */}
       <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
-        <img className="w-full" alt="Group" src={`${ImagePath}auth/Register.jpg`} />
+        <img
+          className="w-full"
+          alt="Group"
+          src={`${ImagePath}auth/Register.jpg`}
+        />
       </div>
 
       {/* Right Form */}
       <div className="flex xl:w-1/2 2xl:w-3/5 w-full overflow-y-auto justify-center items-center p-4 sm:p-8 lg:p-12 z-10">
         <div className="w-full max-w-2xl mx-auto ">
-          <Steps current={current} direction="horizontal" items={steps.map((s) => ({ title: s.title }))} className="space-y-2 lg:space-y-4" />
+          <Steps
+            current={current}
+            direction="horizontal"
+            items={steps.map((s) => ({ title: s.title }))}
+            className="space-y-2 lg:space-y-4"
+          />
 
           <header className="mb-3">
             <div className="space-y-1">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Get Started Now</h2>
-              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or explore about our website</p>
+              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
+                Get Started Now
+              </h2>
+              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
+                Create an account or explore about our website
+              </p>
             </div>
           </header>
           <span className="border-t border-primary flex w-full" />
 
-          <Form form={form} layout="vertical" onFinish={handleFormSubmit} initialValues={{ contact: { countryCode: "+91" } }}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleFormSubmit}
+            initialValues={{ contact: { countryCode: "+91" } }}
+          >
             <div className="mt-4">{steps[current].content}</div>
             <Col span={24}>
               <span className="border-t border-primary flex w-full col-span-2 mb-4" />
@@ -330,8 +399,13 @@ const Register = () => {
               {/* Footer */}
               <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                 <p className="text-center text-sm lg:text-base">
-                  <span className="font-medium text-black pe-2">Already have an account?</span>
-                  <NavLink to="/" className="font-bold  cursor-pointer hover:underline !text-primary">
+                  <span className="font-medium text-black pe-2">
+                    Already have an account?
+                  </span>
+                  <NavLink
+                    to="/"
+                    className="font-bold  cursor-pointer hover:underline !text-primary"
+                  >
                     Login
                   </NavLink>
                 </p>
@@ -361,7 +435,12 @@ const Register = () => {
                   className="custom-button button button--mimas w-full !h-auto"
                 />
               ) : (
-                <FormButton loading={isLoading || isCouponLoading} htmlType="submit" text="Submit" className="custom-button button button--mimas w-full !h-auto" />
+                <FormButton
+                  loading={isPostApiLoading || isCouponLoading}
+                  htmlType="submit"
+                  text="Submit"
+                  className="custom-button button button--mimas w-full !h-auto"
+                />
               )}
             </div>
           </Form>

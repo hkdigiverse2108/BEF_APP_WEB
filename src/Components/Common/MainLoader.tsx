@@ -1,4 +1,4 @@
-const Loader1 = () => {
+const MainLoader = () => {
   return (
     <div id="preloader">
       <div id="loader" />
@@ -6,4 +6,4 @@ const Loader1 = () => {
   );
 };
 
-export default Loader1;
+export default MainLoader;
