@@ -14,7 +14,7 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
   const handleResult = () => {
     if (contestData?.answers?.length !== 0) {
-      if (!isFinished) {
+      if (isFinished) {
         navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${_id}&contestFilter=${contestId}`);
       } else {
         navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: contestData?.contestStartDate || "", contestEndDate: contestData?.contestEndDate || "" } });

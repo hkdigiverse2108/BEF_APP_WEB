@@ -92,6 +92,10 @@ const Solution = () => {
     return item.answer === item.rightAnswer ? "correct" : "incorrect";
   };
 
+    const CheckWhyFalseAnswers = (item: Answer) => {
+    return item.answer === item.rightAnswer ? true : false;
+  };
+
   const handleSolutionsFilter = (values: string) => {
     setCurrentQuestionNumber(1);
     setSolutionsFilter(values);
@@ -188,14 +192,14 @@ const Solution = () => {
                   <span onClick={handleLanguageChange} className={`flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize ${language === "hindiQuestion" ? "border border-input-box-dark" : ""}`}>
                     <IoLanguage className="text-xl" />
                   </span>
-                  {CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" && <Select allowClear loading={isPostLoading} onChange={handleWhyFalseChange} placeholder="Why False" options={WhyFalseOptions} className="!m-0" defaultValue={currentQuestionAnswers?.whyFalse} />}
+                  {(CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" || (currentQuestionAnswers?.type  === "fearDriverSkip" && !CheckWhyFalseAnswers(currentQuestionAnswers))) && <Select allowClear loading={isPostLoading} onChange={handleWhyFalseChange} placeholder="Why False" options={WhyFalseOptions} className="!m-0" defaultValue={currentQuestionAnswers?.whyFalse} />}
                 </div>
               </div>
               <span className="border-t border-card-border flex w-full my-6" />
               <div className="flex flex-wrap items-center gap-3">
                 {isSubTopicLoading ? <Skeleton.Node active style={{ width: 70, height: 35, borderRadius: 5 }} /> : <p className="bg-input-box font-semibold text-sm p-2 px-4 rounded text-neutral-500">{SubTopicApiData?.data?.name}</p>}
                 <p className="bg-input-box font-semibold text-sm p-2 px-4 rounded text-neutral-500">
-                  Strategy :<span className="text-black"> {currentQuestionAnswers?.type}</span>
+                  Strategy :<span className="text-black"> {formatType(currentQuestionAnswers?.type || "")}</span>
                 </p>
                 {ALMentor("sm:hidden")}
                 <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
@@ -262,15 +266,11 @@ const Solution = () => {
                         <div key={i} className={`border-1 border-card-border flex items-center gap-3 p-4 m-0 rounded-md cursor-pointer transition-all ${isRightAnswer ? "border-green-500 bg-green-50" : isWrongAnswer ? "border-red-500 bg-red-50" : "border-gray-200 hover:bg-gray-50"}`}>
                           <div className="flex max-sm:flex-col items-center w-full gap-3 question">
                             <div className="relative">
-                              {isRightAnswer ? <FaRegCircle style={{ color: "green", width: "21px", height: "21px"}} /> : isWrongAnswer ? <FaRegCircle style={{ color: "red", width: "21px", height: "21px" }} /> : <FaRegCircle style={{ color: "gray", width: "21px", height: "21px" }} />}
+                              {isRightAnswer ? <FaRegCircle style={{ color: "green", width: "21px", height: "21px" }} /> : isWrongAnswer ? <FaRegCircle style={{ color: "red", width: "21px", height: "21px" }} /> : <FaRegCircle style={{ color: "gray", width: "21px", height: "21px" }} />}
 
                               <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{opt}</span>
                             </div>
-                              {isImage(currentQuestionLanguage?.options[opt] || "")  ? (
-                                  <img src={currentQuestionLanguage?.options[opt] || ""} className="transparent-img" alt="question" />
-                              ) : (
-                            <span className={`flex-1 font-medium capitalize ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{currentQuestionLanguage?.options[opt] || ""}</span>
-                              )}
+                            {isImage(currentQuestionLanguage?.options[opt] || "") ? <img src={currentQuestionLanguage?.options[opt] || ""} className="transparent-img" alt="question" /> : <span className={`flex-1 font-medium capitalize ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{currentQuestionLanguage?.options[opt] || ""}</span>}
                           </div>
                         </div>
                       );
@@ -302,9 +302,7 @@ const Solution = () => {
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
 
-              <div className="max-h-[550px] 2xl:h-100 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
-                <p className="font-semibold text-base mb-1 text-neutral-500" dangerouslySetInnerHTML={{ __html: currentQuestionLanguage?.solution?.replace(/\n/g, "<br/>") || "" }}></p>
-              </div>
+              <div className="max-h-[550px] 2xl:h-100 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">{isImage(currentQuestionLanguage?.solution || "") ? <img src={currentQuestionLanguage?.solution} alt="solution" className="mb-2 transparent-img" /> : <p className="font-semibold text-base mb-1 text-neutral-500" dangerouslySetInnerHTML={{ __html: currentQuestionLanguage?.solution?.replace(/\n/g, "<br/>") || "" }}></p>}</div>
 
               {/* End Test Button */}
               <div className="flex justify-end items-end gap-3 !mt-3">
