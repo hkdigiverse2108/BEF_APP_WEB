@@ -1,5 +1,6 @@
 import { Checkbox } from "antd";
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
+import { isImage } from "../../Utils";
 
 export interface StatementQuestionProps {
   id: number;
@@ -9,10 +10,16 @@ export interface StatementQuestionProps {
 }
 
 export const StatementQuestion = ({ id, statements, answers, onCheck }: StatementQuestionProps) => {
+  const showImage = isImage(statements || "");
   return (
-    <div className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
-      <span className="w-full font-medium">{`${id + 1}. ${statements}`}</span>
-      {(onCheck && answers) && (
+    <div className="flex max-sm:flex-col sm:justify-between items-center w-full gap-3 question">
+      <div className="flex justify-start w-full font-medium capitalize gap-1">
+        <span className="font-bold">{id + 1}. </span>
+
+        {showImage ? <img src={statements} className="transparent-img"/> : <span>{statements}</span>}
+      </div>
+      {/* <span className="w-full font-medium">{`${id + 1}. ${statements}`}</span> */}
+      {onCheck && answers && (
         <div className="flex justify-end max-sm:w-full gap-2">
           <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
             {answers[id] === 1 ? <CheckCircleFilled style={{ color: "green" }} className="icon" /> : <CheckCircleOutlined style={{ color: "green" }} className="icon" />}

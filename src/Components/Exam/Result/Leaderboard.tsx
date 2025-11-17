@@ -11,9 +11,8 @@ const Leaderboard: FC<{ tabIndex: number; contest: { endDate: string; startDate:
   const { user } = useAppSelector((store) => store.auth);
   const { hours, minutes, seconds, isFinished } = useCountDown(contest?.startDate || "", contest?.endDate || "");
 
-  const { data } = useGetApiQuery<RanksApiResponse>({ url: `${URL_KEYS.QA.CONTEST_RANKS}${search}` }, { skip: tabIndex === 5 ? false : true });
+  const { data } = useGetApiQuery<RanksApiResponse>({ url: `${URL_KEYS.QA.CONTEST_RANKS}${search}` });
   const RanksData = data?.data[0]?.ranks;
-  console.log(data?.data);
 
   const LeaderboardData = data?.data?.[0]?.ranks?.flatMap((rank) => rank?.winners?.filter((win) => win?.userId === user?._id) || []);
 
@@ -80,7 +79,7 @@ const Leaderboard: FC<{ tabIndex: number; contest: { endDate: string; startDate:
 
   return (
     <>
-      {data?.data.length === 0 || isFinished ? (
+      {!data?.data ? (
         <div className="w-full h-[400px] flex flex-col items-center justify-center  bg-cover bg-center rounded-2xl " style={{ backgroundImage: `url(${ImagePath}CountDown.jpg)` }}>
           {/* Timer Wrapper */}
           <div>
@@ -158,9 +157,10 @@ const Leaderboard: FC<{ tabIndex: number; contest: { endDate: string; startDate:
               {/* </div> */}
             </div>
           </div>
-          <div className="pt-7">
-            <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 w-full max-h-[450px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
-              {/* {Users.map((user, index) => (
+          {RanksData?.filter((list) => Number(list.endPlace) >= 3)?.length !== 0 && (
+            <div className="pt-7">
+              <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 w-full max-h-[450px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
+                {/* {Users.map((user, index) => (
                 <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">
                   <img className="size-12 rounded-sm" src={user.img} alt="ChitChat Logo" />
                   <div>
@@ -169,21 +169,22 @@ const Leaderboard: FC<{ tabIndex: number; contest: { endDate: string; startDate:
                   </div>
                 </div>
               ))} */}
-              {RanksData?.filter((list) => Number(list.endPlace) <= 3)?.map((list) =>
-                list.winners?.map((user, index) => (
-                  <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">
-                    <img className="size-12 rounded-sm" src={user.profileImage || `${ImagePath}user/User.png`} alt="ChitChat Logo" />
-                    <div>
-                      <div className="max-sm:text-sm text-gray-500">{user.rank}TH RANK</div>
-                      <p className="text-md sm:text-xl font-medium capitalize">
-                        {user.firstName} {user.lastName}
-                      </p>
+                {RanksData?.filter((list) => Number(list.endPlace) >= 3)?.map((list) =>
+                  list.winners?.map((user, index) => (
+                    <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">
+                      <img className="size-12 rounded-sm" src={user.profileImage || `${ImagePath}user/User.png`} alt="ChitChat Logo" />
+                      <div>
+                        <div className="max-sm:text-sm text-gray-500">{user.rank}TH RANK</div>
+                        <p className="text-md sm:text-xl font-medium capitalize">
+                          {user.firstName} {user.lastName}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
     </>

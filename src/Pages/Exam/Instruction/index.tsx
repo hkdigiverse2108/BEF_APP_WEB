@@ -17,7 +17,6 @@ const ExamInstruction = () => {
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
 
-  console.log(contestStartDate);
   const handleNextButton = () => {
     // const now = Date.now();
     // const start = new Date(contestStartDate).getTime();
@@ -61,7 +60,7 @@ const ExamInstruction = () => {
           content: `You can join after ${timeIST}`,
           className: "custom-class",
           style: {
-            marginTop: "20vh",
+            marginTop: "10vh",
           },
         });
       } else {

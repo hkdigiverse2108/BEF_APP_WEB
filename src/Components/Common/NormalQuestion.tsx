@@ -11,6 +11,11 @@ export interface NormalQuestionProps {
 }
 
 export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuestionProps) => {
+  const isImage = (value: string) => {
+    return value.startsWith("http") && (value.endsWith(".jpg") || value.endsWith(".jpeg") || value.endsWith(".png") || value.endsWith(".webp") || value.endsWith(".gif"));
+  };
+  const showImage = isImage(text);
+
   return (
     <div className="flex max-sm:flex-col justify-center items-center w-full question" onClick={() => onCheck(id, "true")}>
       {/* Desktop True Checkbox */}
@@ -25,7 +30,16 @@ export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuesti
         </div>
 
         {/* Text */}
-        <span className={`flex-1 font-medium capitalize ${answers[id] === 0 ? "line-through" : ""}`}>{text}</span>
+        {/* <span className={`flex-1 font-medium capitalize ${answers[id] === 0 ? "line-through" : ""}`}>{text}</span> */}
+        <div className="flex-1 font-medium capitalize">
+          {showImage ? (
+            <div className={`${answers[id] === 0 ? "img-strike" : ""}`}>
+              <img src={text} className="transparent-img" alt="question" />
+            </div>
+          ) : (
+            <span className={`${answers[id] === 0 ? "line-through" : ""}`}>{text}</span>
+          )}
+        </div>
         {/* </div> */}
 
         {/* Mobile True + False */}
@@ -42,7 +56,7 @@ export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuesti
         </div> */}
         <div onClick={(e) => e.stopPropagation()} className="flex items-center">
           <Checkbox checked={answers[id] === 0} onChange={() => onCheck(id, "false")}>
-            {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} className="icon"/> : <CloseCircleOutlined style={{ color: "red" }} className="icon"/>}
+            {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} className="icon" /> : <CloseCircleOutlined style={{ color: "red" }} className="icon" />}
           </Checkbox>
         </div>
       </div>

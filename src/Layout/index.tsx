@@ -17,8 +17,10 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    if (!["solution", "mistake-map-report"].includes(pathname)) {
+    if (!["solution", "mistake-map-report","question"].includes(pathname)) {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_SOLUTION);
+      Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
+      Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
     }
   }, [pathname]);
   return (

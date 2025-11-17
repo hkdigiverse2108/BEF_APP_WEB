@@ -4,15 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { ImagePath, ROUTES } from "../../Constants";
 import type { ContestDetailCardProps } from "../../Types";
 import { message } from "antd";
+import { useCountDown } from "../../Utils/Hook";
 
 const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const { _id, contestId, contestStartDate, rank = 0, winningPrice = 0, subject: { name: subjectName = "Unknown Subject", image: subjectImage = `${ImagePath}contest/ContestIcon.png` } = {}, contest: { name: contestName = "Untitled Contest", pricePool = 0 } = {} } = contestData ?? {};
+  const { isFinished } = useCountDown(contestData?.contestStartDate || "", contestData?.contestEndDate || "");
 
   const handleResult = () => {
     if (contestData?.answers?.length !== 0) {
-      navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${_id}&contestFilter=${contestId}`);
+      if (!isFinished) {
+        navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${_id}&contestFilter=${contestId}`);
+      } else {
+        navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: contestData?.contestStartDate || "", contestEndDate: contestData?.contestEndDate || "" } });
+      }
     } else {
       messageApi.open({
         type: "error",
