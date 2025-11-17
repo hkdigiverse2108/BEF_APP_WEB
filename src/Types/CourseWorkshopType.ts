@@ -13,5 +13,6 @@ export interface PurchaseData {
   price: PriceInfo;
   modulesData?: ModuleType[];
   lecturesData?: LectureType[];
+  priceInStruction?: string;
   // isDiscountPrice? : boolean;
 }

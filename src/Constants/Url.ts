@@ -26,6 +26,7 @@ export const URL_KEYS = {
   },
   SUBJECT: {
     ALL: "/subject/all",
+    SUBJECT: "/subject",
   },
   SUB_TOPIC: {
     ID: "/sub-topic/",
@@ -129,7 +130,7 @@ export const URL_KEYS = {
     ALL: "/coupon/all",
     CHECK: "/coupon/check",
   },
-  YOUTUBE_VISUALS:{
-    All:"/youtube-visuals/all"
-  }
+  YOUTUBE_VISUALS: {
+    All: "/youtube-visuals/all",
+  },
 } as const;

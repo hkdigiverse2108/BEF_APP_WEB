@@ -165,7 +165,7 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                   </p>
                 </div> */}
               </section>
-              {isRefferApplyed && (
+              {/* {isRefferApplyed && (
                 <section className="bg-white rounded-lg p-3 space-y-1 ">
                   <div className="flex gap-2">
                     <span>
@@ -179,7 +179,7 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                     </p>
                   </div>
                 </section>
-              )}
+              )} */}
             </div>
             {/* Footer */}
             <div className="space-y-4">

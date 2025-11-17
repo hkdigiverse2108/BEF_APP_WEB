@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Slices/AuthSlice";
 import DrawerSlice from "./Slices/DrawerSlice";
 import FilterSlice from "./Slices/FilterSlice";
+import workshopReducer from "./Slices/WorkshopSlice";
 import { CommonApi, CommonGlobalApi } from "../Api";
 
 export const Store = configureStore({
@@ -12,8 +13,12 @@ export const Store = configureStore({
     auth: authReducer,
     drawer: DrawerSlice,
     filter: FilterSlice,
+    workshops: workshopReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(CommonApi.middleware).concat(CommonGlobalApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(CommonApi.middleware)
+      .concat(CommonGlobalApi.middleware),
 });
 
 export type RootState = ReturnType<typeof Store.getState>;
