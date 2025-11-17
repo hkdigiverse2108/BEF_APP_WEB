@@ -1,10 +1,9 @@
-import { BsFillAlarmFill } from "react-icons/bs";
-import { ImagePath, ROUTES } from "../../Constants";
-import { useNavigate } from "react-router-dom";
 import { Progress } from "antd";
 import dayjs from "dayjs";
-import type { ContestDetailCardProps } from "../../Types";
 import type { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { ImagePath, ROUTES } from "../../Constants";
+import type { ContestDetailCardProps } from "../../Types";
 
 const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
@@ -13,7 +12,6 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
   const progress = (filledSpots / totalSpots) * 100;
 
-  // console.log("contest", contestData);
 
   const handleJoin = (e: any) => {
     e.stopPropagation();

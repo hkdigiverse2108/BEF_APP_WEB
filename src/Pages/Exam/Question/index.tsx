@@ -38,12 +38,8 @@ import {
   setReportModal,
 } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
-import type {
-  LanguageKey,
-  QuestionApiResponse,
-  QuestionType,
-} from "../../../Types";
-import { Storage, updateStorage } from "../../../Utils";
+import type { LanguageKey, QuestionApiResponse, QuestionType } from "../../../Types";
+import { isImage, Storage, updateStorage } from "../../../Utils";
 import { useCountDown } from "../../../Utils/Hook";
 import { AntMessage } from "../../../Components/Common/AntMessage";
 
@@ -79,21 +75,116 @@ const Question = () => {
   }, [contestId, Navigate]);
 
   useEffect(() => {
-    // 🔙 Block Back Button only
+    // BLOCK BACK BUTTON
     const handleBack = (e: PopStateEvent) => {
       e.preventDefault();
-      alert("Please click End Test before leaving!");
       window.history.pushState(null, "", window.location.href);
     };
 
-    // Back button trap
     window.history.pushState(null, "", window.location.href);
     window.addEventListener("popstate", handleBack);
 
+    // -----------------------------
+    // FORCE FULLSCREEN
+    // -----------------------------
+    const requestRealFullscreen = () => {
+      const el: any = document.documentElement;
+
+      if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+
+      window.removeEventListener("click", requestRealFullscreen);
+      window.removeEventListener("keydown", requestRealFullscreen);
+      window.removeEventListener("touchstart", requestRealFullscreen);
+    };
+
+    window.addEventListener("click", requestRealFullscreen);
+    window.addEventListener("keydown", requestRealFullscreen);
+    window.addEventListener("touchstart", requestRealFullscreen);
+
+    // -----------------------------
+    // LOCK ESC KEY
+    // -----------------------------
+    const blockEsc = (e: any) => {
+      if (e.key === "escape") {
+        e.preventDefault();
+        messageApi.error("Fullscreen mode is locked");
+      }
+    };
+    window.addEventListener("keydown", blockEsc);
+
+    // -----------------------------
+    // TAB SWITCH / WINDOW BLUR / MINIMIZE DETECTION
+    // -----------------------------
+    let violationCount = 0;
+
+    const handleLeaveScreen = () => {
+      if (document.hidden || document.visibilityState !== "visible") {
+        violationCount++;
+
+        messageApi.error(`Do not switch tabs! (${violationCount})`);
+
+        // Force fullscreen again immediately
+        requestRealFullscreen();
+
+        if (violationCount >= 10) {
+          messageApi.error("Exam auto-submitted due to repeated switching!");
+          // handleEndTestDrawer?.(); // Call exam submit function
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleLeaveScreen);
+    window.addEventListener("blur", handleLeaveScreen);
+    window.addEventListener("focusout", handleLeaveScreen);
+
+    // -----------------------------
+    // KEYBOARD + PRINTSCREEN PROTECTION
+    // -----------------------------
+    const p = async (e: any) => {
+      const k = e.key?.toLowerCase();
+
+      const isDevToolsKey = k === "f11" || k === "f12" || (e.altKey && k === "a") || (e.ctrlKey && k === "u") || (e.ctrlKey && e.shiftKey && ["i", "j", "c", "s"].includes(k));
+
+      const isWindowsShift2 = e.shiftKey && (e.metaKey || e.key === "Meta") && k === "2";
+
+      const isPrintScreen = ["printscreen", "prtsc", "snapshot"].includes(k) || (e.ctrlKey && ["printscreen", "prtsc", "snapshot"].includes(k));
+
+      const isEscape = k === "escape";
+
+      if (e.type === "contextmenu" || (e.type === "keydown" && (isDevToolsKey || isWindowsShift2 || isPrintScreen || isEscape))) {
+        e.preventDefault();
+        messageApi.error("Content is protected");
+
+        if (isPrintScreen) {
+          try {
+            await navigator.clipboard.writeText("");
+          } catch {}
+        }
+      }
+    };
+
+    for (const evt of ["contextmenu", "keydown"]) {
+      document.addEventListener(evt, p);
+    }
+
+    // -----------------------------
+    // CLEANUP
+    // -----------------------------
     return () => {
       window.removeEventListener("popstate", handleBack);
+      window.removeEventListener("keydown", blockEsc);
+
+      document.removeEventListener("visibilitychange", handleLeaveScreen);
+      window.removeEventListener("blur", handleLeaveScreen);
+      window.removeEventListener("focusout", handleLeaveScreen);
+
+      for (const evt of ["contextmenu", "keydown"]) {
+        document.removeEventListener(evt, p);
+      }
     };
-  }, []);
+  }, [messageApi]);
 
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({
     url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}`,
@@ -126,7 +217,7 @@ const Question = () => {
           const is2x = finalNumber === QAApiData?.data?.stackNumber;
           return {
             questionId: q._id,
-            type: q?.userAnswer?.confidenceType || "",
+            type: q?.userAnswer?.confidenceType || "skip",
             is2XStack: is2x,
             eliminateOption: 0,
             eliminateOptionA: false,
@@ -231,7 +322,7 @@ const Question = () => {
   const handleQuestionNumberClick = (questionNumber: number, id: string) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setCurrentQuestionNumber(questionNumber);
-
+    setOpen(false);
     const item = QAData?.answers?.find((a) => a._id === id);
     window.dispatchEvent(new Event("examStorageUpdate"));
     if (item?.userAnswer?.answersType?.length) {
@@ -296,12 +387,8 @@ const Question = () => {
       setAnswersType(["unanswered"]);
       setSkip(false);
       setQAData(null);
-      Navigate(ROUTES.EXAM.COUNT_DOWN, {
-        state: {
-          contestStartDate: QAData?.contestStartDate || "",
-          contestEndDate: QAData?.contestEndDate || "",
-        },
-      });
+      document?.exitFullscreen();
+      Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || "" } });
     }
   };
 
@@ -593,19 +680,7 @@ const Question = () => {
                 </div>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
-              <div className="mb-4">
-                {isLoading ? (
-                  <Skeleton.Input
-                    active
-                    style={{ height: 35, borderRadius: 5 }}
-                    block
-                  />
-                ) : (
-                  <p className="font-semibold text-lg mb-1">
-                    {currentQuestionLanguage?.question}
-                  </p>
-                )}
-              </div>
+              <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <>{isImage(currentQuestionLanguage?.question || "") ? <img src={currentQuestionLanguage?.question} alt="question" className="mb-2 transparent-img" /> : <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</>}</div>
             </div>
             {/* STATEMENT Section */}
             {isLoading ? (
@@ -618,34 +693,14 @@ const Question = () => {
               </div>
             ) : (
               <>
-                {QA.length > 0 &&
-                  currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
-                    <div className="space-y-6 pb-6 rounded-2xl">
-                      {Object.keys(
-                        currentQuestionLanguage?.statementQuestion || {}
-                      )?.map((_, i) => {
-                        return (
-                          <div key={i}>
-                            {
-                              <StatementQuestion
-                                key={i}
-                                id={i}
-                                statements={
-                                  currentQuestionLanguage?.statementQuestion[i]
-                                    ?.combined
-                                }
-                                answers={isQa}
-                                onCheck={handleQaCheck}
-                              />
-                            }
-                          </div>
-                        );
-                      })}
-                      <span className="font-semibold text-lg rounded">
-                        {currentQuestionLanguage?.lastQuestion}
-                      </span>
-                    </div>
-                  )}
+                {QA.length > 0 && (currentQuestion?.questionType === QUE_TYPE.STATEMENT || currentQuestion?.questionType === QUE_TYPE.STATEMENT_CSAT) && (
+                  <div className="space-y-6 pb-6 rounded-2xl">
+                    {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
+                      return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} answers={isQa} onCheck={handleQaCheck} />}</div>;
+                    })}
+                    <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                  </div>
+                )}
                 {/* PAIR Section */}
                 {QA.length > 0 &&
                   currentQuestion?.questionType === QUE_TYPE.PAIR && (

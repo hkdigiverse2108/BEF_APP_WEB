@@ -15,6 +15,5 @@ export interface ClassesApiResponse {
 export interface ClassCardProps {
   item: ClassItem;
   onClick?: (item: ClassItem) => void;
-  image?: string;
   className?: string;
 }

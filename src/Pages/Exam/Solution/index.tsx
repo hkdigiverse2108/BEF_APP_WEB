@@ -18,7 +18,7 @@ import { LANGUAGES, QUE_TYPE } from "../../../Data/Question";
 import { setReportModal } from "../../../Store/Slices/DrawerSlice";
 import { useAppDispatch } from "../../../Store/hooks";
 import type { Answer, ContestTypeData, LanguageKey, QaApiResponse } from "../../../Types";
-import { Storage, updateStorage } from "../../../Utils";
+import { isImage, Storage, updateStorage } from "../../../Utils";
 
 const Solution = () => {
   const [isOpenQuestion, setOpenQuestion] = useState(false);
@@ -74,7 +74,7 @@ const Solution = () => {
   const currentQuestion = QAData?.questions?.find((q) => q._id === currentQuestionAnswers?.questionId);
   const currentQuestionLanguage = currentQuestion?.[language];
 
-  const { data: SubTopicApiData, isLoading: isSubTopicLoading } = useGetApiQuery(currentQuestion?.subtopicId ? { url: `${URL_KEYS.SUB_TOPIC.ID}/${currentQuestion?.subtopicId}` } : { skip: true });
+  const { data: SubTopicApiData, isLoading: isSubTopicLoading } = useGetApiQuery(currentQuestion?.subtopicId ? { url: `${URL_KEYS.SUB_TOPIC.ID}${currentQuestion?.subtopicId}` } : { skip: true });
   const { data: AiMentorData } = useGetApiQuery(currentQuestion?._id ? { url: `${URL_KEYS.QUESTION.AI_MENTOR}?questionId=${currentQuestion?._id}` } : { skip: true });
   const AiMentor = AiMentorData?.data;
 
@@ -137,6 +137,13 @@ const Solution = () => {
       </Tooltip>
     </span>
   );
+
+  const formatType = (str: string) => {
+    return str
+      .replace(/([A-Z])/g, " $1")
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  };
   return (
     <>
       <div className="sub-container pt-4 md:pt-8 question-section">
@@ -155,7 +162,7 @@ const Solution = () => {
                     <HiOutlineBars3BottomLeft className="text-xl" />
                   </Tooltip>
                 </span>
-                <Select placeholder="All Solutions" options={SolutionsOptions} className="!m-0" onChange={handleSolutionsFilter} allowClear defaultValue={isSolutionsFilter} />
+                <Select placeholder="All Solutions" options={SolutionsOptions} className="!m-0" onChange={handleSolutionsFilter} defaultValue={isSolutionsFilter} />
                 <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", id || "")}${search}`} className="bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize">
                   mistake map report
                 </Link>
@@ -206,10 +213,10 @@ const Solution = () => {
                       In This Subject : <span className="italic font-semibold capitalize"> {AiMentor?.type} </span> based question
                     </li>
                     <li className="font-normal mb-2">
-                      Other : <span className="italic font-semibold"> {AiMentor?.otherStrategy?.strategyPercentage}% </span>Accuracy using<span className="italic font-semibold"> {AiMentor?.otherStrategy?.strategyType} </span>
+                      Other : <span className="italic font-semibold"> {AiMentor?.otherStrategy?.strategyPercentage}% </span>Accuracy using<span className="italic font-semibold capitalize"> {formatType(AiMentor?.otherStrategy?.strategyType || "")} </span>
                     </li>
                     <li className="font-normal">
-                      Your : <span className="italic font-semibold"> {AiMentor?.youStrategy?.percentage}% </span>Accuracy using<span className="italic font-semibold"> {AiMentor?.youStrategy?.type} </span>
+                      Your : <span className="italic font-semibold"> {AiMentor?.youStrategy?.percentage}% </span>Accuracy using<span className="italic font-semibold capitalize"> {formatType(AiMentor?.youStrategy?.type || "")} </span>
                     </li>
                   </ul>
                 </div>
@@ -222,11 +229,9 @@ const Solution = () => {
                 <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block className="mb-3" />
               ) : (
                 <>
-                  <div className="mb-4">
-                    <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>
-                  </div>
+                  <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : isImage(currentQuestionLanguage?.question || "") ? <img src={currentQuestionLanguage?.question} alt="question" className="mb-2 transparent-img" /> : <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
                   {/* STATEMENT Section */}
-                  {QaAnswers.length > 0 && currentQuestion?.questionType === QUE_TYPE.STATEMENT && (
+                  {QaAnswers.length > 0 && (currentQuestion?.questionType === QUE_TYPE.STATEMENT || currentQuestion?.questionType === QUE_TYPE.STATEMENT_CSAT) && (
                     <div className="space-y-6 pb-6 rounded-2xl">
                       {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
                         return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} />}</div>;
@@ -255,12 +260,17 @@ const Solution = () => {
 
                       return (
                         <div key={i} className={`border-1 border-card-border flex items-center gap-3 p-4 m-0 rounded-md cursor-pointer transition-all ${isRightAnswer ? "border-green-500 bg-green-50" : isWrongAnswer ? "border-red-500 bg-red-50" : "border-gray-200 hover:bg-gray-50"}`}>
-                          <div className="flex max-sm:flex-col justify-center items-center w-full gap-3 question">
+                          <div className="flex max-sm:flex-col items-center w-full gap-3 question">
                             <div className="relative">
-                              {isRightAnswer ? <FaRegCircle style={{ color: "green" }} /> : isWrongAnswer ? <FaRegCircle style={{ color: "red" }} /> : <FaRegCircle style={{ color: "gray" }} />}
+                              {isRightAnswer ? <FaRegCircle style={{ color: "green", width: "21px", height: "21px"}} /> : isWrongAnswer ? <FaRegCircle style={{ color: "red", width: "21px", height: "21px" }} /> : <FaRegCircle style={{ color: "gray", width: "21px", height: "21px" }} />}
+
                               <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{opt}</span>
                             </div>
+                              {isImage(currentQuestionLanguage?.options[opt] || "")  ? (
+                                  <img src={currentQuestionLanguage?.options[opt] || ""} className="transparent-img" alt="question" />
+                              ) : (
                             <span className={`flex-1 font-medium capitalize ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{currentQuestionLanguage?.options[opt] || ""}</span>
+                              )}
                           </div>
                         </div>
                       );
@@ -288,7 +298,7 @@ const Solution = () => {
               </div>
 
               <div className="p-3 rounded-lg border border-primary my-6" style={{ backgroundImage: `url(${ImagePath}/question/Solution-bg.png)` }}>
-                <p className="font-semibold text-lg text-white">Correct Answer: {currentQuestionAnswers?.rightAnswer}</p>
+                <p className="font-semibold text-lg text-white">Correct Answer: {currentQuestionLanguage?.answer}</p>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
 

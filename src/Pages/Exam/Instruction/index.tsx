@@ -21,7 +21,6 @@ const ExamInstruction = () => {
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
 
-  console.log(contestStartDate);
   const handleNextButton = () => {
     // const now = Date.now();
     // const start = new Date(contestStartDate).getTime();
@@ -60,19 +59,10 @@ const ExamInstruction = () => {
       navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
     } else {
       if (nowMs < startMs) {
-        // messageApi.open({
-        //   type: "error",
-        //   content: `You can join after ${timeIST}`,
-        //   className: "custom-class",
-        //   style: {
-        //     marginTop: "20vh",
-        //   },
-        // });
         AntMessage("error", `You can join after ${timeIST}`, {
           marginTop: "20vh",
         });
       } else {
-        // messageApi.error("Your time is up! Better luck next time...");
         AntMessage("error", "Your time is up! Better luck next time...");
       }
     }
