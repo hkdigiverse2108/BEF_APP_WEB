@@ -6,6 +6,7 @@ import { Storage } from "../Utils";
 import Footer from "./Footer";
 import Header from "./Header";
 import WhatsappIcon from "../Components/Common/WhatsappIcon";
+import { AntMessageHolder } from "../Components/Common/AntMessage";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ const Layout = () => {
   }, [pathname]);
   return (
     <div className="flex flex-col min-h-screen">
+      <AntMessageHolder />
       {!pathname.includes("question") && <Header />}
       <div className="flex-1 container">
         <Outlet />

@@ -22,6 +22,7 @@ import PaymentModal from "../Common/PaymentModal";
 import CouponCodeCheck from "../WorkshopCourseCommon/CouponCodeCheck";
 import { Storage } from "../../Utils";
 import { usePostApiMutation } from "../../Api/CommonApi";
+import { AntMessage } from "../Common/AntMessage";
 
 interface PurchaseDrawerProps {
   data: PurchaseData;
@@ -33,7 +34,8 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
   const [refferCode, setRefferCode] = useState("");
   const [isRefferLoading, setIsRefferLoading] = useState(false);
 
-  const [PostApi] = usePostApiMutation();
+  const [PostApi, { isLoading: isCoursePurchaseLoading }] =
+    usePostApiMutation();
 
   const dispatch = useAppDispatch();
   const { isCoursePurchaseDrawer } = useAppSelector((state) => state.drawer);
@@ -82,6 +84,14 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
       if (res?.status === HTTP_STATUS.OK) {
         refetch();
         dispatch(setCoursePurchaseDrawer());
+        if (status === PAYMENT_STATUS.COMPLETED) {
+          AntMessage(
+            "success",
+            res?.message || "Course Purchased Successfully."
+          );
+        } else {
+          AntMessage("error", "Course Purchased Failed.");
+        }
         const transactionPayload = {
           courseId: id,
           amount: amountToPay,
@@ -101,7 +111,10 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
           data: transactionPayload,
         }).unwrap();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+      AntMessage("error", "Course Purchased Failed. Try Again later");
+    }
   };
 
   return (
@@ -164,7 +177,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                   </p>
                 </div> */}
               </section>
-              {isRefferApplyed && (
+              {isRefferApplyed && data?.priceInStruction && (
                 <section className="bg-white rounded-lg p-3 space-y-1 ">
                   <div className="flex gap-2">
                     <span>
@@ -174,7 +187,8 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                   </div>
                   <div>
                     <p className="text-gray-700 max-sm:text-xs font-medium ">
-                      Pay just enrollment fee — Remaining after prelims cleared.
+                      {/* Pay just enrollment fee — Remaining after prelims cleared. */}
+                      {data?.priceInStruction}
                     </p>
                   </div>
                 </section>
@@ -223,9 +237,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                         )}
                       </>
                     ) : (
-                      <p className="font-bold text-xl text-success">
-                        {price}
-                      </p>
+                      <p className="font-bold text-xl text-success">{price}</p>
                     )}
                   </div>
                 </div>
@@ -233,7 +245,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
               <div>
                 <PaymentModal
                   btnText="Enroll Now"
-                  isLoading={isRefferLoading}
+                  isLoading={isRefferLoading || isCoursePurchaseLoading}
                   amount={amountToPay}
                   onPaymentComplete={handlePaymentComplete}
                 />

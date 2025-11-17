@@ -14,24 +14,49 @@ import MyWinning from "../../Components/FullFestReport/MyWinning";
 import Summary from "../../Components/FullFestReport/Summary";
 import { URL_KEYS } from "../../Constants";
 import type { FullFestReportApiResponse } from "../../Types";
+// import FullFestSubjectFilter from "../../Components/FullFestReport/FullFestSubjectFilter";
+import { useAppSelector } from "../../Store/hooks";
 
 const FullFestReport = () => {
   const [tabIndex, setTabIndex] = useState(1);
-  const { data, isLoading } = useGetApiQuery<FullFestReportApiResponse>({ url: URL_KEYS.FULL_FEST.FULL_FEST });
+  // const [subjectFilter, setSubjectFilter] = useState("");
+
+  const FullFestSubjectFilter = useAppSelector(
+    (state) => state.filter.FullFestSubjectFilter
+  );
+
+  const { data, isLoading } = useGetApiQuery<FullFestReportApiResponse>(
+    {
+      url: `${URL_KEYS.FULL_FEST.FULL_FEST}?subjectFilter=${FullFestSubjectFilter}`,
+    },
+    { skip: !FullFestSubjectFilter }
+  );
+
   const Sec1 = data?.data?.sec1;
   const Sec2 = data?.data?.sec2;
   const Sec3 = data?.data?.sec3;
   const isVerySmall = useMediaQuery("(max-width: 484px)");
   const isMedium = useMediaQuery("(max-width: 1032px)");
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
+    setTabIndex(newValue);
   const tabData = [
     { title: "My Winning", icon: <GiTrophy className="text-xl" /> },
-    { title: "AI Powered Report Analysis", icon: <FaDiscord className="text-xl" /> },
+    {
+      title: "AI Powered Report Analysis",
+      icon: <FaDiscord className="text-xl" />,
+    },
     { title: "Summary", icon: <TbBookmarkFilled className="text-xl" /> },
-    { title: "Elimination Skill Report", icon: <FaEarthAmericas className="text-xl" /> },
-    { title: "Mistake Map Report", icon: <CiCircleRemove className="text-xl" /> },
+    {
+      title: "Elimination Skill Report",
+      icon: <FaEarthAmericas className="text-xl" />,
+    },
+    {
+      title: "Mistake Map Report",
+      icon: <CiCircleRemove className="text-xl" />,
+    },
   ];
+
   return (
     <div className="sub-container pt-4 pb-1">
       <CardHeader title="Full Fest Report" />
@@ -42,7 +67,7 @@ const FullFestReport = () => {
           onChange={handleChange}
           variant="scrollable"
           orientation={isVerySmall ? "vertical" : "horizontal"}
-         slotProps={{ indicator: { style: { display: "none" } } }}
+          slotProps={{ indicator: { style: { display: "none" } } }}
           sx={{
             "& .MuiTabs-flexContainer": {
               flexDirection: isVerySmall ? "column" : "row",
@@ -77,7 +102,11 @@ const FullFestReport = () => {
               sx={{
                 textTransform: "none",
                 paddingBottom: "6px",
-                width: isVerySmall ? "100%" : isMedium ? "calc(50% - 16px)" : "auto",
+                width: isVerySmall
+                  ? "100%"
+                  : isMedium
+                  ? "calc(50% - 16px)"
+                  : "auto",
               }}
             />
           ))}
@@ -90,10 +119,15 @@ const FullFestReport = () => {
             <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading} />
           </div>
           <div hidden={tabIndex !== 2}>
-            <Summary AttemptingStrategyWise={Sec1?.subjectSummary} SubWise={Sec2?.qaTypeSummary} />
+            <Summary
+              AttemptingStrategyWise={Sec1?.subjectSummary}
+              SubWise={Sec2?.qaTypeSummary}
+            />
           </div>
           <div hidden={tabIndex !== 3}>
-            <EliminationSkillReport EliminationSkill={Sec2?.firstPoweredReport} />
+            <EliminationSkillReport
+              EliminationSkill={Sec2?.firstPoweredReport}
+            />
           </div>
           <div hidden={tabIndex !== 4}>
             <MistakeMapReport MistakeMapReport={Sec3?.mistakeMapReport} />

@@ -42,7 +42,7 @@ export const ROUTES = {
     COURSE: "/course",
     DETAILS: "/course/details/:id",
   },
-  WORKSHOP: { WORKSHOP: "/workshop", DETAILS: "/workshop/details/:id" },
+  WORKSHOP: { WORKSHOP: "/workshop" as string, DETAILS: "/workshop/details/:id"  },
   YOUTUBE_VALUES: { YOUTUBE_VALUES: "/youtube-values" },
   SOCIAL_MEDIA_ENGAGE: { SOCIAL_MEDIA_ENGAGE: "/social-media-engage" },
   CONTACT: { CONTACT: "/contact" },

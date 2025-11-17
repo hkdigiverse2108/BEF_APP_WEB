@@ -232,6 +232,7 @@ const CourseDetails = () => {
         data={{
           id: CourseDetailsData?._id,
           title: CourseDetailsData?.title,
+          priceInStruction: CourseDetailsData?.priceInStruction,
           price: {
             discountPrice: CourseDetailsData?.discountPrice,
             payingPrice: CourseDetailsData?.payingPrice,

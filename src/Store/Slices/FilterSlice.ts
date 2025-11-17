@@ -1,13 +1,17 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ContestFilters } from "../../Types";
 
-const initialState: { isContestFilters: ContestFilters } = {
+const initialState: {
+  isContestFilters: ContestFilters;
+  FullFestSubjectFilter: string;
+} = {
   isContestFilters: {
     entry: null,
     spots: null,
     prizePool: null,
     contestType: "",
   },
+  FullFestSubjectFilter: "",
 };
 
 const FilterSlice = createSlice({
@@ -17,8 +21,12 @@ const FilterSlice = createSlice({
     setContestFilters: (state, action: PayloadAction<ContestFilters>) => {
       state.isContestFilters = action.payload;
     },
+    setFullFestSubjectFilter: (state, action) => {
+      state.FullFestSubjectFilter = action.payload;
+    },
   },
 });
 
-export const { setContestFilters } = FilterSlice.actions;
+export const { setContestFilters, setFullFestSubjectFilter } =
+  FilterSlice.actions;
 export default FilterSlice.reducer;

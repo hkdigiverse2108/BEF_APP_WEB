@@ -9,6 +9,7 @@ const FormSelect: FC<FormSelectProps> = ({
   options,
   rules,
   className = "",
+  allowClear = true,
   required,
   ...rest
 }) => {
@@ -25,7 +26,7 @@ const FormSelect: FC<FormSelectProps> = ({
     >
       <Select
         placeholder={placeholder || `Select ${label}`}
-        allowClear
+        allowClear={allowClear}
         size="large"
       >
         {options?.map((opt) => (
