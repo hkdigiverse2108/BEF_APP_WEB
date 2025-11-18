@@ -28,14 +28,14 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      const firstValue = AllSubjects?.[0]?.value;
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     const firstValue = AllSubjects?.[0]?.value;
 
-      form.setFieldsValue({ Subject: firstValue });
-      dispatch(setFullFestSubjectFilter(firstValue));
-    }
-  }, [isLoading]);
+  //     form.setFieldsValue({ Subject: firstValue });
+  //     dispatch(setFullFestSubjectFilter(firstValue));
+  //   }
+  // }, [isLoading]);
 
   return (
     <div className="flex justify-between items-center">
@@ -48,9 +48,10 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
           <Form form={form} onValuesChange={handleChange}>
             <FormSelect
               name="Subject"
-              allowClear={false}
+              allowClear={true}
               placeholder="Subject"
               options={AllSubjects}
+              loading={isLoading}
               className="m-0!"
             />
           </Form>

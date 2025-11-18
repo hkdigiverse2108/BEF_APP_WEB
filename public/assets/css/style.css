@@ -75,6 +75,9 @@ input {
   @apply !w-full !flex !justify-between;
 }
 
+.ant-select-dropdown{
+  @apply !w-[250px];
+}
 /* ************ Ant Tabs ************ */
 
 .ant-tabs-nav-wrap {

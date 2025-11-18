@@ -31,7 +31,7 @@ export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuesti
 
         {/* Text */}
         {/* <span className={`flex-1 font-medium capitalize ${answers[id] === 0 ? "line-through" : ""}`}>{text}</span> */}
-        <div className="flex-1 font-medium capitalize">
+        <div className="flex-1 font-normal capitalize">
           {showImage ? (
             <div className={`${answers[id] === 0 ? "img-strike" : ""}`}>
               <img src={text} className="transparent-img" alt="question" />

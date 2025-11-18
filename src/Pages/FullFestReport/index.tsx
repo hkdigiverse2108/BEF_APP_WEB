@@ -13,22 +13,17 @@ import MyWinning from "../../Components/FullFestReport/MyWinning";
 import Summary from "../../Components/FullFestReport/Summary";
 import { URL_KEYS } from "../../Constants";
 import type { FullFestReportApiResponse } from "../../Types";
-import { useAppSelector } from "../../Store/hooks";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { IoIosCloseCircle } from "react-icons/io";
+import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
 
 const FullFestReport = () => {
   const [tabIndex, setTabIndex] = useState(1);
+  const dispatch = useAppDispatch();
 
-  const FullFestSubjectFilter = useAppSelector(
-    (state) => state.filter.FullFestSubjectFilter
-  );
+  const FullFestSubjectFilter = useAppSelector((state) => state.filter.FullFestSubjectFilter);
 
-  const { data, isLoading } = useGetApiQuery<FullFestReportApiResponse>(
-    {
-      url: `${URL_KEYS.FULL_FEST.FULL_FEST}?subjectFilter=${FullFestSubjectFilter}`,
-    },
-    { skip: !FullFestSubjectFilter }
-  );
+  const { data, isLoading } = useGetApiQuery<FullFestReportApiResponse>({ url: `${URL_KEYS.FULL_FEST.FULL_FEST}${FullFestSubjectFilter ? `?subjectFilter=${FullFestSubjectFilter}` : ""}` });
 
   const Sec1 = data?.data?.sec1;
   const Sec2 = data?.data?.sec2;
@@ -36,8 +31,10 @@ const FullFestReport = () => {
   const isVerySmall = useMediaQuery("(max-width: 484px)");
   const isMedium = useMediaQuery("(max-width: 1032px)");
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    dispatch(setFullFestSubjectFilter(""));
     setTabIndex(newValue);
+  };
   const tabData = [
     { title: "My Winning", icon: <GiTrophy className="text-xl" /> },
     {
@@ -100,32 +97,23 @@ const FullFestReport = () => {
               sx={{
                 textTransform: "none",
                 paddingBottom: "6px",
-                width: isVerySmall
-                  ? "100%"
-                  : isMedium
-                  ? "calc(50% - 16px)"
-                  : "auto",
+                width: isVerySmall ? "100%" : isMedium ? "calc(50% - 16px)" : "auto",
               }}
             />
           ))}
         </Tabs>
         <div className="w-full pt-10">
           <div hidden={tabIndex !== 0}>
-            <MyWinning MyWinningData={Sec3?.myWinningList} />
+            <MyWinning MyWinningData={Sec3?.myWinningList} tabIndex={tabIndex} />
           </div>
           <div hidden={tabIndex !== 1}>
-            <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading} />
+            <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading} TabIndex={tabIndex} />
           </div>
           <div hidden={tabIndex !== 2}>
-            <Summary
-              AttemptingStrategyWise={Sec1?.subjectSummary}
-              SubWise={Sec2?.qaTypeSummary}
-            />
+            <Summary AttemptingStrategyWise={Sec1?.subjectSummary} SubWise={Sec2?.qaTypeSummary} />
           </div>
           <div hidden={tabIndex !== 3}>
-            <EliminationSkillReport
-              EliminationSkill={Sec2?.firstPoweredReport}
-            />
+            <EliminationSkillReport EliminationSkill={Sec2?.firstPoweredReport} TabIndex={tabIndex} />
           </div>
           <div hidden={tabIndex !== 4}>
             <MistakeMapReport MistakeMapReport={Sec3?.mistakeMapReport} />
