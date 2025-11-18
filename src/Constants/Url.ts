@@ -57,8 +57,8 @@ export const URL_KEYS = {
   PRIVACY_POLICY: {
     PRIVACY_POLICY: "/privacy-policy",
   },
-  ILLEGALITY: {
-    ILLEGALITY: "/illegality",
+  LEGALITY: {
+    LEGALITY: "/illegality",
   },
   ABOUT_US: {
     ABOUT_US: "/about-us",

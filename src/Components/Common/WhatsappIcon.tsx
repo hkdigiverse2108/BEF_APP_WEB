@@ -13,7 +13,9 @@ const GlobalContactContent = () => {
     >
       <div className="flex justify-between space-y-2">
         <section className="space-y-1">
-          <h1 className=" text-lg sm:text-xl font-semibold">Talk to a counsellor</h1>
+          <h1 className=" text-lg sm:text-xl font-semibold">
+            Talk to a counsellor
+          </h1>
           <p className="font-medium   ">
             Have doubts? Our support team will be happy to assist you!
           </p>
@@ -45,6 +47,11 @@ const GlobalContactContent = () => {
 
 const WhatsappIcon = () => {
   const location = useLocation();
+
+  const isCourseDetails = location.pathname.startsWith(
+    ROUTES.WORKSHOP.DETAILS.replace(":id", "")
+  );
+  const isWorkshopDetails = location.pathname.startsWith("/workshop/details");
 
   return (
     <Popover

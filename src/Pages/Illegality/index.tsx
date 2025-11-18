@@ -1,25 +1,23 @@
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { URL_KEYS } from "../../Constants";
-import MainLoader from "../../Components/Common/MainLoader";
+import { Skeleton } from "antd";
 
-const Illegality = () => {
-  const { data: IllegalityData, isLoading } = useGetApiQuery({
-    url: `${URL_KEYS.ILLEGALITY.ILLEGALITY}?type=course`,
+const Legality = () => {
+  const { data: legalityData, isLoading } = useGetApiQuery({
+    url: `${URL_KEYS.LEGALITY.LEGALITY}?type=course`,
   });
   return (
     <div className="sub-container pt-4">
-      <CardHeader title="Illegality" />
+      <CardHeader title="legality" />
       <span className="border-t border-card-border flex w-full my-4 " />
       {isLoading ? (
-        <div className="flex justify-center items-center h-100">
-          <MainLoader />
-        </div>
+         <Skeleton active />
       ) : (
         <div
           className="content"
           dangerouslySetInnerHTML={{
-            __html: IllegalityData?.data?.illegality || "",
+            __html: legalityData?.data?.illegality || "",
           }}
         />
       )}
@@ -27,4 +25,4 @@ const Illegality = () => {
   );
 };
 
-export default Illegality;
+export default Legality;

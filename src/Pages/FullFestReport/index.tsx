@@ -1,6 +1,5 @@
 import { Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useState } from "react";
-import { CiCircleRemove } from "react-icons/ci";
 import { FaDiscord } from "react-icons/fa";
 import { FaEarthAmericas } from "react-icons/fa6";
 import { GiTrophy } from "react-icons/gi";
@@ -14,12 +13,11 @@ import MyWinning from "../../Components/FullFestReport/MyWinning";
 import Summary from "../../Components/FullFestReport/Summary";
 import { URL_KEYS } from "../../Constants";
 import type { FullFestReportApiResponse } from "../../Types";
-// import FullFestSubjectFilter from "../../Components/FullFestReport/FullFestSubjectFilter";
 import { useAppSelector } from "../../Store/hooks";
+import { IoIosCloseCircle } from "react-icons/io";
 
 const FullFestReport = () => {
   const [tabIndex, setTabIndex] = useState(1);
-  // const [subjectFilter, setSubjectFilter] = useState("");
 
   const FullFestSubjectFilter = useAppSelector(
     (state) => state.filter.FullFestSubjectFilter
@@ -53,7 +51,7 @@ const FullFestReport = () => {
     },
     {
       title: "Mistake Map Report",
-      icon: <CiCircleRemove className="text-xl" />,
+      icon: <IoIosCloseCircle className="text-xl" />,
     },
   ];
 

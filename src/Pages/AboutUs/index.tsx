@@ -1,7 +1,7 @@
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import { URL_KEYS } from "../../Constants";
-import MainLoader from "../../Components/Common/MainLoader";
+import { Skeleton } from "antd";
 
 const AboutUs = () => {
   const { data: AboutUsData, isLoading } = useGetApiQuery({
@@ -12,9 +12,7 @@ const AboutUs = () => {
       <CardHeader title="About Us" />
       <span className="border-t border-card-border flex w-full my-4 " />
       {isLoading ? (
-        <div className="flex justify-center items-center h-100">
-          <MainLoader />
-        </div>
+        <Skeleton active />
       ) : (
         <div
           className="content"

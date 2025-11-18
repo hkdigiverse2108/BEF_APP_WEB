@@ -16,8 +16,6 @@ import {
   URL_KEYS,
 } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
-import { useAppDispatch } from "../../Store/hooks";
-import { LogOut } from "../../Store/Slices/AuthSlice";
 import { EditPayload, Storage, updateStorage } from "../../Utils";
 import LogoutConfirmModal from "../../Components/MyInfo/LogoutConfirmModal";
 
@@ -32,7 +30,6 @@ const MyInfo = () => {
   });
   const userData = data?.data;
   const [PostApi, { isLoading }] = usePostApiMutation();
-  const dispatch = useAppDispatch();
 
   const handleSaveClick = async (values: any) => {
     try {
@@ -40,7 +37,7 @@ const MyInfo = () => {
       editPayload = {
         userId: userData?._id,
         ...editPayload,
-        profileImage: values.profileImage[0],
+        profileImage: values.profileImage[0] || "",
       };
       const res = await PostApi({ url: URL_KEYS.USER.EDIT, data: editPayload });
       if (res?.data?.status === HTTP_STATUS.OK) {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { FormSelect } from "../../Attribute/FormFields";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { useAppDispatch } from "../../Store/hooks";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { URL_KEYS } from "../../Constants";
 import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
@@ -14,9 +14,6 @@ interface SubjectFilterType {
 const FullFestSubjectFilter = ({ title = "", filter = false }) => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const FullFestSubjectFilter = useAppSelector(
-    (state) => state.filter.FullFestSubjectFilter
-  );
 
   const { data, isLoading } = useGetApiQuery({ url: URL_KEYS.SUBJECT.SUBJECT });
 
@@ -26,7 +23,6 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
 
   const handleChange = (value: { Subject: string }) => {
     try {
-      console.log("value : ", value?.Subject);
       form.setFieldsValue({ Subject: value?.Subject });
       dispatch(setFullFestSubjectFilter(value?.Subject));
     } catch (error) {}
@@ -38,7 +34,6 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
 
       form.setFieldsValue({ Subject: firstValue });
       dispatch(setFullFestSubjectFilter(firstValue));
-      console.log(AllSubjects?.[0]?.value, "SDF", FullFestSubjectFilter);
     }
   }, [isLoading]);
 

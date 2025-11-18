@@ -15,7 +15,7 @@ const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
   const subtitle = "Talk to a counsellor";
 
   return (
-    <div className="relative rounded-lg bg-input-box-dark overflow-hidden cursor-pointer shadow-xl flex flex-col justify-end">
+    <div className="relative rounded-b-lg rounded-t-2xl bg-input-box-dark overflow-hidden cursor-pointer shadow-xl flex flex-col justify-end">
       <div className="w-full rounded-t-2xl overflow-hidden ">
         <img
           src={data?.image}

@@ -71,7 +71,7 @@ const Header = () => {
       <div className="sticky top-0 w-full z-50">
         <header
           className={`min-h-[60px] tracking-wide relative z-50 ${
-            isScrolled ? "bg-white/80 backdrop-blur-md" : ""
+            isScrolled ? "bg-white/90 backdrop-blur-md" : ""
           }`}
         >
           <div className="flex flex-wrap items-center justify-between max-sm:px-2 py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
@@ -87,10 +87,10 @@ const Header = () => {
                 />
               </figure>
               <section className="flex flex-col justify-center">
-                <h1 className="text-xs md:text-lg text-primary font-bold sm:font-extrabold">
+                <h1 className="text-[10px] md:text-lg text-primary font-bold sm:font-extrabold">
                   Bharat Exam Fest
                 </h1>
-                <p className="text-xs md:text-sm font-medium text-success ">
+                <p className="text-[10px] md:text-sm font-medium text-success ">
                   Learn & Earn
                 </p>
               </section>
@@ -121,19 +121,21 @@ const Header = () => {
                     </div>
                   </div>
                 </li>
-                {HeaderMenu?.map((item, index) => (
-                  <li
-                    key={index}
-                    className="max-2xl:py-3 relative hover:after:absolute after:bg-theme! after:w-0 hover:after:w-full hover:after:h-0.5 after:block after:-bottom-1 2xl:after:-bottom-4 after:transition-all after:duration-300"
-                  >
-                    <NavLink
-                      to={item.link}
-                      className="block text-lg  capitalize "
+                <ul className="flex gap-8">
+                  {HeaderMenu?.map((item, index) => (
+                    <li
+                      key={index}
+                      className="max-2xl:py-3  relative hover:after:absolute after:bg-theme! after:w-0 hover:after:w-full hover:after:h-0.5 after:block after:-bottom-1 2xl:after:-bottom-4 after:transition-all after:duration-300"
                     >
-                      {item.text}
-                    </NavLink>
-                  </li>
-                ))}
+                      <NavLink
+                        to={item.link}
+                        className="block text-lg text-base capitalize "
+                      >
+                        {item.text}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
               </ul>
             </div>
             <div className="flex items-center max-sm:ml-auto">
@@ -170,8 +172,8 @@ const Header = () => {
                       alt="profile"
                       className="w-8 h-8 rounded-xl"
                     />
-                    <div className="flex-1 hidden sm:block">
-                      <span className="text-md font-semibold capitalize">
+                    <div className="flex-1 hidden max-2xl:max-w-35 sm:block max-w-28 truncate">
+                      <span className="text-md font-semibold capitalize  ">
                         {UserData?.firstName} {UserData?.lastName}
                       </span>
                       <p className="capitalize flex text-xs">
