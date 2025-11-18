@@ -386,7 +386,7 @@ const Question = () => {
     if (!QAData) return;
     const hasTrue = Object.values(isAnswers).includes(1);
     const hasConfidence = Boolean(isConfidence);
-    if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip" && currentQuestionNumber !== QA.length) {
+    if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip") {
       if (!hasTrue || !hasConfidence) {
         if (!hasTrue) AntMessage("warning", "Please choose any one option");
         else AntMessage("warning", "Please select strategy");
@@ -481,7 +481,8 @@ const Question = () => {
       return next;
     });
     if (currentQuestionNumber === QA.length) {
-      handleEndTestDrawer();
+      // handleEndTestDrawer();
+      setCurrentQuestionNumber(1)
     }
   };
 
@@ -491,14 +492,15 @@ const Question = () => {
     setCurrentQuestionNumber(currentQuestionNumber - 1);
   };
 
-  const ConfidenceButtons = [
-    { label: "100% Sure", value: "100%Sure", color: "bg-blue-600", icon: <MdLibraryAddCheck className="text-lg" /> },
-    { label: "Logic Play", value: "logicPlay", color: "bg-rose-500", icon: <FaLightbulb className="text-lg" /> },
-    { label: "Intuition Hit", value: "intuitionHit", color: "bg-sky-500", icon: <MdVisibility className="text-lg" /> },
-    { label: "Blind Fire", value: "blindFire", color: "bg-amber-500", icon: <MdVisibilityOff className="text-lg" /> },
-    { label: "Fear - Driver Skip", value: "fearDriverSkip", color: "bg-green-700", icon: <RiFileCheckFill className="text-lg" /> },
-    { label: "Skip", value: "skip", color: "bg-purple-700", icon: <TbMessageQuestion className="text-lg" /> },
-  ];
+const ConfidenceButtons = [
+  { label: "100% Sure", value: "100%Sure", color: "bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700", icon: <MdLibraryAddCheck className="text-lg" /> },
+  { label: "Logic Play", value: "logicPlay", color: "bg-gradient-to-r from-rose-700 via-rose-400 to-rose-700", icon: <FaLightbulb className="text-lg" /> },
+  { label: "Intuition Hit", value: "intuitionHit", color: "bg-gradient-to-r from-sky-700 via-sky-400 to-sky-700", icon: <MdVisibility className="text-lg" /> },
+  { label: "Blind Fire", value: "blindFire", color: "bg-gradient-to-r from-amber-700 via-amber-400 to-amber-700", icon: <MdVisibilityOff className="text-lg" /> },
+  { label: "Fear - Driver Skip", value: "fearDriverSkip", color: "bg-gradient-to-r from-green-700 via-green-500 to-green-700", icon: <RiFileCheckFill className="text-lg" /> },
+  { label: "Skip", value: "skip", color: "bg-gradient-to-r from-purple-700 via-purple-400 to-purple-700", icon: <TbMessageQuestion className="text-lg" /> },
+];
+
   return (
     <>
       <div className="sub-container pt-4 md:pt-8 question-section">
@@ -605,7 +607,7 @@ const Question = () => {
               </div>
               <div className="flex flex-wrap justify-between gap-2 ">
                 <FormButton onClick={handlePrevQueClick} text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase" />
-                <FormButton onClick={handleNextQueClick} text={`${currentQuestionNumber === QA.length ? "Save" : "Save & Next"}`} loading={isPostLoading} className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
+                <FormButton onClick={handleNextQueClick} text={`${currentQuestionNumber === QA.length ? "Save" : "Save & Next"}`} className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
               </div>
             </section>
           </div>
