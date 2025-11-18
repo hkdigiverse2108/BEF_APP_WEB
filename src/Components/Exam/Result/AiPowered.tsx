@@ -96,7 +96,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType }> = ({ data }) => {
       {/* Header */}
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-semibold text-gray-800">Polity</h2>
+        <h2 className="text-xl font-semibold text-gray-800">AI Powered Report Analysis</h2>
         <p className="text-sm text-gray-500 font-normal">AI Powered Report Analysis</p>
       </div>
 

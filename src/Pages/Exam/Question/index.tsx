@@ -341,7 +341,7 @@ const Question = () => {
   const handleEndTestDrawer = async () => {
     updateStorage(STORAGE_KEYS.EXAM_QA_ANSWERS, { contestEndTime: new Date() });
     const QaExamAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
-    
+
     const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
     if (res?.data?.status === HTTP_STATUS.OK) {
       queryParam.delete("contestId");
@@ -492,42 +492,12 @@ const Question = () => {
   };
 
   const ConfidenceButtons = [
-    {
-      label: "100% Sure",
-      value: "100%Sure",
-      color: "bg-blue-600",
-      icon: <MdLibraryAddCheck className="text-lg" />,
-    },
-    {
-      label: "Logic Play",
-      value: "logicPlay",
-      color: "bg-rose-500",
-      icon: <FaLightbulb className="text-lg" />,
-    },
-    {
-      label: "Intuition Hit",
-      value: "intuitionHit",
-      color: "bg-sky-500",
-      icon: <MdVisibility className="text-lg" />,
-    },
-    {
-      label: "Blind Fire",
-      value: "blindFire",
-      color: "bg-amber-500",
-      icon: <MdVisibilityOff className="text-lg" />,
-    },
-    {
-      label: "Fear - Driver Skip",
-      value: "fearDriverSkip",
-      color: "bg-green-700",
-      icon: <RiFileCheckFill className="text-lg" />,
-    },
-    {
-      label: "Skip",
-      value: "skip",
-      color: "bg-purple-700",
-      icon: <TbMessageQuestion className="text-lg" />,
-    },
+    { label: "100% Sure", value: "100%Sure", color: "bg-blue-600", icon: <MdLibraryAddCheck className="text-lg" /> },
+    { label: "Logic Play", value: "logicPlay", color: "bg-rose-500", icon: <FaLightbulb className="text-lg" /> },
+    { label: "Intuition Hit", value: "intuitionHit", color: "bg-sky-500", icon: <MdVisibility className="text-lg" /> },
+    { label: "Blind Fire", value: "blindFire", color: "bg-amber-500", icon: <MdVisibilityOff className="text-lg" /> },
+    { label: "Fear - Driver Skip", value: "fearDriverSkip", color: "bg-green-700", icon: <RiFileCheckFill className="text-lg" /> },
+    { label: "Skip", value: "skip", color: "bg-purple-700", icon: <TbMessageQuestion className="text-lg" /> },
   ];
   return (
     <>
@@ -535,18 +505,19 @@ const Question = () => {
         {/* Header */}
         <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex justify-center">
-          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit">Press the End Test button to lock your Test.</p>
+          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit max-sm:text-center">Press the End Test button to lock your Test.</p>
         </div>
         <span className="border-t border-card-border flex w-full mt-4" />
 
         {/* Main Content */}
-        <div className="flex justify-end mt-3">
-          <button onClick={() => setOpen(!isOpen)} className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
+        <div className="2xl:hidden flex justify-between items-center mt-3">
+          <button onClick={() => setOpen(!isOpen)} className="cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
             <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
           </button>
+          <FormButton text="END TEST" onClick={() => dispatch(setEndTestDrawer())} className="w-fit !text-md !font-semibold transition-all hover:!bg-red-100 !text-red-700 text-center !py-2 !px-4 sm:!h-fit uppercase !border-1 !border-danger" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full mt-3">
           {/* Left Panel */}
           <div className="col-span-4 2xl:col-span-3">
             {/* Question Header */}
@@ -577,7 +548,7 @@ const Question = () => {
                 </div>
               </div>
               <span className="border-t border-card-border flex w-full my-4" />
-              <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <>{isImage(currentQuestionLanguage?.question || "") ? <img src={currentQuestionLanguage?.question} alt="question" className="mb-2 transparent-img" /> : <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</>}</div>
+              <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : <>{isImage(currentQuestionLanguage?.question || "") ? <img src={currentQuestionLanguage?.question} alt="question" className="mb-2 transparent-img" /> : <span className="font-normal text-lg mb-1">{currentQuestionLanguage?.question}</span>}</>}</div>
             </div>
             {/* STATEMENT Section */}
             {isLoading ? (
@@ -591,14 +562,14 @@ const Question = () => {
                     {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
                       return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} answers={isQa} onCheck={handleQaCheck} />}</div>;
                     })}
-                    <span className="font-semibold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                    <span className="font-normal text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                   </div>
                 )}
                 {/* PAIR Section */}
                 {QA.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
                   <div className="space-y-4 pb-6 rounded-2xl">
                     <PairTable pair={currentQuestionLanguage?.pairQuestion} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined} answers={isQa} onCheck={handleQaCheck} />
-                    <span className="font-semibold text-xl px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                    <span className="font-normal text-lg px-2 rounded">{currentQuestionLanguage?.lastQuestion}</span>
                   </div>
                 )}
               </>

@@ -105,8 +105,8 @@ const Contact = () => {
                   <IoCallSharp className="text-5xl text-primary" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-extrabold">Emergency Number</h3>
-                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.NUMBER}</p>
+                  <h3 className="text-xl font-semibold">Emergency Number</h3>
+                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.NUMBER}</p>
                 </div>
               </div>
               <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
@@ -115,10 +115,10 @@ const Contact = () => {
                   <MdEmail className="text-5xl text-primary" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-extrabold">Email Address</h3>
-                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.EMAILHELP}</p>
-                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.EMAILINFO}</p>
-                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.EMAILSALES}</p>
+                  <h3 className="text-xl font-semibold">Email Address</h3>
+                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.EMAILHELP}</p>
+                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.EMAILINFO}</p>
+                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.EMAILSALES}</p>
                 </div>
               </div>
               <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
@@ -127,8 +127,8 @@ const Contact = () => {
                   <FaRoute className="text-5xl text-primary" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-extrabold">Address</h3>
-                  <p className="text-base font-semibold mt-1 text-neutral-500">{CONTACT?.ADDRESS}</p>
+                  <h3 className="text-xl font-semibold">Address</h3>
+                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.ADDRESS}</p>
                 </div>
               </div>
             </div>

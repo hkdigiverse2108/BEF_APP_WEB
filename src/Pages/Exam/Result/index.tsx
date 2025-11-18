@@ -24,9 +24,10 @@ const Result = () => {
   const contestFilter = params.get("contestFilter");
 
   const { data, isLoading } = useGetApiQuery<ResultApiResponse>({ url: `${URL_KEYS.REPORT.REPORT}${search}` });
-  const { data: ContestData , isLoading: isLoadingContest} = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}` });
+  const { data: ContestData, isLoading: isLoadingContest } = useGetApiQuery({ url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}` });
 
   const Contest = ContestData?.data.contest_type_data[0];
+  const ContestSubject = Contest?.subject
 
   const ResultData = data?.data;
   const OverviewData = ResultData?.sec1?.polity;
@@ -34,7 +35,10 @@ const Result = () => {
   const compareWithCompetitorData = ResultData?.sec2;
   const eliminationReportTypeData = ResultData?.sec3;
 
-  const handleChange = (_event: SyntheticEvent, newValue: number) => setTabIndex(newValue);
+  const handleChange = (_event: SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
+    setOpen(false);
+  };
 
   return (
     <div className="sub-container pt-4 md:pt-8 result">
@@ -79,7 +83,7 @@ const Result = () => {
           {/* Tab Panels */}
           <div className="tab-panels w-full">
             <div hidden={tabIndex !== 0}>
-              <Overview data={OverviewData} isLoading={isLoading} contest={Contest}/>
+              <Overview data={OverviewData} isLoading={isLoading} contest={Contest} />
             </div>
             <div hidden={tabIndex !== 1}>
               <AiPowered data={OverviewData?.qaTypeMetrics} />
@@ -94,7 +98,7 @@ const Result = () => {
               <EliminationSkill data={eliminationReportTypeData} />
             </div>
             <div hidden={tabIndex !== 5}>
-              <Leaderboard tabIndex={tabIndex} contest={Contest?.contest}/>
+              <Leaderboard tabIndex={tabIndex} contest={Contest?.contest} />
             </div>
           </div>
         </div>

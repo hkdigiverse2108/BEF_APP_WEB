@@ -46,7 +46,7 @@ const Summary: FC<{ data: Sec1Type }> = ({ data }) => {
 
   extraBySection[getBand(direct)].push("Direct");
   extraBySection[getBand(fiftyFifty)].push("50-50");
-  extraBySection[getBand(oneEliminate)].push("1-OPT Eliminate");
+  extraBySection[getBand(oneEliminate)].push("1 -Opt Elimination");
 
   const aiSections = [
     { title: "Very Weak", color: "bg-danger-dark", range: "0% - 20%", items: [...getFilteredTypes(data?.qaTypeSummaryReport?.["Very Weak"]), ...extraBySection["Very Weak"]] },
