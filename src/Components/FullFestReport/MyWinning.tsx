@@ -1,12 +1,19 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import { FaAward } from "react-icons/fa";
 import { GiWallet } from "react-icons/gi";
 import { HiCheckBadge } from "react-icons/hi2";
 import { IoMdTrophy } from "react-icons/io";
 import { PiBookOpenUserFill } from "react-icons/pi";
 import type { MyWinningListType } from "../../Types";
+import { useAppDispatch } from "../../Store/hooks";
+import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
 
-const MyWinning: FC<{ MyWinningData: MyWinningListType }> = ({ MyWinningData }) => {
+const MyWinning: FC<{ MyWinningData: MyWinningListType; tabIndex: number }> = ({ MyWinningData, tabIndex }) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (tabIndex === 0) dispatch(setFullFestSubjectFilter(""));
+  }, [dispatch, tabIndex]);
   return (
     <>
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
