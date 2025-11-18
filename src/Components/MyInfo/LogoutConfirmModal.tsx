@@ -39,9 +39,9 @@ const LogoutConfirmModal: FC<LogoutConfirmModalProps> = ({
 
           {/* Body */}
           <div className="p-3 sm:p-6 flex flex-col gap-6">
-            <div className="bg-white/20 backdrop-blur-md rounded-md p-3">
+            <div className="bg-white/10 backdrop-blur-2xl rounded-md p-3">
               <div className="flex flex-col text-center">
-                <p className="text-lg sm:text-lg  font-semibold capitalize">
+                <p className="text-lg sm:text-lg text-white  font-semibold capitalize">
                   Are you sure you want to log out of your account?
                 </p>
               </div>

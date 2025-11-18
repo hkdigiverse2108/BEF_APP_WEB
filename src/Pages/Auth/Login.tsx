@@ -42,9 +42,9 @@ const Login = () => {
     <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
       <div className="flex justify-between h-screen items-center w-full ">
         {/* Left side */}
-        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10 bg-bg-light border-r border-gray-100 overflow-hidden">
+        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10  border-r border-gray-100 overflow-hidden">
           <img
-            className="w-full "
+            className="w-full h-full "
             alt="Group"
             src={`${ImagePath}auth/login.jpg`}
           />

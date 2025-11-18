@@ -29,7 +29,7 @@ const SocialMediaEngage = () => {
     <div>
       <div className="flex justify-between items-center pb-5">
         <p className="text-lg font-semibold">Social Media Engage</p>
-        <Link to={ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE} className="text-base font-normal bg-primary m-0 py-1 px-3 rounded-lg text-white">
+        <Link to={ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded-lg text-white">
           View All
         </Link>
       </div>

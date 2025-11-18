@@ -80,8 +80,8 @@ const MenuDrawer = () => {
     },
     {
       icon: <MdOutlineGavel />,
-      title: "Illegality",
-      url: ROUTES.ILLEGALITY.ILLEGALITY,
+      title: "legality",
+      url: ROUTES.LEGALITY.LEGALITY,
     },
   ];
   const handleClick = (i: number, url: string, title: string) => {

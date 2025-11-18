@@ -32,7 +32,7 @@ export const ROUTES = {
   HISTORY: { HISTORY: "/history" },
   HOW_IT_WORK: { HOW_IT_WORK: "/how-it-work" },
   ABOUT_US: { ABOUT_US: "/about-us" },
-  ILLEGALITY: { ILLEGALITY: "/illegality" },
+  LEGALITY: { LEGALITY: "/legality" },
   PRIVACY_POLICY: { PRIVACY_POLICY: "/privacy-policy" },
   TERMS_CONDITIONS: { TERMS_CONDITIONS: "/terms-conditions" },
   REFERRAL: { REFERRAL: "/referral" },

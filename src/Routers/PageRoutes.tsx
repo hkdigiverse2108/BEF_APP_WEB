@@ -23,7 +23,6 @@ import GetScholarship from "../Pages/GetScholarship";
 import History from "../Pages/History";
 import HowItWork from "../Pages/HowItWork";
 import AboutUs from "../Pages/AboutUs";
-import Illegality from "../Pages/Illegality";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsConditions from "../Pages/TermsConditions";
 import KYCRegister from "../Pages/KYC/KYCRegister";
@@ -38,6 +37,7 @@ import Workshop from "../Pages/Workshop";
 import CourseDetails from "../Pages/Course/Details";
 import CountDown from "../Pages/Exam/CountDown";
 import WorkshopDetails from "../Pages/Workshop/Details";
+import Legality from "../Pages/Illegality";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -60,16 +60,25 @@ export const PageRoutes = [
   { path: ROUTES.HISTORY.HISTORY, element: <History /> },
   { path: ROUTES.HOW_IT_WORK.HOW_IT_WORK, element: <HowItWork /> },
   { path: ROUTES.ABOUT_US.ABOUT_US, element: <AboutUs /> },
-  { path: ROUTES.ILLEGALITY.ILLEGALITY, element: <Illegality /> },
+  { path: ROUTES.LEGALITY.LEGALITY, element: <Legality /> },
   { path: ROUTES.PRIVACY_POLICY.PRIVACY_POLICY, element: <PrivacyPolicy /> },
-  { path: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS, element: <TermsConditions /> },
+  {
+    path: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS,
+    element: <TermsConditions />,
+  },
   { path: ROUTES.REFERRAL.REFERRAL, element: <Referral /> },
-  { path: ROUTES.FULL_FEST_REPORT.FULL_FEST_REPORT, element: <FullFestReport /> },
+  {
+    path: ROUTES.FULL_FEST_REPORT.FULL_FEST_REPORT,
+    element: <FullFestReport />,
+  },
   { path: ROUTES.CLASSES.CLASSES, element: <Classes /> },
   { path: ROUTES.COURSE.COURSE, element: <Course /> },
   { path: ROUTES.COURSE.DETAILS, element: <CourseDetails /> },
   { path: ROUTES.YOUTUBE_VALUES.YOUTUBE_VALUES, element: <YoutubeValues /> },
-  { path: ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE, element: <SocialMediaEngage /> },
+  {
+    path: ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE,
+    element: <SocialMediaEngage />,
+  },
   { path: ROUTES.CONTACT.CONTACT, element: <Contact /> },
   { path: ROUTES.WORKSHOP.WORKSHOP, element: <Workshop /> },
   { path: ROUTES.WORKSHOP.DETAILS, element: <WorkshopDetails /> },

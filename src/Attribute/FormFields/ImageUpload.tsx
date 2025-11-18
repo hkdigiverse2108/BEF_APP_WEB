@@ -14,7 +14,14 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const ImageUpload: FC<ImageUploadProps> = ({ multiple, accept, isListType, disabled, value, onChange }) => {
+const ImageUpload: FC<ImageUploadProps> = ({
+  multiple,
+  accept,
+  isListType,
+  disabled,
+  value,
+  onChange,
+}) => {
   const [fileList, setFileList] = useState<string[]>(value || []);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -39,6 +46,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ multiple, accept, isListType, disab
       const uploadedUrl = res?.data.data || "";
       setFileList([...fileList, uploadedUrl]);
       onChange?.([...fileList, uploadedUrl]);
+      console.log("uploadedUrl", uploadedUrl, fileList);
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -49,6 +57,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ multiple, accept, isListType, disab
   // 🔹 Remove Image
   const removeFile = async (imageSrc: string) => {
     const updatedList = fileList.filter((img) => img !== imageSrc);
+    console.log("Remove File : ", updatedList);
     setFileList(updatedList);
     onChange?.(updatedList);
   };
@@ -61,9 +70,9 @@ const ImageUpload: FC<ImageUploadProps> = ({ multiple, accept, isListType, disab
   );
 
   // ✅ Sync with form
-    useEffect(() => {
-      setFileList(Array.isArray(value) ? value : []);
-    }, [value]);
+  useEffect(() => {
+    setFileList(Array.isArray(value) ? value : []);
+  }, [value]);
 
   return (
     <div>

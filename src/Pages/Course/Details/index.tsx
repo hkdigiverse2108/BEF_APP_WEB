@@ -202,14 +202,14 @@ const CourseDetails = () => {
               ) : (
                 <h1 className=" sm:text-xl font-semibold flex gap-0.5 items-end">
                   <span>₹{CourseDetailsData?.payingPrice}</span>
-                  <span className="text-base text-red-500 font-normal line-through decoration-2 ps-1">
+                  <span className="text-base text-red-500  line-through decoration-2 ps-1">
                     {CourseDetailsData?.price}
                   </span>
                 </h1>
               )}
             </div>
             <div>
-              <p className="max-sm:text-xs text-red-500  font-semibold h-full ">
+              <p className="max-sm:text-xs text-red-500  font-bold h-full ">
                 {/* Remaining fee pays after prelims cleared */}
                 {CourseDetailsData?.priceInStruction}
               </p>
