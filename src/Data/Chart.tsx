@@ -138,7 +138,7 @@ export const EliminationSkillBarChart: ApexOptions = {
     show: false,
   },
   xaxis: {
-    categories: ["100% Sure", "Logic Play", "Intuition Hit play", "Blind fire"],
+    categories: ["100% Sure", "Logic Play", "Intuition Hit", "Blind fire"],
   },
   fill: {},
   colors: ["#FE6E13", "#288F66"],

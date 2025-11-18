@@ -103,6 +103,7 @@ import { ImagePath, ROUTES } from "../../Constants";
 import type { ContestDetailCardProps } from "../../Types";
 import { message } from "antd";
 import { useCountDown } from "../../Utils/Hook";
+import { AntMessage } from "../Common/AntMessage";
 
 const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
@@ -139,14 +140,18 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
         });
       }
     } else {
-      messageApi.open({
-        type: "error",
-        content: `This Contest is Over And No One Is Participate.`,
-        className: "custom-class",
-        style: {
-          marginTop: "10vh",
-        },
-      });
+      // messageApi.open({
+      //   type: "error",
+      //   content: `This Contest is Over And No One Is Participate.`,
+      //   className: "custom-class",
+      //   style: {
+      //     marginTop: "10vh",
+      //   },
+      // });
+      AntMessage(
+        "error",
+        "This Contest is Over And No One Is Participate."
+      );
     }
   };
 

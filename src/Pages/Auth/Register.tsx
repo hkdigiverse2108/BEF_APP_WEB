@@ -1,7 +1,7 @@
 import { Col, Form, Input, Row, Space, Steps } from "antd";
 import { useEffect, useState } from "react";
 import { PhoneInput } from "react-international-phone";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   FormButton,
   FormDatePicker,
@@ -12,7 +12,7 @@ import {
   useGetGlobalApiQuery,
   usePostGlobalApiMutation,
 } from "../../Api/CommonGlobalApi";
-import { HTTP_STATUS, ImagePath, URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
 import { RemoveEmptyFields } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
@@ -347,6 +347,22 @@ const Register = () => {
               ]}
             />
           </Col>
+          <div className="flex gap-0.5 mx-2 mb-1 text-sm font-medium  w-full ">
+            <span>By Signing up, you agree to our</span>
+            <span className="">
+              {" "}
+              <Link to={ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS}>
+                Terms & Condition{" "}
+              </Link>
+            </span>
+            &
+            <span>
+              <Link to={ROUTES.PRIVACY_POLICY.PRIVACY_POLICY}>
+                {" "}
+                PrivacyPolicy{" "}
+              </Link>
+            </span>
+          </div>
         </Row>
       ),
     },
