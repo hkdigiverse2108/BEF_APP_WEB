@@ -5,6 +5,7 @@ import { URL_KEYS } from "../../Constants";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
 import { useEffect } from "react";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 interface SubjectFilterType {
   _id: string;
@@ -26,10 +27,13 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
   });
 
   const handleChange = (value: { Subject: string }) => {
-    try {
-      form.setFieldsValue({ Subject: value?.Subject });
-      dispatch(setFullFestSubjectFilter(value?.Subject));
-    } catch (error) {}
+    form.setFieldsValue({ Subject: value?.Subject });
+    dispatch(setFullFestSubjectFilter(value?.Subject));
+  };
+
+  const handleClear = () => {
+    form.setFieldsValue({ Subject: "Subject" });
+    dispatch(setFullFestSubjectFilter(""));
   };
 
   useEffect(() => {
@@ -39,13 +43,19 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
   }, [FullFestSubjectFilter]);
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center max-sm:flex-wrap gap-3">
       <div className="relative px-4">
         <div className="w-1 h-full bg-success rounded-full absolute left-0 top-0" />
         <h2 className="text-xl font-semibold ">{title}</h2>
       </div>
       {filter && (
-        <div className="flex justify-end question-section">
+        <div className="flex justify-end question-section items-center gap-1 max-sm:w-full">
+          {FullFestSubjectFilter && (
+            <div onClick={handleClear} className="text-2xl text-danger">
+              <IoIosCloseCircleOutline />
+            </div>
+          )}
+
           <Form form={form} onValuesChange={handleChange}>
             <FormSelect
               name="Subject"
