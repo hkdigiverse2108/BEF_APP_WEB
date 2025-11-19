@@ -4,6 +4,8 @@ import type { ContestFilters } from "../../Types";
 const initialState: {
   isContestFilters: ContestFilters;
   FullFestSubjectFilter: string;
+  SolutionFilter: string;
+  SolutionCurrentQuestion: number;
 } = {
   isContestFilters: {
     entry: null,
@@ -12,6 +14,8 @@ const initialState: {
     contestType: "",
   },
   FullFestSubjectFilter: "",
+  SolutionFilter: "all",
+  SolutionCurrentQuestion: 1,
 };
 
 const FilterSlice = createSlice({
@@ -24,9 +28,19 @@ const FilterSlice = createSlice({
     setFullFestSubjectFilter: (state, action) => {
       state.FullFestSubjectFilter = action.payload;
     },
+    setSolutionFilter: (state, action) => {
+      state.SolutionFilter = action.payload;
+    },
+    setCurrentSolutionQuestion: (state, action) => {
+      state.SolutionCurrentQuestion = action.payload;
+    },
   },
 });
 
-export const { setContestFilters, setFullFestSubjectFilter } =
-  FilterSlice.actions;
+export const {
+  setContestFilters,
+  setFullFestSubjectFilter,
+  setSolutionFilter,
+  setCurrentSolutionQuestion,
+} = FilterSlice.actions;
 export default FilterSlice.reducer;
