@@ -50,7 +50,13 @@ interface QaTypeMetricItem extends QaTypeItem {
   totalOneEliminateQuestions: number;
 }
 
-type QaCategory = "100%Sure" | "logicPlay" | "intuitionHit" | "blindFire" | "skip" | "fearDriverSkip";
+type QaCategory =
+  | "100%Sure"
+  | "logicPlay"
+  | "intuitionHit"
+  | "blindFire"
+  | "skip"
+  | "fearDriverSkip";
 
 type QaChartType = Record<QaCategory, QaTypeItem>;
 
@@ -68,9 +74,16 @@ export interface SubjectSummaryItem {
   type: string;
 }
 
-export type SubjectSummaryGroup = "Average" | "Strong" | "Very Strong" | "Very Weak" | "Weak";
+export type SubjectSummaryGroup =
+  | "Average"
+  | "Strong"
+  | "Very Strong"
+  | "Very Weak"
+  | "Weak";
 
-export type SubjectSummaryType = Partial<Record<SubjectSummaryGroup, SubjectSummaryItem[]>>;
+export type SubjectSummaryType = Partial<
+  Record<SubjectSummaryGroup, SubjectSummaryItem[]>
+>;
 
 // ************ AI Powered Report Analysis ***********
 
