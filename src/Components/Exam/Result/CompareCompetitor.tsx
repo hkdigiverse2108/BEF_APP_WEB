@@ -1,15 +1,21 @@
 import { Tab, Tabs } from "@mui/material";
 import { Progress } from "antd";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import type { QaType, Sec2Type } from "../../../Types";
 
-const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string }> = ({
-  data,
-  subjectName,
-}) => {
+const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string; TabIndex: number }> = ({ data, subjectName, TabIndex }) => {
   const [tabIndex, setTabIndex] = useState(0);
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) =>
-    setTabIndex(newValue);
+  const [showChart, setShowChart] = useState(false);
+
+  useEffect(() => {
+    setShowChart(false);
+    if (TabIndex === 3) {
+      const timer = setTimeout(() => setShowChart(true), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [TabIndex]);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
 
   const compare = [
     {
@@ -97,14 +103,12 @@ const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string }> = ({
     };
   });
 
-  const sections = Object.values(data?.subtopicWiseReport || {})?.map(
-    (item) => ({
-      title: item?.subtopicName,
-      you: item?.you?.accuracy ?? 0,
-      others: item?.others?.accuracy ?? 0,
-      toppers: item?.toppers?.accuracy ?? 0,
-    })
-  );
+  const sections = Object.values(data?.subtopicWiseReport || {})?.map((item) => ({
+    title: item?.subtopicName,
+    you: item?.you?.accuracy ?? 0,
+    others: item?.others?.accuracy ?? 0,
+    toppers: item?.toppers?.accuracy ?? 0,
+  }));
 
   const currentSections = tabIndex === 0 ? sections : aiSections;
 
@@ -112,9 +116,7 @@ const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string }> = ({
     <>
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-semibold text-gray-800">
-          Compare Competitor
-        </h2>
+        <h2 className="text-xl font-semibold text-gray-800">Compare Competitor</h2>
         <p className="text-sm text-gray-500 font-normal">
           {/* let's compare with your Competitor */}
           {subjectName}
@@ -123,9 +125,7 @@ const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string }> = ({
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 pb-6">
         {compare?.map(({ title, color, items }, i) => (
           <div key={i} className="rounded-lg shadow-lg">
-            <div
-              className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between`}
-            >
+            <div className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between`}>
               <h3>{title}</h3>
             </div>
             <div className="px-3 sm:px-8 py-4 rounded-b-lg">
@@ -142,52 +142,27 @@ const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string }> = ({
         ))}
       </div>
       <div className="pt-6">
-        <Tabs
-          className="horizontal-tabs"
-          orientation="horizontal"
-          variant="scrollable"
-          value={tabIndex}
-          onChange={handleChange}
-        >
+        <Tabs className="horizontal-tabs" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
           <Tab label="Sub wise" />
           <Tab label="Strategy wise" />
         </Tabs>
         <div className="tab-panels w-full">
           <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 pt-6">
             {currentSections?.map((item, i) => (
-              <div
-                key={i}
-                className="rounded-lg shadow-lg border border-card-border"
-              >
+              <div key={i} className="rounded-lg shadow-lg border border-card-border">
                 <div className="px-4 py-2 rounded-t-lg text-lg text-black flex justify-between bg-input-box border-b border-card-border">
                   <h3>{item.title}</h3>
                 </div>
                 <div className="px-4 py-4 rounded-b-lg">
                   <ul className="space-y-2">
                     <li>
-                      <Progress
-                        percent={item.you}
-                        percentPosition={{ align: "center", type: "inner" }}
-                        strokeColor={"#288F66"}
-                        strokeWidth={20}
-                      />
+                      <Progress percent={showChart ? item.you : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#288F66"} strokeWidth={20} />
                     </li>
                     <li>
-                      <Progress
-                        percent={item.others}
-                        percentPosition={{ align: "center", type: "inner" }}
-                        strokeColor={"#FE6E13"}
-                        strokeWidth={20}
-                        className="others"
-                      />
+                      <Progress percent={showChart ?item.others : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#FE6E13"} strokeWidth={20} className="others" />
                     </li>
                     <li>
-                      <Progress
-                        percent={item.toppers}
-                        percentPosition={{ align: "center", type: "inner" }}
-                        strokeColor={"#2d1067"}
-                        strokeWidth={20}
-                      />
+                      <Progress percent={showChart ?item.toppers : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#2d1067"} strokeWidth={20} />
                     </li>
                   </ul>
                 </div>

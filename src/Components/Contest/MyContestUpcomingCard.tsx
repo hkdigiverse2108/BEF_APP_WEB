@@ -8,17 +8,7 @@ import type { ContestDetailCardProps } from "../../Types";
 const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
 
-  const {
-    contest: {
-      _id = "",
-      name = "Untitled Contest",
-      pricePool = 0,
-      filledSpots = 0,
-      totalSpots = 1,
-    } = {},
-    subject: { image: subjectImage = "", name: subjectName = "" } = {},
-    contestStartDate = "",
-  } = contestData ?? {};
+  const { contestId: { _id = "", name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1 } = {}, subjectId: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
 
   const progress = (filledSpots / totalSpots) * 100;
 
@@ -49,7 +39,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       onClick={() =>
         navigate(ROUTES.CONTEST.CONTEST_DETAILS, {
           state: {
-            contestData: contestData?.contest,
+            contestData: contestData?.contestId,
             type: "myContest",
             contestDataTime,
           },
@@ -61,9 +51,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       <div className="flex flex-col lg:flex-row bg-primary! border border-primary px-2 md:px-4">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
           <div className="grid gap-1 w-full">
-            <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">
-              {name}
-            </h3>
+            <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">{name}</h3>
           </div>
         </div>
       </div>
@@ -78,13 +66,8 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
             {/* <span className="max-sm:hidden flex border-l  border-gray-200 w-fit my-2" /> */}
 
-            <section
-              onClick={(e) => handleJoin(e)}
-              className="flex flex-col justify-end items-end gap-2"
-            >
-              <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">
-                Join
-              </p>
+            <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
+              <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
             </section>
           </div>
 
@@ -100,19 +83,11 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       {/* Footer */}
       <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-1 text-sm font-normal">
         <div className="flex max-sm:justify-center items-center gap-4 w-full h-full p-3">
-          <img
-            className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white"
-            src={subjectImage || `${ImagePath}contest/ContestIcon.png`}
-            alt={subjectName}
-          />
+          <img className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white" src={subjectImage || `${ImagePath}contest/ContestIcon.png`} alt={subjectName} />
 
           <div className="grid w-full">
-            <h3 className="text-lg text-left font-medium tracking-tight">
-              {subjectName}
-            </h3>
-            <span className="text-sm font-bold">
-              {dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}
-            </span>
+            <h3 className="text-lg text-left font-medium tracking-tight">{subjectName}</h3>
+            <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
           </div>
         </div>
 

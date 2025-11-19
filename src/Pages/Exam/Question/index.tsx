@@ -170,7 +170,7 @@ const Question = () => {
   }, []);
 
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({
-    url: `${URL_KEYS.QA.CONTEST_QUESTION}?fullFestFilter=true&contestFilter=${contestId}`,
+    url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}`,
   });
   const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
@@ -506,7 +506,7 @@ const ConfidenceButtons = [
     <>
       <div className="sub-container pt-4 md:pt-8 question-section">
         {/* Header */}
-        <CardHeader title="Question & answer" icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
+        <CardHeader title={QAData?.subjectId?.name || "Question & answer"} icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex flex-col justify-center items-center">
           <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit max-sm:text-center">Do not exit the test otherwise your test will end.<span className="block text-center"> Press the End Test button to lock your Test.</span></p>
         </div>

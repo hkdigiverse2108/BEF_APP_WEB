@@ -57,7 +57,9 @@ export interface QuestionType {
   userId: string;
   classesId: string;
   contestId: string;
-  subjectId: string;
+  subjectId: {
+    name: string;
+  };
   stackNumber: number;
   totalPoints: number;
   totalRightAnswer: number;

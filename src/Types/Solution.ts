@@ -59,12 +59,10 @@ export interface ContestTypeData {
   contest: Contest;
   classes: Classes;
   subject: SubjectType;
-  questions: Question[];
   userRank: number;
 }
 
 export interface Answer {
-  questionId: string;
   type: string;
   answer: string;
   rightAnswer: string;
@@ -78,6 +76,7 @@ export interface Answer {
   isAnsweredTrue: boolean | null;
   _id: string;
   qaNumber: number;
+  questionId: Question;
 }
 
 export interface Contest {
@@ -151,7 +150,9 @@ export interface Question {
   _id: string;
   subjectId: string;
   classesId: string;
-  subtopicId: string;
+  subtopicId: {
+    name: string;
+  };
   type: string;
   questionType: string;
   englishQuestion: QuestionLang;

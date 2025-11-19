@@ -101,36 +101,18 @@ import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImagePath, ROUTES } from "../../Constants";
 import type { ContestDetailCardProps } from "../../Types";
-import { message } from "antd";
 import { useCountDown } from "../../Utils/Hook";
 import { AntMessage } from "../Common/AntMessage";
 
 const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
-  const [messageApi, contextHolder] = message.useMessage();
-  const {
-    _id,
-    contestId,
-    contestStartDate,
-    rank = 0,
-    winningPrice = 0,
-    subject: {
-      name: subjectName = "Unknown Subject",
-      image: subjectImage = `${ImagePath}contest/ContestIcon.png`,
-    } = {},
-    contest: { name: contestName = "Untitled Contest", pricePool = 0 } = {},
-  } = contestData ?? {};
-  const { isFinished } = useCountDown(
-    contestData?.contestStartDate || "",
-    contestData?.contestEndDate || ""
-  );
+  const { _id: QaId, contestStartDate, rank = 0, winningPrice = 0, subjectId: { name: subjectName = "Unknown Subject", image: subjectImage = `${ImagePath}contest/ContestIcon.png` } = {}, contestId: { name: contestName = "Untitled Contest", pricePool = 0, _id: ContestId } = {} } = contestData ?? {};
+  const { isFinished } = useCountDown(contestData?.contestStartDate || "", contestData?.contestEndDate || "");
 
   const handleResult = () => {
     if (contestData?.answers?.length !== 0) {
       if (isFinished) {
-        navigate(
-          `${ROUTES.EXAM.RESULT}?qaFilter=${_id}&contestFilter=${contestId}`
-        );
+        navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${QaId}&contestFilter=${ContestId}`);
       } else {
         navigate(ROUTES.EXAM.COUNT_DOWN, {
           state: {
@@ -148,27 +130,18 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       //     marginTop: "10vh",
       //   },
       // });
-      AntMessage(
-        "error",
-        "This Contest is Over And No One Is Participate."
-      );
+      AntMessage("error", "This Contest is Over And No One Is Participate.");
     }
   };
 
   return (
     <>
-      {contextHolder}
-      <div
-        onClick={() => handleResult()}
-        className="border border-black/10  rounded-t-xl rounded-b-md overflow-hidden capitalize flex flex-col justify-between cursor-pointer"
-      >
+      <div onClick={() => handleResult()} className="border border-black/10  rounded-t-xl rounded-b-md overflow-hidden capitalize flex flex-col justify-between cursor-pointer">
         {/* Header */}
         <div className="flex flex-col lg:flex-row bg-primary! border border-primary px-2 md:px-4">
           <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
             <div className="grid gap-1 w-full">
-              <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">
-                {contestName}
-              </h3>
+              <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">{contestName}</h3>
             </div>
           </div>
         </div>
@@ -186,9 +159,7 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
               <section className="flex sm:flex-col justify-between max-sm:items-center sm:justify-end items-end gap-2">
                 <h1>Achieved Scholarship</h1>
-                <p className="font-semibold text-lg bg-success text-white px-3 py-1 w-fit rounded">
-                  ₹{winningPrice}
-                </p>
+                <p className="font-semibold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
               </section>
             </div>
 
@@ -196,9 +167,7 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
             <section className="flex justify-between items-center font-semibold">
               <h1>All India Rank</h1>
-              <h1 className="font-normal border bg-input-box border-card-border px-4 py-1 rounded-md">
-                {rank || 0}
-              </h1>
+              <h1 className="font-normal border bg-input-box border-card-border px-4 py-1 rounded-md">{rank || 0}</h1>
             </section>
           </div>
 
@@ -207,18 +176,10 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
           <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-4 mt-2 text-sm font-semibold ">
             <div className="flex max-sm:justify-center items-center gap-4 w-full h-full pt-3 pb-1">
-              <img
-                className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white"
-                src={subjectImage}
-                alt={subjectName}
-              />
+              <img className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white" src={subjectImage} alt={subjectName} />
               <div className="grid w-full">
-                <h3 className="text-lg text-left font-medium tracking-tight">
-                  {subjectName}
-                </h3>
-                <span className="text-sm font-bold">
-                  {dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}
-                </span>
+                <h3 className="text-lg text-left font-medium tracking-tight">{subjectName}</h3>
+                <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
               </div>
             </div>
             {/* <section className="max-sm:hidden flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">

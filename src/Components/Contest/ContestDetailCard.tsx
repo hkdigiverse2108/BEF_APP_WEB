@@ -23,7 +23,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
       if (contestDataTime?.contestStartTime && contestDataTime?.contestEndTime) {
         navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: contestDataTime?.contestStartDate || "", contestEndDate: contestDataTime?.contestEndDate || "" } });
       } else {
-        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, { state: contestData });
+        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, { state: {contestStartDate: contestDataTime?.contestStartDate} });
       }
     } else {
       dispatch(setSubtopicDrawer({ open: true, contest: contestData }));
@@ -57,7 +57,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
       <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
         <div className=" py-2 flex flex-col gap-1">
           <section className="flex justify-between text-sm md:text-lg  font-semibold flex-wrap ">
-            <h3 className="capitalize">{name}</h3>
+            <h3 className="capitalize">Get Scholarship</h3>
             <p>
               ₹{pricePool}
               {/* {pricePool || "₹7,50,000.00"} */}

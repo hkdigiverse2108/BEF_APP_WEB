@@ -7,24 +7,17 @@ import { useCountDown } from "../../../Utils/Hook";
 import { useAppSelector } from "../../../Store/hooks";
 import { Empty } from "antd";
 
-const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({
-  contest,
-}) => {
+const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ contest }) => {
   const { search } = useLocation();
   const { user } = useAppSelector((store) => store.auth);
-  const { hours, minutes, seconds, isFinished } = useCountDown(
-    contest?.startDate || "",
-    contest?.endDate || ""
-  );
+  const { hours, minutes, seconds } = useCountDown(contest?.startDate || "", contest?.endDate || "");
 
   const { data } = useGetApiQuery<RanksApiResponse>({
     url: `${URL_KEYS.QA.CONTEST_RANKS}${search}`,
   });
   const RanksData = data?.data[0]?.ranks;
 
-  const LeaderboardData = data?.data?.[0]?.ranks?.flatMap(
-    (rank) => rank?.winners?.filter((win) => win?.userId === user?._id) || []
-  );
+  const LeaderboardData = data?.data?.[0]?.ranks?.flatMap((rank) => rank?.winners?.filter((win) => win?.userId === user?._id) || []);
 
   // const players = [
   //   { id: 2, name: "MADELYN DIAS", score: "1,469 QP", color: "bg-success", img: `${ImagePath}user/User2.png`, size: "w-40 h-35 text-3xl" },
@@ -97,10 +90,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({
   return (
     <>
       {!data?.data ? (
-        <div
-          className="w-full h-[400px] flex flex-col items-center justify-center bg-cover bg-center rounded-2xl"
-          style={{ backgroundImage: `url(${ImagePath}CountDown.jpg)` }}
-        >
+        <div className="w-full h-[400px] flex flex-col items-center justify-center bg-cover bg-center rounded-2xl" style={{ backgroundImage: `url(${ImagePath}CountDown.jpg)` }}>
           {/* Timer Wrapper */}
           <div>
             <div className="flex items-center gap-6 justify-between">
@@ -113,78 +103,37 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({
             </div>
 
             {/* Message */}
-            <p className="mt-8 px-5 py-3 rounded-md font-normal text-center bg-white/45 backdrop-blur-md shadow-2xl">
-              Result will be announced soon
-            </p>
+            <p className="mt-8 px-5 py-3 rounded-md font-normal text-center bg-white/45 backdrop-blur-md shadow-2xl">Result will be announced soon</p>
           </div>
         </div>
       ) : (
         <>
-          <div
-            className={`relative bg-[url(/assets/images/result/Leaderboard-bg.png)] bg-cover bg-center w-full flex flex-col items-center p-5 rounded-xl`}
-          >
+          <div className={`relative bg-[url(/assets/images/result/Leaderboard-bg.png)] bg-cover bg-center w-full flex flex-col items-center p-5 rounded-xl`}>
             {/* Top message */}
             {LeaderboardData && (
               <div className="bg-white text-gray-900 p-3 rounded-lg shadow font-normal w-full flex flex-wrap max-sm:justify-center items-center gap-2">
-                <div className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-xl font-semibold text-lg">
-                  {LeaderboardData[0]?.rank || "1"}
-                </div>
+                <div className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-xl font-semibold text-lg">{LeaderboardData[0]?.rank || "1"}</div>
                 {/* 🏅 You are doing better than <span className="text-orange-600 px-1">60%</span> of other players! */}
-                🏅 {LeaderboardData[0]?.firstName || ""}{" "}
-                {LeaderboardData[0]?.lastName || ""}
+                🏅 {LeaderboardData[0]?.firstName || ""} {LeaderboardData[0]?.lastName || ""}
               </div>
             )}
 
-            <div className="mt-10 grid grid-cols-3 justify-center items-end gap-5 w-full">
-              {RanksData?.filter((list) => Number(list.endPlace) <= 3)?.map(
-                (list) =>
-                  list.winners?.map((item, i) => (
-                    <div
-                      key={i}
-                      className={`flex flex-col items-center max-sm:w-full ${
-                        i === 0
-                          ? "max-sm:order-1"
-                          : i === 2
-                          ? "max-sm:order-2"
-                          : ""
-                      }`}
-                    >
-                      <img
-                        src={`${ImagePath}result/Trophy.png`}
-                        alt="Trophy"
-                        className={`${
-                          item.rank === 1
-                            ? "w-50 h-45"
-                            : item.rank === 2
-                            ? "w-40 h-35"
-                            : item.rank === 3
-                            ? "w-35 h-30"
-                            : ""
-                        }`}
-                      />
-                      <div
-                        className={`w-full rounded-t-lg text-white font-semibold py-3 text-center ${
-                          item.rank === 1
-                            ? "text-6xl"
-                            : item.rank === 2
-                            ? "text-3xl"
-                            : item.rank === 3
-                            ? "text-2xl"
-                            : ""
-                        }`}
-                        style={getBackgroundStyle(item.rank)}
-                      >
+            <div className="mt-10 grid max-sm:grid-cols-1 grid-cols-3 justify-center items-end gap-5 w-full">
+              {RanksData?.map((list) =>
+                list.winners
+                  ?.filter((item) => item.rank <= 3)
+                  ?.map((item, i) => (
+                    <div key={i} className={`flex flex-col items-center max-sm:w-full ${i === 0 ? "sm:order-1" : i === 2 ? "sm:order-2" : ""}`}>
+                      <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" className={`${item.rank === 1 ? "w-50 h-45" : item.rank === 2 ? "w-40 h-35" : item.rank === 3 ? "w-35 h-30" : ""}`} />
+                      <div className={`w-full rounded-t-lg text-white font-semibold py-3 text-center bg-cover ${item.rank === 1 ? "text-6xl" : item.rank === 2 ? "text-4xl" : item.rank === 3 ? "text-2xl" : ""}`} style={getBackgroundStyle(item.rank)}>
                         {item.rank}
                       </div>
                       <div className="w-full bg-white text-center rounded-b-xl shadow p-4">
-                        <img
-                          src={item.profileImage || `${ImagePath}user/User.png`}
-                          alt={item.firstName}
-                          className="w-12 h-12 rounded-sm mx-auto mb-2"
-                        />
-                        <p className="font-semibold text-sm">
+                        <img src={item.profileImage || `${ImagePath}user/User.png`} alt={item.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
+                        <p className="font-semibold text-sm capitalize">
                           {item.firstName} {item.lastName}
                         </p>
+                        {list.price !== 0 && <p className="text-sm text-gray-700 font-semibold">₹{list.price}</p>}
                         <p className="text-xs text-gray-600">{item.points}</p>
                       </div>
                     </div>
@@ -221,8 +170,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({
               {/* </div> */}
             </div>
           </div>
-          {RanksData?.filter((list) => Number(list.endPlace) >= 3)?.length !==
-            0 && (
+          {RanksData?.some((list) => list?.winners?.some((item) => item.rank > 3)) && (
             <div className="pt-7">
               <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 w-full max-h-[450px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
                 {/* {Users.map((user, index) => (
@@ -234,22 +182,14 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({
                   </div>
                 </div>
               ))} */}
-                {RanksData?.filter((list) => Number(list.endPlace) >= 3)?.map(
-                  (list) =>
-                    list.winners?.map((user, index) => (
-                      <div
-                        key={index}
-                        className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg "
-                      >
-                        <img
-                          className="size-12 rounded-sm"
-                          src={user.profileImage || `${ImagePath}user/User.png`}
-                          alt="ChitChat Logo"
-                        />
+                {RanksData?.map((list) =>
+                  list.winners
+                    ?.filter((item) => item.rank > 3)
+                    ?.map((user, index) => (
+                      <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">
+                        <img className="size-12 rounded-sm" src={user.profileImage || `${ImagePath}user/User.png`} alt="ChitChat Logo" />
                         <div>
-                          <div className="max-sm:text-sm text-gray-500">
-                            {user.rank}TH RANK
-                          </div>
+                          <div className="max-sm:text-sm text-gray-500">{user.rank} TH RANK</div>
                           <p className="text-md sm:text-xl font-medium capitalize">
                             {user.firstName} {user.lastName}
                           </p>

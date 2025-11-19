@@ -124,7 +124,7 @@ const Register = () => {
       await form.validateFields(steps[current].fields);
 
       const values = form.getFieldsValue(true);
-      const email = values.email;
+      const email = values.email.toLowerCase();
       const contact = values.contact;
 
       const errors: any[] = [];

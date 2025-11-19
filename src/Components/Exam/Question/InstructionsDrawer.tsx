@@ -77,7 +77,7 @@ const InstructionsDrawer = () => {
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
               {InstructionButtons?.map((btn, i) => (
                 <div key={i} className="grid grid-cols-1 gap-5">
-                  <button className={`flex items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-normal text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>
+                  <button className={`flex justify-center items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-normal text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>
                     {btn.icon}
                     {btn.label}
                   </button>

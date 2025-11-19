@@ -20,6 +20,7 @@ const Login = () => {
       const payload = {
         ...values,
         userType: "user",
+        uniqueId: values.uniqueId.toLowerCase(),
       };
       const res = await PostGlobalApi({
         url: URL_KEYS.AUTH.LOGIN,

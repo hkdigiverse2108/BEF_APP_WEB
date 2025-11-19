@@ -4,72 +4,48 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { AiPoweredRadialBarChart } from "../../../Data";
 import { ImagePath } from "../../../Constants";
 import type { AttemptType, QaTypeMetricsType } from "../../../Types";
-import type { FC } from "react";
+import { useEffect, useState, type FC } from "react";
 
-const ChartCell = ({
-  color,
-  value,
-  label,
-}: {
-  color: string;
-  value: number;
-  label: string;
-}) => (
+const ChartCell = ({ color, value, label }: { color: string; value: number; label: string }) => (
   <div className="flex justify-center items-center gap-2">
     <div className="relative flex justify-center items-center">
-      <ReactApexChart
-        options={AiPoweredRadialBarChart(color)}
-        series={[value || 0]}
-        type="radialBar"
-        height={150}
-        width={150}
-      />
-      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">
-        {label}
-      </span>
+      <ReactApexChart options={AiPoweredRadialBarChart(color)} series={[value || 0]} type="radialBar" height={150} width={150} />
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">{label}</span>
     </div>
     <span className="text-lg font-semibold">{value}%</span>
   </div>
 );
 
-const ProgressCell = ({
-  title,
-  value,
-  color,
-}: {
-  title: string;
-  value: number;
-  color: string;
-}) => (
+const ProgressCell = ({ title, value, color }: { title: string; value: number; color: string }) => (
   <td className="py-4 px-4 font-normal text-gray-700">
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center text-sm font-semibold">
         <span className="text-xl">{title}</span>
         <span>{value}%</span>
       </div>
-      <Progress
-        percent={value}
-        showInfo={false}
-        strokeColor={color}
-        strokeWidth={10}
-      />
+      <Progress percent={value} showInfo={false} strokeColor={color} strokeWidth={10} />
     </div>
   </td>
 );
 
-const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
-  data,
-  subjectName,
-}) => {
+const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: number }> = ({ data, subjectName, TabIndex }) => {
   const { direct, fiftyFifty, oneEliminate } = data?.["100%Sure"] ?? {};
+  const [showChart, setShowChart] = useState(false);
 
-  const calcPercent = (correct?: number, total?: number) =>
-    total && total > 0 ? Math.round((correct! / total) * 100) : 0;
+  useEffect(() => {
+    setShowChart(false);
+    if (TabIndex === 1) {
+      const timer = setTimeout(() => setShowChart(true), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [TabIndex]);
+
+  const calcPercent = (correct?: number, total?: number) => (showChart ? (total && total > 0 ? Math.round((correct! / total) * 100) : 0) : 0);
 
   const sumCorrectTotal = (...items: AttemptType[]) => {
     const totalCorrect = items.reduce((a, b) => a + (b?.correct ?? 0), 0);
     const totalTotal = items.reduce((a, b) => a + (b?.total ?? 0), 0);
-    return totalTotal > 0 ? Math.round((totalCorrect / totalTotal) * 100) : 0;
+    return showChart ? (totalTotal > 0 ? Math.round((totalCorrect / totalTotal) * 100) : 0) : 0;
   };
 
   const rows = [
@@ -92,119 +68,58 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
     },
     {
       title: "Logic play",
-      value: sumCorrectTotal(
-        data?.logicPlay?.direct,
-        data?.logicPlay?.fiftyFifty,
-        data?.logicPlay?.oneEliminate
-      ),
+      value: sumCorrectTotal(data?.logicPlay?.direct, data?.logicPlay?.fiftyFifty, data?.logicPlay?.oneEliminate),
       color: "#009951",
       direct: {
-        label: `${data?.logicPlay?.direct?.correct || 0}/${
-          data?.logicPlay?.direct?.total || 0
-        }`,
-        value: calcPercent(
-          data?.logicPlay?.direct?.correct,
-          data?.logicPlay?.direct?.total
-        ),
+        label: `${data?.logicPlay?.direct?.correct || 0}/${data?.logicPlay?.direct?.total || 0}`,
+        value: calcPercent(data?.logicPlay?.direct?.correct, data?.logicPlay?.direct?.total),
       },
       fiftyFifty: {
-        label: `${data?.logicPlay?.fiftyFifty?.correct || 0}/${
-          data?.logicPlay?.fiftyFifty?.total || 0
-        }`,
-        value: calcPercent(
-          data?.logicPlay?.fiftyFifty?.correct,
-          data?.logicPlay?.fiftyFifty?.total
-        ),
+        label: `${data?.logicPlay?.fiftyFifty?.correct || 0}/${data?.logicPlay?.fiftyFifty?.total || 0}`,
+        value: calcPercent(data?.logicPlay?.fiftyFifty?.correct, data?.logicPlay?.fiftyFifty?.total),
       },
       oneEliminate: {
-        label: `${data?.logicPlay?.oneEliminate?.correct || 0}/${
-          data?.logicPlay?.oneEliminate?.total || 0
-        }`,
-        value: calcPercent(
-          data?.logicPlay?.oneEliminate?.correct,
-          data?.logicPlay?.oneEliminate?.total
-        ),
+        label: `${data?.logicPlay?.oneEliminate?.correct || 0}/${data?.logicPlay?.oneEliminate?.total || 0}`,
+        value: calcPercent(data?.logicPlay?.oneEliminate?.correct, data?.logicPlay?.oneEliminate?.total),
       },
     },
     {
       title: "Intuition Hit",
-      value: sumCorrectTotal(
-        data?.intuitionHit?.direct,
-        data?.intuitionHit?.fiftyFifty,
-        data?.intuitionHit?.oneEliminate
-      ),
+      value: sumCorrectTotal(data?.intuitionHit?.direct, data?.intuitionHit?.fiftyFifty, data?.intuitionHit?.oneEliminate),
       color: "#F5D01C",
       direct: {
-        label: `${data?.intuitionHit?.direct?.correct || 0}/${
-          data?.intuitionHit?.direct?.total || 0
-        }`,
-        value: calcPercent(
-          data?.intuitionHit?.direct?.correct,
-          data?.intuitionHit?.direct?.total
-        ),
+        label: `${data?.intuitionHit?.direct?.correct || 0}/${data?.intuitionHit?.direct?.total || 0}`,
+        value: calcPercent(data?.intuitionHit?.direct?.correct, data?.intuitionHit?.direct?.total),
       },
       fiftyFifty: {
-        label: `${data?.intuitionHit?.fiftyFifty?.correct || 0}/${
-          data?.intuitionHit?.fiftyFifty?.total || 0
-        }`,
-        value: calcPercent(
-          data?.intuitionHit?.fiftyFifty?.correct,
-          data?.intuitionHit?.fiftyFifty?.total
-        ),
+        label: `${data?.intuitionHit?.fiftyFifty?.correct || 0}/${data?.intuitionHit?.fiftyFifty?.total || 0}`,
+        value: calcPercent(data?.intuitionHit?.fiftyFifty?.correct, data?.intuitionHit?.fiftyFifty?.total),
       },
       oneEliminate: {
-        label: `${data?.intuitionHit?.oneEliminate?.correct || 0}/${
-          data?.intuitionHit?.oneEliminate?.total || 0
-        }`,
-        value: calcPercent(
-          data?.intuitionHit?.oneEliminate?.correct,
-          data?.intuitionHit?.oneEliminate?.total
-        ),
+        label: `${data?.intuitionHit?.oneEliminate?.correct || 0}/${data?.intuitionHit?.oneEliminate?.total || 0}`,
+        value: calcPercent(data?.intuitionHit?.oneEliminate?.correct, data?.intuitionHit?.oneEliminate?.total),
       },
     },
     {
       title: "Blind fire",
-      value: sumCorrectTotal(
-        data?.blindFire?.direct,
-        data?.blindFire?.fiftyFifty,
-        data?.blindFire?.oneEliminate
-      ),
+      value: sumCorrectTotal(data?.blindFire?.direct, data?.blindFire?.fiftyFifty, data?.blindFire?.oneEliminate),
       color: "#F24914",
       direct: {
-        label: `${data?.blindFire?.direct?.correct || 0}/${
-          data?.blindFire?.direct?.total || 0
-        }`,
-        value: calcPercent(
-          data?.blindFire?.direct?.correct,
-          data?.blindFire?.direct?.total
-        ),
+        label: `${data?.blindFire?.direct?.correct || 0}/${data?.blindFire?.direct?.total || 0}`,
+        value: calcPercent(data?.blindFire?.direct?.correct, data?.blindFire?.direct?.total),
       },
       fiftyFifty: {
-        label: `${data?.blindFire?.fiftyFifty?.correct || 0}/${
-          data?.blindFire?.fiftyFifty?.total || 0
-        }`,
-        value: calcPercent(
-          data?.blindFire?.fiftyFifty?.correct,
-          data?.blindFire?.fiftyFifty?.total
-        ),
+        label: `${data?.blindFire?.fiftyFifty?.correct || 0}/${data?.blindFire?.fiftyFifty?.total || 0}`,
+        value: calcPercent(data?.blindFire?.fiftyFifty?.correct, data?.blindFire?.fiftyFifty?.total),
       },
       oneEliminate: {
-        label: `${data?.blindFire?.oneEliminate?.correct || 0}/${
-          data?.blindFire?.oneEliminate?.total || 0
-        }`,
-        value: calcPercent(
-          data?.blindFire?.oneEliminate?.correct,
-          data?.blindFire?.oneEliminate?.total
-        ),
+        label: `${data?.blindFire?.oneEliminate?.correct || 0}/${data?.blindFire?.oneEliminate?.total || 0}`,
+        value: calcPercent(data?.blindFire?.oneEliminate?.correct, data?.blindFire?.oneEliminate?.total),
       },
     },
   ];
 
-  const calcFinalScore = (
-    attempt: AttemptType,
-    correctWeight = 2.0,
-    wrongWeight = 0.67
-  ): number => {
+  const calcFinalScore = (attempt: AttemptType, correctWeight = 2.0, wrongWeight = 0.67): number => {
     const correct = attempt?.correct ?? 0;
     const total = attempt?.total ?? 0;
     const wrong = total - correct;
@@ -212,10 +127,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
     return Number(score.toFixed(2));
   };
 
-  const TotalFearSkips =
-    calcFinalScore(data?.fearDriverSkip?.direct) +
-    calcFinalScore(data?.fearDriverSkip?.fiftyFifty) +
-    calcFinalScore(data?.fearDriverSkip?.oneEliminate);
+  const TotalFearSkips = calcFinalScore(data?.fearDriverSkip?.direct) + calcFinalScore(data?.fearDriverSkip?.fiftyFifty) + calcFinalScore(data?.fearDriverSkip?.oneEliminate);
 
   const cards = [
     {
@@ -228,9 +140,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
       bottomIcon: <IoMdArrowDropup />,
     },
     {
-      topText: `${data?.fearDriverSkip?.direct?.correct || 0}/${
-        data?.fearDriverSkip?.direct?.total || 0
-      }`,
+      topText: `${data?.fearDriverSkip?.direct?.correct || 0}/${data?.fearDriverSkip?.direct?.total || 0}`,
       bottomValue: calcFinalScore(data?.fearDriverSkip?.direct),
       bottomText: "Marks Chance",
       textColor: "text-success",
@@ -239,9 +149,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
       bottomIcon: <IoMdArrowDropup />,
     },
     {
-      topText: `${data?.fearDriverSkip?.fiftyFifty?.correct || 0}/${
-        data?.fearDriverSkip?.fiftyFifty?.total || 0
-      }`,
+      topText: `${data?.fearDriverSkip?.fiftyFifty?.correct || 0}/${data?.fearDriverSkip?.fiftyFifty?.total || 0}`,
       bottomValue: calcFinalScore(data?.fearDriverSkip?.fiftyFifty),
       bottomText: "Marks Chance",
       textColor: "text-red-600",
@@ -250,9 +158,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
       bottomIcon: <IoMdArrowDropdown />,
     },
     {
-      topText: `${data?.fearDriverSkip?.oneEliminate?.correct || 0}/${
-        data?.fearDriverSkip?.oneEliminate?.total || 0
-      }`,
+      topText: `${data?.fearDriverSkip?.oneEliminate?.correct || 0}/${data?.fearDriverSkip?.oneEliminate?.total || 0}`,
       bottomValue: calcFinalScore(data?.fearDriverSkip?.oneEliminate),
       bottomText: "Marks Chance",
       textColor: "text-success",
@@ -267,9 +173,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
       {/* Header */}
       <div className="relative pl-4 mb-6">
         <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-semibold text-gray-800">
-          AI Powered Report Analysis
-        </h2>
+        <h2 className="text-xl font-semibold text-gray-800">AI Powered Report Analysis</h2>
         <p className="text-sm text-gray-500 font-normal">
           {/* AI Powered Report Analysis */}
           {subjectName}
@@ -290,31 +194,15 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
           <tbody>
             {rows?.map((row, i) => (
               <tr key={i} className="border-b border-card-border">
-                <ProgressCell
-                  title={row.title}
-                  value={row.value}
-                  color={row.color}
-                />
+                <ProgressCell title={row.title} value={row.value} color={row.color} />
                 <td className="px-4 w-1/4">
-                  <ChartCell
-                    color={"#FF9500"}
-                    value={row?.direct?.value}
-                    label={row?.direct?.label}
-                  />
+                  <ChartCell color={"#FF9500"} value={row?.direct?.value} label={row?.direct?.label} />
                 </td>
                 <td className="px-4 w-1/4">
-                  <ChartCell
-                    color={"#F0788C"}
-                    value={row?.fiftyFifty?.value}
-                    label={row?.fiftyFifty?.label}
-                  />
+                  <ChartCell color={"#F0788C"} value={row?.fiftyFifty?.value} label={row?.fiftyFifty?.label} />
                 </td>
                 <td className="px-4 w-1/4">
-                  <ChartCell
-                    color={"#B482DC"}
-                    value={row?.oneEliminate?.value}
-                    label={row?.oneEliminate?.label}
-                  />
+                  <ChartCell color={"#B482DC"} value={row?.oneEliminate?.value} label={row?.oneEliminate?.label} />
                 </td>
               </tr>
             ))}

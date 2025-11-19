@@ -1,9 +1,8 @@
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Skeleton } from "antd";
+import dayjs from "dayjs";
 import { type FC } from "react";
 import { ImagePath } from "../../../Constants";
 import type { ContestData, OverviewCardType, PolityType } from "../../../Types";
-import { Skeleton } from "antd";
-import dayjs from "dayjs";
 
 const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData }> = ({ data, isLoading, contest }) => {
   const OverviewCard: FC<OverviewCardType> = ({ img, label, value, subValue }) => (
@@ -46,10 +45,10 @@ const Overview: FC<{ data: PolityType; isLoading: boolean; contest: ContestData 
           </>
         )}
       </section>
-      <div className="mt-4 border border-red-600 bg-red-50 rounded-md p-3 text-sm text-gray-600 flex items-start gap-2">
+      {/* <div className="mt-4 border border-red-600 bg-red-50 rounded-md p-3 text-sm text-gray-600 flex items-start gap-2">
         <ExclamationCircleOutlined className="text-red-600 mt-0.5" />
         <p>The contest is live for 24 hours so your rank is constantly shifting! Reattempt to boost your rank and practice more new questions. Every attempt gets you closer to the top!</p>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -25,6 +25,7 @@ const ForgotPassword = () => {
       const payload = {
         ...values,
         userType: "user",
+        uniqueId: values.uniqueId.toLowerCase(),
       };
       console.log(values);
       const res = await PostGlobalApi({

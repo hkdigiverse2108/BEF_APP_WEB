@@ -75,9 +75,8 @@ export interface ContestData {
   rank?: number | null;
   winningPrice?: number;
   status?: string;
-  subject?: SubjectInfo;
-  contest?: ContestCore;
-  contestId?: string;
+  subjectId?: SubjectInfo;
+  contestId?: ContestCore;
   answers?: any[];
 }
 

@@ -1,10 +1,9 @@
-import { useEffect } from "react";
-import { FormSelect } from "../../Attribute/FormFields";
-import { useAppDispatch } from "../../Store/hooks";
-import { useGetApiQuery } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
-import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
 import { Form } from "antd";
+import { useGetApiQuery } from "../../Api/CommonApi";
+import { FormSelect } from "../../Attribute/FormFields";
+import { URL_KEYS } from "../../Constants";
+import { useAppDispatch } from "../../Store/hooks";
+import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
 
 interface SubjectFilterType {
   _id: string;
@@ -15,7 +14,7 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
 
-  const { data, isLoading } = useGetApiQuery({ url: URL_KEYS.SUBJECT.SUBJECT });
+  const { data, isLoading } = useGetApiQuery({ url: `${URL_KEYS.SUBJECT.SUBJECT}?fullFestFilter=true` });
 
   const AllSubjects = data?.data?.map((item: SubjectFilterType) => {
     return { value: item?._id, label: item?.name };

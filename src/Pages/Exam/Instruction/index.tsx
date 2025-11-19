@@ -20,6 +20,8 @@ const ExamInstruction = () => {
   const contestStartDate = location?.state?.contestStartDate;
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+  console.log(location);
+  
 
   const handleNextButton = () => {
     // const now = Date.now();
@@ -168,7 +170,7 @@ const ExamInstruction = () => {
                     className="grid grid-cols-1 xl:grid-cols-3 xl:items-center gap-5"
                   >
                     <button
-                      className={`flex items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-normal text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}
+                      className={`flex justify-center items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-normal text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}
                     >
                       {btn.icon}
                       {btn.label}
