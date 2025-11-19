@@ -11,11 +11,13 @@ import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import type { ReferralApiResponse } from "../../Types";
 import { SecondFormatDate, Storage } from "../../Utils";
 import ShareModal from "../../Components/Common/ShareModal";
+import { useAppSelector } from "../../Store/hooks";
 
 const Referral = () => {
   const [copied, setCopied] = useState(false);
   const [tabOneLimit, setTabOneLimit] = useState(0);
-  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+  const { user } = useAppSelector((state) => state.auth);
 
   const { data, isLoading } = useGetApiQuery<ReferralApiResponse>({ url: URL_KEYS.USER.REFERRAL });
   const referralsData = data?.data?.data;

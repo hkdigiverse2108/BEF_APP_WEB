@@ -3,10 +3,9 @@ import { HiOutlineBars3BottomRight, HiOutlineBellAlert } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import { useGetApiQuery } from "../Api/CommonApi";
-import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../Constants";
-import { useAppDispatch } from "../Store/hooks";
+import { ImagePath, ROUTES, URL_KEYS } from "../Constants";
+import { useAppDispatch, useAppSelector } from "../Store/hooks";
 import { setMenuDrawer, setNavMenuDrawer } from "../Store/Slices/DrawerSlice";
-import { Storage } from "../Utils";
 import MenuDrawer from "./MenuDrawer";
 import NavMenuDrawer from "./NavMenuDrawer";
 import {
@@ -18,7 +17,9 @@ import { getHeaderItems } from "../Utils/GetHeaderItems";
 const Header = () => {
   const dispatch = useAppDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
-  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+
+  const { genderWiseProfileImage ,user} = useAppSelector((state) => state.auth);
+  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
   const UserData = data?.data;
@@ -57,14 +58,14 @@ const Header = () => {
 
   const currentUser = UserData || user;
 
-  const genderWiseImage =
-    currentUser?.gender === "male"
-      ? `${ImagePath}user/User_Male.png`
-      : `${ImagePath}user/User_Female.png`;
+  // const genderWiseProfileImage =
+  //   currentUser?.gender === "male"
+  //     ? `${ImagePath}user/User_Male.png`
+  //     : `${ImagePath}user/User_Female.png`;
 
   const ProfileImage = currentUser?.profileImage
     ? currentUser?.profileImage
-    : genderWiseImage;
+    : genderWiseProfileImage;
 
   return (
     <>
@@ -170,7 +171,7 @@ const Header = () => {
                     <img
                       src={ProfileImage}
                       alt="profile"
-                      className="w-8 h-8 rounded-xl"
+                      className="w-11 h-11 rounded-xl"
                     />
                     <div className="flex-1 hidden max-2xl:max-w-35 sm:block max-w-28 truncate">
                       <span className="text-md font-semibold capitalize  ">

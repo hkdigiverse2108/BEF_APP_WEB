@@ -16,7 +16,7 @@ import {
 } from "react-icons/md";
 import { TbWallet } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { Href, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../Constants";
+import { Href, ImagePath, ROUTES, URL_KEYS } from "../Constants";
 import FeedbackModal from "../Pages/Feedback";
 import SupportModal from "../Pages/Support";
 import { useAppDispatch, useAppSelector } from "../Store/hooks";
@@ -25,18 +25,19 @@ import {
   setMenuDrawer,
   setSupportModal,
 } from "../Store/Slices/DrawerSlice";
-import { Storage } from "../Utils";
 import { useGetApiQuery } from "../Api/CommonApi";
 
 const MenuDrawer = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+  const { isMenuDrawer } = useAppSelector((state) => state.drawer);
+  const { user } = useAppSelector((state) => state.auth);
+
+  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
   const UserData = data?.data;
 
-  const { isMenuDrawer } = useAppSelector((state) => state.drawer);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const MenuData = [

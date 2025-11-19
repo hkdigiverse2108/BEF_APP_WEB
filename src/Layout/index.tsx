@@ -10,8 +10,6 @@ import { AntMessageHolder } from "../Components/Common/AntMessage";
 
 const Layout = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
-  
 
   useEffect(() => {
     Aos.init({
@@ -20,7 +18,9 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    if (!["solution", "mistake-map-report","/exam/question"].includes(pathname)) {
+    if (
+      !["solution", "mistake-map-report", "/exam/question"].includes(pathname)
+    ) {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_SOLUTION);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);

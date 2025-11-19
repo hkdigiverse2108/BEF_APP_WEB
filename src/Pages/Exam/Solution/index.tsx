@@ -89,18 +89,30 @@ const Solution = () => {
 
   const QaAnswers = QAData?.answers || [];
   const currentQuestionAnswers = isQaAnswers[currentQuestionNumber - 1];
-
+  console.log("currentQuestionAnswers", currentQuestionAnswers);
   const currentQuestion = QAData?.questions?.find(
     (q) => q._id === currentQuestionAnswers?.questionId
   );
   const currentQuestionLanguage = currentQuestion?.[language];
 
+  // const { data: SubTopicApiData, isLoading: isSubTopicLoading } =
+  //   useGetApiQuery(
+  //     currentQuestion?.subtopicId
+  //       ? { url: `${URL_KEYS.SUB_TOPIC.ID}${currentQuestion?.subtopicId}` }
+  //       : { skip: true }
+  //   );
+
   const { data: SubTopicApiData, isLoading: isSubTopicLoading } =
     useGetApiQuery(
       currentQuestion?.subtopicId
         ? { url: `${URL_KEYS.SUB_TOPIC.ID}${currentQuestion?.subtopicId}` }
-        : { skip: true }
+        : undefined
     );
+  console.log(
+    "SubTopicApiData?.data?.names",
+    SubTopicApiData,
+    currentQuestion
+  );
   const { data: AiMentorData } = useGetApiQuery(
     currentQuestion?._id
       ? {
@@ -149,7 +161,7 @@ const Solution = () => {
   }, [SolutionFilter]);
 
   const handleWhyFalseChange = async (value: string) => {
-    console.log("handleWhyFalseChange", value);
+    // console.log("handleWhyFalseChange", value);
     const enriched = {
       ...QAData,
       answers: QaAnswers?.map((ans: Answer) =>
@@ -210,12 +222,6 @@ const Solution = () => {
         <BsExclamationCircle className="text-xl" />
       </Tooltip>
     </span>
-  );
-
-  console.log(
-    "currentQuestionAnswers?.whyFalse",
-    currentQuestionAnswers?.whyFalse,
-    WhyFalseOptions
   );
 
   const formatType = (str: string) => {
@@ -338,7 +344,7 @@ const Solution = () => {
                       />
                     ) : (
                       <p className="bg-input-box font-semibold text-sm p-2 px-4 rounded text-neutral-500">
-                        {SubTopicApiData?.data?.name}
+                        {SubTopicApiData?.data?.name || ""}
                       </p>
                     )}
                     <p className="bg-input-box font-semibold text-sm p-2 px-4 rounded text-neutral-500">
