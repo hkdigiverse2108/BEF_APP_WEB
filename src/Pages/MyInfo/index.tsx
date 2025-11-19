@@ -16,14 +16,16 @@ import {
   URL_KEYS,
 } from "../../Constants";
 import { GenderOptions, LanguageOptions } from "../../Data";
-import { EditPayload, Storage, updateStorage } from "../../Utils";
+import { EditPayload, updateStorage } from "../../Utils";
 import LogoutConfirmModal from "../../Components/MyInfo/LogoutConfirmModal";
+import { useAppSelector } from "../../Store/hooks";
 
 const MyInfo = () => {
   const [form] = Form.useForm();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
-  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}" );
+  const { user } = useAppSelector((state) => state.auth);
 
   const { data, refetch } = useGetApiQuery({
     url: `${URL_KEYS.USER.ID}${user._id}`,

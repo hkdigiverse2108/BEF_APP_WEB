@@ -9,8 +9,13 @@ import { Empty } from "antd";
 
 const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ contest }) => {
   const { search } = useLocation();
-  const { user } = useAppSelector((store) => store.auth);
-  const { hours, minutes, seconds } = useCountDown(contest?.startDate || "", contest?.endDate || "");
+  const { user, genderWiseProfileImage } = useAppSelector(
+    (store) => store.auth
+  );
+  const { hours, minutes, seconds } = useCountDown(
+    contest?.startDate || "",
+    contest?.endDate || ""
+  );
 
   const { data } = useGetApiQuery<RanksApiResponse>({
     url: `${URL_KEYS.QA.CONTEST_RANKS}${search}`,
@@ -19,49 +24,6 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
 
   const LeaderboardData = data?.data?.[0]?.ranks?.flatMap((rank) => rank?.winners?.filter((win) => win?.userId === user?._id) || []);
 
-  // const players = [
-  //   { id: 2, name: "MADELYN DIAS", score: "1,469 QP", color: "bg-success", img: `${ImagePath}user/User2.png`, size: "w-40 h-35 text-3xl" },
-  //   { id: 1, name: "DAVIS CURTIS", score: "1,469 QP", color: "bg-primary", img: `${ImagePath}user/User3.png`, size: "w-50 h-45 text-6xl" },
-  //   { id: 3, name: "CRAIG GOUSE", score: "1,469 QP", color: "bg-purple-dark", img: `${ImagePath}user/User4.png`, size: "w-35 h-30 text-2xl" },
-  // ];
-
-  // const Users = [
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "DAVIS CURTIS", rank: 4, img: `${ImagePath}user/User3.png` },
-  //   { name: "MADELYN DIAS", rank: 5, img: `${ImagePath}user/User2.png` },
-  //   { name: "CRAIG GOUSE", rank: 6, img: `${ImagePath}user/User4.png` },
-  // ];
 
   const getBackgroundStyle = (rank: number) => {
     if (rank === 1) {
@@ -129,8 +91,12 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
                         {item.rank}
                       </div>
                       <div className="w-full bg-white text-center rounded-b-xl shadow p-4">
-                        <img src={item.profileImage || `${ImagePath}user/User.png`} alt={item.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
-                        <p className="font-semibold text-sm capitalize">
+                        <img
+                          src={item.profileImage || genderWiseProfileImage}
+                          alt={item.firstName}
+                          className="w-12 h-12 rounded-sm mx-auto mb-2"
+                        />
+                        <p className="font-semibold text-sm">
                           {item.firstName} {item.lastName}
                         </p>
                         {list.price !== 0 && <p className="text-sm text-gray-700 font-semibold">₹{list.price}</p>}
@@ -147,7 +113,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
               </div>
               {item.winners?.map((list, index) => (
                 <div key={index} className="w-full bg-white text-center rounded-b-xl shadow p-4">
-                  <img src={list.profileImage || `${ImagePath}user/User.png`} alt={list.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
+                  <img src={list.profileImage ||genderWiseProfileImage} alt={list.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
                   <p className="font-semibold text-sm">{list.firstName} {list.lastName}</p>
                   <p className="text-xs text-gray-600">{list.points}</p>
                 </div>
@@ -187,7 +153,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
                     ?.filter((item) => item.rank > 3)
                     ?.map((user, index) => (
                       <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">
-                        <img className="size-12 rounded-sm" src={user.profileImage || `${ImagePath}user/User.png`} alt="ChitChat Logo" />
+                        <img className="size-12 rounded-sm" src={user.profileImage || genderWiseProfileImage} alt="ChitChat Logo" />
                         <div>
                           <div className="max-sm:text-sm text-gray-500">{user.rank} TH RANK</div>
                           <p className="text-md sm:text-xl font-medium capitalize">

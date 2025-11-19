@@ -1,13 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Storage, Stringify } from "../../Utils";
-import { STORAGE_KEYS } from "../../Constants";
+import { ImagePath, STORAGE_KEYS } from "../../Constants";
 
-const StoredUser = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "null")
+const StoredUser = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "null");
 
 const initialState = {
   token: "",
   user: StoredUser || null,
-  isAuthenticated: !!Storage.getItem(STORAGE_KEYS.TOKEN)
+  genderWiseProfileImage:
+    StoredUser?.gender === "male"
+      ? `${ImagePath}user/User_Male.png`
+      : `${ImagePath}user/User_Female.png`,
+  isAuthenticated: !!Storage.getItem(STORAGE_KEYS.TOKEN),
 };
 
 const authSlice = createSlice({
@@ -15,23 +19,27 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     SetUser(state, actions) {
-      const user = actions.payload
+      const user = actions.payload;
       state.token = user.token;
       state.user = user;
       state.isAuthenticated = true;
+      state.genderWiseProfileImage =
+        user?.gender === "male"
+          ? `${ImagePath}user/User_Male.png`
+          : `${ImagePath}user/User_Female.png`;
       Storage.setItem(STORAGE_KEYS.TOKEN, user?.token);
       Storage.setItem(STORAGE_KEYS.USER, Stringify(user));
     },
     LogOut(state) {
       state.token = "";
-      state.user = null
+      state.user = null;
       state.isAuthenticated = false;
-      
+
       Storage.clear();
-      window.location.reload()
-    }
+      window.location.reload();
+    },
   },
 });
 
-export const { SetUser ,LogOut } = authSlice.actions;
+export const { SetUser, LogOut } = authSlice.actions;
 export default authSlice.reducer;

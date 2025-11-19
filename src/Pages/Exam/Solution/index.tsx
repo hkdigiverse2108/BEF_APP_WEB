@@ -164,12 +164,6 @@ const Solution = () => {
     </span>
   );
 
-  // console.log(
-  //   "currentQuestionAnswers?.whyFalse",
-  //   currentQuestionAnswers?.whyFalse,
-  //   WhyFalseOptions
-  // );
-
   const formatType = (str: string) => {
     return str
       .replace(/([A-Z])/g, " $1")

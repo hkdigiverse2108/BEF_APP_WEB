@@ -2,7 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Slices/AuthSlice";
 import DrawerSlice from "./Slices/DrawerSlice";
 import FilterSlice from "./Slices/FilterSlice";
-import workshopReducer from "./Slices/WorkshopSlice";
+import workshopSlice from "./Slices/WorkshopSlice";
+
 import { CommonApi, CommonGlobalApi } from "../Api";
 
 export const Store = configureStore({
@@ -13,7 +14,7 @@ export const Store = configureStore({
     auth: authReducer,
     drawer: DrawerSlice,
     filter: FilterSlice,
-    workshops: workshopReducer,
+    workshops: workshopSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

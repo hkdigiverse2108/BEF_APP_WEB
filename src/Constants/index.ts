@@ -1,4 +1,3 @@
-import { KEYS } from "./Keys";
 import { ROUTES } from "./Routes";
 import { HTTP_STATUS } from "./HttpStatus";
 import { URL_KEYS } from "./Url";
@@ -41,4 +40,4 @@ export const EARNING_TYPE = {
   WORKSHOP: "workshop",
 } as const;
 
-export { KEYS, ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS };
+export { ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS };

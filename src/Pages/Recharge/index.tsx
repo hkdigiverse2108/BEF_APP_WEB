@@ -14,14 +14,15 @@ import {
 import { Storage, updateStorage } from "../../Utils";
 import PaymentModal from "../../Components/Common/PaymentModal";
 import type { PaymentStatusType, RazorpayResponse } from "../../Types";
+import { useAppSelector } from "../../Store/hooks";
 
 const Recharge = () => {
   const [form] = Form.useForm();
   const [PostApi] = usePostApiMutation();
   const [rechargeAmount, setRechargeAmount] = useState(50);
 
-  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
-
+  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
+  const { user } = useAppSelector((state) => state.auth);
   const {
     data,
     refetch,

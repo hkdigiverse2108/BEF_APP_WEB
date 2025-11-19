@@ -1,17 +1,13 @@
 import { IoMailOutline } from "react-icons/io5";
-import { MdPhoneAndroid } from "react-icons/md";
 import { FormButton } from "../../Attribute/FormFields";
 import { useNavigate } from "react-router-dom";
-import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
+import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import { Storage } from "../../Utils";
-import { Spin } from "antd";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import SpinLoader from "../../Components/Common/SpinLoader";
 
 const KYC = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
   const { data, isLoading } = useGetApiQuery({ url: `${URL_KEYS.KYC.ALL}?page=1&limit=1` });
   const KYCData = data?.data?.kyc_data[0];
