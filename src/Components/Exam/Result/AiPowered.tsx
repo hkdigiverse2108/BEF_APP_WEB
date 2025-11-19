@@ -321,57 +321,17 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string }> = ({
             <tr>
               {cards?.map((card, i) => (
                 <td key={i} className="px-4">
-                  <div
-                    className={`relative ${card.bg} rounded-xl p-5 grid grid-cols-1 gap-1 h-36 my-5 overflow-hidden`}
-                  >
-                    <div
-                      className={`w-1 h-[60%] ${card.barColor} rounded-r absolute left-0 top-1/2 -translate-y-1/2`}
-                    />
-                    {i === 0 && (
-                      <img
-                        className="absolute bottom-0 right-0 object-cover w-32"
-                        src={`${ImagePath}result/Objects.png`}
-                      />
-                    )}
-                    <div
-                      className={`text-left border-b-2 ${
-                        i === 0 ? "border-white/50" : "border-card-border"
-                      }`}
-                    >
-                      {card?.title && (
-                        <p
-                          className={`${
-                            i === 0 ? "text-2xl" : "text-base"
-                          } font-semibold mt-1 uppercase`}
-                        >
-                          {card?.title}
-                        </p>
-                      )}
-                      {card.topText && (
-                        <h3 className="text-3xl font-bold">{card.topText}</h3>
-                      )}
+                  <div className={`relative ${card.bg} rounded-xl p-5 grid grid-cols-1 gap-1 h-36 my-5 overflow-hidden`}>
+                    <div className={`w-1 h-[60%] ${card.barColor} rounded-r absolute left-0 top-1/2 -translate-y-1/2`} />
+                    {i === 0 && <img className="absolute bottom-0 right-0 object-cover w-32 z-10" src={`${ImagePath}result/Objects.png`} />}
+                    <div className={`text-left border-b-2 ${i === 0 ? "border-white/50" : "border-card-border"}`}>
+                      {card?.title && <p className={`${i === 0 ? "text-2xl" : "text-base"} font-semibold mt-1 uppercase z-50 sticky`}>{card?.title}</p>}
+                      {card.topText && <h3 className="text-3xl font-bold">{card.topText}</h3>}
                     </div>
                     {card.bottomText && (
-                      <h3
-                        className={`text-2xl font-bold flex items-center ${
-                          Number(card.bottomValue) >= 0.1
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
-                      >
-                        {Number(card.bottomValue) >= 0.1 ? (
-                          <IoMdArrowDropup />
-                        ) : (
-                          <IoMdArrowDropdown />
-                        )}{" "}
-                        {card.bottomValue}
-                        <span
-                          className={`text-sm ${
-                            i === 0 ? "text-black" : "text-neutral-500"
-                          } ps-2`}
-                        >
-                          {card.bottomText}
-                        </span>
+                      <h3 className={`z-50 text-2xl font-bold flex items-center ${Number(card.bottomValue) >= 0.1 ? "text-success" : "text-danger"}`}>
+                        {Number(card.bottomValue) >= 0.1 ? <IoMdArrowDropup /> : <IoMdArrowDropdown />} {card.bottomValue}
+                        <span className={`text-sm ${i === 0 ? "text-black" : "text-neutral-500"} ps-2`}>{card.bottomText}</span>
                       </h3>
                     )}
                   </div>
