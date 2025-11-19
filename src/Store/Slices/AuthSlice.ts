@@ -34,9 +34,6 @@ const authSlice = createSlice({
       state.token = "";
       state.user = null;
       state.isAuthenticated = false;
-
-      Storage.clear();
-      window.location.reload();
     },
   },
 });

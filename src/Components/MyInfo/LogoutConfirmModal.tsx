@@ -4,6 +4,7 @@ import { ImagePath } from "../../Constants";
 import { FormButton } from "../../Attribute/FormFields";
 import { useAppDispatch } from "../../Store/hooks";
 import { LogOut } from "../../Store/Slices/AuthSlice";
+import { Storage } from "../../Utils";
 
 interface LogoutConfirmModalProps {
   logoutModalOpen: boolean;
@@ -16,6 +17,12 @@ const LogoutConfirmModal: FC<LogoutConfirmModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const handleLogout = () => {
+    Storage.clear();
+    console.log("logout done")
+    dispatch(LogOut());
+    window.location.reload();
+  };
   return (
     <Modal
       centered
@@ -56,7 +63,7 @@ const LogoutConfirmModal: FC<LogoutConfirmModalProps> = ({
               /> */}
               <FormButton
                 text="LOGOUT"
-                onClick={() => dispatch(LogOut())}
+                onClick={() => handleLogout()}
                 className="custom-button button button--mimas w-full !h-12"
               />
             </div>

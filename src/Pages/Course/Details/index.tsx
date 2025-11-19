@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import { useState, type SyntheticEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import { useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
@@ -11,9 +11,10 @@ import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab"
 import { ImagePath, URL_KEYS } from "../../../Constants";
 import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
-import { useAppDispatch } from "../../../Store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
 import CoursePurchaseDrawer from "../../../Components/Course/CoursePurchaseDrawer";
 import MainLoader from "../../../Components/Common/MainLoader";
+import { setCourseFooterShow } from "../../../Store/Slices/FooterShowSlice";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -27,6 +28,7 @@ const CourseDetails = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const dispatch = useAppDispatch();
+  const { CourseFooterShow } = useAppSelector((state) => state.FooterShow);
 
   const { id }: { id?: string } = useParams();
 
@@ -59,10 +61,22 @@ const CourseDetails = () => {
     0
   );
 
+  useEffect(() => {
+    if (!courseLoading) {
+      const isFooterShow = CourseDetailsData?.isUnlocked;
+      console.log("isFooterShow", isFooterShow, CourseFooterShow);
+      dispatch(setCourseFooterShow(isFooterShow));
+    }
+  }, [courseLoading]);
+
   if (courseLoading) return <MainLoader />;
 
   return (
-    <div className="sub-container space-y-9 pt-9 bg-white rounded-xl">
+    <div
+      className={`sub-container space-y-9 pt-9 bg-white  rounded-xl ${
+        !CourseFooterShow ? "pb-32! sm:pb-12!" : ""
+      }`}
+    >
       <section className="group space-y-6 rounded-md relative">
         <div className="sm:hidden absolute top-0 w-full flex gap-5 justify-end px-2 pt-2">
           <ShareModal />
@@ -185,7 +199,7 @@ const CourseDetails = () => {
       </section>
       {/* ==== Fixed Section ==== */}
       {!CourseDetailsData?.isUnlocked && (
-        <section className=" fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
+        <section className=" fixed! bottom-0! left-0 right-0 z-10 bg-white shadow-2xl ">
           <div className="py-2 container-p sm:py-3 flex max-sm:flex-col gap-2 sm:gap-4 justify-between sm:items-end">
             <div>
               <p className="text-gray-600 font-medium">Price</p>

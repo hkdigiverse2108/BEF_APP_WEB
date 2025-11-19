@@ -6,7 +6,7 @@ import { IoCheckmarkDoneSharp, IoCopyOutline } from "react-icons/io5";
 import { PiShareFat } from "react-icons/pi";
 import { RiWhatsappFill } from "react-icons/ri";
 
-const ShareModal: FC<{ referralCode: string }> = ({ referralCode }) => {
+const ShareModal: FC<{ referralCode?: string }> = ({ referralCode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [pageUrl, setPageUrl] = useState("");
   const [isCopied, setIsCopied] = useState(false);

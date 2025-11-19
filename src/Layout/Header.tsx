@@ -21,7 +21,7 @@ const Header = () => {
   const { genderWiseProfileImage ,user} = useAppSelector((state) => state.auth);
   // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
-  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` });
   const UserData = data?.data;
 
   const { data: workshopData, isLoading: workshopLoading } = useGetApiQuery({

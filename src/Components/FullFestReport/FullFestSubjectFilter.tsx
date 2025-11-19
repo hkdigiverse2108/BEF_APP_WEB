@@ -2,8 +2,9 @@ import { Form } from "antd";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormSelect } from "../../Attribute/FormFields";
 import { URL_KEYS } from "../../Constants";
-import { useAppDispatch } from "../../Store/hooks";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
+import { useEffect } from "react";
 
 interface SubjectFilterType {
   _id: string;
@@ -14,7 +15,11 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
 
-  const { data, isLoading } = useGetApiQuery({ url: `${URL_KEYS.SUBJECT.SUBJECT}?fullFestFilter=true` });
+  const { FullFestSubjectFilter } = useAppSelector((state) => state.filter);
+
+  const { data, isLoading } = useGetApiQuery({
+    url: `${URL_KEYS.SUBJECT.SUBJECT}?fullFestFilter=true`,
+  });
 
   const AllSubjects = data?.data?.map((item: SubjectFilterType) => {
     return { value: item?._id, label: item?.name };
@@ -27,14 +32,11 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
     } catch (error) {}
   };
 
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     const firstValue = AllSubjects?.[0]?.value;
-
-  //     form.setFieldsValue({ Subject: firstValue });
-  //     dispatch(setFullFestSubjectFilter(firstValue));
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    if (!FullFestSubjectFilter) {
+      form.resetFields();
+    }
+  }, [FullFestSubjectFilter]);
 
   return (
     <div className="flex justify-between items-center">

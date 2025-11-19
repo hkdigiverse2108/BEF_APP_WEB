@@ -11,6 +11,8 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const { _id: QaId, contestStartDate, rank = 0, winningPrice = 0, subjectId: { name: subjectName = "Unknown Subject", image: subjectImage = `${ImagePath}contest/ContestIcon.png` } = {}, contestId: { name: contestName = "Untitled Contest", pricePool = 0, _id: ContestId } = {} } = contestData ?? {};
   const { isFinished } = useCountDown(contestData?.contestStartDate || "", contestData?.contestEndDate || "");
 
+  console.log("isFinished",subjectName,isFinished)
+
   const handleResult = () => {
     if (contestData?.answers?.length !== 0) {
       if (isFinished) {
