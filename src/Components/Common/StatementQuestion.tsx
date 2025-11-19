@@ -14,7 +14,7 @@ export const StatementQuestion = ({ id, statements, answers, onCheck }: Statemen
   return (
     <div className="flex max-sm:flex-col sm:justify-between items-center w-full gap-3 question">
       <div className="flex justify-start w-full font-normal capitalize gap-1">
-        <span className="font-bold">{id + 1}. </span>
+        <span className="font-semibold">{id + 1}. </span>
 
         {showImage ? <img src={statements} className="transparent-img"/> : <span className="font-normal">{statements}</span>}
       </div>

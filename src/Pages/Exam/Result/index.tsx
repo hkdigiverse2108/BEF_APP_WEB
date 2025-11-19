@@ -90,7 +90,7 @@ const Result = () => {
               <Overview data={OverviewData} isLoading={isLoading} contest={Contest} />
             </div>
             <div hidden={tabIndex !== 1}>
-              <AiPowered data={OverviewData?.qaTypeMetrics} subjectName={ContestSubject?.name} TabIndex={tabIndex} />
+              <AiPowered data={OverviewData} subjectName={ContestSubject?.name} TabIndex={tabIndex}/>
             </div>
             <div hidden={tabIndex !== 2}>
               <Summary data={SummaryData} subjectName={ContestSubject?.name} />

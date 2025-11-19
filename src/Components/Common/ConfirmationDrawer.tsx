@@ -3,13 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setConfirmationDrawer } from "../../Store/Slices/DrawerSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { FormButton } from "../../Attribute/FormFields";
-import {
-  HTTP_STATUS,
-  ImagePath,
-  ROUTES,
-  STORAGE_KEYS,
-  URL_KEYS,
-} from "../../Constants";
+import { HTTP_STATUS, ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
 import { AntdNotification, Storage } from "../../Utils";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { useNavigate } from "react-router-dom";
@@ -41,22 +35,22 @@ const ConfirmationDrawer = () => {
   const handleJoinButton = async () => {
     try {
       if (Number(UserData?.walletBalance) >= baseAmount) {
-        const balancePayload = {
-          contestId: data._id,
-          amount: Number(totalAmount),
-          title: data.name,
-          transactionStatus: "success",
-          transactionType: "withdraw",
-          earningType: "contestPaidUser",
-        };
-        const balance = await PostApi({
-          url: URL_KEYS.TRANSACTION.ADD,
-          data: balancePayload,
-        });
+        if (Number(amount) !== 0) {
+          const balancePayload = {
+            contestId: data._id,
+            amount: Number(totalAmount),
+            title: data.name,
+            transactionStatus: "success",
+            transactionType: "withdraw",
+            earningType: "contestPaidUser",
+          };
+          await PostApi({
+            url: URL_KEYS.TRANSACTION.ADD,
+            data: balancePayload,
+          });
+        }
 
-        const existingLsData = JSON.parse(
-          Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}"
-        );
+        const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
         const payload = {
           ...data.payload,
           ...existingLsData,
@@ -64,16 +58,9 @@ const ConfirmationDrawer = () => {
 
         const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
 
-        if (
-          res?.data?.status === HTTP_STATUS.OK &&
-          balance?.data?.status === HTTP_STATUS.OK
-        ) {
+        if (res?.data?.status === HTTP_STATUS.OK) {
           Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
-          AntdNotification(
-            notification,
-            "success",
-            "join more contests to complete win more"
-          );
+          AntdNotification(notification, "success", "join more contests to complete win more");
           dispatch(setConfirmationDrawer({ open: false, data: {} }));
           navigate(ROUTES.CONTEST.MY_CONTEST);
         }
@@ -88,13 +75,7 @@ const ConfirmationDrawer = () => {
   };
 
   return (
-    <Drawer
-      placement="right"
-      size="large"
-      onClose={() => dispatch(setConfirmationDrawer({ open: false, data: {} }))}
-      open={isConfirmationDrawer.open}
-      className="!p-0"
-    >
+    <Drawer placement="right" size="large" onClose={() => dispatch(setConfirmationDrawer({ open: false, data: {} }))} open={isConfirmationDrawer.open} className="!p-0">
       <div className="flex flex-col items-center justify-center min-h-full">
         <div
           className="max-w-[380px] rounded-lg overflow-hidden shadow-2xl bg-white bg-cover bg-top"
@@ -105,9 +86,7 @@ const ConfirmationDrawer = () => {
           {/* Header */}
           <div className="text-white text-center p-3 sm:p-6 !pb-0">
             <h2 className="text-3xl font-normal">Confirmation</h2>
-            <div className="inline-block bg-white text-black font-normal px-4 py-1 rounded">
-              {data.name || " Mega Contest"}
-            </div>
+            <div className="inline-block bg-white text-black font-normal px-4 py-1 rounded">{data.name || " Mega Contest"}</div>
           </div>
 
           {/* Body */}
@@ -130,19 +109,11 @@ const ConfirmationDrawer = () => {
 
                 <div className="mt-4 border border-red-200 bg-red-50 rounded-md p-3 text-xs text-gray-600 flex items-start gap-2">
                   <ExclamationCircleOutlined className="text-red-500 mt-0.5" />
-                  <p>
-                    By joining the test, you confirm that you are agree our T&C.
-                  </p>
+                  <p>By joining the test, you confirm that you are agree our T&C.</p>
                 </div>
               </div>
 
-              <FormButton
-                loading={isLoading}
-                text="JOIN CONTEST"
-                htmlType="submit"
-                onClick={handleJoinButton}
-                className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe !bg-white"
-              />
+              <FormButton loading={isLoading} text="JOIN CONTEST" htmlType="submit" onClick={handleJoinButton} className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe !bg-white" />
             </div>
           </div>
         </div>

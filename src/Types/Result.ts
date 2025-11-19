@@ -116,6 +116,7 @@ export interface PolityType {
   unanswered: number;
   time: string;
   positiveMarks: number;
+  negativeMarks: number;
   qaTypeMetrics: QaTypeMetricsType;
 }
 

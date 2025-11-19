@@ -96,7 +96,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
                           alt={item.firstName}
                           className="w-12 h-12 rounded-sm mx-auto mb-2"
                         />
-                        <p className="font-semibold text-sm">
+                        <p className="font-semibold text-sm capitalize">
                           {item.firstName} {item.lastName}
                         </p>
                         {list.price !== 0 && <p className="text-sm text-gray-700 font-semibold">₹{list.price}</p>}

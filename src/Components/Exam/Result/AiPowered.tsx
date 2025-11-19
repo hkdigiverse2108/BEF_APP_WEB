@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { AiPoweredRadialBarChart } from "../../../Data";
 import { ImagePath } from "../../../Constants";
-import type { AttemptType, QaTypeMetricsType } from "../../../Types";
+import type { AttemptType, PolityType, QaTypeMetricsType } from "../../../Types";
 import { useEffect, useState, type FC } from "react";
 
 const ChartCell = ({ color, value, label }: { color: string; value: number; label: string }) => (
@@ -28,8 +28,10 @@ const ProgressCell = ({ title, value, color }: { title: string; value: number; c
   </td>
 );
 
-const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: number }> = ({ data, subjectName, TabIndex }) => {
-  const { direct, fiftyFifty, oneEliminate } = data?.["100%Sure"] ?? {};
+const AiPowered: FC<{ data: PolityType; subjectName: string; TabIndex: number }> = ({ data, subjectName, TabIndex }) => {
+  const QaTypeMetrics = data?.qaTypeMetrics;
+  
+  const { direct, fiftyFifty, oneEliminate } = QaTypeMetrics?.["100%Sure"] ?? {};
   const [showChart, setShowChart] = useState(false);
 
   useEffect(() => {
@@ -68,58 +70,58 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: nu
     },
     {
       title: "Logic play",
-      value: sumCorrectTotal(data?.logicPlay?.direct, data?.logicPlay?.fiftyFifty, data?.logicPlay?.oneEliminate),
+      value: sumCorrectTotal(QaTypeMetrics?.logicPlay?.direct, QaTypeMetrics?.logicPlay?.fiftyFifty, QaTypeMetrics?.logicPlay?.oneEliminate),
       color: "#009951",
       direct: {
-        label: `${data?.logicPlay?.direct?.correct || 0}/${data?.logicPlay?.direct?.total || 0}`,
-        value: calcPercent(data?.logicPlay?.direct?.correct, data?.logicPlay?.direct?.total),
+        label: `${QaTypeMetrics?.logicPlay?.direct?.correct || 0}/${QaTypeMetrics?.logicPlay?.direct?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.logicPlay?.direct?.correct, QaTypeMetrics?.logicPlay?.direct?.total),
       },
       fiftyFifty: {
-        label: `${data?.logicPlay?.fiftyFifty?.correct || 0}/${data?.logicPlay?.fiftyFifty?.total || 0}`,
-        value: calcPercent(data?.logicPlay?.fiftyFifty?.correct, data?.logicPlay?.fiftyFifty?.total),
+        label: `${QaTypeMetrics?.logicPlay?.fiftyFifty?.correct || 0}/${QaTypeMetrics?.logicPlay?.fiftyFifty?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.logicPlay?.fiftyFifty?.correct, QaTypeMetrics?.logicPlay?.fiftyFifty?.total),
       },
       oneEliminate: {
-        label: `${data?.logicPlay?.oneEliminate?.correct || 0}/${data?.logicPlay?.oneEliminate?.total || 0}`,
-        value: calcPercent(data?.logicPlay?.oneEliminate?.correct, data?.logicPlay?.oneEliminate?.total),
+        label: `${QaTypeMetrics?.logicPlay?.oneEliminate?.correct || 0}/${QaTypeMetrics?.logicPlay?.oneEliminate?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.logicPlay?.oneEliminate?.correct, QaTypeMetrics?.logicPlay?.oneEliminate?.total),
       },
     },
     {
       title: "Intuition Hit",
-      value: sumCorrectTotal(data?.intuitionHit?.direct, data?.intuitionHit?.fiftyFifty, data?.intuitionHit?.oneEliminate),
+      value: sumCorrectTotal(QaTypeMetrics?.intuitionHit?.direct, QaTypeMetrics?.intuitionHit?.fiftyFifty, QaTypeMetrics?.intuitionHit?.oneEliminate),
       color: "#F5D01C",
       direct: {
-        label: `${data?.intuitionHit?.direct?.correct || 0}/${data?.intuitionHit?.direct?.total || 0}`,
-        value: calcPercent(data?.intuitionHit?.direct?.correct, data?.intuitionHit?.direct?.total),
+        label: `${QaTypeMetrics?.intuitionHit?.direct?.correct || 0}/${QaTypeMetrics?.intuitionHit?.direct?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.intuitionHit?.direct?.correct, QaTypeMetrics?.intuitionHit?.direct?.total),
       },
       fiftyFifty: {
-        label: `${data?.intuitionHit?.fiftyFifty?.correct || 0}/${data?.intuitionHit?.fiftyFifty?.total || 0}`,
-        value: calcPercent(data?.intuitionHit?.fiftyFifty?.correct, data?.intuitionHit?.fiftyFifty?.total),
+        label: `${QaTypeMetrics?.intuitionHit?.fiftyFifty?.correct || 0}/${QaTypeMetrics?.intuitionHit?.fiftyFifty?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.intuitionHit?.fiftyFifty?.correct, QaTypeMetrics?.intuitionHit?.fiftyFifty?.total),
       },
       oneEliminate: {
-        label: `${data?.intuitionHit?.oneEliminate?.correct || 0}/${data?.intuitionHit?.oneEliminate?.total || 0}`,
-        value: calcPercent(data?.intuitionHit?.oneEliminate?.correct, data?.intuitionHit?.oneEliminate?.total),
+        label: `${QaTypeMetrics?.intuitionHit?.oneEliminate?.correct || 0}/${QaTypeMetrics?.intuitionHit?.oneEliminate?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.intuitionHit?.oneEliminate?.correct, QaTypeMetrics?.intuitionHit?.oneEliminate?.total),
       },
     },
     {
       title: "Blind fire",
-      value: sumCorrectTotal(data?.blindFire?.direct, data?.blindFire?.fiftyFifty, data?.blindFire?.oneEliminate),
+      value: sumCorrectTotal(QaTypeMetrics?.blindFire?.direct, QaTypeMetrics?.blindFire?.fiftyFifty, QaTypeMetrics?.blindFire?.oneEliminate),
       color: "#F24914",
       direct: {
-        label: `${data?.blindFire?.direct?.correct || 0}/${data?.blindFire?.direct?.total || 0}`,
-        value: calcPercent(data?.blindFire?.direct?.correct, data?.blindFire?.direct?.total),
+        label: `${QaTypeMetrics?.blindFire?.direct?.correct || 0}/${QaTypeMetrics?.blindFire?.direct?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.blindFire?.direct?.correct, QaTypeMetrics?.blindFire?.direct?.total),
       },
       fiftyFifty: {
-        label: `${data?.blindFire?.fiftyFifty?.correct || 0}/${data?.blindFire?.fiftyFifty?.total || 0}`,
-        value: calcPercent(data?.blindFire?.fiftyFifty?.correct, data?.blindFire?.fiftyFifty?.total),
+        label: `${QaTypeMetrics?.blindFire?.fiftyFifty?.correct || 0}/${QaTypeMetrics?.blindFire?.fiftyFifty?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.blindFire?.fiftyFifty?.correct, QaTypeMetrics?.blindFire?.fiftyFifty?.total),
       },
       oneEliminate: {
-        label: `${data?.blindFire?.oneEliminate?.correct || 0}/${data?.blindFire?.oneEliminate?.total || 0}`,
-        value: calcPercent(data?.blindFire?.oneEliminate?.correct, data?.blindFire?.oneEliminate?.total),
+        label: `${QaTypeMetrics?.blindFire?.oneEliminate?.correct || 0}/${QaTypeMetrics?.blindFire?.oneEliminate?.total || 0}`,
+        value: calcPercent(QaTypeMetrics?.blindFire?.oneEliminate?.correct, QaTypeMetrics?.blindFire?.oneEliminate?.total),
       },
     },
   ];
 
-  const calcFinalScore = (attempt: AttemptType, correctWeight = 2.0, wrongWeight = 0.67): number => {
+  const calcFinalScore = (attempt: AttemptType, correctWeight = data?.positiveMarks || 0.33, wrongWeight = data?.negativeMarks || 0.67): number => {
     const correct = attempt?.correct ?? 0;
     const total = attempt?.total ?? 0;
     const wrong = total - correct;
@@ -127,7 +129,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: nu
     return Number(score.toFixed(2));
   };
 
-  const TotalFearSkips = calcFinalScore(data?.fearDriverSkip?.direct) + calcFinalScore(data?.fearDriverSkip?.fiftyFifty) + calcFinalScore(data?.fearDriverSkip?.oneEliminate);
+  const TotalFearSkips = calcFinalScore(QaTypeMetrics?.fearDriverSkip?.direct) + calcFinalScore(QaTypeMetrics?.fearDriverSkip?.fiftyFifty) + calcFinalScore(QaTypeMetrics?.fearDriverSkip?.oneEliminate);
 
   const cards = [
     {
@@ -140,8 +142,8 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: nu
       bottomIcon: <IoMdArrowDropup />,
     },
     {
-      topText: `${data?.fearDriverSkip?.direct?.correct || 0}/${data?.fearDriverSkip?.direct?.total || 0}`,
-      bottomValue: calcFinalScore(data?.fearDriverSkip?.direct),
+      topText: `${QaTypeMetrics?.fearDriverSkip?.direct?.correct || 0}/${QaTypeMetrics?.fearDriverSkip?.direct?.total || 0}`,
+      bottomValue: calcFinalScore(QaTypeMetrics?.fearDriverSkip?.direct),
       bottomText: "Marks Chance",
       textColor: "text-success",
       barColor: "bg-orange-500",
@@ -149,8 +151,8 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: nu
       bottomIcon: <IoMdArrowDropup />,
     },
     {
-      topText: `${data?.fearDriverSkip?.fiftyFifty?.correct || 0}/${data?.fearDriverSkip?.fiftyFifty?.total || 0}`,
-      bottomValue: calcFinalScore(data?.fearDriverSkip?.fiftyFifty),
+      topText: `${QaTypeMetrics?.fearDriverSkip?.fiftyFifty?.correct || 0}/${QaTypeMetrics?.fearDriverSkip?.fiftyFifty?.total || 0}`,
+      bottomValue: calcFinalScore(QaTypeMetrics?.fearDriverSkip?.fiftyFifty),
       bottomText: "Marks Chance",
       textColor: "text-red-600",
       barColor: "bg-orange-500",
@@ -158,8 +160,8 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: nu
       bottomIcon: <IoMdArrowDropdown />,
     },
     {
-      topText: `${data?.fearDriverSkip?.oneEliminate?.correct || 0}/${data?.fearDriverSkip?.oneEliminate?.total || 0}`,
-      bottomValue: calcFinalScore(data?.fearDriverSkip?.oneEliminate),
+      topText: `${QaTypeMetrics?.fearDriverSkip?.oneEliminate?.correct || 0}/${QaTypeMetrics?.fearDriverSkip?.oneEliminate?.total || 0}`,
+      bottomValue: calcFinalScore(QaTypeMetrics?.fearDriverSkip?.oneEliminate),
       bottomText: "Marks Chance",
       textColor: "text-success",
       barColor: "bg-orange-500",
@@ -194,7 +196,7 @@ const AiPowered: FC<{ data: QaTypeMetricsType; subjectName: string; TabIndex: nu
           <tbody>
             {rows?.map((row, i) => (
               <tr key={i} className="border-b border-card-border">
-                <ProgressCell title={row.title} value={row.value} color={row.color} />
+                <ProgressCell title={row.title} value={Number(row.value.toFixed(2))} color={row.color} />
                 <td className="px-4 w-1/4">
                   <ChartCell color={"#FF9500"} value={row?.direct?.value} label={row?.direct?.label} />
                 </td>

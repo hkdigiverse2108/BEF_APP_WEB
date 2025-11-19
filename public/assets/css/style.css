@@ -209,6 +209,10 @@ input {
   @apply !text-[21px];
 }
 
+.solution .solution-select.ant-select{
+  @apply !bg-linear-to-t !from-(--primary) !to-(--success) p-0.5;
+}
+
 .answered {
   @apply rounded-md bg-green-100 border-green-600;
 }

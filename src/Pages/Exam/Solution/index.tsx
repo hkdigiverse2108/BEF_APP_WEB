@@ -12,7 +12,7 @@ import { CardHeader } from "../../../Components/Common/CardHeader";
 import { PairTable } from "../../../Components/Common/PairHeader";
 import { StatementQuestion } from "../../../Components/Common/StatementQuestion";
 import ReportModal from "../../../Components/Exam/Question/ReportModal";
-import { ROUTES, STORAGE_KEYS, URL_KEYS } from "../../../Constants";
+import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../../Constants";
 import { SolutionsOptions, WhyFalseOptions } from "../../../Data";
 import { LANGUAGES, QUE_TYPE } from "../../../Data/Question";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
@@ -29,6 +29,7 @@ const Solution = () => {
   const [isQaLoading, setQaLoading] = useState(true);
   const [QAData, setQAData] = useState<ContestTypeData | null>(null);
   const [isQaAnswers, setQaAnswers] = useState<Answer[]>([]);
+  const [originalAnswers, setOriginalAnswers] = useState<Answer[]>([]);
   const [language, setLanguage] = useState<LanguageKey>(LANGUAGES.ENGLISH as LanguageKey);
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(SolutionCurrentQuestion);
   const [PostApi, { isLoading: isPostLoading }] = usePostApiMutation();
@@ -40,9 +41,7 @@ const Solution = () => {
   const queryParam = new URLSearchParams(search);
   const contestId = queryParam.get("contestId");
 
-  const { data: QAApiData, isLoading } = useGetApiQuery<QaApiResponse>({
-    url: `${URL_KEYS.QA.ALL}?page=1&limit=10&qaFilter=${id}`,
-  });
+  const { data: QAApiData, isLoading, refetch } = useGetApiQuery<QaApiResponse>({ url: `${URL_KEYS.QA.ALL}?page=1&limit=10&qaFilter=${id}` });
   const stored = Storage.getItem(STORAGE_KEYS.EXAM_QA_SOLUTION);
 
   useEffect(() => {
@@ -69,6 +68,7 @@ const Solution = () => {
 
   useEffect(() => {
     if (QAData?.answers) {
+      setOriginalAnswers(QAData.answers);
       setQaAnswers(QAData.answers);
     }
   }, [QAData]);
@@ -111,12 +111,11 @@ const Solution = () => {
     else setQaAnswers(QaAnswers?.filter((item) => CheckRightAndWrongAnswers(item) === values));
   };
   useEffect(() => {
-    if (SolutionFilter === "all") setQaAnswers(QaAnswers);
-    else setQaAnswers(QaAnswers?.filter((item) => CheckRightAndWrongAnswers(item) === SolutionFilter));
-  }, [SolutionFilter]);
+    if (SolutionFilter === "all") setQaAnswers(originalAnswers);
+    else setQaAnswers(originalAnswers.filter((item) => CheckRightAndWrongAnswers(item) === SolutionFilter));
+  }, [SolutionFilter, originalAnswers]);
 
   const handleWhyFalseChange = async (value: string) => {
-    // console.log("handleWhyFalseChange", value);
     const enriched = {
       ...QAData,
       answers: QaAnswers?.map((ans: Answer) => (ans.questionId === currentQuestionAnswers?.questionId ? { ...ans, whyFalse: value } : ans)),
@@ -124,13 +123,13 @@ const Solution = () => {
     updateStorage(STORAGE_KEYS.EXAM_QA_SOLUTION, enriched);
     const whyFalse = {
       qaId: id,
-      answerId: currentQuestionAnswers?.questionId,
+      answerId: currentQuestionAnswers?.questionId?._id,
       whyFalse: value,
     };
-    await PostApi({ url: URL_KEYS.QA.WHY_FALSE, data: whyFalse });
-    // if (res?.data?.status === HTTP_STATUS.OK) {
-    // setSolutionsFilter(SolutionFilter);
-    // }
+    const res = await PostApi({ url: URL_KEYS.QA.WHY_FALSE, data: whyFalse });
+    if (res?.data?.status === HTTP_STATUS.OK) {
+      refetch();
+    }
   };
 
   const handleLanguageChange = () => setLanguage((prev) => (prev === LANGUAGES.ENGLISH ? (LANGUAGES.HINDI as "hindiQuestion") : (LANGUAGES.ENGLISH as "englishQuestion")));
@@ -138,22 +137,20 @@ const Solution = () => {
   const handleNextQueClick = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     dispatch(setCurrentSolutionQuestion(SolutionCurrentQuestion + 1));
-
     setCurrentQuestionNumber((prev) => prev + 1);
   };
 
   const handlePrevQueClick = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     dispatch(setCurrentSolutionQuestion(SolutionCurrentQuestion - 1));
-
     setCurrentQuestionNumber((prev) => prev - 1);
   };
 
   const handleQuestionNumberClick = (questionNumber: number) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     dispatch(setCurrentSolutionQuestion(questionNumber));
-
     setCurrentQuestionNumber(questionNumber);
+    // setOpenQuestion(false);
   };
 
   const ALMentor = (className: string) => (
@@ -172,7 +169,7 @@ const Solution = () => {
   };
   return (
     <>
-      <div className="sub-container pt-4 md:pt-8 question-section">
+      <div className="sub-container pt-4 md:pt-8 question-section solution">
         {/* Header */}
         <CardHeader title="Solution" />
         <span className="border-t border-card-border flex w-full mt-4 mb-6" />
@@ -182,14 +179,16 @@ const Solution = () => {
           <div className="col-span-4 2xl:col-span-4">
             {/* Question Header */}
             <div>
-              <div className="flex flex-wrap items-center gap-3 mt-3">
-                <span className="bg-input-box font-semibold text-sm p-2 rounded cursor-pointer" onClick={() => setOpenQuestion(!isOpenQuestion)}>
-                  <Tooltip title="All Questions">
-                    <HiOutlineBars3BottomLeft className="text-xl" />
-                  </Tooltip>
-                </span>
-                <Select placeholder="All Solutions" options={SolutionsOptions} className="!m-0" onChange={handleSolutionsFilter} defaultValue={SolutionFilter} />
-                <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", id || "")}${search}`} className="bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize">
+              <div className="flex flex-wrap justify-between items-center gap-3 mt-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="bg-input-box font-semibold text-sm p-2 rounded cursor-pointer" onClick={() => setOpenQuestion(!isOpenQuestion)}>
+                    <Tooltip title="All Questions">
+                      <HiOutlineBars3BottomLeft className="text-xl" />
+                    </Tooltip>
+                  </span>
+                  <Select placeholder="All Solutions" options={SolutionsOptions} className="!m-0" onChange={handleSolutionsFilter} defaultValue={SolutionFilter} />
+                </div>
+                <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", id || "")}${search}`} className="bg-linear-to-r from-(--primary) to-(--success) text-white font-semibold text-sm p-2 px-4 rounded capitalize">
                   mistake map report
                 </Link>
                 {/* <span className="bg-input-box font-semibold text-sm p-2  rounded">
@@ -216,7 +215,7 @@ const Solution = () => {
                       <span onClick={handleLanguageChange} className={`flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize ${language === "hindiQuestion" ? "border border-input-box-dark" : ""}`}>
                         <IoLanguage className="text-xl" />
                       </span>
-                      {(CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" || (currentQuestionAnswers?.type === "fearDriverSkip" && !CheckWhyFalseAnswers(currentQuestionAnswers))) && <Select allowClear loading={isPostLoading} onChange={handleWhyFalseChange} placeholder="Why False" options={WhyFalseOptions} className="!m-0" value={currentQuestionAnswers?.whyFalse} />}
+                      {(CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" || (currentQuestionAnswers?.type === "fearDriverSkip" && !CheckWhyFalseAnswers(currentQuestionAnswers))) && <Select allowClear loading={isPostLoading} onChange={handleWhyFalseChange} placeholder="Why False" options={WhyFalseOptions} className="!m-0 solution-select" value={currentQuestionAnswers?.whyFalse} />}
                     </div>
                   </div>
                   <span className="border-t border-card-border flex w-full my-6" />
@@ -228,7 +227,7 @@ const Solution = () => {
                     {ALMentor("sm:hidden")}
                     <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">{ALMentor("max-sm:hidden")}</div>
                   </div>
-                  <div className="relative my-6 shadow-lg rounded-2xl p-px animate-gradient-border bg-linear-to-r from-(--primary) via-(--success) to-(--primary) bg-size[200%_200%]">
+                  <div className="relative my-6 shadow-lg rounded-2xl p-0.5 animate-gradient-border bg-linear-to-r from-(--primary) via-(--success) to-(--primary) bg-[length:200%_200%]">
                     <div className="bg-white rounded-2xl p-6">
                       <p className="font-semibold mb-2 text-2xl flex gap-2">
                         <FaRobot />
@@ -269,14 +268,14 @@ const Solution = () => {
                     <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block className="mb-3" />
                   ) : (
                     <>
-                      <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : isImage(currentQuestionLanguage?.question || "") ? <img src={currentQuestionLanguage?.question} alt="question" className="mb-2 transparent-img" /> : <p className="font-semibold text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
+                      <div className="mb-4">{isLoading ? <Skeleton.Input active style={{ height: 35, borderRadius: 5 }} block /> : isImage(currentQuestionLanguage?.question || "") ? <img src={currentQuestionLanguage?.question} alt="question" className="mb-2 transparent-img" /> : <p className="font-normal text-lg mb-1">{currentQuestionLanguage?.question}</p>}</div>
                       {/* STATEMENT Section */}
                       {QaAnswers.length > 0 && (currentQuestion?.questionType === QUE_TYPE.STATEMENT || currentQuestion?.questionType === QUE_TYPE.STATEMENT_CSAT) && (
                         <div className="space-y-6 pb-6 rounded-2xl">
                           {Object.keys(currentQuestionLanguage?.statementQuestion || {})?.map((_, i) => {
                             return <div key={i}>{<StatementQuestion key={i} id={i} statements={currentQuestionLanguage?.statementQuestion[i]?.combined} />}</div>;
                           })}
-                          <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                          <span className="font-normal text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                         </div>
                       )}
 
@@ -284,24 +283,14 @@ const Solution = () => {
                       {QaAnswers.length > 0 && currentQuestion?.questionType === QUE_TYPE.PAIR && (
                         <div className="space-y-4 pb-6 rounded-2xl">
                           <PairTable pair={currentQuestionLanguage?.pairQuestion || []} pairTitle={currentQuestionLanguage?.pairQuestion?.[0]?.combined || ""} />
-                          <span className="font-bold text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
+                          <span className="font-normal text-lg rounded">{currentQuestionLanguage?.lastQuestion}</span>
                         </div>
                       )}
                     </>
                   )}
                   <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                     {isQaLoading
-                      ? [...Array(4)]?.map((_, i) => (
-                          <Skeleton.Node
-                            key={i}
-                            active
-                            style={{
-                              width: "100%",
-                              height: 60,
-                              borderRadius: 15,
-                            }}
-                          />
-                        ))
+                      ? [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 60, borderRadius: 15 }} />)
                       : Object.keys(currentQuestionLanguage?.options || {})?.map((opt, i) => {
                           const userAnswer = currentQuestionAnswers?.answer;
                           const hasAnswered = !!userAnswer;
@@ -312,35 +301,10 @@ const Solution = () => {
                             <div key={i} className={`border-1 border-card-border flex items-center gap-3 p-4 m-0 rounded-md cursor-pointer transition-all ${isRightAnswer ? "border-green-500 bg-green-50" : isWrongAnswer ? "border-red-500 bg-red-50" : "border-gray-200 "}`}>
                               <div className="flex max-sm:flex-col items-center w-full gap-3 question">
                                 <div className="relative">
-                                  {isRightAnswer ? (
-                                    <FaRegCircle
-                                      style={{
-                                        color: "green",
-                                        width: "21px",
-                                        height: "21px",
-                                      }}
-                                    />
-                                  ) : isWrongAnswer ? (
-                                    <FaRegCircle
-                                      style={{
-                                        color: "red",
-                                        width: "21px",
-                                        height: "21px",
-                                      }}
-                                    />
-                                  ) : (
-                                    <FaRegCircle
-                                      style={{
-                                        color: "gray",
-                                        width: "21px",
-                                        height: "21px",
-                                      }}
-                                    />
-                                  )}
-
+                                  {isRightAnswer ? <FaRegCircle style={{ color: "green", width: "21px", height: "21px" }} /> : isWrongAnswer ? <FaRegCircle style={{ color: "red", width: "21px", height: "21px" }} /> : <FaRegCircle style={{ color: "gray", width: "21px", height: "21px" }} />}
                                   <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{opt}</span>
                                 </div>
-                                {isImage(currentQuestionLanguage?.options[opt] || "") ? <img src={currentQuestionLanguage?.options[opt] || ""} className="transparent-img" alt="question" /> : <span className={`flex-1 font-medium capitalize ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{currentQuestionLanguage?.options[opt] || ""}</span>}
+                                {isImage(currentQuestionLanguage?.options[opt] || "") ? <img src={currentQuestionLanguage?.options[opt] || ""} className="transparent-img" alt="question" /> : <span className={`flex-1 font-normal capitalize ${isRightAnswer ? "text-success" : isWrongAnswer ? "text-danger" : ""}`}>{currentQuestionLanguage?.options[opt] || ""}</span>}
                               </div>
                             </div>
                           );
@@ -371,7 +335,7 @@ const Solution = () => {
             <SolutionSection setOpenSolution={setOpenSolution} isOpenSolution={isOpenSolution} isQaAnswers={isQaAnswers} currentQuestionLanguage={currentQuestionLanguage} isImage={isImage} />
           </div>
           {/* All Questions */}
-          <div onClick={() => setOpenQuestion(!isOpenQuestion)} className="bg-input-box p-6 rounded-2xl w-full hidden before:fixed before:bg-black before:opacity-40 before:inset-0 before:z-50" style={{ display: isOpenQuestion ? "block" : "none" }}>
+          <div onClick={() => setOpenQuestion(!isOpenQuestion)} className="rounded-2xl w-full hidden before:fixed before:bg-black before:opacity-40 before:inset-0 before:z-50" style={{ display: isOpenQuestion ? "block" : "none" }}>
             <div onClick={(e) => e.stopPropagation()} className="2xl:gap-x-10 space-y-3 fixed bg-[#ffffff] w-full max-w-[400px] min-w-[200px] top-0 right-0  px-5 py-4 h-full shadow-md overflow-auto z-50">
               <div className="mb-6">
                 <div className="flex justify-between items-center">
@@ -383,22 +347,20 @@ const Solution = () => {
                 <span className="border-t border-card-border flex w-full mt-4 mb-10" />
               </div>
               {isQaAnswers?.length !== 0 ? (
-                <>
-                  <div className="grid grid-cols-5 gap-2">
-                    {isQaAnswers?.map((item, i) => {
-                      let type: "answered" | "unanswered" | "not-visited" = "not-visited";
-                      const isSkipped = item?.type === "skip" || item?.type === "fearDriverSkip";
-                      if (!isSkipped && item?.answer) {
-                        type = item?.answer === item?.rightAnswer ? "answered" : "unanswered";
-                      }
-                      return (
-                        <button key={i} onClick={() => handleQuestionNumberClick(i + 1)} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${type}`}>
-                          {item?.qaNumber}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
+                <div className="grid grid-cols-5 gap-2">
+                  {isQaAnswers?.map((item, i) => {
+                    let type: "answered" | "unanswered" | "not-visited" = "not-visited";
+                    const isSkipped = item?.type === "skip" || item?.type === "fearDriverSkip";
+                    if (!isSkipped && item?.answer) {
+                      type = item?.answer === item?.rightAnswer ? "answered" : "unanswered";
+                    }
+                    return (
+                      <button key={i} onClick={() => handleQuestionNumberClick(i + 1)} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${type}`}>
+                        {item?.qaNumber}
+                      </button>
+                    );
+                  })}
+                </div>
               ) : (
                 <Empty />
               )}
@@ -406,13 +368,7 @@ const Solution = () => {
           </div>
         </div>
       </div>
-      <ReportModal
-        payload={{
-          contestId: contestId,
-          questionId: currentQuestion?._id as string,
-          qaId: id as string,
-        }}
-      />
+      <ReportModal payload={{ contestId: contestId, questionId: currentQuestion?._id as string, qaId: id as string }} />
     </>
   );
 };

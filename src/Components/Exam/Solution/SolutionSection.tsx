@@ -1,8 +1,7 @@
-import { RxCross2 } from "react-icons/rx";
-import { ImagePath } from "../../../Constants";
-import { FormButton } from "../../../Attribute/FormFields";
-import { IoFlagOutline } from "react-icons/io5";
 import { Empty } from "antd";
+import { IoFlagOutline } from "react-icons/io5";
+import { FormButton } from "../../../Attribute/FormFields";
+import { ImagePath } from "../../../Constants";
 import { useAppDispatch } from "../../../Store/hooks";
 import { setReportModal } from "../../../Store/Slices/DrawerSlice";
 import type { QuestionLang } from "../../../Types";
@@ -80,7 +79,7 @@ const SolutionSection: React.FC<SolutionSectionProps> = ({
                 />
               ) : (
                 <p
-                  className="font-semibold text-base mb-1 text-neutral-500"
+                  className="font-medium text-base mb-1 text-neutral-500"
                   dangerouslySetInnerHTML={{
                     __html:
                       currentQuestionLanguage?.solution?.replace(
