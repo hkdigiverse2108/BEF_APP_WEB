@@ -46,12 +46,15 @@ const GlobalContactContent = () => {
 };
 
 const WhatsappIcon = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  const isCourseDetails = location.pathname.startsWith(
+  const isCourseDetails = pathname.startsWith(
+    ROUTES.COURSE.DETAILS.replace(":id", "")
+  );
+  const isWorkshopDetails = pathname.startsWith(
     ROUTES.WORKSHOP.DETAILS.replace(":id", "")
   );
-  const isWorkshopDetails = location.pathname.startsWith("/workshop/details");
+
 
   return (
     <Popover
@@ -60,14 +63,13 @@ const WhatsappIcon = () => {
       trigger="click"
     >
       <div
-        className={`fixed bottom-5  right-5 z-10 bg-primary p-4 rounded-full group ${
-          location.pathname === ROUTES.COURSE.DETAILS ||
-          location.pathname === ROUTES.WORKSHOP.WORKSHOP
-            ? "bottom-37"
+        className={`fixed bottom-15  right-5 z-10 bg-primary p-3 sm:p-4 rounded-full group ${
+          isCourseDetails || isWorkshopDetails
+            ? "bottom-33 sm:bottom-20"
             : "bottom-0"
         }`}
       >
-        <IoCall className="text-3xl group-hover:animate-spin text-white! cursor-pointer  transition-transform" />
+        <IoCall className="text-xl sm:text-3xl group-hover:animate-spin text-white! cursor-pointer  transition-transform" />
       </div>
     </Popover>
   );

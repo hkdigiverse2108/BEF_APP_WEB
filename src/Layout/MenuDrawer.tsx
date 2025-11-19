@@ -35,7 +35,7 @@ const MenuDrawer = () => {
 
   // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
-  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` });
   const UserData = data?.data;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

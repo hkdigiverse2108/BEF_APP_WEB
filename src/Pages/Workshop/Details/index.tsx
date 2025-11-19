@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import { Tab, Tabs } from "@mui/material";
 import { ImagePath, URL_KEYS } from "../../../Constants";
 import { FormButton } from "../../../Attribute/FormFields";
@@ -6,13 +6,14 @@ import { useGetApiQuery } from "../../../Api/CommonApi";
 import ShareModal from "../../../Components/Common/ShareModal";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../Store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
 import { setWorkshopPurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
 import WorkshopLecturesTab from "../../../Components/Workshop/Details/WorkshopLecturesTab";
 import WorkshopTestimonialsTab from "../../../Components/Workshop/Details/WorkshopTestimonialsTab";
 import WorkshopFaqTab from "../../../Components/Workshop/Details/WorkshopFaqsTab";
 import WorkshopPurchaseDrawer from "../../../Components/Workshop/WorkshopPurchaseDrawer";
 import MainLoader from "../../../Components/Common/MainLoader";
+import { setWorkshopFooterShow } from "../../../Store/Slices/FooterShowSlice";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -27,7 +28,7 @@ const WorkshopDetails = () => {
 
   const { id }: { id?: string } = useParams();
   const dispatch = useAppDispatch();
-
+  const { WorkshopFooterShow } = useAppSelector((state) => state.FooterShow);
   const {
     data: workshopData,
     isLoading: workshopLoading,
@@ -36,8 +37,6 @@ const WorkshopDetails = () => {
     url: `${URL_KEYS.WORKSHOP.ID}${id}`,
   });
   const workshop = workshopData?.data || {};
-
-  console.log("Workshop : ", workshop);
 
   const { data: LectureData } = useGetApiQuery(
     {
@@ -48,18 +47,24 @@ const WorkshopDetails = () => {
 
   const Lectures = LectureData?.data?.lecture_data;
 
-  console.log("Lectures : ", Lectures);
-
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
   };
 
+  useEffect(() => {
+    if (!workshopLoading) {
+      const isFooterShow = workshop?.isUnlocked;
+      dispatch(setWorkshopFooterShow(isFooterShow));
+    }
+  }, [workshopLoading]);
   if (workshopLoading) return <MainLoader />;
 
   return (
     <div
       id="Workshop"
-      className="container container-p space-y-9 py-9 bg-white rounded-xl Workshop"
+      className={`container container-p space-y-9 py-9 bg-white rounded-xl Workshop ${
+        !WorkshopFooterShow ? "mb-18 sm:mb-12" : ""
+      }`}
     >
       <section className="group space-y-6 rounded-md relative">
         <div className="sm:hidden absolute w-full flex gap-5 justify-end px-2 pt-2 ">
@@ -173,7 +178,7 @@ const WorkshopDetails = () => {
 
       {/* ==== Fixed Section ==== */}
       {!workshop?.isUnlocked && (
-        <section className="fixed! bottom-0! left-0 right-0 z-10 bg-white  ">
+        <section className="fixed! bottom-0! left-0 right-0 z-10 bg-white shadow-2xl  ">
           <div className=" container-p py-2 sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
             <div>
               <p className="text-gray-600 font-medium">Price</p>

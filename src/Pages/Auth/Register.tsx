@@ -351,13 +351,13 @@ const Register = () => {
             <span>By Signing up, you agree to our</span>
             <span className="">
               {" "}
-              <Link to={ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS}>
+              <Link to={ROUTES.TERMS_CONDITIONS.PUBLIC_TERMS_CONDITIONS}>
                 Terms & Condition{" "}
               </Link>
             </span>
             &
             <span>
-              <Link to={ROUTES.PRIVACY_POLICY.PRIVACY_POLICY}>
+              <Link to={ROUTES.PRIVACY_POLICY.PUBLIC_PRIVACY_POLICY}>
                 {" "}
                 PrivacyPolicy{" "}
               </Link>

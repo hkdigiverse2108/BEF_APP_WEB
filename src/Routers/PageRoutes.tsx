@@ -61,11 +61,11 @@ export const PageRoutes = [
   { path: ROUTES.HOW_IT_WORK.HOW_IT_WORK, element: <HowItWork /> },
   { path: ROUTES.ABOUT_US.ABOUT_US, element: <AboutUs /> },
   { path: ROUTES.LEGALITY.LEGALITY, element: <Legality /> },
-  // { path: ROUTES.PRIVACY_POLICY.PRIVACY_POLICY, element: <PrivacyPolicy /> },
-  // {
-  //   path: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS,
-  //   element: <TermsConditions />,
-  // },
+  { path: ROUTES.PRIVACY_POLICY.PRIVACY_POLICY, element: <PrivacyPolicy /> },
+  {
+    path: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS,
+    element: <TermsConditions />,
+  },
   { path: ROUTES.REFERRAL.REFERRAL, element: <Referral /> },
   {
     path: ROUTES.FULL_FEST_REPORT.FULL_FEST_REPORT,
@@ -91,9 +91,12 @@ export const AuthRoutes = [
   { path: ROUTES.AUTH.VERIFY_OTP, element: <Verify /> },
   { path: ROUTES.AUTH.FORGOT_PASSWORD, element: <ForgotPassword /> },
   { path: ROUTES.AUTH.RESET_PASSWORD, element: <ResetPassword /> },
-  { path: ROUTES.PRIVACY_POLICY.PRIVACY_POLICY, element: <PrivacyPolicy /> },
   {
-    path: ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS,
+    path: ROUTES.PRIVACY_POLICY.PUBLIC_PRIVACY_POLICY,
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: ROUTES.TERMS_CONDITIONS.PUBLIC_TERMS_CONDITIONS,
     element: <TermsConditions />,
   },
 ];

@@ -33,8 +33,15 @@ export const ROUTES = {
   HOW_IT_WORK: { HOW_IT_WORK: "/how-it-work" },
   ABOUT_US: { ABOUT_US: "/about-us" },
   LEGALITY: { LEGALITY: "/legality" },
-  PRIVACY_POLICY: { PRIVACY_POLICY: "/privacy-policy" },
-  TERMS_CONDITIONS: { TERMS_CONDITIONS: "/terms-conditions" },
+  PRIVACY_POLICY: {
+    PRIVACY_POLICY: "/privacy-policy",
+    PUBLIC_PRIVACY_POLICY: "/public/privacy-policy",
+  },
+
+  TERMS_CONDITIONS: {
+    TERMS_CONDITIONS: "/terms-conditions",
+    PUBLIC_TERMS_CONDITIONS: "/public/terms-conditions",
+  },
   REFERRAL: { REFERRAL: "/referral" },
   FULL_FEST_REPORT: { FULL_FEST_REPORT: "/full-fest-report" },
   CLASSES: { CLASSES: "/classes" },
@@ -42,7 +49,10 @@ export const ROUTES = {
     COURSE: "/course",
     DETAILS: "/course/details/:id",
   },
-  WORKSHOP: { WORKSHOP: "/workshop" as string, DETAILS: "/workshop/details/:id"  },
+  WORKSHOP: {
+    WORKSHOP: "/workshop" as string,
+    DETAILS: "/workshop/details/:id",
+  },
   YOUTUBE_VALUES: { YOUTUBE_VALUES: "/youtube-values" },
   SOCIAL_MEDIA_ENGAGE: { SOCIAL_MEDIA_ENGAGE: "/social-media-engage" },
   CONTACT: { CONTACT: "/contact" },

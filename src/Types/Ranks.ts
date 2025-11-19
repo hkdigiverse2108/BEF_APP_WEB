@@ -4,6 +4,7 @@ export interface WinnersRankType {
   userId: string;
   rank: number;
   profileImage: string;
+  gender: string;
   points: number;
   firstName: string;
   lastName: string;
