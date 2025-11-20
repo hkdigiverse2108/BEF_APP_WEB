@@ -40,8 +40,10 @@ const Recharge = () => {
 
   const handlePaymentComplete = async (status: PaymentStatusType, response: RazorpayResponse) => {
     try {
+      console.log("ress : ", response, status, rechargeAmount);
       const TdsAmount = 0;
-      const TotalAmount = rechargeAmount + TdsAmount;
+      const TotalAmount = Number(rechargeAmount) + Number(TdsAmount);
+      console.log("TotalAmount : ", TotalAmount);
 
       const payment_id = response?.razorpay_payment_id;
       const paymentRes = await PostApi({
@@ -143,7 +145,7 @@ const Recharge = () => {
                 rules={[
                   { required: true, message: `Enter minimum ₹${MinAmount}` },
                   {
-                    validator: (_, value:any) => (value >= MinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${MinAmount}`)),
+                    validator: (_, value: any) => (value >= MinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${MinAmount}`)),
                   },
                 ]}
               />
