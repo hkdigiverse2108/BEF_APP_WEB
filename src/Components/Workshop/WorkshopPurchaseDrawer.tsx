@@ -177,27 +177,9 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                     setRefferCode={setRefferCode}
                   />
                 </div>
-                {/* <div>
-                  <p className="text-gray-700  font-medium">
-                    (If 60 marks min. not from our course 100% money back)
-                  </p>
-                </div> */}
+             
               </section>
-              {/* {isRefferApplyed && (
-                <section className="bg-white rounded-lg p-3 space-y-1 ">
-                  <div className="flex gap-2">
-                    <span>
-                      <BiSolidOffer className="text-2xl text-primary " />
-                    </span>
-                    <p className="font-semibold text-lg">Offer applied</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-700 max-sm:text-xs font-medium ">
-                      Pay just enrollment fee — Remaining after prelims cleared.
-                    </p>
-                  </div>
-                </section>
-              )} */}
+        
             </div>
             {/* Footer */}
             <div className="space-y-4">
