@@ -211,7 +211,7 @@ const Solution = () => {
                     {CheckRightAndWrongAnswers(currentQuestionAnswers) === "correct" && <span className="bg-green-100 text-green-700 text-sm font-semibold py-2 px-4 rounded">+ {CheckIsStackNumber(QAData?.positiveMarks as number) || 0}</span>}
                     {CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" && <span className="bg-red-100 text-red-700 text-sm font-semibold py-2 px-4 rounded">{CheckIsStackNumber(QAData?.negativeMarks as number) || 0}</span>}
                     <div className="flex flex-wrap items-center justify-center sm:ml-auto gap-3">
-                      <span onClick={handleLanguageChange} className={`flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize ${language === "hindiQuestion" ? "border border-input-box-dark" : ""}`}>
+                      <span onClick={handleLanguageChange} className={`flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize ${language === "hindiQuestion" ? "border border-input-box-dark" : "border border-input-box "}`}>
                         <IoLanguage className="text-xl" />
                       </span>
                       {(CheckRightAndWrongAnswers(currentQuestionAnswers) === "incorrect" || (currentQuestionAnswers?.type === "fearDriverSkip" && !CheckWhyFalseAnswers(currentQuestionAnswers))) && <Select allowClear loading={isPostLoading} onChange={handleWhyFalseChange} placeholder="Why False" options={WhyFalseOptions} className="!m-0 solution-select" value={currentQuestionAnswers?.whyFalse} />}
@@ -311,11 +311,7 @@ const Solution = () => {
                   </div>
                 </div>
                 <div className="my-3 hidden max-2xl:block col-span-2 !space-y-3">
-                  <FormButton
-                    text={isOpenSolution ? "Close Solution" : "See Solution"}
-                    onClick={() => setOpenSolution(!isOpenSolution)}
-                    className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase"
-                  />
+                  <FormButton text={isOpenSolution ? "Close Solution" : "See Solution"} onClick={() => setOpenSolution(!isOpenSolution)} className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
                   <SolutionSection setOpenSolution={setOpenSolution} isOpenSolution={isOpenSolution} isQaAnswers={isQaAnswers} currentQuestionLanguage={currentQuestionLanguage} isImage={isImage} />
                 </div>
               </>
@@ -324,8 +320,8 @@ const Solution = () => {
             )}
             <span className="border-t border-card-border flex w-full my-6" />
             <div className="flex flex-wrap justify-between gap-2 ">
-              <FormButton onClick={handlePrevQueClick} disabled={currentQuestionNumber === 1} text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase" />
-              <FormButton onClick={handleNextQueClick} disabled={currentQuestionNumber === isQaAnswers.length} text="Next" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
+              {!(currentQuestionNumber === 1) && <FormButton onClick={handlePrevQueClick} disabled={currentQuestionNumber === 1} text="Previous" className="custom-button-light w-full sm:w-30 button button--mimas text-center !p-4 !h-13 uppercase" />}
+              {!(currentQuestionNumber === isQaAnswers.length) && <FormButton onClick={handleNextQueClick} disabled={currentQuestionNumber === isQaAnswers.length} text="Next" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />}
             </div>
           </div>
           {/* Right Panel */}
@@ -353,7 +349,14 @@ const Solution = () => {
                       type = item?.answer === item?.rightAnswer ? "answered" : "unanswered";
                     }
                     return (
-                      <button key={i} onClick={() => handleQuestionNumberClick(i + 1)} className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${type}`}>
+                      <button
+                        key={i}
+                        onClick={() => {
+                          handleQuestionNumberClick(i + 1);
+                          setOpenQuestion(!isOpenQuestion);
+                        }}
+                        className={`max-w-full h-10 border text-sm font-medium flex items-center justify-center ${type}`}
+                      >
                         {item?.qaNumber}
                       </button>
                     );
