@@ -31,7 +31,7 @@ const AIPoweredReportAnalysis: FC<{
       <div className="h-full relative py-6 ps-4 flex items-center gap-2">
         <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
         <div className="text-left">
-          <h3 className="text-2xl font-bold">{title}</h3>
+          <h3 className="text-2xl font-semibold">{title}</h3>
           <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">{description}</p>
         </div>
       </div>
@@ -61,7 +61,7 @@ const AIPoweredReportAnalysis: FC<{
         <FullFestSubjectFilter title="AI Powered Report Analysis" filter={false} />
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 pt-5">
           {isLoading ? (
-            [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 15 }} />)
+            [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 10 }} />)
           ) : (
             <>
               {SubjectReport({ item: data?.firstPoweredReport[0], title: "100% Sure", description: "Overall progress showing answers solved with total clarity and accuracy" })}

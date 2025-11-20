@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaDiscord } from "react-icons/fa";
 import { FaEarthAmericas } from "react-icons/fa6";
 import { GiTrophy } from "react-icons/gi";
+import { IoIosCloseCircle } from "react-icons/io";
 import { TbBookmarkFilled } from "react-icons/tb";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { CardHeader } from "../../Components/Common/CardHeader";
@@ -12,10 +13,9 @@ import MistakeMapReport from "../../Components/FullFestReport/MistakeMapReport";
 import MyWinning from "../../Components/FullFestReport/MyWinning";
 import Summary from "../../Components/FullFestReport/Summary";
 import { URL_KEYS } from "../../Constants";
-import type { FullFestReportApiResponse } from "../../Types";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { IoIosCloseCircle } from "react-icons/io";
 import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
+import type { FullFestReportApiResponse } from "../../Types";
 
 const FullFestReport = () => {
   const [tabIndex, setTabIndex] = useState(1);
@@ -23,9 +23,11 @@ const FullFestReport = () => {
 
   const { FullFestSubjectFilter } = useAppSelector((state) => state.filter);
 
-  const { data, isLoading } = useGetApiQuery<FullFestReportApiResponse>({
+  const { data, isLoading , isFetching} = useGetApiQuery<FullFestReportApiResponse>({
     url: `${URL_KEYS.FULL_FEST.FULL_FEST}${FullFestSubjectFilter ? `?subjectFilter=${FullFestSubjectFilter}` : ""}`,
   });
+  console.log(isFetching);
+  
 
   const Sec1 = data?.data?.sec1;
   const Sec2 = data?.data?.sec2;
@@ -109,19 +111,19 @@ const FullFestReport = () => {
         </Tabs>
         <div className="w-full pt-10">
           <div hidden={tabIndex !== 0}>
-            <MyWinning MyWinningData={Sec3?.myWinningList} tabIndex={tabIndex} isLoading={isLoading}/>
+            <MyWinning MyWinningData={Sec3?.myWinningList} tabIndex={tabIndex} isLoading={isLoading || isFetching} />
           </div>
           <div hidden={tabIndex !== 1}>
-            <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading} TabIndex={tabIndex} />
+            <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading || isFetching} TabIndex={tabIndex} />
           </div>
           <div hidden={tabIndex !== 2}>
-            <Summary AttemptingStrategyWise={Sec1?.subjectSummary} SubWise={Sec2?.qaTypeSummary} />
+            <Summary AttemptingStrategyWise={Sec1?.subjectSummary} SubWise={Sec2?.qaTypeSummary} isLoading={isLoading || isFetching} />
           </div>
           <div hidden={tabIndex !== 3}>
-            <EliminationSkillReport EliminationSkill={Sec2?.firstPoweredReport} TabIndex={tabIndex} />
+            <EliminationSkillReport EliminationSkill={Sec2?.firstPoweredReport} TabIndex={tabIndex} isLoading={isLoading || isFetching} />
           </div>
           <div hidden={tabIndex !== 4}>
-            <MistakeMapReport MistakeMapReport={Sec3?.mistakeMapReport} />
+            <MistakeMapReport MistakeMapReport={Sec3?.mistakeMapReport} isLoading={isLoading || isFetching} />
           </div>
         </div>
       </div>

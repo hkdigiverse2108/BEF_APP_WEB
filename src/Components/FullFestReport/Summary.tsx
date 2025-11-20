@@ -2,11 +2,13 @@ import { Tab, Tabs } from "@mui/material";
 import { useState, type FC } from "react";
 import type { SubjectSummaryItem, SubjectSummaryType } from "../../Types";
 import FullFestSubjectFilter from "./FullFestSubjectFilter";
+import { Skeleton } from "antd";
 
 const Summary: FC<{
   AttemptingStrategyWise: SubjectSummaryType;
   SubWise: SubjectSummaryType;
-}> = ({ AttemptingStrategyWise, SubWise }) => {
+  isLoading: boolean;
+}> = ({ AttemptingStrategyWise, SubWise, isLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => setTabIndex(newValue);
   const allowedTypes = ["skip", "fearDriverSkip"];
@@ -57,18 +59,22 @@ const Summary: FC<{
         <div className="tab-panels w-full">
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 pt-6">
             {currentSections.map(({ title, color, range, items }, i) => (
-              <div key={i} className="rounded-lg shadow-lg bg-white">
+              <div key={i} className="rounded-lg shadow-lg ">
                 <div className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between`}>
                   <h3>{title}</h3>
                   <p>{range}</p>
                 </div>
                 <div className="px-8 py-4 rounded-b-lg">
-                  <ul className="list-disc space-y-2">
-                    {items?.map((item, j) => (
-                      <li key={j} className="capitalize">
-                        {item}
-                      </li>
-                    ))}
+                  <ul className="list-disc space-y-2 skeleton">
+                    {isLoading ? (
+                      <Skeleton active paragraph={{ rows: 1 }}/>
+                    ) : (
+                      items?.map((item, j) => (
+                        <li key={j} className="capitalize">
+                          {item}
+                        </li>
+                      ))
+                    )}
                   </ul>
                 </div>
               </div>

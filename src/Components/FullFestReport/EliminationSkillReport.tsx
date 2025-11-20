@@ -4,8 +4,9 @@ import ReactApexChart from "react-apexcharts";
 import { EliminationSkillRadialBarChart } from "../../Data";
 import type { Sec2FirstPoweredReportType } from "../../Types";
 import FullFestSubjectFilter from "./FullFestSubjectFilter";
+import { Skeleton } from "antd";
 
-const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType; TabIndex: number }> = ({ EliminationSkill, TabIndex }) => {
+const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType; TabIndex: number; isLoading: boolean }> = ({ EliminationSkill, TabIndex, isLoading }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [showChart, setShowChart] = useState(false);
   useEffect(() => {
@@ -54,96 +55,106 @@ const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType;
           <Tab label="50 - 50" />
           <Tab label="1-OPT eliminate" />
         </Tabs>
-        <div className="pt-6">
-          <div className="bg-input-box rounded-xl grid gap-4 grid-cols-1 md:grid-cols-2 ">
-            <div className="flex flex-col items-center p-4">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(EliminationReport?.correctPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-center">Your Correct Elimination Accuracy</p>
+        <div className="pt-6 skeleton">
+          {isLoading ? (
+            <Skeleton.Node active style={{ width: "100%", height: 150, borderRadius: 10 }} />
+          ) : (
+            <div className="bg-input-box rounded-xl grid gap-4 grid-cols-1 md:grid-cols-2 ">
+              <div className="flex flex-col items-center p-4">
+                <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(EliminationReport?.correctPercentage) || 0]} type="radialBar" height={250} />
+                <p className="mt-2 font-normal text-center">Your Correct Elimination Accuracy</p>
+              </div>
+              <div className="flex flex-col items-center p-4">
+                <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(EliminationReport?.incorrectPercentage) || 0]} type="radialBar" height={250} />
+                <p className="mt-2 font-normal text-center">Right Answer Accuracy After Elimination</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center p-4">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(EliminationReport?.incorrectPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-center">Right Answer Accuracy After Elimination</p>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 pt-5">
-        <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="h-full relative py-6 ps-4 flex items-center gap-2">
-            <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-            <div className="text-left">
-              <h3 className="text-2xl font-semibold">100% Sure</h3>
-              <p className="text-sm font-normal mt-1 capitalize text-neutral-500">Overall progress showing clear elimination of wrong options and how many times it led to the correct answer.</p>
+        {isLoading ? (
+          [...Array(4)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 150, borderRadius: 10 }} />)
+        ) : (
+          <>
+            <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="h-full relative py-6 ps-4 flex items-center gap-2">
+                <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-semibold">100% Sure</h3>
+                  <p className="text-sm font-normal mt-1 capitalize text-neutral-500">Overall progress showing clear elimination of wrong options and how many times it led to the correct answer.</p>
+                </div>
+              </div>
+              <div className="p-3 grid grid-cols-2">
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(Sure?.correctPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
+                </div>
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(Sure?.incorrectPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="p-3 grid grid-cols-2">
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(Sure?.correctPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
+            <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="h-full relative py-6 ps-4 flex items-center gap-2">
+                <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-semibold">Logic Play</h3>
+                  <p className="text-sm font-normal mt-1 capitalize text-neutral-500">Overall progress showing reasoning-based elimination and how many times it resulted in the correct answer.</p>
+                </div>
+              </div>
+              <div className="p-3 grid grid-cols-2">
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(LogicPlay?.correctPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
+                </div>
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(LogicPlay?.incorrectPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
+                </div>
+              </div>
             </div>
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(Sure?.incorrectPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
+            <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="h-full relative py-6 ps-4 flex items-center gap-2">
+                <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold">Intuition Hit</h3>
+                  <p className="text-sm font-normal mt-1 capitalize text-neutral-500">Overall progress showing instinct-driven elimination and how many times it helped reach the correct answer.</p>
+                </div>
+              </div>
+              <div className="p-3 grid grid-cols-2">
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(IntuitionHit?.correctPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
+                </div>
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(IntuitionHit?.incorrectPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="h-full relative py-6 ps-4 flex items-center gap-2">
-            <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-            <div className="text-left">
-              <h3 className="text-2xl font-semibold">Logic Play</h3>
-              <p className="text-sm font-normal mt-1 capitalize text-neutral-500">Overall progress showing reasoning-based elimination and how many times it resulted in the correct answer.</p>
+            <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="h-full relative py-6 ps-4 flex items-center gap-2">
+                <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold">Blind Fire</h3>
+                  <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">Overall progress showing uncertain elimination attempts and how many times they still ended in the correct answer.</p>
+                </div>
+              </div>
+              <div className="p-3 grid grid-cols-2">
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(BlindFire?.correctPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
+                </div>
+                <div className="">
+                  <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(BlindFire?.incorrectPercentage) || 0]} type="radialBar" height={250} />
+                  <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="p-3 grid grid-cols-2">
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(LogicPlay?.correctPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
-            </div>
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(LogicPlay?.incorrectPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="h-full relative py-6 ps-4 flex items-center gap-2">
-            <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-            <div className="text-left">
-              <h3 className="text-2xl font-bold">Intuition Hit</h3>
-              <p className="text-sm font-normal mt-1 capitalize text-neutral-500">Overall progress showing instinct-driven elimination and how many times it helped reach the correct answer.</p>
-            </div>
-          </div>
-          <div className="p-3 grid grid-cols-2">
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(IntuitionHit?.correctPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
-            </div>
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(IntuitionHit?.incorrectPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="h-full relative py-6 ps-4 flex items-center gap-2">
-            <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-            <div className="text-left">
-              <h3 className="text-2xl font-bold">Blind Fire</h3>
-              <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">Overall progress showing uncertain elimination attempts and how many times they still ended in the correct answer.</p>
-            </div>
-          </div>
-          <div className="p-3 grid grid-cols-2">
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#FE6E13")} series={[Math.round(BlindFire?.correctPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Elimination Skill Accuracy</p>
-            </div>
-            <div className="">
-              <ReactApexChart options={EliminationSkillRadialBarChart("#288F66")} series={[Math.round(BlindFire?.incorrectPercentage) || 0]} type="radialBar" height={250} />
-              <p className="mt-2 font-normal text-xs text-center text-neutral-500">Right Answer Accuracy</p>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

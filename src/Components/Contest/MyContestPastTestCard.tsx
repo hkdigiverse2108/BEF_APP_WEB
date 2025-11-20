@@ -3,17 +3,19 @@ import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImagePath, ROUTES } from "../../Constants";
 import type { ContestDetailCardProps } from "../../Types";
-import { useCountDown } from "../../Utils/Hook";
+// import { useCountDown } from "../../Utils/Hook";
 import { AntMessage } from "../Common/AntMessage";
 
 const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
   const { _id: QaId, contestStartDate, rank = 0, winningPrice = 0, subjectId: { name: subjectName = "Unknown Subject", image: subjectImage = `${ImagePath}contest/ContestIcon.png` } = {}, contestId: { name: contestName = "Untitled Contest", pricePool = 0, _id: ContestId } = {} } = contestData ?? {};
-  const { isFinished } = useCountDown(contestData?.contestStartDate || "", contestData?.contestEndDate || "");
+  // const { isFinished } = useCountDown(contestData?.contestStartDate || "", contestData?.contestEndDate || "");
 
   const handleResult = () => {
+    const now = dayjs();
+    const endTime = dayjs(contestData?.contestEndDate);
     if (contestData?.answers?.length !== 0) {
-      if (isFinished) {
+      if (endTime.isBefore(now)) {
         navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${QaId}&contestFilter=${ContestId}`);
       } else {
         navigate(ROUTES.EXAM.COUNT_DOWN, {

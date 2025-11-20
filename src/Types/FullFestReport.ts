@@ -29,6 +29,7 @@ export interface MistakeMapReportType {
   correct: number;
   total: number;
   whyFalse: string;
+  subtopicName:string[];
 }
 
 // ************ Elimination Skill Report ***********
