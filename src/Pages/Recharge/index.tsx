@@ -4,22 +4,16 @@ import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import PaymentModal from "../../Components/Common/PaymentModal";
-import {
-  HTTP_STATUS,
-  ImagePath,
-  PAYMENT_STATUS,
-  STORAGE_KEYS,
-  TRANSACTION_STATUS,
-  URL_KEYS,
-} from "../../Constants";
+import { HTTP_STATUS, ImagePath, PAYMENT_STATUS, STORAGE_KEYS, TRANSACTION_STATUS, URL_KEYS } from "../../Constants";
 import { useAppSelector } from "../../Store/hooks";
 import type { PaymentStatusType, RazorpayResponse } from "../../Types";
 import { updateStorage } from "../../Utils";
 
 const Recharge = () => {
+  const MinAmount = 1;
   const [form] = Form.useForm();
   const [PostApi] = usePostApiMutation();
-  const [rechargeAmount, setRechargeAmount] = useState(50);
+  const [rechargeAmount, setRechargeAmount] = useState(MinAmount);
 
   const { user } = useAppSelector((state) => state.auth);
   const {
@@ -41,13 +35,10 @@ const Recharge = () => {
   }, []);
 
   useEffect(() => {
-    form.setFieldsValue({ balance: 50 });
+    form.setFieldsValue({ balance: MinAmount });
   }, []);
 
-  const handlePaymentComplete = async (
-    status: PaymentStatusType,
-    response: RazorpayResponse
-  ) => {
+  const handlePaymentComplete = async (status: PaymentStatusType, response: RazorpayResponse) => {
     try {
       const TdsAmount = 0;
       const TotalAmount = rechargeAmount + TdsAmount;
@@ -66,10 +57,7 @@ const Recharge = () => {
         amount: rechargeAmount,
         totalAmount: TotalAmount,
         tdsAmount: TdsAmount,
-        status:
-          status === PAYMENT_STATUS.COMPLETED
-            ? TRANSACTION_STATUS.SUCCESS
-            : TRANSACTION_STATUS.FAILED,
+        status: status === PAYMENT_STATUS.COMPLETED ? TRANSACTION_STATUS.SUCCESS : TRANSACTION_STATUS.FAILED,
         type: "deposit",
         paymentType: paymentData?.payment?.method,
         paymentDetails: {
@@ -128,11 +116,7 @@ const Recharge = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6">
         {/* IMAGE */}
         <div className="rounded-lg overflow-hidden shadow-md">
-          <img
-            src={`${ImagePath}recharge/Recharge-bg.jpg`}
-            alt="Recharge Wallet"
-            className="w-full h-full object-cover"
-          />
+          <img src={`${ImagePath}recharge/Recharge-bg.jpg`} alt="Recharge Wallet" className="w-full h-full object-cover" />
         </div>
 
         {/* RIGHT */}
@@ -140,17 +124,10 @@ const Recharge = () => {
           {/* BALANCE DISPLAY */}
           <div className="w-full relative bg-input-box rounded-xl p-7 flex justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
-            <img
-              className="object-cover w-10"
-              src={`${ImagePath}recharge/Wallet.png`}
-            />
+            <img className="object-cover w-10" src={`${ImagePath}recharge/Wallet.png`} />
             <div className="text-left">
-              <p className="text-base font-semibold mt-1 capitalize">
-                Available Balance
-              </p>
-              <h3 className="text-2xl font-extrabold">
-                ₹ {userData?.walletBalance.toFixed(2) || 0}
-              </h3>
+              <p className="text-base font-semibold mt-1 capitalize">Available Balance</p>
+              <h3 className="text-2xl font-extrabold">₹ {userData?.walletBalance.toFixed(2) || 0}</h3>
             </div>
           </div>
 
@@ -159,27 +136,23 @@ const Recharge = () => {
             <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
             <span className="font-normal">Add Amount</span>
 
-            <Form
-              form={form}
-              onValuesChange={(_, allValues) => handleInputChange(allValues)}
-              className="flex justify-center"
-            >
+            <Form form={form} onValuesChange={(_, allValues) => handleInputChange(allValues)} className="flex justify-center">
               <FormInput
                 name="balance"
                 type="number"
-                rules={[{ required: true, message: "Enter minimum ₹50" }]}
+                rules={[
+                  { required: true, message: `Enter minimum ₹${MinAmount}` },
+                  {
+                    validator: (_, value:any) => (value >= MinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${MinAmount}`)),
+                  },
+                ]}
               />
             </Form>
           </div>
 
           <hr className="border-t border-primary" />
           <div>
-            <PaymentModal
-              btnText="Add Balance"
-              isLoading={isUserLoading}
-              amount={rechargeAmount}
-              onPaymentComplete={handlePaymentComplete}
-            />
+            <PaymentModal btnText="Add Balance" isLoading={isUserLoading} amount={rechargeAmount} onPaymentComplete={handlePaymentComplete} />
           </div>
         </div>
       </div>

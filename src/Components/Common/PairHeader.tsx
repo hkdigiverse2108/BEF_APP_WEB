@@ -1,4 +1,3 @@
-
 import { CheckCircleFilled, CheckCircleOutlined, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
 import { Checkbox } from "antd";
 import type { FC } from "react";
@@ -43,8 +42,8 @@ export const PairTable: FC<PairTableProps> = ({ pair, pairTitle, answers, onChec
               return (
                 <tr key={i} className={`${isLast ? "" : "border-b border-gray-300"}`}>
                   {cols.map((val, j) => (
-                    <td key={j} className={`px-4 py-2 border-gray-300 ${j === headers.length? "" : "border-e"}`}>
-                      {val}
+                    <td key={j} className={`px-4 py-2 border-gray-300 ${j === headers.length ? "" : "border-e"}`}>
+                      {j === 0 ? <span className="font-semibold">{i + 1}. </span> : ""} {val}
                     </td>
                   ))}
 
