@@ -4,7 +4,6 @@ import { Swiper as SwiperType } from "swiper";
 import { A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import { FormSelect } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import ContestWinnerCard from "../../Components/Contest/ContestWinnerCard";
 import { URL_KEYS } from "../../Constants";
@@ -59,14 +58,14 @@ const ContestWinner = () => {
         <h2 className="text-sm sm:text-xl md:text-2xl font-semibold">
           Mega Contest Winners
         </h2>
-        <div className="question-section">
+        {/* <div className="question-section">
           <FormSelect
             name="Filter By"
             placeholder="Filter By"
             options={[{ label: "1", value: "one" }]}
             className="!m-0"
           />
-        </div>
+        </div> */}
       </div>
 
       {isLoading ? (
