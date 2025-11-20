@@ -62,7 +62,7 @@ type QaChartType = Record<QaCategory, QaTypeItem>;
 
 export interface Sec2FirstPoweredReportType {
   qa: QaChartType;
-  qaTypeMetrics: QaTypeMetricItem[];
+  qaTypeMetrics: QaTypeMetricItem;
 }
 
 // ************ Summary ***********

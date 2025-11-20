@@ -12,10 +12,17 @@ const Summary: FC<{
   const allowedTypes = ["skip", "fearDriverSkip"];
 
   const formatType = (str: string) => {
-    return str
-      ?.replace(/([A-Z])/g, " $1")
+    if (!str) return "";
+
+    const formatted = str
+      .replace(/([A-Z])/g, " $1")
       .trim()
       .replace(/\b\w/g, (c) => c.toUpperCase());
+
+    if (formatted === "One Eliminate") return "1 - Opt Elimination";
+    if (formatted === "Fifty Fifty") return "50 - 50";
+
+    return formatted;
   };
 
   const getFilteredTypes = (data: SubjectSummaryItem[] | undefined, allowed = allowedTypes): string[] => {
