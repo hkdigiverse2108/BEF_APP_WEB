@@ -17,7 +17,6 @@ export const CardHeader: FC<CardHeaderType> = ({
   sliderButton,
 }) => {
   const navigate = useNavigate();
-  // console.log(sliderButton);
   return (
     <div className="w-full flex justify-between text-lg xl:text-2xl font-semibold items-center flex-wrap gap-3">
       <section className="flex gap-2 flex-wrap">

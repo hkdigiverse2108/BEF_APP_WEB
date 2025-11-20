@@ -1,6 +1,4 @@
 import type { FC } from "react";
-import { FormSelect } from "../../Attribute/FormFields";
-import { LanguageOptions } from "../../Data";
 import type { MistakeMapReportType } from "../../Types";
 import FullFestSubjectFilter from "./FullFestSubjectFilter";
 

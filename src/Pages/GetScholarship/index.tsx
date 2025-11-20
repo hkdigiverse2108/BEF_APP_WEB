@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { ImagePath, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../Constants";
-import { Storage } from "../../Utils";
+import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import { useAppSelector } from "../../Store/hooks";
 
 const GetScholarship = () => {
@@ -16,7 +15,6 @@ const GetScholarship = () => {
   const { genderWiseProfileImage, user } = useAppSelector(
     (state) => state.auth
   );
-  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
 
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
   const userData = data?.data;

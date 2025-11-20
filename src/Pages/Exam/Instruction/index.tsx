@@ -20,24 +20,8 @@ const ExamInstruction = () => {
   const contestStartDate = location?.state?.contestStartDate;
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
-  console.log(location);
-  
 
   const handleNextButton = () => {
-    // const now = Date.now();
-    // const start = new Date(contestStartDate).getTime();
-    // const endLimit = start + 10 * 60 * 1000;
-
-    // if (now >= start && now <= endLimit) {
-    //   navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
-    // } else {
-    //   if (now <= start) {
-    //     messageApi.warning("Contest has not started yet!");
-    //   } else {
-    //     messageApi.warning("Contest time window is closed!");
-    //   }
-    // }
-
     const now = new Date();
     now.setSeconds(0, 0); // remove seconds + ms
 

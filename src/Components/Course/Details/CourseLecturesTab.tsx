@@ -27,8 +27,6 @@ const CourseLecturesTab = ({
     { skip: !selectedModule }
   );
 
-  console.log(data?.data);
-
   const Lectures = data?.data?.lecture_data || [];
 
   const handleTabChange = (_: SyntheticEvent, newValue: string) => {

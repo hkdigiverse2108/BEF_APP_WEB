@@ -32,8 +32,6 @@ const SubtopicDrawer = () => {
       endTime: end.toISOString(),
     });
     form.setFieldsValue({ time });
-
-    // console.log("payload", payloadTime);
   };
 
   const generateStack = (num: number) => {
@@ -77,7 +75,7 @@ const SubtopicDrawer = () => {
       );
       dispatch(setSubtopicDrawer({ open: false, contest: {} }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -173,7 +171,6 @@ const SubtopicDrawer = () => {
               text="Next"
               htmlType="submit"
               className="custom-button button button--mimas text-center w-full !p-4 !h-14 uppercase flex items-end-safe"
-              // onClick={handleDrawerSubmit}
             />
           </Form>
         </div>

@@ -24,7 +24,6 @@ const MyInfo = () => {
   const [form] = Form.useForm();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
-  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}" );
   const { user } = useAppSelector((state) => state.auth);
 
   const { data, refetch } = useGetApiQuery({

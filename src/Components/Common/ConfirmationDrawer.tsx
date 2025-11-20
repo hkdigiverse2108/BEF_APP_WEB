@@ -12,7 +12,6 @@ import type { ContestCore } from "../../Types";
 const ConfirmationDrawer = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const userData = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
   const { isConfirmationDrawer } = useAppSelector((state) => state.drawer);
   const { user: userData } = useAppSelector((state) => state.auth);
 
@@ -64,13 +63,9 @@ const ConfirmationDrawer = () => {
           dispatch(setConfirmationDrawer({ open: false, data: {} }));
           navigate(ROUTES.CONTEST.MY_CONTEST);
         }
-      } else {
-        console.log("aa");
-
-        // navigate(ROUTES.RECHARGE.RECHARGE);
-      }
+      } 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

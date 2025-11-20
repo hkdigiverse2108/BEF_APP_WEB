@@ -49,6 +49,9 @@ const Question = () => {
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
 
+  const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
+  const MultiTabOpen = settingData?.data?.isMultiTabOpen;
+
   useEffect(() => {
     if (!contestId) {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
@@ -103,17 +106,19 @@ const Question = () => {
     let violationCount = 0;
 
     const handleLeaveScreen = () => {
-      if (document.hidden || document.visibilityState !== "visible") {
-        violationCount++;
+      if (MultiTabOpen === true) {
+        if (document.hidden || document.visibilityState !== "visible") {
+          violationCount++;
 
-        // Force fullscreen again immediately
-        // requestRealFullscreen();
+          // Force fullscreen again immediately
+          // requestRealFullscreen();
 
-        if (violationCount > 3) {
-          handleEndTestDrawer();
-          AntdNotification(notification, "error", `Exam auto-submitted due to repeated tab switching.`);
-        } else {
-          AntdNotification(notification, "error", `Tab switch detected! Attempt ${violationCount}/3`);
+          if (violationCount > 3) {
+            handleEndTestDrawer();
+            AntdNotification(notification, "error", `Exam auto-submitted due to repeated tab switching.`);
+          } else {
+            AntdNotification(notification, "error", `Tab switch detected! Attempt ${violationCount}/3`);
+          }
         }
       }
     };
@@ -158,16 +163,14 @@ const Question = () => {
     return () => {
       window.removeEventListener("popstate", handleBack);
       // window.removeEventListener("keydown", blockEsc);
-
-      document.removeEventListener("visibilitychange", handleLeaveScreen);
-      window.removeEventListener("blur", handleLeaveScreen);
-      window.removeEventListener("focusout", handleLeaveScreen);
-
+        document.removeEventListener("visibilitychange", handleLeaveScreen);
+        window.removeEventListener("blur", handleLeaveScreen);
+        window.removeEventListener("focusout", handleLeaveScreen);
       for (const evt of ["contextmenu", "keydown"]) {
         document.removeEventListener(evt, p);
       }
     };
-  }, []);
+  }, [MultiTabOpen]);
 
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({
     url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}`,
@@ -370,23 +373,11 @@ const Question = () => {
     return () => clearInterval(timer);
   }, [isFinished]);
 
-  //   useEffect(() => {
-  //   const handler = () => {
-  //     // handleEndTestDrawer(); // works here!
-  //     alert("Please click End Test before leaving!");
-  //   };
-  //   window.addEventListener("visibilitychange", () => {
-  //     if (document.visibilityState === "hidden") handler();
-  //   });
-  //   return () => window.removeEventListener("visibilitychange", handler);
-  // }, []);
-
   const handleNextQueClick = async () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     if (!QAData) return;
     const hasTrue = Object.values(isAnswers).includes(1);
     const hasConfidence = Boolean(isConfidence);
-    // if (isConfidence !== "fearDriverSkip" && isConfidence !== "skip") {
     if (isConfidence !== "skip") {
       if (!hasTrue || !hasConfidence) {
         if (!hasTrue) AntMessage("warning", "Please choose any one option");
@@ -483,7 +474,7 @@ const Question = () => {
     });
     if (currentQuestionNumber === QA.length) {
       // handleEndTestDrawer();
-      setCurrentQuestionNumber(1)
+      setCurrentQuestionNumber(1);
     }
   };
 
@@ -493,14 +484,14 @@ const Question = () => {
     setCurrentQuestionNumber(currentQuestionNumber - 1);
   };
 
-const ConfidenceButtons = [
-  { label: "100% Sure", value: "100%Sure", color: "bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700", icon: <MdLibraryAddCheck className="text-lg" /> },
-  { label: "Logic Play", value: "logicPlay", color: "bg-gradient-to-r from-rose-700 via-rose-400 to-rose-700", icon: <FaLightbulb className="text-lg" /> },
-  { label: "Intuition Hit", value: "intuitionHit", color: "bg-gradient-to-r from-sky-700 via-sky-400 to-sky-700", icon: <MdVisibility className="text-lg" /> },
-  { label: "Blind Fire", value: "blindFire", color: "bg-gradient-to-r from-amber-700 via-amber-400 to-amber-700", icon: <MdVisibilityOff className="text-lg" /> },
-  { label: "Fear - Driver Skip", value: "fearDriverSkip", color: "bg-gradient-to-r from-green-700 via-green-500 to-green-700", icon: <RiFileCheckFill className="text-lg" /> },
-  { label: "Skip", value: "skip", color: "bg-gradient-to-r from-purple-700 via-purple-400 to-purple-700", icon: <TbMessageQuestion className="text-lg" /> },
-];
+  const ConfidenceButtons = [
+    { label: "100% Sure", value: "100%Sure", color: "bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700", icon: <MdLibraryAddCheck className="text-lg" /> },
+    { label: "Logic Play", value: "logicPlay", color: "bg-gradient-to-r from-rose-700 via-rose-400 to-rose-700", icon: <FaLightbulb className="text-lg" /> },
+    { label: "Intuition Hit", value: "intuitionHit", color: "bg-gradient-to-r from-sky-700 via-sky-400 to-sky-700", icon: <MdVisibility className="text-lg" /> },
+    { label: "Blind Fire", value: "blindFire", color: "bg-gradient-to-r from-amber-700 via-amber-400 to-amber-700", icon: <MdVisibilityOff className="text-lg" /> },
+    { label: "Fear - Driver Skip", value: "fearDriverSkip", color: "bg-gradient-to-r from-green-700 via-green-500 to-green-700", icon: <RiFileCheckFill className="text-lg" /> },
+    { label: "Skip", value: "skip", color: "bg-gradient-to-r from-purple-700 via-purple-400 to-purple-700", icon: <TbMessageQuestion className="text-lg" /> },
+  ];
 
   return (
     <>
@@ -508,7 +499,9 @@ const ConfidenceButtons = [
         {/* Header */}
         <CardHeader title={QAData?.subjectId?.name || "Question & answer"} icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex flex-col justify-center items-center">
-          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit max-sm:text-center">Do not exit the test otherwise your test will end.<span className="block text-center"> Press the End Test button to lock your Test.</span></p>
+          <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit max-sm:text-center">
+            Do not exit the test otherwise your test will end.<span className="block text-center"> Press the End Test button to lock your Test.</span>
+          </p>
         </div>
         <span className="border-t border-card-border flex w-full mt-4" />
 

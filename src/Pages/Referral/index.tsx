@@ -7,16 +7,15 @@ import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormButton } from "../../Attribute/FormFields";
-import { ImagePath, STORAGE_KEYS, URL_KEYS } from "../../Constants";
-import type { ReferralApiResponse } from "../../Types";
-import { SecondFormatDate, Storage } from "../../Utils";
 import ShareModal from "../../Components/Common/ShareModal";
+import { ImagePath, URL_KEYS } from "../../Constants";
 import { useAppSelector } from "../../Store/hooks";
+import type { ReferralApiResponse } from "../../Types";
+import { SecondFormatDate } from "../../Utils";
 
 const Referral = () => {
   const [copied, setCopied] = useState(false);
   const [tabOneLimit, setTabOneLimit] = useState(0);
-  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
   const { user } = useAppSelector((state) => state.auth);
 
   const { data, isLoading } = useGetApiQuery<ReferralApiResponse>({ url: URL_KEYS.USER.REFERRAL });

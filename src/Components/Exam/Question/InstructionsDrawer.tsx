@@ -13,7 +13,7 @@ const InstructionsDrawer = () => {
   const { isInstructionsDrawer } = useAppSelector((state) => state.drawer);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
     if (isInstructionsDrawer) {
       timer = setTimeout(() => {
         setIsOpen(true);

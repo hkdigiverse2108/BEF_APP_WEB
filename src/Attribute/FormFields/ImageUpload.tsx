@@ -46,7 +46,6 @@ const ImageUpload: FC<ImageUploadProps> = ({
       const uploadedUrl = res?.data.data || "";
       setFileList([...fileList, uploadedUrl]);
       onChange?.([...fileList, uploadedUrl]);
-      console.log("uploadedUrl", uploadedUrl, fileList);
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -57,7 +56,6 @@ const ImageUpload: FC<ImageUploadProps> = ({
   // 🔹 Remove Image
   const removeFile = async (imageSrc: string) => {
     const updatedList = fileList.filter((img) => img !== imageSrc);
-    console.log("Remove File : ", updatedList);
     setFileList(updatedList);
     onChange?.(updatedList);
   };

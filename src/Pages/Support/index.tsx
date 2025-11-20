@@ -66,9 +66,6 @@ const SupportModal = () => {
                   )}`}
                   target="_blank"
                   className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary"
-                  // onClick={() =>
-                  //   window.open(`https://wa.me/${CONTACT?.NUMBER}`, "_blank")
-                  // }
                 >
                   <p className="font-semibold text-black text-base flex items-center uppercase py-3">
                     <div className="me-3 text-2xl">

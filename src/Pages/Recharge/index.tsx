@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
+import PaymentModal from "../../Components/Common/PaymentModal";
 import {
   HTTP_STATUS,
   ImagePath,
@@ -11,17 +12,15 @@ import {
   TRANSACTION_STATUS,
   URL_KEYS,
 } from "../../Constants";
-import { Storage, updateStorage } from "../../Utils";
-import PaymentModal from "../../Components/Common/PaymentModal";
-import type { PaymentStatusType, RazorpayResponse } from "../../Types";
 import { useAppSelector } from "../../Store/hooks";
+import type { PaymentStatusType, RazorpayResponse } from "../../Types";
+import { updateStorage } from "../../Utils";
 
 const Recharge = () => {
   const [form] = Form.useForm();
   const [PostApi] = usePostApiMutation();
   const [rechargeAmount, setRechargeAmount] = useState(50);
 
-  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
   const { user } = useAppSelector((state) => state.auth);
   const {
     data,
@@ -50,8 +49,6 @@ const Recharge = () => {
     response: RazorpayResponse
   ) => {
     try {
-      // console.log("Payment Status:", status);
-      // console.log("Payment Response:", response);
       const TdsAmount = 0;
       const TotalAmount = rechargeAmount + TdsAmount;
 
@@ -106,7 +103,6 @@ const Recharge = () => {
         });
         if (res?.data?.status === HTTP_STATUS.OK) {
           refetch();
-          console.log(res?.data);
         }
       } catch (error) {
         console.error("Upload failed:", error);
@@ -116,7 +112,6 @@ const Recharge = () => {
 
   const handleInputChange = (value: { balance: number }) => {
     setRechargeAmount(value?.balance);
-    console.log("values", value?.balance, rechargeAmount);
   };
 
   useEffect(() => {

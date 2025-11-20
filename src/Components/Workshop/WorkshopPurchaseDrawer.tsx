@@ -56,9 +56,6 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
     RazorPayKey?: string
   ) => {
     try {
-      console.log("Payment Status:", status);
-      console.log("Payment Response:", response);
-
       const payload = {
         paymentId: response.razorpay_payment_id,
         workshopId: id,
@@ -79,11 +76,8 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
         url: URL_KEYS.WORKSHOP.REGISTER_ADD,
         data: payload,
       }).unwrap();
-      console.log("res : ", res);
-
       if (res?.status === HTTP_STATUS.OK) {
         refetch();
-        // dispatch(setWorkshopPurchaseDrawer());
         if (status === PAYMENT_STATUS.COMPLETED) {
           dispatch(setWorkshopPurchaseDrawer());
           AntMessage(

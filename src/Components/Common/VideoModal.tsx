@@ -58,7 +58,6 @@ const VideoModal = ({ playVideo, setPlayVideo, videoLink }: VideoModalType) => {
         centered
         destroyOnHidden={true}
         className="video-Modal"
-        // width={1000}
         width={{
           xs: "90%",
           sm: "80%",
@@ -71,7 +70,6 @@ const VideoModal = ({ playVideo, setPlayVideo, videoLink }: VideoModalType) => {
         {playVideo && (
           <iframe
             width="100%"
-            // height="400"
             src={embedUrl}
             title="YouTube video player"
             frameBorder="0"

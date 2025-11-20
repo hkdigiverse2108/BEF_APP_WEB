@@ -8,7 +8,7 @@ const HowItWork = () => {
   const [playVideo, setPlayVideo] = useState(false);
   const [videoLink, setVideoLink] = useState("");
 
-  const { data: HowItWorkData, isLoading } =
+  const { data: HowItWorkData } =
     useGetApiQuery<HowItWorkApiResponse>({ url: URL_KEYS.HOW_IT_WORK.ALL });
 
   const howItWork = HowItWorkData?.data.how_it_work_data;

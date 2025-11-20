@@ -112,7 +112,7 @@ const Register = () => {
         // valid code → clear errors
         form.setFields([{ name: "referralCode", errors: [] }]);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     }, 2000);
 
@@ -187,7 +187,7 @@ const Register = () => {
 
       setCurrent((prev) => prev + 1);
     } catch (e) {
-      console.log("Validation failed:", e);
+      console.error(e);
     }
   };
 

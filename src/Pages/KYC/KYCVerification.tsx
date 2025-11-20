@@ -42,8 +42,6 @@ const KYCVerification = () => {
     beforeUpload: () => false,
     onChange: async (info) => {
       const { file } = info;
-      console.log(file);
-
       const formData = new FormData();
       formData.append("image", file as any);
 
@@ -59,13 +57,9 @@ const KYCVerification = () => {
 
       }
     },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
   };
 
-  const handleFormSubmit = async (values: any) => {
-    console.log("KYC Verification Submitted:", values);
+  const handleFormSubmit = () => {
     if (!image) {
       return AntMessage("warning", "Please upload your PAN card first!");
 
@@ -82,8 +76,7 @@ const KYCVerification = () => {
       userId: user._id,
     };
     try {
-      const res = await PostApi({ url: URL_KEYS.KYC.ADD, data });
-      console.log("res", res);
+      await PostApi({ url: URL_KEYS.KYC.ADD, data });
       navigate(ROUTES.HOME);
     } catch (error) {
       console.error(error);

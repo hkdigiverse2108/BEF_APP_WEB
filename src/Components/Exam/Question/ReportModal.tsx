@@ -17,7 +17,6 @@ const ReportModal: FC<ReportModalProps> = ({ payload }) => {
   const handleFormSubmit = async (values: { message: string })  => {
     try {
       payload = { ...payload, message: values.message };
-      console.log("values:", payload);
       const res = await PostApi({ url: URL_KEYS.RESULT_REPORT.ADD, data: payload });
       if (res?.data?.status === HTTP_STATUS.OK) {
         form.resetFields();

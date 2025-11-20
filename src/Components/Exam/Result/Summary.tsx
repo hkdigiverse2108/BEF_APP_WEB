@@ -37,7 +37,6 @@ const Summary: FC<{ data: Sec1Type; subjectName: string }> = ({ data, subjectNam
   };
 
   const getFilteredTypes = (data: QaTypeSubtopicItem[] | undefined, allowed = allowedTypes): string[] => {
-    // return data?.filter((item) => !allowed.includes(item.type))?.map((item) => item.type) ?? [];
     return data?.filter((item) => item.type?.trim() && !allowed.includes(item.type))?.map((item) => formatType(item.type)) ?? [];
   };
 

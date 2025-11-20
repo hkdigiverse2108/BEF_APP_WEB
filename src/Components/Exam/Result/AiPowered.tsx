@@ -6,7 +6,6 @@ import { ImagePath } from "../../../Constants";
 import type {
   AttemptType,
   PolityType,
-  QaTypeMetricsType,
 } from "../../../Types";
 import { useEffect, useState, type FC } from "react";
 

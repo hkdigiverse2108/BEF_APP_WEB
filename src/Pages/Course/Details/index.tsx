@@ -3,18 +3,18 @@ import { useEffect, useState, type SyntheticEvent } from "react";
 import { useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
+import MainLoader from "../../../Components/Common/MainLoader";
 import ShareModal from "../../../Components/Common/ShareModal";
-import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
+import CoursePurchaseDrawer from "../../../Components/Course/CoursePurchaseDrawer";
 import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
 import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
+import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import { ImagePath, URL_KEYS } from "../../../Constants";
-import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
-import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
-import CoursePurchaseDrawer from "../../../Components/Course/CoursePurchaseDrawer";
-import MainLoader from "../../../Components/Common/MainLoader";
 import { setCourseFooterShow } from "../../../Store/Slices/FooterShowSlice";
+import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
+import type { CourseDetailsApiResponse, ModuleType } from "../../../Types";
 
 const TabsName = [
   { value: "about", label: "About" },
@@ -41,7 +41,7 @@ const CourseDetails = () => {
   });
   const CourseDetailsData = courseData?.data;
 
-  const { data: modulesData, isLoading: isModuleLoading } = useGetApiQuery(
+  const { data: modulesData } = useGetApiQuery(
     { url: `${URL_KEYS.MODULE.ALL}?courseFilter=${CourseDetailsData?._id}` },
     { skip: !CourseDetailsData?._id }
   );
@@ -64,7 +64,6 @@ const CourseDetails = () => {
   useEffect(() => {
     if (!courseLoading) {
       const isFooterShow = CourseDetailsData?.isUnlocked;
-      console.log("isFooterShow", isFooterShow, CourseFooterShow);
       dispatch(setCourseFooterShow(isFooterShow));
     }
   }, [courseLoading]);

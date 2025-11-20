@@ -2,16 +2,15 @@ import { Form } from "antd";
 import { FaRoute } from "react-icons/fa";
 import { IoCallSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { usePostApiMutation } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
-import { usePostApiMutation } from "../../Api/CommonApi";
-import type { ContactFormData } from "../../Types";
 import { CONTACT, HTTP_STATUS, URL_KEYS } from "../../Constants";
+import type { ContactFormData } from "../../Types";
 
 const Contact = () => {
   const [form] = Form.useForm();
-  const [PostApi, { isLoading }] = usePostApiMutation({});
+  const [PostApi] = usePostApiMutation({});
 
   const onFinish = async (values: ContactFormData) => {
     try {
@@ -19,11 +18,8 @@ const Contact = () => {
       if (res?.status === HTTP_STATUS.OK) {
         form.resetFields();
       }
-      console.log(res);
     } catch (error) {
-      console.error(error);
       const err = error as { data: { message: string } };
-      console.log("test", err.data.message);
       form.setFields([
         {
           name: "message",

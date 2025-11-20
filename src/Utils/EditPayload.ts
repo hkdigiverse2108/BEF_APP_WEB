@@ -49,7 +49,6 @@ export const EditPayload = (values: any, initialValues: Record<string, unknown>)
       if (newVal && typeof newVal === "object" && !dayjs.isDayjs(newVal) && !(newVal instanceof Date) && !Array.isArray(newVal)) {
         const nestedChanges = EditPayload(newVal as Record<string, unknown>, (oldVal as Record<string, unknown>) || {});
         if (Object.keys(nestedChanges).length > 0) {
-          // dirtyFields[key] = nestedChanges;
           dirtyFields[key] = newVal;
         }
       } else {

@@ -60,9 +60,6 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
     response: RazorpayResponse
   ) => {
     try {
-      // console.log("Payment Status:", status);
-      // console.log("Payment Response:", response);
-
       const payload = {
         paymentId: response.razorpay_payment_id,
         courseId: id,
@@ -79,8 +76,6 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
         url: URL_KEYS.COURSE.PURCHASE_ADD,
         data: payload,
       }).unwrap();
-      console.log("res : ", res);
-
       if (res?.status === HTTP_STATUS.OK) {
         refetch();
         if (status === PAYMENT_STATUS.COMPLETED) {
@@ -109,7 +104,6 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
         }).unwrap();
       }
     } catch (error) {
-      // console.log("error", error);
       AntMessage(
         "error",
         "Oops! We couldn’t process your enrollment. Please try again."

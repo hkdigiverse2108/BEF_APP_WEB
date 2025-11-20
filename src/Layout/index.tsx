@@ -29,11 +29,6 @@ const Layout = () => {
 
   const isQuestionPage = pathname.includes("question");
 
-  // console.log("CourseFooterShow", CourseFooterShow);
-  // console.log("WorkshopFooterShow", WorkshopFooterShow);
-  // console.log("isCourseDetails", isCourseDetails);
-  // console.log("isWorkshopDetails", isWorkshopDetails);
-  // console.log("FooterHide", FooterHide);
   useEffect(() => {
     Aos.init({
       once: true,

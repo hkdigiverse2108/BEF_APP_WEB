@@ -1,14 +1,14 @@
-import { Drawer, Spin } from "antd";
+import { Drawer } from "antd";
+import { useState } from "react";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormButton } from "../../Attribute/FormFields";
+import SpinLoader from "../../Components/Common/SpinLoader";
 import { URL_KEYS } from "../../Constants";
 import { EntryData, PrizePoolData, SpotsData } from "../../Data";
 import { setContestFilterDrawer } from "../../Store/Slices/DrawerSlice";
 import { setContestFilters } from "../../Store/Slices/FilterSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import type { ContestFilters, RangeOption } from "../../Types";
-import { useState } from "react";
-import SpinLoader from "../../Components/Common/SpinLoader";
 
 const ContestFilterDrawer = () => {
   const dispatch = useAppDispatch();

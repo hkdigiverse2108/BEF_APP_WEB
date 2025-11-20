@@ -150,7 +150,6 @@ const Solution = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     dispatch(setCurrentSolutionQuestion(questionNumber));
     setCurrentQuestionNumber(questionNumber);
-    // setOpenQuestion(false);
   };
 
   const ALMentor = (className: string) => (
@@ -313,7 +312,6 @@ const Solution = () => {
                 </div>
                 <div className="my-3 hidden max-2xl:block col-span-2 !space-y-3">
                   <FormButton
-                    // text="See Solution"
                     text={isOpenSolution ? "Close Solution" : "See Solution"}
                     onClick={() => setOpenSolution(!isOpenSolution)}
                     className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase"

@@ -33,8 +33,6 @@ const MenuDrawer = () => {
   const { isMenuDrawer } = useAppSelector((state) => state.drawer);
   const { user } = useAppSelector((state) => state.auth);
 
-  // const user = JSON.parse(Storage.getItem(STORAGE_KEYS.USER) || "{}");
-
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` });
   const UserData = data?.data;
 

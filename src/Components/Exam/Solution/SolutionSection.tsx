@@ -6,24 +6,6 @@ import { useAppDispatch } from "../../../Store/hooks";
 import { setReportModal } from "../../../Store/Slices/DrawerSlice";
 import type { QuestionLang } from "../../../Types";
 
-{
-  /* <div className="py-3 space-y-3!">
-  <FormButton
-    text="See Solution"
-    onClick={() => setOpenSolution(!isOpenSolution)}
-    className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase"
-  />
-  {/* <Button className="2xl:hidden flex gap-2 bg-input-box font-semibold text-sm p-2 px-4 rounded capitalize cursor-pointer"></Button> */
-}
-//   <SolutionSection
-//     setOpenSolution={setOpenSolution}
-//     isOpenSolution={isOpenSolution}
-//     isQaAnswers={isQaAnswers}
-//     currentQuestionLanguage={currentQuestionLanguage}
-//     isImage={isImage}
-//   />
-// </div>; */}
-
 export interface SolutionSectionProps {
   setOpenSolution: React.Dispatch<React.SetStateAction<boolean>>;
   isOpenSolution: boolean;

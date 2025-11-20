@@ -26,7 +26,6 @@ const LectureCard = ({
           className="relative"
           onClick={() => {
             if (!lecture?.isLocked || isUnlocked) {
-              console.log("unlocked");
               setPlayVideo(true);
               setVideoLink(lecture?.link);
             }

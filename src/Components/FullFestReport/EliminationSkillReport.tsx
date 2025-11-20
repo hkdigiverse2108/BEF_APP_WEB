@@ -35,8 +35,6 @@ const EliminationSkillReport: FC<{ EliminationSkill: Sec2FirstPoweredReportType;
   };
 
   const Qa = showChart && EliminationSkill?.qa ? EliminationSkill.qa : emptyQa;
-  console.log(EliminationSkill);
-  
 
   const QaTypeMetrics = showChart && EliminationSkill?.qaTypeMetrics ? EliminationSkill.qaTypeMetrics : emptyQaTypeMetrics;
 

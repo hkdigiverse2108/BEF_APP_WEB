@@ -19,7 +19,6 @@ const LogoutConfirmModal: FC<LogoutConfirmModalProps> = ({
 
   const handleLogout = () => {
     Storage.clear();
-    console.log("logout done")
     dispatch(LogOut());
     window.location.reload();
   };

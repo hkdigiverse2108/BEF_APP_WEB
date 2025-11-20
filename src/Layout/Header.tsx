@@ -58,11 +58,6 @@ const Header = () => {
 
   const currentUser = UserData || user;
 
-  // const genderWiseProfileImage =
-  //   currentUser?.gender === "male"
-  //     ? `${ImagePath}user/User_Male.png`
-  //     : `${ImagePath}user/User_Female.png`;
-
   const ProfileImage = currentUser?.profileImage
     ? currentUser?.profileImage
     : genderWiseProfileImage;

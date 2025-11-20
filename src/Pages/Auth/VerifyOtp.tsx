@@ -58,7 +58,6 @@ const Verify = () => {
       const expiryTime = parseInt(savedExpiry, 10);
       const now = Date.now();
       const remaining = Math.floor((expiryTime - now) / 1000);
-      console.log(expiryTime, now, remaining);
       setSeconds(remaining > 0 ? remaining : 0);
     } else {
       const newExpiry = Date.now() + 120 * 1000;
