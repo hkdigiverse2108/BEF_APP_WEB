@@ -196,7 +196,7 @@ const WorkshopDetails = () => {
                   dispatch(setWorkshopPurchaseDrawer());
                 }}
                 htmlType="submit"
-                text="Enroll Now"
+                text="Join Now"
                 className="custom-button button button--mimas w-full sm:w-fit h-auto!"
               />
             </div>

@@ -1,16 +1,7 @@
 import { Button, Modal } from "antd";
 import { useState, type FC } from "react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-} from "react-icons/fa";
-import {
-  IoCheckmarkDoneSharp,
-  IoCopyOutline,
-  IoLinkOutline,
-} from "react-icons/io5";
+import { FaFacebookF, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { IoCheckmarkDoneSharp, IoCopyOutline, IoLinkOutline } from "react-icons/io5";
 import { PiShareFat } from "react-icons/pi";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FormButton } from "../../Attribute/FormFields";
@@ -39,117 +30,78 @@ const ShareModal: FC<{ referralCode?: string }> = ({ referralCode }) => {
 
   const openShareLink = (platform: string) => {
     const encodedURl = encodeURIComponent(pageUrl);
-    const ShareURL = referralCode
-      ? `Join me on DigiSkill and start learning amazing skills!  
-Use my referral code: ${referralCode} to get special benefits! \n Signup here: ${encodedURl}`
-      : encodedURl;
+    const Message = `Join Bharat Exam Fest — India’s fastest-growing UPSC learning platform! Start your UPSC preparation here: ${encodedURl}.`;
+    const ShareMessage = referralCode ? `${Message} \n\n Use my referral code: ${referralCode} to unlock special benefits.` : Message;
     let shareUrl = "";
 
     switch (platform) {
       case "whatsapp":
-        shareUrl = `https://api.whatsapp.com/send?text=${ShareURL}`;
+        shareUrl = `https://api.whatsapp.com/send?text=${ShareMessage}`;
         break;
       case "telegram":
-        shareUrl = `https://t.me/share/url?url=${ShareURL}`;
+        shareUrl = `https://t.me/share/url?url=${ShareMessage}`;
         break;
       case "linkedin":
-        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${ShareURL}`;
+        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${ShareMessage}`;
         break;
       case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?url=${ShareURL}`;
+        shareUrl = `https://twitter.com/intent/tweet?url=${ShareMessage}`;
         break;
       case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${ShareURL}`;
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${ShareMessage}`;
         break;
       case "instagram":
-        shareUrl = `https://www.instagram.com/?url=${ShareURL}`;
+        shareUrl = `https://www.instagram.com/?url=${ShareMessage}`;
         break;
       default:
         return;
     }
-
+    navigator.clipboard.writeText(ShareMessage);
     window.open(shareUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
     <>
-      <Button
-        icon={<PiShareFat />}
-        onClick={handleOpen}
-        className="flex items-center max-sm:!p-2"
-      >
+      <Button icon={<PiShareFat />} onClick={handleOpen} className="flex items-center max-sm:!p-2">
         <span className="max-sm:hidden font-semibold">Share</span>
       </Button>
 
-      <Modal
-        open={isOpen}
-        onCancel={handleClose}
-        footer={null}
-        centered
-        className="!p-0 share-modal"
-      >
+      <Modal open={isOpen} onCancel={handleClose} footer={null} centered className="!p-0 share-modal">
         <div className=" p-3 space-y-3">
           {/* Title */}
-          <h2 className="text-2xl font-semibold text-primary">
-            {referralCode ? "Invite Friends" : "Social Share"}
-          </h2>
+          <h2 className="text-2xl font-semibold text-primary">{referralCode ? "Invite Friends" : "Social Share"}</h2>
 
           {/* Share Icons */}
-          <p className=" text-gray-700 font-medium">
-            {" "}
-            {referralCode ? "Invite Friends" : " Share this link"} via
-          </p>
+          <p className=" text-gray-700 font-medium"> {referralCode ? "Invite Friends" : " Share this link"} via</p>
 
           <div className="flex gap-4 ">
-            <button
-              onClick={() => openShareLink("facebook")}
-              className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition"
-            >
+            <button onClick={() => openShareLink("facebook")} className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition">
               <FaFacebookF className="text-blue-600 text-2xl" />
             </button>
 
-            <button
-              onClick={() => openShareLink("twitter")}
-              className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition"
-            >
+            <button onClick={() => openShareLink("twitter")} className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition">
               <FaTwitter className="text-sky-500 text-2xl" />
             </button>
 
-            <button
-              onClick={() => openShareLink("instagram")}
-              className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition"
-            >
+            <button onClick={() => openShareLink("instagram")} className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition">
               <FaInstagram className="text-pink-600 text-2xl" />
             </button>
 
-            <button
-              onClick={() => openShareLink("whatsapp")}
-              className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition"
-            >
+            <button onClick={() => openShareLink("whatsapp")} className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition">
               <RiWhatsappFill className="text-green-500 text-2xl" />
             </button>
 
-            <button
-              onClick={() => openShareLink("linkedin")}
-              className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition"
-            >
+            <button onClick={() => openShareLink("linkedin")} className="size-12 flex items-center justify-center rounded-xl bg-gray-50 shadow hover:scale-110 transition">
               <FaLinkedin className="text-blue-700 text-2xl" />
             </button>
           </div>
 
           {/* Copy Link */}
-          <p className=" text-gray-700 font-medium">
-            {" "}
-            {referralCode ? "Copy Reffer Code" : " Copy Link"}
-          </p>
+          <p className=" text-gray-700 font-medium"> {referralCode ? "Copy Reffer Code" : " Copy Link"}</p>
 
           <div
             className={`flex items-center justify-between border rounded-lg px-3 py-3  cursor-pointer 
-              ${
-                isCopied
-                  ? "border-green-500 text-green-600"
-                  : "border-gray-300 bg-gray-50"
-              }`}
+              ${isCopied ? "border-green-500 text-green-600" : "border-gray-300 bg-gray-50"}`}
             onClick={handleCopyLink}
           >
             <div className="flex items-center gap-2 overflow-hidden">
@@ -157,19 +109,11 @@ Use my referral code: ${referralCode} to get special benefits! \n Signup here: $
               <span className="truncate">{copyText}</span>
             </div>
 
-            {isCopied ? (
-              <IoCheckmarkDoneSharp className="text-green-600 text-xl" />
-            ) : (
-              <IoCopyOutline className="text-xl" />
-            )}
+            {isCopied ? <IoCheckmarkDoneSharp className="text-green-600 text-xl" /> : <IoCopyOutline className="text-xl" />}
           </div>
 
           {/* Copy Button */}
-          <FormButton
-            htmlType="button"
-            text={referralCode ? "Copy Reffer Code" : " Copy URL"}
-            className="custom-button button button--mimas !w-full sm:w-fit h-auto!"
-          />
+          <FormButton htmlType="button" text={referralCode ? "Copy Reffer Code" : " Copy URL"} className="custom-button button button--mimas !w-full sm:w-fit h-auto!" />
         </div>
       </Modal>
     </>
