@@ -34,7 +34,7 @@ const GetScholarship = () => {
       <CardHeader title="Get Scholarship" />
       <hr className="text-card-border mt-4" />
       <div className="flex flex-col lg:flex-row gap-6 pt-7">
-        <div className="relative bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 lg:w-1/3 h-fit">
+        <div className="relative bg-input-box rounded-xl shadow-sm p-3 sm:p-7 border border-gray-200 lg:w-1/3 h-fit">
           <div className="relative bg-white p-4 rounded-lg z-20">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -90,7 +90,7 @@ const GetScholarship = () => {
           </div>
         </div>
 
-        <div className="bg-input-box rounded-xl shadow-sm p-7 border border-gray-200 lg:w-2/3">
+        <div className="bg-input-box rounded-xl shadow-sm p-3 sm:p-7 border border-gray-200 lg:w-2/3">
           <Tabs
             className="horizontal-tabs"
             orientation="horizontal"
@@ -116,7 +116,7 @@ const GetScholarship = () => {
                 className="!bg-white"
               />
               <span className="border-t border-primary flex w-full my-6" />
-              <Form.Item label={null} className="col-span-2 text-center">
+              <Form.Item label={null} className="col-span-2 text-center !m-0">
                 <FormButton
                   htmlType="submit"
                   text="Cash Withdrawal"
@@ -158,7 +158,7 @@ const GetScholarship = () => {
                 className="!bg-white"
               />
               <span className="border-t border-primary flex w-full my-6" />
-              <Form.Item label={null} className="col-span-2 text-center">
+              <Form.Item label={null} className="col-span-2 text-center !m-0">
                 <FormButton
                   htmlType="submit"
                   text="Cash Withdrawal"

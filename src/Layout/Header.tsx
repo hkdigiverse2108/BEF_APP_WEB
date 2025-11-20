@@ -166,7 +166,7 @@ const Header = () => {
                     <img
                       src={ProfileImage}
                       alt="profile"
-                      className="w-11 h-11 rounded-xl"
+                      className="w-10 h-10 rounded-xl"
                     />
                     <div className="flex-1 hidden max-2xl:max-w-35 sm:block max-w-28 truncate">
                       <span className="text-md font-semibold capitalize  ">
