@@ -1,6 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
 import { useEffect, useState, type SyntheticEvent } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
 import MainLoader from "../../../Components/Common/MainLoader";
@@ -10,7 +10,7 @@ import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
 import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
-import { ImagePath, URL_KEYS } from "../../../Constants";
+import { ImagePath, ROUTES, URL_KEYS } from "../../../Constants";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
 import { setCourseFooterShow } from "../../../Store/Slices/FooterShowSlice";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
@@ -27,6 +27,7 @@ const CourseDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { CourseFooterShow } = useAppSelector((state) => state.FooterShow);
 
@@ -41,25 +42,16 @@ const CourseDetails = () => {
   });
   const CourseDetailsData = courseData?.data;
 
-  const { data: modulesData } = useGetApiQuery(
-    { url: `${URL_KEYS.MODULE.ALL}?courseFilter=${CourseDetailsData?._id}` },
-    { skip: !CourseDetailsData?._id }
-  );
+  const { data: modulesData } = useGetApiQuery({ url: `${URL_KEYS.MODULE.ALL}?courseFilter=${CourseDetailsData?._id}` }, { skip: !CourseDetailsData?._id });
   const Modules = modulesData?.data?.module_data || [];
 
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
   };
 
-  const totalLecture = Modules?.reduce(
-    (sum: number, module: ModuleType) => sum + Number(module.totalLecture) || 0,
-    0
-  );
+  const totalLecture = Modules?.reduce((sum: number, module: ModuleType) => sum + Number(module.totalLecture) || 0, 0);
 
-  const totalTest = Modules?.reduce(
-    (sum: number, module: ModuleType) => sum + module?.totalTest,
-    0
-  );
+  const totalTest = Modules?.reduce((sum: number, module: ModuleType) => sum + module?.totalTest, 0);
 
   useEffect(() => {
     if (!courseLoading) {
@@ -69,26 +61,18 @@ const CourseDetails = () => {
   }, [courseLoading]);
 
   if (courseLoading) return <MainLoader />;
+  if (!CourseDetailsData) {
+    return navigate(ROUTES.COURSE.COURSE);
+  }
 
   return (
-    <div
-      className={`sub-container space-y-9 pt-9 bg-white  rounded-xl ${
-        !CourseFooterShow ? "pb-32! sm:pb-12!" : ""
-      }`}
-    >
+    <div className={`sub-container space-y-9 pt-9 bg-white  rounded-xl ${!CourseFooterShow ? "pb-32! sm:pb-12!" : ""}`}>
       <section className="group space-y-6 rounded-md relative">
         <div className="sm:hidden absolute top-0 w-full flex gap-5 justify-end px-2 pt-2">
           <ShareModal />
         </div>
         <figure>
-          <img
-            src={CourseDetailsData?.image}
-            alt={CourseDetailsData?.title}
-            onLoad={() => setImageLoaded(true)}
-            className={`w-full h-full rounded-lg  transition-opacity duration-300 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          />
+          <img src={CourseDetailsData?.image} alt={CourseDetailsData?.title} onLoad={() => setImageLoaded(true)} className={`w-full h-full rounded-lg  transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`} />
         </figure>
       </section>
       <section>
@@ -98,15 +82,11 @@ const CourseDetails = () => {
               <div className="bg-white border border-gray-300  w-fit h-fit px-3 py-1  rounded-md ">
                 <span>{CourseDetailsData?.language}</span>
               </div>
-              <div className="uppercase max-sm:text-xs text-primary font-bold ">
-                {CourseDetailsData?.syllabus?.subjectLevel}
-              </div>
+              <div className="uppercase max-sm:text-xs text-primary font-bold ">{CourseDetailsData?.syllabus?.subjectLevel}</div>
             </div>
           </section>
           <section className="flex max-sm:flex-col gap-4 justify-between">
-            <h1 className="capitalize  sm:text-2xl">
-              {CourseDetailsData?.title}
-            </h1>
+            <h1 className="capitalize  sm:text-2xl">{CourseDetailsData?.title}</h1>
             <span className="max-sm:hidden">
               <ShareModal />
             </span>
@@ -116,11 +96,7 @@ const CourseDetails = () => {
             <div className="bg-input-box  transition-all px-5 py-3 rounded w-full flex flex-col sm:flex-row sm:items-center sm:gap-5">
               <div className="flex items-center  gap-3 mb-3 sm:mb-0">
                 <figure className="rounded-full bg-primary/10  w-13 h-13 sm:w-15 sm:h-15 flex items-center justify-center  ">
-                  <img
-                    src={`${ImagePath}workshop/users.png`}
-                    alt="Users"
-                    className="w-8 h-8  sm:w-10 sm:h-10"
-                  />
+                  <img src={`${ImagePath}workshop/users.png`} alt="Users" className="w-8 h-8  sm:w-10 sm:h-10" />
                 </figure>
                 <p className=" sm:hidden font-semibold ">Module</p>
               </div>
@@ -139,11 +115,7 @@ const CourseDetails = () => {
               {/* Image + Title (top row on mobile) */}
               <div className="flex items-center gap-3 sm:mb-0">
                 <figure className="rounded-full bg-primary/10 p-3 sm:p-4 h-fit w-fit">
-                  <img
-                    src={`${ImagePath}workshop/wallet.png`}
-                    alt="Users"
-                    className="w-8 sm:w-10 h-fit"
-                  />
+                  <img src={`${ImagePath}workshop/wallet.png`} alt="Users" className="w-8 sm:w-10 h-fit" />
                 </figure>
                 <div className="space-y-2 w-full font-semibold ">
                   <p>{CourseDetailsData?.courseMoneyBack}</p>
@@ -184,15 +156,8 @@ const CourseDetails = () => {
               }}
             />
           )}
-          {tabIndex === "lectures" && (
-            <CourseLecturesTab
-              isUnlocked={CourseDetailsData?.isUnlocked}
-              Modules={Modules}
-            />
-          )}
-          {tabIndex === "module" && (
-            <CourseModuleTab id={CourseDetailsData?._id} />
-          )}
+          {tabIndex === "lectures" && <CourseLecturesTab isUnlocked={CourseDetailsData?.isUnlocked} Modules={Modules} />}
+          {tabIndex === "module" && <CourseModuleTab id={CourseDetailsData?._id} />}
           {tabIndex === "faqs" && <CourseFaqsTab />}
         </div>
       </section>
@@ -205,19 +170,13 @@ const CourseDetails = () => {
               {CourseDetailsData?.discountPrice ? (
                 <h1 className=" sm:text-xl font-semibold flex gap-0.5 items-end">
                   <span>₹{CourseDetailsData?.payingPrice}/</span>
-                  <span className="text-base text-gray-600 font-semibold">
-                    ₹{CourseDetailsData?.discountPrice}
-                  </span>
-                  <span className="text-base font-medium text-red-500 line-through ps-1">
-                    {CourseDetailsData?.price}
-                  </span>
+                  <span className="text-base text-gray-600 font-semibold">₹{CourseDetailsData?.discountPrice}</span>
+                  <span className="text-base font-medium text-red-500 line-through ps-1">{CourseDetailsData?.price}</span>
                 </h1>
               ) : (
                 <h1 className=" sm:text-xl font-semibold flex gap-0.5 items-end">
                   <span>₹{CourseDetailsData?.payingPrice}</span>
-                  <span className="text-base text-red-500  line-through decoration-2 ps-1">
-                    {CourseDetailsData?.price}
-                  </span>
+                  <span className="text-base text-red-500  line-through decoration-2 ps-1">{CourseDetailsData?.price}</span>
                 </h1>
               )}
             </div>
