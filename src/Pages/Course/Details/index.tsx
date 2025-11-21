@@ -1,6 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
 import { useEffect, useState, type SyntheticEvent } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
 import MainLoader from "../../../Components/Common/MainLoader";
@@ -27,7 +27,6 @@ const CourseDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { CourseFooterShow } = useAppSelector((state) => state.FooterShow);
 
@@ -62,7 +61,7 @@ const CourseDetails = () => {
 
   if (courseLoading) return <MainLoader />;
   if (!CourseDetailsData) {
-    return navigate(ROUTES.COURSE.COURSE);
+    return <Navigate to={ROUTES.COURSE.COURSE} replace />;
   }
 
   return (

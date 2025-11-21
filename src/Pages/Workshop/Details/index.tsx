@@ -5,7 +5,7 @@ import { FormButton } from "../../../Attribute/FormFields";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import ShareModal from "../../../Components/Common/ShareModal";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
 import { setWorkshopPurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
 import WorkshopLecturesTab from "../../../Components/Workshop/Details/WorkshopLecturesTab";
@@ -60,7 +60,7 @@ const WorkshopDetails = () => {
   }, [workshopLoading]);
   if (workshopLoading) return <MainLoader />;
   if (!workshop) {
-    return navigate(ROUTES.WORKSHOP.WORKSHOP);
+    return <Navigate to={ROUTES.WORKSHOP.WORKSHOP} replace />;
   }
 
   return (
