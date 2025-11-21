@@ -4,6 +4,7 @@ import DrawerSlice from "./Slices/DrawerSlice";
 import FilterSlice from "./Slices/FilterSlice";
 import workshopSlice from "./Slices/WorkshopSlice";
 import FooterShowSlice from "./Slices/FooterShowSlice";
+import VideoModalSlice from "./Slices/VideoModalSlice";
 
 import { CommonApi, CommonGlobalApi } from "../Api";
 
@@ -16,12 +17,10 @@ export const Store = configureStore({
     drawer: DrawerSlice,
     filter: FilterSlice,
     workshops: workshopSlice,
-    FooterShow : FooterShowSlice
+    FooterShow: FooterShowSlice,
+    VideoModal: VideoModalSlice,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(CommonApi.middleware)
-      .concat(CommonGlobalApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(CommonApi.middleware).concat(CommonGlobalApi.middleware),
 });
 
 export type RootState = ReturnType<typeof Store.getState>;

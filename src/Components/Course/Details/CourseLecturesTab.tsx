@@ -4,18 +4,9 @@ import { Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
 import LectureCard from "../../WorkshopCourseCommon/LectureCard";
 import { URL_KEYS } from "../../../Constants";
 import type { LectureType, ModuleType } from "../../../Types";
-import VideoModal from "../../Common/VideoModal";
 import { Empty } from "antd";
 
-const CourseLecturesTab = ({
-  Modules,
-  isUnlocked,
-}: {
-  Modules: ModuleType[];
-  isUnlocked: boolean;
-}) => {
-  const [playVideo, setPlayVideo] = useState(false);
-  const [videoLink, setVideoLink] = useState("");
+const CourseLecturesTab = ({ Modules, isUnlocked }: { Modules: ModuleType[]; isUnlocked: boolean }) => {
   const [selectedModule, setSelectedModule] = useState(Modules[0]?._id);
 
   const theme = useTheme();
@@ -56,29 +47,16 @@ const CourseLecturesTab = ({
             }}
           >
             {Modules?.map((module: ModuleType, index) => {
-              return (
-                <Tab key={index} value={module?._id} label={module?.name} />
-              );
+              return <Tab key={index} value={module?._id} label={module?.name} />;
             })}
           </Tabs>
         </div>
         <div className="w-full flex flex-col gap-1">
           {Lectures?.map((lecture: LectureType) => (
-            <LectureCard
-              key={lecture?._id}
-              lecture={lecture}
-              isUnlocked={isUnlocked}
-              setPlayVideo={setPlayVideo}
-              setVideoLink={setVideoLink}
-            />
+            <LectureCard key={lecture?._id} lecture={lecture} isUnlocked={isUnlocked} />
           ))}
         </div>
       </div>
-      <VideoModal
-        playVideo={playVideo}
-        setPlayVideo={setPlayVideo}
-        videoLink={videoLink}
-      />
     </>
   );
 };
