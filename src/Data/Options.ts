@@ -27,3 +27,8 @@ export const WhyFalseOptions = [
   { label: "Out Of Material", value: "outOfMaterial" },
   { label: "Current Affair Not Read", value: "currentAffairNotRead" },
 ];
+
+export const AccountTypeOptions = [
+  { value: "SAVINGS", label: "SAVINGS" },
+  { value: "CURRENT", label: "CURRENT" },
+];

@@ -12,8 +12,6 @@ const Home = () => {
       <Course />
       <hr className="w-[95%] mx-auto text-theme mt-2 mb-4 sm:my-8 opacity-20" />
       <YoutubeValues />
-      {/* <hr className="w-[95%] mx-auto text-theme mt-2 mb-4 sm:my-8 opacity-20" />
-      <SocialMediaEngage /> */}
     </div>
   );
 };

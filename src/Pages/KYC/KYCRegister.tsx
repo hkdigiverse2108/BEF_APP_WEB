@@ -105,10 +105,6 @@ const KYCRegister = () => {
 
               {/* Button */}
               <FormButton htmlType="submit" text="Next" className="custom-button button button--mimas w-full !h-auto" />
-
-              {/* <p className="mt-4 text-center font-semibold">
-                RETURN TO <span className="text-orange-500 font-normal cursor-pointer hover:underline">INDIAN QUIZ PRIVET LIMITED</span>
-              </p> */}
             </Form>
           </div>
         </div>

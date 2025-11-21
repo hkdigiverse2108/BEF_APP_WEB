@@ -571,7 +571,6 @@ const Question = () => {
               </>
             )}
             {/* Passage Section */}
-            {/* {QA.length > 0 && ( */}
             <div className="rounded-2xl">
               <div className="!grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {isLoading
@@ -585,7 +584,6 @@ const Question = () => {
                     })}
               </div>
             </div>
-            {/* )} */}
 
             {/* Confidence Buttons */}
             <span className="border-t border-card-border flex w-full my-6" />

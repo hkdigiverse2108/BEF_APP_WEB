@@ -30,6 +30,9 @@ body {
 .ant-select-selector {
   @apply !bg-input-box !py-3;
 }
+.scholarship .ant-select-selector{
+  @apply !bg-white !py-3;
+}
 input {
   @apply !text-theme placeholder:!font-medium placeholder:capitalize;
 }

@@ -18,7 +18,6 @@ export const StatementQuestion = ({ id, statements, answers, onCheck }: Statemen
 
         {showImage ? <img src={statements} className="transparent-img"/> : <span className="font-normal">{statements}</span>}
       </div>
-      {/* <span className="w-full font-medium">{`${id + 1}. ${statements}`}</span> */}
       {onCheck && answers && (
         <div className="flex justify-end max-sm:w-full gap-2">
           <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>

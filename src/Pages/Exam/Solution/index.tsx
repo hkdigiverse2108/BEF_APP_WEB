@@ -190,9 +190,6 @@ const Solution = () => {
                 <Link to={`${ROUTES.EXAM.MISTAKE_MAP_REPORT.replace(":id", id || "")}${search}`} className="bg-linear-to-r from-(--primary) to-(--success) text-white font-semibold text-sm p-2 px-4 rounded capitalize">
                   mistake map report
                 </Link>
-                {/* <span className="bg-input-box font-semibold text-sm p-2  rounded">
-                  <PiFilePdf className="text-xl" />
-                </span> */}
               </div>
               <span className="border-t border-card-border flex w-full my-6" />
               {isQaAnswers?.length !== 0 && (

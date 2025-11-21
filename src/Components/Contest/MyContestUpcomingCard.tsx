@@ -64,8 +64,6 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
               <p className="font-semibold text-lg">₹{pricePool}</p>
             </section>
 
-            {/* <span className="max-sm:hidden flex border-l  border-gray-200 w-fit my-2" /> */}
-
             <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
               <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
             </section>
@@ -90,16 +88,6 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
             <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
           </div>
         </div>
-
-        {/* <section className="flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
-          <span className="text-2xl">
-            <BsFillAlarmFill />
-          </span>
-          <div className="flex flex-col text-xs font-semibold">
-            <span>{dayjs(contestStartDate).format("h:mm A")}</span>
-            <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
-          </div>
-        </section> */}
       </div>
     </div>
   );

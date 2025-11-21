@@ -99,7 +99,7 @@ const MistakeMapReport = () => {
                 <ul className="list-disc space-y-2 max-h-100 overflow-y-auto overflow-x-hidden">
                   {items &&
                     Object.entries(items)?.map(([subtopic, count]) => (
-                      <li key={subtopic} className="flex justify-between w-full border-b border-card-border p-3 sm:px-4 m-0">
+                      <li key={subtopic} className="flex justify-between w-full border-b border-card-border p-3 sm:px-4 m-0 gap-3">
                         <span>{subtopic}</span>
                         <span>{count}</span>
                       </li>

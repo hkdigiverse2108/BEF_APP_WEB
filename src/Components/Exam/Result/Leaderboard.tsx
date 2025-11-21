@@ -56,9 +56,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
             <div className="flex items-center gap-6 justify-between">
               {/* ITEM */}
               <TimeBox title="HOUR" value={hours} />
-              {/* <span className="text-3xl font-semibold text-black">:</span> */}
               <TimeBox title="MIN" value={minutes} />
-              {/* <span className="text-3xl font-semibold text-black">:</span> */}
               <TimeBox title="SEC" value={seconds} />
             </div>
 
@@ -73,13 +71,12 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
             {LeaderboardData && (
               <div className="bg-white text-gray-900 p-3 rounded-lg shadow font-normal w-full flex flex-wrap max-sm:justify-center items-center gap-2">
                 <div className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-xl font-semibold text-lg">{LeaderboardData[0]?.rank || "1"}</div>
-                {/* 🏅 You are doing better than <span className="text-orange-600 px-1">60%</span> of other players! */}
                 🏅 {LeaderboardData[0]?.firstName || ""} {LeaderboardData[0]?.lastName || ""}
               </div>
             )}
 
             <div className="mt-10 grid max-sm:grid-cols-1 grid-cols-3 justify-center items-end gap-5 w-full">
-              {RanksData?.map((list ,index) =>
+              {RanksData?.map((list) =>
                 list.winners
                   ?.filter((item) => item.rank <= 3)
                   ?.map((item, i) => (
@@ -99,49 +96,12 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
                     </div>
                   ))
               )}
-              {/* {RanksData?.map((item, i) => (
-            <div key={i} className={`flex flex-col items-center w-1/3 max-sm:w-full ${i === 0 ? "max-sm:order-1" : i === 2 ? "max-sm:order-2" : ""}`}>
-              <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" />
-              <div className={`w-full rounded-t-lg text-white  font-semibold py-3 text-center`} style={getBackgroundStyle(Number(item.startPlace))}>
-                {item.startPlace}
-              </div>
-              {item.winners?.map((list, index) => (
-                <div key={index} className="w-full bg-white text-center rounded-b-xl shadow p-4">
-                  <img src={list.profileImage ||genderWiseProfileImage} alt={list.firstName} className="w-12 h-12 rounded-sm mx-auto mb-2" />
-                  <p className="font-semibold text-sm">{list.firstName} {list.lastName}</p>
-                  <p className="text-xs text-gray-600">{list.points}</p>
-                </div>
-              ))}
-            </div>
-          ))} */}
-              {/* {players.map((p, i) => (
-            <div key={p.id} className={`flex flex-col items-center w-1/3 max-sm:w-full ${i === 0 ? "max-sm:order-1" : i === 2 ? "max-sm:order-2" : ""}`}>
-              <img src={`${ImagePath}result/Trophy.png`} alt="Trophy" className={`${p.size.split(" ")[0]}`} />
-              <div className={`w-full rounded-t-lg text-white ${p.size.split(" ")[2]} font-semibold py-3 text-center`} style={getBackgroundStyle(p.id)}>
-                {p.id}
-              </div>
-              <div className="w-full bg-white text-center rounded-b-xl shadow p-4">
-                <img src={p.img} alt={p.name} className="w-12 h-12 rounded-sm mx-auto mb-2" />
-                <p className="font-semibold text-sm">{p.name}</p>
-                <p className="text-xs text-gray-600">{p.score}</p>
-              </div>
-            </div>
-          ))} */}
-              {/* </div> */}
+             
             </div>
           </div>
           {RanksData?.some((list) => list?.winners?.some((item) => item.rank > 3)) && (
             <div className="pt-7">
               <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 w-full max-h-[450px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-0">
-                {/* {Users.map((user, index) => (
-                <div key={index} className="w-full mx-auto flex items-center gap-x-4 rounded-xl bg-white p-3 sm:p-6 shadow-lg ">
-                  <img className="size-12 rounded-sm" src={user.img} alt="ChitChat Logo" />
-                  <div>
-                    <div className="max-sm:text-sm text-gray-500">{user.rank}TH RANK</div>
-                    <p className="text-md sm:text-xl font-medium capitalize">{user.name}</p>
-                  </div>
-                </div>
-              ))} */}
                 {RanksData?.map((list) =>
                   list.winners
                     ?.filter((item) => item.rank > 3)

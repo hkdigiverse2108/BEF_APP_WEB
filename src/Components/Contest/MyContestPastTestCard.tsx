@@ -51,8 +51,6 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
                 <p className="font-semibold text-lg">₹{pricePool}</p>
               </section>
 
-              {/* <span className="max-sm:hidden flex border-l  border-gray-200 w-fit my-2" /> */}
-
               <section className="flex sm:flex-col justify-between max-sm:items-center sm:justify-end items-end gap-2">
                 <h1>Achieved Scholarship</h1>
                 <p className="font-semibold text-lg bg-success text-white px-3 py-1 w-fit rounded">₹{winningPrice}</p>
@@ -68,7 +66,6 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           </div>
 
           {/* Footer */}
-          {/* <span className="flex border-b border-gray-200 w-full my-2" /> */}
 
           <div className="flex max-sm:flex-col justify-between items-center border-t border-gray-200 px-4 mt-2 text-sm font-semibold ">
             <div className="flex max-sm:justify-center items-center gap-4 w-full h-full pt-3 pb-1">
@@ -78,15 +75,6 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
                 <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
               </div>
             </div>
-            {/* <section className="max-sm:hidden flex gap-1 w-full lg:w-1/2 me-2 justify-end lg:justify-center items-center text-nowrap">
-          <span className="text-2xl">
-            <BsFillAlarmFill />
-          </span>
-          <div className="flex flex-col text-xs font-semibold">
-            <span>{dayjs(contestStartDate).format("h:mm A")}</span>
-            <span>{dayjs(contestStartDate).format("MMM DD, YYYY")}</span>
-          </div>
-        </section> */}
           </div>
         </div>
       </div>

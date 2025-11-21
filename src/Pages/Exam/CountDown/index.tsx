@@ -32,9 +32,7 @@ const CountDown = () => {
         <div className="flex items-center gap-6">
           {/* ITEM */}
           <TimeBox title="HOUR" value={hours} />
-          {/* <span className="text-3xl font-semibold text-black">:</span> */}
           <TimeBox title="MIN" value={minutes} />
-          {/* <span className="text-3xl font-semibold text-black">:</span> */}
           <TimeBox title="SEC" value={seconds} />
         </div>
 

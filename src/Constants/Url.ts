@@ -122,6 +122,7 @@ export const URL_KEYS = {
   },
   WITHDRAW: {
     WITHDRAW: "/withdraw",
+    REQUEST: "/withdraw/request",
   },
   CONTACT_US: {
     ADD: "/contact-us/add",
@@ -132,5 +133,11 @@ export const URL_KEYS = {
   },
   YOUTUBE_VISUALS: {
     All: "/youtube-visuals/all",
+  },
+  BANK_ACCOUNT: {
+    ADD: "/bank-account/add",
+    EDIT: "/bank-account/edit",
+    ALL: "/bank-account/all",
+    DELETE: "/bank-account/delete",
   },
 } as const;

@@ -59,7 +59,6 @@ const NavMenuDrawer = () => {
             }`}
           >
             <p className="font-semibold text-base flex items-center uppercase">
-              {/* <span className="me-3 text-2xl">{item.text}</span> */}
               {item.text}
             </p>
           </li>

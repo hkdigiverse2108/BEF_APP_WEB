@@ -44,14 +44,10 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
           <div className="grid gap-0.5 w-full">
             <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">
               {name}
-              {/* {name || "Mega Contest"} */}
             </h3>
           </div>
         </div>
 
-        {/* <div className="absolute overflow-hidden top-0 right-0  ">
-          <img src="/assets/images/contest/Contest-Bg.png" alt="" />
-        </div> */}
       </div>
 
       <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
@@ -60,7 +56,6 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
             <h3 className="capitalize">Get Scholarship</h3>
             <p>
               ₹{pricePool}
-              {/* {pricePool || "₹7,50,000.00"} */}
             </p>
           </section>
           <section>
@@ -69,11 +64,9 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
           <section className="flex justify-between flex-wrap ">
             <h4>
               {filledSpots} Filled
-              {/* {filledSpots || "25000 Filled"} */}
             </h4>
             <h4 className="font-semibold">
               {totalSpots} Total Student
-              {/* {totalSpots || "50000 Spots"} */}
             </h4>
           </section>
         </div>
@@ -90,7 +83,6 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
             <FaAward />
             <span>
               {`₹${winningAmountPerFee}`}
-              {/* {`₹${winningAmountPerFee || "1, 00, 000"}`} */}
             </span>
           </section>
           <span className="h-3 border border-l border-white/50"></span>
@@ -98,7 +90,6 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
             <IoMdTrophy />
             <span>
               {winnerPercentage}
-              {/* {winnerPercentage || "30%"} */}
             </span>
           </section>
           <span className="h-3 border border-l border-white/50"></span>

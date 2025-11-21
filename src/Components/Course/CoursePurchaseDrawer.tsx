@@ -165,11 +165,6 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                     setRefferCode={setRefferCode}
                   />
                 </div>
-                {/* <div>
-                  <p className="text-gray-700  font-medium">
-                    (If 60 marks min. not from our course 100% money back)
-                  </p>
-                </div> */}
               </section>
               {isRefferApplyed && data?.priceInStruction && (
                 <section className="bg-white rounded-lg p-3 space-y-1 ">
@@ -195,8 +190,6 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                   <p className="font-semibold">Enrollment Fee</p>
                   <p className="font-semibold text-lg ">
                     {isRefferApplyed ? payingPrice : price}
-                    {/* 6999 */}
-                    {/* {payingPrice} */}
                   </p>
                 </div>
                 <span className="border-b border-primary flex" />
@@ -208,14 +201,12 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                         {isDiscountPrice ? (
                           <>
                             <span className="font-bold text-xl text-success">
-                              {/* 999/ */}₹{payingPrice}/
+                              ₹{payingPrice}/
                             </span>
                             <span className="font-semibold text-md text-gray-600">
-                              {/* 24,000 */}
                               {discountPrice}
                             </span>
                             <span className="font-semibold text-md line-through text-red-500 ">
-                              {/* 24,000 */}
                               {price}
                             </span>
                           </>

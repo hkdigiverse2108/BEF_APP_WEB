@@ -236,7 +236,6 @@ const KYCVerification = () => {
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row justify-between gap-4">
-              {/* <FormButton htmlType="button" text="REPLACE" className="custom-button-light button button--mimas w-full !h-auto" /> */}
               <FormButton
                 htmlType="submit"
                 text="UPLOAD & CONTINUE"
