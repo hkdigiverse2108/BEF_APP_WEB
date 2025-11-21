@@ -130,4 +130,5 @@ export interface FullFestReportResponse extends MessageStatus {
 export interface FullFestReportApiResponse {
   data: FullFestReportResponse;
   isLoading: boolean;
+  isFetching: boolean;
 }

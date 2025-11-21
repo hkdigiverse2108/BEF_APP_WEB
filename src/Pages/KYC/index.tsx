@@ -22,7 +22,7 @@ const KYC = () => {
             <img src={`${ImagePath}kyc/KYC_Banner.jpg`} alt="Recharge Wallet" className="w-full h-full object-cover" />
           </div>
           <div className="flex flex-col w-full  h-full justify-center">
-            <h3 className="text-2xl font-bold mb-2">HK DigiVerse LLP</h3>
+            <h3 className="text-2xl font-semibold mb-2">HK DigiVerse LLP</h3>
             <p className=" text-gray-700 mb-6">KYC verification is mandatory for cash withdrawal to ensure authenticity and compliance with legal regulations. Any incomplete or incorrect information may Result in delays in the process.</p>
             <div className="grid grid-cols-1 gap-5">
               <div className="h-full relative bg-input-box rounded-xl p-5 flex justify-between items-center gap-2">

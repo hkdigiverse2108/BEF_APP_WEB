@@ -57,7 +57,7 @@ const KYCRegister = () => {
 
           {/* Right Form */}
           <div className="flex flex-col w-full h-full justify-center">
-            <h3 className="text-2xl font-bold mb-2">HK DigiVerse LLP</h3>
+            <h3 className="text-2xl font-semibold mb-2">HK DigiVerse LLP</h3>
             <p className="text-gray-700 mb-6">KYC verification is mandatory for cash withdrawal to ensure authenticity and compliance with legal regulations. Any incomplete or incorrect information may result in delays in the process.</p>
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
