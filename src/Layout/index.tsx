@@ -1,5 +1,5 @@
 import Aos from "aos";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ROUTES, STORAGE_KEYS, URL_KEYS } from "../Constants";
 import { Storage, updateStorage } from "../Utils";
