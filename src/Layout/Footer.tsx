@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { SOCIAL_MEDIA } from "../Data/Links";
+import { HK_DIGIVERSE_URL } from "../Constants";
 
 const Footer = () => {
   return (
@@ -9,11 +10,7 @@ const Footer = () => {
         {SOCIAL_MEDIA?.map((item) => {
           const Icon = item?.icon;
           return (
-            <Link
-              key={item?.title}
-              to={item?.link}
-              className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white hover:text-orange-500 transition"
-            >
+            <Link key={item?.title} to={item?.link} className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white hover:text-orange-500 transition">
               <Icon />
             </Link>
           );
@@ -22,10 +19,7 @@ const Footer = () => {
 
       <div className="text-center text-base">
         © Copyrights {new Date().getFullYear()} All rights reserved by
-        <Link
-          to="https://hkdigiverse.com/"
-          className="font-medium underline ps-1"
-        >
+        <Link target="_blank" to={HK_DIGIVERSE_URL} className="font-medium underline ps-1">
           HK DigiVerse LLP
         </Link>
       </div>

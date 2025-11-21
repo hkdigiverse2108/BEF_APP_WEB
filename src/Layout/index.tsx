@@ -9,6 +9,7 @@ import WhatsappIcon from "../Components/Common/WhatsappIcon";
 import { AntMessageHolder } from "../Components/Common/AntMessage";
 import { useAppSelector } from "../Store/hooks";
 import { useGetApiQuery } from "../Api/CommonApi";
+import VideoModal from "../Components/Common/VideoModal";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -16,6 +17,7 @@ const Layout = () => {
   const { CourseFooterShow, WorkshopFooterShow } = useAppSelector((state) => state.FooterShow);
   const { user } = useAppSelector((state) => state.auth);
   const { data, refetch } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
+  const { modalVideoLink, modalVideoPlay } = useAppSelector((state) => state.VideoModal);
 
   const isCourseDetails = pathname.startsWith(ROUTES.COURSE.DETAILS.replace(":id", ""));
   const isWorkshopDetails = pathname.startsWith(ROUTES.WORKSHOP.DETAILS.replace(":id", ""));
@@ -57,6 +59,7 @@ const Layout = () => {
       </div>
       {!isQuestionPage && !FooterHide && <Footer />}
       <WhatsappIcon />
+      <VideoModal playVideo={modalVideoPlay} videoLink={modalVideoLink} />
     </div>
   );
 };
