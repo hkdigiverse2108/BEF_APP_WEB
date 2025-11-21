@@ -10,7 +10,7 @@ import type { PaymentStatusType, RazorpayResponse } from "../../Types";
 import { updateStorage } from "../../Utils";
 
 const Recharge = () => {
-  const MinAmount = 1;
+  const MinAmount = 50;
   const [form] = Form.useForm();
   const [PostApi] = usePostApiMutation();
   const [rechargeAmount, setRechargeAmount] = useState(MinAmount);
@@ -40,10 +40,8 @@ const Recharge = () => {
 
   const handlePaymentComplete = async (status: PaymentStatusType, response: RazorpayResponse) => {
     try {
-      console.log("ress : ", response, status, rechargeAmount);
       const TdsAmount = 0;
       const TotalAmount = Number(rechargeAmount) + Number(TdsAmount);
-      console.log("TotalAmount : ", TotalAmount);
 
       const payment_id = response?.razorpay_payment_id;
       const paymentRes = await PostApi({

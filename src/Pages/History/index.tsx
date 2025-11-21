@@ -37,15 +37,15 @@ const History = () => {
                 {HistoryData?.map((item, index) => (
                   <div key={index} className="flex flex-wrap justify-between items-center sm:gap-3 bg-input-box border border-card-border p-3 rounded-lg">
                     <div className="flex justify-between items-center gap-3">
-                      <div className="bg-white rounded-xl w-10 h-10 flex justify-center items-center">{item?.transactionType === "withdraw" ? <BsGraphDownArrow className="text-lg" /> : <BsGraphUpArrow className="text-lg" />}</div>
+                      <div className="bg-white rounded-xl w-10 h-10 flex justify-center items-center">{item?.transactionType !== "withdraw" ? <BsGraphDownArrow className="text-lg" /> : <BsGraphUpArrow className="text-lg" />}</div>
                       <div className="">
                         <span className="text-md font-medium capitalize block truncate">{item?.title}</span>
                         <p className="capitalize flex text-xs">{FormatDateTime(item?.createdAt)}</p>
                       </div>
                     </div>
                     <div className="">
-                      <p className={`text-base font-medium ${item?.transactionType === "withdraw" ? "text-danger" : "text-success"}`}>
-                        {item?.transactionType === "withdraw" ? "-" : "+"} ₹{item?.amount}
+                      <p className={`text-base font-medium ${item?.transactionType !== "withdraw" ? "text-danger" : "text-success"}`}>
+                        {item?.transactionType !== "withdraw" ? "-" : "+"} ₹{item?.amount}
                       </p>
                     </div>
                   </div>
