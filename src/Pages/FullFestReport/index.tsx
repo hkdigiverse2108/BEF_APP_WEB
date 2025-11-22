@@ -26,7 +26,6 @@ const FullFestReport = () => {
   const { data, isLoading , isFetching} = useGetApiQuery<FullFestReportApiResponse>({
     url: `${URL_KEYS.FULL_FEST.FULL_FEST}${FullFestSubjectFilter ? `?subjectFilter=${FullFestSubjectFilter}` : ""}`,
   });
-  console.log(isFetching);
   
 
   const Sec1 = data?.data?.sec1;

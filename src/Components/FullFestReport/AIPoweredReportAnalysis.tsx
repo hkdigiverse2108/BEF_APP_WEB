@@ -32,7 +32,7 @@ const AIPoweredReportAnalysis: FC<{
         <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
         <div className="text-left">
           <h3 className="text-2xl font-semibold">{title}</h3>
-          <p className="text-sm font-semibold mt-1 capitalize text-neutral-500">{description}</p>
+          <p className="text-sm font-medium mt-1 capitalize text-neutral-500">{description}</p>
         </div>
       </div>
       <div className="p-3">
@@ -82,7 +82,7 @@ const AIPoweredReportAnalysis: FC<{
             <div className="h-full relative p-3 ps-5 bg-input-box rounded-xl">
               <div className="w-1 h-[50%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
               <div className="text-left">
-                <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Number(SkipDareReport?.fiftyFifty.toFixed(2)))}</p>
+                <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Math.abs(Number(SkipDareReport?.fiftyFifty.toFixed(2))))}</p>
               </div>
             </div>
           )}
@@ -93,7 +93,7 @@ const AIPoweredReportAnalysis: FC<{
             <div className="h-full relative p-3 ps-5 bg-input-box rounded-xl">
               <div className="w-1 h-[50%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
               <div className="text-left">
-                <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Number(SkipDareReport?.direct.toFixed(2)))}</p>
+                <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Math.abs(Number(SkipDareReport?.direct.toFixed(2))))}</p>
               </div>
             </div>
           )}
@@ -105,7 +105,7 @@ const AIPoweredReportAnalysis: FC<{
             <div className="h-full relative p-3 ps-5 bg-input-box rounded-xl">
               <div className="w-1 h-[50%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
               <div className="text-left">
-                <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Number(SkipDareReport?.oneEliminate.toFixed(2)))}</p>
+                <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Math.abs(Number(SkipDareReport?.oneEliminate.toFixed(2))))}</p>
               </div>
             </div>
           )}

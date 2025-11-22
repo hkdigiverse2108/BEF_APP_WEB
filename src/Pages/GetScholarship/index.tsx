@@ -9,11 +9,13 @@ import { HTTP_STATUS, ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import { AccountTypeOptions } from "../../Data";
 import { useAppSelector } from "../../Store/hooks";
 import type { BankAccountApiResponse, BankAccountData } from "../../Types";
+import BankAccountModal from "./BankAccountModal";
 
 const GetScholarship = () => {
   const [amount, setAmount] = useState("");
   const [isBankAccount, setBankAccount] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
+  const [BankAccountModalOpen, setBankAccountModalOpen] = useState(false);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { genderWiseProfileImage, user } = useAppSelector((state) => state.auth);
@@ -22,7 +24,6 @@ const GetScholarship = () => {
 
   const { data: kyc } = useGetApiQuery({ url: `${URL_KEYS.KYC.ALL}?page=1&limit=1` });
   const KYCData = kyc?.data?.kyc_data[0];
-  console.log(KYCData);
 
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
   const userData = data?.data;
@@ -59,9 +60,17 @@ const GetScholarship = () => {
     });
   };
 
-  const handleDelete = async (id: string) => {
-    const res = await DeleteApi({ url: `${URL_KEYS.BANK_ACCOUNT.DELETE}/${id}`, method: "DELETE" });
+  const openDeleteModal = (id: string) => {
+    setEditId(id);
+    setBankAccountModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!editId) return;
+    const res = await DeleteApi({ url: `${URL_KEYS.BANK_ACCOUNT.DELETE}/${editId}`, method: "DELETE" });
     if (res?.data?.status === HTTP_STATUS.OK) {
+      setBankAccountModalOpen(false);
+      setEditId(null);
       refetch();
     }
   };
@@ -79,7 +88,7 @@ const GetScholarship = () => {
     <div className="sub-container pt-4 scholarship">
       <CardHeader title="Get Scholarship" />
       <hr className="text-card-border mt-4" />
-      {!["verified", "pending"].includes(KYCData?.status) ? (
+      {!["verified"].includes(KYCData?.status) ? (
         <div className="flex flex-col items-center justify-center py-20">
           <div className="rounded-xl p-8 max-w-sm text-center shadow-xl bg-input-box">
             <div className="flex justify-center mb-4">
@@ -182,7 +191,7 @@ const GetScholarship = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label="default Back" name="isDefault" valuePropName="checked" initialValue={false}>
-                      <Switch defaultChecked />
+                      <Switch />
                     </Form.Item>
                   </Col>
                   <span className="border-t border-primary flex w-full mb-6" />
@@ -227,9 +236,9 @@ const GetScholarship = () => {
                             Account Number :- <span className="text-normal text-stone-500">{item?.accountNumber}</span>
                           </li>
                         )}
-                        {item?.accountHolderName && (
+                        {item?.ifscCode && (
                           <li className="capitalize">
-                            IFSC Code :- <span className="text-normal text-stone-500">{item?.accountHolderName}</span>
+                            IFSC Code :- <span className="text-normal text-stone-500">{item?.ifscCode}</span>
                           </li>
                         )}
                         {item?.accountType && (
@@ -242,7 +251,7 @@ const GetScholarship = () => {
                         <div className="bg-input-box font-semibold text-sm p-2 px-4 rounded" onClick={() => handleEdit(item)}>
                           Edit
                         </div>
-                        <div className="bg-red-100 text-red-500 font-semibold text-sm p-2 px-4 rounded" onClick={() => handleDelete(item._id)}>
+                        <div className="bg-red-100 text-red-500 font-semibold text-sm p-2 px-4 rounded" onClick={() => openDeleteModal(item._id)}>
                           Delete
                         </div>
                       </div>
@@ -258,6 +267,7 @@ const GetScholarship = () => {
           </div>
         </div>
       )}
+      <BankAccountModal BankAccountModalOpen={BankAccountModalOpen} setBankAccountModalOpen={setBankAccountModalOpen} onConfirm={handleDelete} />
     </div>
   );
 };
