@@ -10,6 +10,7 @@ import { AccountTypeOptions } from "../../Data";
 import { useAppSelector } from "../../Store/hooks";
 import type { BankAccountApiResponse, BankAccountData } from "../../Types";
 import BankAccountModal from "./BankAccountModal";
+import { AntMessage } from "../../Components/Common/AntMessage";
 
 const GetScholarship = () => {
   const [amount, setAmount] = useState("");
@@ -28,7 +29,7 @@ const GetScholarship = () => {
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
   const userData = data?.data;
 
-  const { data: bankAccount, isLoading: bankAccountLoading, refetch } = useGetApiQuery<BankAccountApiResponse>({ url: URL_KEYS.BANK_ACCOUNT.ALL });
+  const { data: bankAccount, isLoading: bankAccountLoading, isFetching, refetch } = useGetApiQuery<BankAccountApiResponse>({ url: URL_KEYS.BANK_ACCOUNT.ALL });
   const bankAccountData = bankAccount?.data;
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +77,31 @@ const GetScholarship = () => {
   };
 
   const handleCashWithdrawal = async () => {
-    const bankData = bankAccountData?.bank_account_data.find((item: BankAccountData) => item.isDefault === true);
-    const res = await PostApi({ url: URL_KEYS.WITHDRAW.REQUEST, data: { amount, bankAccountId: bankData?._id } });
+    const accounts = bankAccountData?.bank_account_data || [];
+
+    // 1. No bank accounts added
+    if (accounts.length === 0) {
+      setAmount("");
+      return AntMessage("error", "Add a bank account", { marginTop: "10vh" });
+    }
+
+    // 2. Find default bank account
+    const bankData = accounts.find((item: BankAccountData) => item.isDefault === true);
+
+    if (!bankData) {
+      setAmount("");
+      return AntMessage("error", "Bank account is not selected", { marginTop: "10vh" });
+    }
+
+    const res = await PostApi({
+      url: URL_KEYS.WITHDRAW.REQUEST,
+      data: { amount, bankAccountId: bankData._id },
+    });
+
     if (res?.data?.status === HTTP_STATUS.OK) {
+      AntMessage("success", "Withdrawal request submitted");
       form.resetFields();
-      refetch();
+      setAmount("");
     }
   };
 
@@ -135,7 +156,7 @@ const GetScholarship = () => {
                   </div>
                 )}
               </div>
-              {amount && Number(amount) >= 1 && Number(amount) <= Number(userData?.walletBalance) && <FormButton onClick={() => handleCashWithdrawal()} text="Cash Withdrawal" className="custom-button w-full button button--mimas text-center !p-4 !h-13 uppercase" />}
+              {amount && Number(amount) >= 1 && Number(amount) <= Number(userData?.walletBalance) && <FormButton loading={isLoading} onClick={() => handleCashWithdrawal()} text="Cash Withdrawal" className="custom-button w-full button button--mimas text-center !p-4 !h-13 uppercase" />}
             </div>
             <div className="absolute bottom-0 left-0 w-full">
               <img src={`${ImagePath}Union.png`} alt="Menu bg" className="w-full h-full object-cover z-0" />
@@ -190,7 +211,7 @@ const GetScholarship = () => {
                     <FormSelect name="accountType" label="Account Type" options={AccountTypeOptions} rules={[{ required: true, message: "Account type is required" }]} />
                   </Col>
                   <Col span={24}>
-                    <Form.Item label="default Back" name="isDefault" valuePropName="checked" initialValue={false}>
+                    <Form.Item label="default Back Account" name="isDefault" valuePropName="checked" initialValue={true}>
                       <Switch />
                     </Form.Item>
                   </Col>
@@ -204,7 +225,7 @@ const GetScholarship = () => {
               </Form>
             )}
             <div className={`grid ${bankAccountData?.bank_account_data?.length !== 0 ? "xl:grid-cols-2" : "grid-cols-1"}  gap-4 pt-4`}>
-              {bankAccountLoading ? (
+              {bankAccountLoading || isFetching ? (
                 [...Array(2)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 10 }} />)
               ) : bankAccountData?.bank_account_data?.length !== 0 ? (
                 bankAccountData?.bank_account_data?.map((item, index) => (

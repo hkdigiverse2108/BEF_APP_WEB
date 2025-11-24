@@ -29,4 +29,5 @@ export interface BankAccountResponse extends MessageStatus {
 export interface BankAccountApiResponse {
   data: BankAccountResponse;
   isLoading: boolean;
+  isFetching: boolean;
 }
