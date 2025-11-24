@@ -29,12 +29,44 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
     }
   };
 
-  const TimeBox: FC<{ title: string; value: string }> = ({ title, value }) => (
-    <div className="flex flex-col items-center rounded-xl shadow-2xl overflow-hidden bg-white/30 py-2 sm:py-4 backdrop-blur-md px-4 sm:px-11">
-      <p className="text-2xl sm:text-4xl font-normal text-green-600">{value}</p>
-      <p className="text-black font-semibold text-center text-base">{title}</p>
+const TimeBox: FC<{ title: string; value: string }> = ({ title, value }) => {
+  const radius = 50;
+  const circumference = 2 * Math.PI * radius;
+
+  const percent = title === "HOUR" ? (Number(value) / 24) * 100 : title === "MIN" ? (Number(value) / 60) * 100 : title === "SEC" ? (Number(value) / 60) * 100 : 0;
+
+  const progress = (percent / 100) * circumference;
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* Circular container */}
+      <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
+        {/* Background Circle */}
+        <svg className="absolute -rotate-90" width="100%" height="100%">
+          <circle cx="64" cy="64" r={radius} stroke="white" strokeWidth="5" fill="transparent" />
+        </svg>
+
+        {/* Gradient Progress Line */}
+        <svg className="absolute -rotate-90" width="100%" height="100%">
+          <defs>
+            <linearGradient id="gradientBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="var(--primary)" />
+              <stop offset="100%" stopColor="var(--success)" />
+            </linearGradient>
+          </defs>
+
+          <circle cx="64" cy="64" r={radius} stroke="url(#gradientBorder)" strokeWidth="5" strokeLinecap="round" fill="transparent" strokeDasharray={circumference} strokeDashoffset={circumference - progress} className="transition-all duration-700" />
+        </svg>
+
+        {/* VALUE */}
+        <p className="text-3xl sm:text-4xl font-semibold text-success z-10">{value}</p>
+      </div>
+
+      {/* Label */}
+      <p className="text-black font-bold mt-3">{title}</p>
     </div>
   );
+};
 
   const genderWiseProfileImage = (gender = "male") => {
     return gender === "female" ? `${ImagePath}user/User_Female.png` : `${ImagePath}user/User_Male.png`;
@@ -49,8 +81,8 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
 
   return (
     <>
-      {!data?.data ? (
-        <div className="w-full h-[400px] flex flex-col items-center justify-center bg-cover bg-center rounded-2xl" style={{ backgroundImage: `url(${ImagePath}CountDown.jpg)` }}>
+      {data?.data ? (
+        <div className="w-full h-[400px] flex flex-col items-center justify-center bg-cover bg-center rounded-2xl" style={{ backgroundImage: `url(${ImagePath}CountDown1.jpg)` }}>
           {/* Timer Wrapper */}
           <div>
             <div className="flex items-center gap-6 justify-between">
@@ -61,7 +93,7 @@ const Leaderboard: FC<{ contest: { endDate: string; startDate: string } }> = ({ 
             </div>
 
             {/* Message */}
-            <p className="mt-8 px-5 py-3 rounded-md font-normal text-center bg-white/45 backdrop-blur-md shadow-2xl">Result will be announced soon</p>
+             <p className="mt-8 px-5 py-3 rounded-md font-semibold text-center uppercase">Result will be announced soon</p>
           </div>
         </div>
       ) : (

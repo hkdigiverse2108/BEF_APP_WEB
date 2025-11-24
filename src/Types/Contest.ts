@@ -6,6 +6,7 @@ export interface WinnerType {
   lastName: string;
   profileImage: string;
   totalAmount: string;
+  gender: string;
 }
 
 export interface ContestWinnerCardProps {

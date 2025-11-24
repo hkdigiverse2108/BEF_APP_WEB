@@ -40,9 +40,7 @@ const MyContest = () => {
   }, []);
 
   const PastContestTotalData = PastContestData?.data?.totalData;
-  const UpcomingContestTotalData = PastContestData?.data?.totalData;
-
-  // console.log("26" ,PastContestData?.data?.totalData)
+  const UpcomingContestTotalData = ContestData?.data?.totalData;
 
   return (
     <div className="sub-container pt-4">
