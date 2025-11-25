@@ -81,7 +81,7 @@ const TimeBox: FC<{ title: string; value: string }> = ({ title, value }) => {
 
   return (
     <>
-      {data?.data ? (
+      {!data?.data ? (
         <div className="w-full h-[400px] flex flex-col items-center justify-center bg-cover bg-center rounded-2xl" style={{ backgroundImage: `url(${ImagePath}CountDown1.jpg)` }}>
           {/* Timer Wrapper */}
           <div>
