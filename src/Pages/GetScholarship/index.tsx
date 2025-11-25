@@ -11,6 +11,7 @@ import { useAppSelector } from "../../Store/hooks";
 import type { BankAccountApiResponse, BankAccountData } from "../../Types";
 import BankAccountModal from "./BankAccountModal";
 import { AntMessage } from "../../Components/Common/AntMessage";
+import SpinLoader from "../../Components/Common/SpinLoader";
 
 const GetScholarship = () => {
   const [amount, setAmount] = useState("");
@@ -23,7 +24,7 @@ const GetScholarship = () => {
   const [PostApi, { isLoading }] = usePostApiMutation({});
   const [DeleteApi] = useDeleteApiMutation({});
 
-  const { data: kyc } = useGetApiQuery({ url: `${URL_KEYS.KYC.ALL}?page=1&limit=1` });
+  const { data: kyc, isLoading: kycLoading } = useGetApiQuery({ url: `${URL_KEYS.KYC.ALL}?page=1&limit=1` });
   const KYCData = kyc?.data?.kyc_data[0];
 
   const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user._id}` });
@@ -105,11 +106,21 @@ const GetScholarship = () => {
     }
   };
 
+  const handleCancel = () => {
+    form.resetFields();
+    setBankAccount(false);
+    setEditId(null);
+  };
+
   return (
     <div className="sub-container pt-4 scholarship">
       <CardHeader title="Get Scholarship" />
       <hr className="text-card-border mt-4" />
-      {!["verified"].includes(KYCData?.status) ? (
+      {kycLoading ? (
+        <div className="h-[50vh] flex flex-col items-center justify-center py-20">
+          <SpinLoader />
+        </div>
+      ) : !["verified"].includes(KYCData?.status) ? (
         <div className="flex flex-col items-center justify-center py-20">
           <div className="rounded-xl p-8 max-w-sm text-center shadow-xl bg-input-box">
             <div className="flex justify-center mb-4">
@@ -164,7 +175,7 @@ const GetScholarship = () => {
           </div>
 
           <div className="bg-input-box rounded-xl shadow-sm p-3 sm:p-7 border border-gray-200 lg:w-2/3">
-            <div className="flex justify-end">
+            <div className="flex justify-end pb-3">
               <FormButton onClick={() => setBankAccount(!isBankAccount)} text="Add Bank Account" className="custom-button w-full sm:w-fit button button--mimas text-center !p-4 !h-12 uppercase" />
             </div>
             {isBankAccount && (
@@ -218,7 +229,8 @@ const GetScholarship = () => {
                   <span className="border-t border-primary flex w-full mb-6" />
                   <Col span={24}>
                     <Form.Item label={null} className="text-center">
-                      <FormButton loading={isLoading} htmlType="submit" text={editId ? "Update" : "Save"} className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
+                      <FormButton loading={isLoading} htmlType="button" onClick={() => handleCancel()} text="Cancel" className="custom-button-light w-full sm:w-40 button button--mimas text-center !p-4 !h-13 uppercase" />
+                      <FormButton loading={isLoading} htmlType="submit" text={editId ? "Update" : "Save"} className="custom-button w-full sm:w-40 button button--mimas text-center max-sm:!mt-3 sm:!ms-3 !p-4 !h-13 uppercase" />
                     </Form.Item>
                   </Col>
                 </Row>
