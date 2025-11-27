@@ -67,15 +67,14 @@ input {
 .react-international-phone-input-container .react-international-phone-input {
   @apply !bg-input-box !border-0 !pe-0 !w-10;
 }
-.react-international-phone-input-container
-  .react-international-phone-country-selector-button {
+.react-international-phone-input-container .react-international-phone-country-selector-button {
   @apply border-0 !bg-input-box;
 }
 .ant-otp {
   @apply !w-full !flex !justify-between;
 }
 
-.ant-select-dropdown{
+.ant-select-dropdown {
   @apply !w-[250px];
 }
 /* ************ Ant Tabs ************ */
@@ -209,7 +208,7 @@ input {
   @apply !text-[21px];
 }
 
-.solution .solution-select.ant-select{
+.solution .solution-select.ant-select {
   @apply !bg-linear-to-t !from-(--primary) !to-(--success) p-0.5;
 }
 
@@ -293,9 +292,7 @@ input {
 
 /* ************ progress *********** */
 
-.others.ant-progress
-  .ant-progress-bg.ant-progress-bg-inner
-  .ant-progress-text-inner.ant-progress-text-bright {
+.others.ant-progress .ant-progress-bg.ant-progress-bg-inner .ant-progress-text-inner.ant-progress-text-bright {
   @apply !text-white;
 }
 
@@ -360,11 +357,7 @@ input {
 }
 
 .card-body-gradient {
-  background: linear-gradient(
-    90deg,
-    var(--color-primary),
-    var(--color-success)
-  );
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success));
 }
 
 @keyframes gradientMove {
@@ -453,7 +446,6 @@ input {
   @apply !w-full;
 }
 
-
 .img-strike {
   position: relative;
   display: inline-block;
@@ -473,4 +465,16 @@ input {
 .transparent-img {
   background-color: transparent !important;
   mix-blend-mode: multiply;
+}
+
+/* ================  swiper ================ */
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  /* background-color: var(--color-primary) !important; */
+  @apply !bg-white;
+}
+
+.swiper-pagination-bullet {
+  /* background-color: var(--color-primary) !important; */
+  @apply !bg-white/95;
 }

@@ -19,7 +19,7 @@ const HeroBanner = () => {
         slidesPerView={1}
         loop={true}
         effect={"fade"}
-        autoplay={{ delay: 10000 }}
+        autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
       >
         {isLoading ? (
