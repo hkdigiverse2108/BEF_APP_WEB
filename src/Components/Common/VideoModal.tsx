@@ -52,7 +52,7 @@ const VideoModal = ({ playVideo, videoLink }: VideoModalType) => {
 
   if (playVideo) {
     return (
-      <div className="fixed inset-0 z-50! flex items-center justify-center bg-black/80 ">
+      <div className="fixed inset-0 z-50! flex items-center justify-center bg-black ">
         <button onClick={handleCloseBtn} className="absolute top-5 right-5 text-white text-3xl hover:text-gray-300 ">
           ✕
         </button>
