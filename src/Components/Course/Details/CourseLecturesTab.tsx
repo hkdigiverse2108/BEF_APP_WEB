@@ -11,7 +11,7 @@ const CourseLecturesTab = ({ Modules, isUnlocked }: { Modules: ModuleType[]; isU
 
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("sm")); // true for sm and larger
-  const { data } = useGetApiQuery(
+  const { data, isLoading } = useGetApiQuery(
     {
       url: `${URL_KEYS.LECTURE.ALL}?moduleFilter=${selectedModule}&typeFilter=course`,
     },
@@ -24,6 +24,7 @@ const CourseLecturesTab = ({ Modules, isUnlocked }: { Modules: ModuleType[]; isU
     setSelectedModule(newValue);
   };
 
+  if (isLoading) return false;
   if (Lectures?.length === 0) return <Empty />;
 
   return (

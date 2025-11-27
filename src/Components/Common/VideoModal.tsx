@@ -57,7 +57,7 @@ const VideoModal = ({ playVideo, videoLink }: VideoModalType) => {
           ✕
         </button>
 
-        <div className=" w-[90%] 2xl:h-[90%] h-fit  aspect-video  rounded-lg overflow-hidden shadow-xl">
+        <div className=" w-[100%] 2xl:h-[100%] h-fit  aspect-video  rounded-lg overflow-hidden shadow-xl">
           <iframe width="100%" height="100%" src={embedUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>
       </div>
