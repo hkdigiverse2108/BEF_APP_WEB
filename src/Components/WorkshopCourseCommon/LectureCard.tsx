@@ -13,7 +13,7 @@ const LectureCard = ({ lecture, isUnlocked = false }: LectureCardProps) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div key={lecture?._id} className=" flex max-sm:flex-col flex-nowrap gap-2 justify-between bg-white rounded-lg  border border-gray-200 p-2 h-fit items-stretch">
+    <div key={lecture?._id} className={` flex max-sm:flex-col flex-nowrap gap-2 justify-between bg-white rounded-lg  border border-gray-200 p-2 h-fit items-stretch ${isUnlocked ? "cursor-pointer" : ""}`}>
       <section className="flex max-sm:gap-1 gap-4 h-fit ">
         {/* Image */}
         <figure
