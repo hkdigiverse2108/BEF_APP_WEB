@@ -3,7 +3,7 @@ import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setResetPasswordModal } from "../../Store/Slices/AuthSlice";
 import { usePostApiMutation } from "../../Api/CommonApi";
-import { HTTP_STATUS, URL_KEYS } from "../../Constants";
+import { HTTP_STATUS, ImagePath, URL_KEYS } from "../../Constants";
 
 const ResetPasswordModal = () => {
   const { isResetPasswordModal, user } = useAppSelector((store) => store.auth);
@@ -38,11 +38,15 @@ const ResetPasswordModal = () => {
   return (
     <Modal centered open={isResetPasswordModal} onCancel={handleOk} footer={null} className="feedback">
       <div className="flex flex-col items-center justify-center min-h-full">
-        <div className="w-full !rounded-2xl overflow-hidden border border-gray-200 bg-input-box bg-cover bg-top">
-          <div className="text-center p-3 sm:p-6 !pb-0">
+        <div
+          className="w-full !rounded-2xl overflow-hidden bg-input-box bg-cover bg-top"
+          style={{
+            backgroundImage: `url(${ImagePath}confirmation/Confirmation-bg.png)`,
+          }}
+        >
+          <div className="text-center p-3 sm:p-6 !pb-0 text-white">
             <h2 className="text-2xl font-normal">Reset Password</h2>
           </div>
-
           <div className="p-3 sm:p-6 flex flex-col gap-6">
             <div className="bg-white rounded-md p-6">
               <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="!w-full">

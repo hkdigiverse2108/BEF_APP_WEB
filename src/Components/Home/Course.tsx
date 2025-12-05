@@ -6,10 +6,10 @@ import CourseCard from "../Course/CourseCard";
 import { Skeleton } from "antd";
 
 const Course = () => {
-  const { data, isLoading } = useGetApiQuery<CourseApiResponse>({ url: `${URL_KEYS.COURSE.ALL}?page=1&limit=3` });
+  const { data, isLoading } = useGetApiQuery<CourseApiResponse>({ url: URL_KEYS.COURSE.ALL });
   const CourseData = data?.data?.course_data;
-  const MyCourse = CourseData?.filter((course) => course?.isUnlocked === true);
-  const AllCourse = CourseData?.filter((course) => course?.isUnlocked === false);
+  const MyCourse = CourseData?.filter((course) => course?.isUnlocked === true).slice(0, 3);
+  const AllCourse = CourseData?.filter((course) => course?.isUnlocked === false).slice(0, 3);
 
   return (
     <>
