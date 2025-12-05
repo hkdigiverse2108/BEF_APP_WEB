@@ -2,30 +2,19 @@ import { Drawer } from "antd";
 import { useState } from "react";
 import { BiWallet } from "react-icons/bi";
 import { FaRegCircleQuestion } from "react-icons/fa6";
-import {
-  IoMailOutline,
-  IoSchoolOutline,
-  IoSettingsOutline,
-} from "react-icons/io5";
+import { IoMailOutline, IoSchoolOutline, IoSettingsOutline } from "react-icons/io5";
 import { LuTvMinimalPlay } from "react-icons/lu";
-import {
-  MdOutlineGavel,
-  MdOutlineLock,
-  MdOutlinePrivacyTip,
-  MdOutlineVerified,
-} from "react-icons/md";
-import { TbWallet } from "react-icons/tb";
+import { MdOutlineGavel, MdOutlineLock, MdOutlinePrivacyTip, MdOutlineVerified } from "react-icons/md";
+import { TbPasswordFingerprint, TbWallet } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { Href, ImagePath, ROUTES, URL_KEYS } from "../Constants";
 import FeedbackModal from "../Pages/Feedback";
 import SupportModal from "../Pages/Support";
 import { useAppDispatch, useAppSelector } from "../Store/hooks";
-import {
-  setFeedbackModal,
-  setMenuDrawer,
-  setSupportModal,
-} from "../Store/Slices/DrawerSlice";
+import { setFeedbackModal, setMenuDrawer, setSupportModal } from "../Store/Slices/DrawerSlice";
 import { useGetApiQuery } from "../Api/CommonApi";
+import { setResetPasswordModal } from "../Store/Slices/AuthSlice";
+import ResetPasswordModal from "../Pages/ResetPassword";
 
 const MenuDrawer = () => {
   const dispatch = useAppDispatch();
@@ -50,6 +39,11 @@ const MenuDrawer = () => {
       icon: <IoSettingsOutline />,
       title: "My Info & Setting",
       url: ROUTES.MY_INFO.MY_INFO,
+    },
+    {
+      icon: <TbPasswordFingerprint />,
+      title: "Reset Password",
+      url: Href,
     },
     {
       icon: <LuTvMinimalPlay />,
@@ -87,19 +81,15 @@ const MenuDrawer = () => {
     setActiveIndex(i);
     if (title === "Feedback") dispatch(setFeedbackModal());
     else if (title === "Support") dispatch(setSupportModal());
+    else if (title === "Reset Password") dispatch(setResetPasswordModal());
     else navigate(url);
     dispatch(setMenuDrawer());
   };
   const currentUser = UserData || user;
 
-  const genderWiseImage =
-    currentUser?.gender === "male"
-      ? `${ImagePath}user/User_Male.png`
-      : `${ImagePath}user/User_Female.png`;
+  const genderWiseImage = currentUser?.gender === "male" ? `${ImagePath}user/User_Male.png` : `${ImagePath}user/User_Female.png`;
 
-  const ProfileImage = currentUser?.profileImage
-    ? currentUser?.profileImage
-    : genderWiseImage;
+  const ProfileImage = currentUser?.profileImage ? currentUser?.profileImage : genderWiseImage;
   return (
     <>
       <Drawer
@@ -108,23 +98,14 @@ const MenuDrawer = () => {
         className="menu-drawer relative overflow-hidden"
         onClose={() => dispatch(setMenuDrawer())}
         extra={
-          <div
-            className="flex justify-between items-center rounded-xl h-10 sm:h-12 order-last"
-            onClick={() => dispatch(setMenuDrawer())}
-          >
+          <div className="flex justify-between items-center rounded-xl h-10 sm:h-12 order-last" onClick={() => dispatch(setMenuDrawer())}>
             <div className="flex justify-between items-center gap-3 cursor-pointer">
-              <img
-                src={ProfileImage}
-                alt="profile"
-                className="w-12 h-12 rounded-xl"
-              />
+              <img src={ProfileImage} alt="profile" className="w-12 h-12 rounded-xl" />
               <div>
                 <span className="text-md font-semibold capitalize">
                   {UserData?.firstName} {UserData?.lastName}
                 </span>
-                <p className="capitalize flex text-xs">
-                  {UserData?.userType === "admin" ? "Admin" : "Student"}
-                </p>
+                <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
               </div>
             </div>
           </div>
@@ -132,15 +113,7 @@ const MenuDrawer = () => {
       >
         <ul className="grid grid-cols-1 gap-3 relative z-20">
           {MenuData?.map((item, i) => (
-            <li
-              key={i}
-              onClick={() => handleClick(i, item.url, item.title)}
-              className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme bg-input-box ${
-                activeIndex === i
-                  ? "border-primary !text-primary !bg-bg-light"
-                  : "border-box-border hover:border-theme"
-              }`}
-            >
+            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme bg-input-box ${activeIndex === i ? "border-primary !text-primary !bg-bg-light" : "border-box-border hover:border-theme"}`}>
               <p className="font-semibold text-base flex items-center uppercase">
                 <span className="me-3 text-2xl">{item.icon}</span>
                 {item.title}
@@ -151,6 +124,7 @@ const MenuDrawer = () => {
       </Drawer>
       <FeedbackModal />
       <SupportModal />
+      <ResetPasswordModal />
     </>
   );
 };
