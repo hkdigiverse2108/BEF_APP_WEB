@@ -11,15 +11,23 @@ interface YouTubeCardProps {
 const YouTubeCard: React.FC<YouTubeCardProps> = ({ videoId, title, type, thumbnail }) => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const openVideo = (link: string) => {
-    const autoplayLink = link.includes("?") ? `${link}&autoplay=1` : `${link}?autoplay=1`;
-    setActiveVideo(autoplayLink);
+    let videoId = "";
+    if (link.includes("youtu.be")) {
+      videoId = link.split("youtu.be/")[1].split("?")[0];
+    } else if (link.includes("watch?v=")) {
+      videoId = link.split("watch?v=")[1].split("&")[0];
+    } else {
+      videoId = link;
+    }
+    const embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    setActiveVideo(embedLink);
   };
 
   return (
     <div className="w-full h-fit rounded-lg overflow-hidden cursor-pointer shadow transition hover:shadow-lg">
       {type === "instagram" ? (
         <div className="h-full">
-          <InstagramEmbed url={videoId} width="100%"  />
+          <InstagramEmbed url={videoId} width="100%" />
         </div>
       ) : (
         <>
