@@ -10,7 +10,6 @@ const Course = () => {
   const CourseData = data?.data?.course_data;
   const MyCourse = CourseData?.filter((course) => course?.isUnlocked === true).slice(0, 3);
   const AllCourse = CourseData?.filter((course) => course?.isUnlocked === false).slice(0, 3);
-
   return (
     <>
       {MyCourse?.length !== 0 && (
@@ -18,7 +17,7 @@ const Course = () => {
           <div className="pb-5">
             <div className="flex justify-between items-center pb-5">
               <p className="text-lg font-semibold">My Course</p>
-              {(MyCourse?.length || 0) > 3 && (
+              {(MyCourse?.length || 0) >= 3 && (
                 <Link to={ROUTES.COURSE.COURSE} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded text-white">
                   View All
                 </Link>
@@ -33,9 +32,11 @@ const Course = () => {
         <div className="pb-5">
           <div className="flex justify-between items-center pb-5">
             <p className="text-lg font-semibold">All Course</p>
+            {(AllCourse?.length || 0) >= 3 && (
             <Link to={ROUTES.COURSE.COURSE} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded text-white">
               View All
             </Link>
+            )}
           </div>
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 5 }} />) : AllCourse?.map((item, index) => <CourseCard key={index} data={item} />)}</div>
         </div>

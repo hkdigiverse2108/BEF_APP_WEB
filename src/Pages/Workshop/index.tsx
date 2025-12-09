@@ -12,7 +12,7 @@ import MainLoader from "../../Components/Common/MainLoader";
 const Workshop = () => {
   const navigate = useNavigate();
 
-  const [myWorkshopLimit, setMyWorkshopLimit] = useState(3);
+  const [myWorkshopLimit, setMyWorkshopLimit] = useState(6);
 
   const workshop: WorkshopItem[] = useAppSelector(
     (state) => state.workshops.AllWorkshop
@@ -81,7 +81,7 @@ const Workshop = () => {
                 loading={workshopLoading}
                 text="View More"
                 className="custom-button-light button button--mimas text-center w-fit p-4! px-8! h-12! uppercase flex items-end-safe"
-                onClick={() => setMyWorkshopLimit(myWorkshopLimit + 3)}
+                onClick={() => setMyWorkshopLimit(myWorkshopLimit + 6)}
               />
             </div>
           )}

@@ -1,17 +1,22 @@
 import { Col, Form, Row } from "antd";
 import "react-international-phone/style.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
 import { useAppDispatch } from "../../Store/hooks";
 import { SetUser } from "../../Store/Slices/AuthSlice";
+import { useEffect } from "react";
 
 const Login = () => {
   const [form] = Form.useForm();
 
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const queryParam = new URLSearchParams(location.search);
+  const email = queryParam.get("email");
+  const password = queryParam.get("password");
 
   const [PostGlobalApi, { isLoading }] = usePostGlobalApiMutation({});
 
@@ -39,16 +44,18 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if(email && password) {
+      form.setFieldsValue({ uniqueId: email, password: password });
+    }
+  }, [email, form, password]);
+
   return (
     <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
       <div className="flex justify-between h-screen items-center w-full ">
         {/* Left side */}
         <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10  border-r border-gray-100 overflow-hidden">
-          <img
-            className="w-full h-full "
-            alt="Group"
-            src={`${ImagePath}auth/login.jpg`}
-          />
+          <img className="w-full h-full " alt="Group" src={`${ImagePath}auth/login.jpg`} />
         </div>
 
         {/* Right side */}
@@ -58,23 +65,14 @@ const Login = () => {
               {/* Header */}
               <header className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
-                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
-                    Create an Account
-                  </h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
-                    Create an account or log in to explore about our website
-                  </p>
+                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
+                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
                 </div>
               </header>
 
               <span className="border-t border-primary flex w-full"></span>
 
-              <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleFormSubmit}
-                className="space-y-8 lg:space-y-10"
-              >
+              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
                 <Row gutter={16}>
                   <Col span={24}>
                     <FormInput
@@ -106,10 +104,7 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="mb-1">
                       <p className="text-end text-sm lg:text-base">
-                        <NavLink
-                          to={ROUTES.AUTH.FORGOT_PASSWORD}
-                          className="font-semibold cursor-pointer hover:!underline !text-primary"
-                        >
+                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-semibold cursor-pointer hover:!underline !text-primary">
                           Forgot password ?
                         </NavLink>
                       </p>
@@ -119,13 +114,8 @@ const Login = () => {
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">
-                          ARE YOU NEW HERE ?{" "}
-                        </span>
-                        <NavLink
-                          to={ROUTES.AUTH.REGISTER}
-                          className="font-semibold cursor-pointer hover:!underline !text-primary"
-                        >
+                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
+                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-semibold cursor-pointer hover:!underline !text-primary">
                           SIGN UP
                         </NavLink>
                       </p>
@@ -133,12 +123,7 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton
-                        loading={isLoading}
-                        htmlType="submit"
-                        text="LOGIN"
-                        className="custom-button button button--mimas w-full !h-auto"
-                      />
+                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
                       {/* <button
   className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
              bg-gradient-to-r from-orange-500 to-green-600

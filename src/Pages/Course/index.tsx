@@ -8,7 +8,7 @@ import { useState } from "react";
 import { FormButton } from "../../Attribute/FormFields";
 
 const Course = () => {
-  const [myCourseLimit, setMyCourseLimit] = useState(3);
+  const [myCourseLimit, setMyCourseLimit] = useState(6);
 
   const { data, isLoading } = useGetApiQuery<CourseApiResponse>({
     url: `${URL_KEYS.COURSE.ALL}`,
@@ -54,7 +54,7 @@ const Course = () => {
                   loading={isLoading}
                   text="View More"
                   className="custom-button-light button button--mimas text-center w-fit p-4! px-8! h-12! uppercase flex items-end-safe"
-                  onClick={() => setMyCourseLimit(myCourseLimit + 3)}
+                  onClick={() => setMyCourseLimit(myCourseLimit + 6)}
                 />
               </div>
             )}
