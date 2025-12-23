@@ -1,4 +1,4 @@
-import districtsByState from "./district.json";
+import districtsByState from "./District.json";
 
 export const GenderOptions = [
   { value: "male", label: "Male" },
