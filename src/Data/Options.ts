@@ -1,3 +1,5 @@
+import districtsByState from "./district.json";
+
 export const GenderOptions = [
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
@@ -32,3 +34,13 @@ export const AccountTypeOptions = [
   { value: "SAVINGS", label: "SAVINGS" },
   { value: "CURRENT", label: "CURRENT" },
 ];
+
+export const FINAL_DISTRICTS: string[] = Array.from(
+  new Set(
+    districtsByState.states
+      .flatMap((s) => s.districts)
+      .filter((d): d is string => typeof d === "string" && d.trim().length > 0)
+      .map((d) => d.trim())
+      .sort((a, b) => a.localeCompare(b))
+  )
+);
