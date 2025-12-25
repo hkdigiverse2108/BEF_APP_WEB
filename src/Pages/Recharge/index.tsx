@@ -143,7 +143,7 @@ const Recharge = () => {
                 rules={[
                   { required: true, message: `Enter minimum ₹${MinAmount}` },
                   {
-                    validator: (_, value: any) => (value >= MinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${MinAmount}`)),
+                    validator: (_:any, value: any) => (value >= MinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${MinAmount}`)),
                   },
                 ]}
               />
