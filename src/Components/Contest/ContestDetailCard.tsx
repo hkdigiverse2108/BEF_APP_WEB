@@ -6,14 +6,14 @@ import { Progress } from "antd";
 import { ROUTES } from "../../Constants";
 import { useAppDispatch } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
-import type { ContestCore, ContestDetailCardProps } from "../../Types";
+import type { ContestCore, ContestDetailCardProps, contestRank } from "../../Types";
 import { useNavigate } from "react-router-dom";
 import type { FC } from "react";
 
-const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,contestDataTime}) => {
+const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, contestDataTime }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { _id, name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, winningAmountPerFee = 0 }: ContestCore = contestData;
+  const { _id, name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, ranks }: ContestCore = contestData;
 
   const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
 
@@ -23,12 +23,20 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
       if (contestDataTime?.contestStartTime && contestDataTime?.contestEndTime) {
         navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: contestDataTime?.contestStartDate || "", contestEndDate: contestDataTime?.contestEndDate || "" } });
       } else {
-        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, { state: {contestStartDate: contestDataTime?.contestStartDate} });
+        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, { state: { contestStartDate: contestDataTime?.contestStartDate } });
       }
     } else {
       dispatch(setSubtopicDrawer({ open: true, contest: contestData }));
     }
   };
+
+  let firstRank =
+    ranks?.filter((rank: contestRank) => {
+      if (rank.startPlace == "1") return rank.price;
+      return false;
+    }) ?? [];
+
+  let firstRankPrice = firstRank[0]?.price ?? 0;
 
   return (
     <div
@@ -42,32 +50,23 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
       <div className="flex flex-row px-2 md:px-4 relative">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 max-sm:gap-0 w-full h-full p-3   ">
           <div className="grid gap-0.5 w-full">
-            <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">
-              {name}
-            </h3>
+            <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">{name}</h3>
           </div>
         </div>
-
       </div>
 
       <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
         <div className=" py-2 flex flex-col gap-1">
           <section className="flex justify-between text-sm md:text-lg  font-semibold flex-wrap ">
             <h3 className="capitalize">Get Scholarship</h3>
-            <p>
-              ₹{pricePool}
-            </p>
+            <p>₹{pricePool}</p>
           </section>
           <section>
             <Progress percent={progress} showInfo={false} strokeColor={"green"} />
           </section>
           <section className="flex justify-between flex-wrap ">
-            <h4>
-              {filledSpots} Filled
-            </h4>
-            <h4 className="font-semibold">
-              {totalSpots} Total Student
-            </h4>
+            <h4>{filledSpots} Filled</h4>
+            <h4 className="font-semibold">{totalSpots} Total Student</h4>
           </section>
         </div>
 
@@ -79,18 +78,19 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type ,cont
 
       <div className="bg-success py-4 text-white">
         <div className=" flex items-center text-xs sm:text-sm justify-center gap-2 sm:gap-4 md:gap-8 ">
-          <section className="flex gap-2 items-center  ">
-            <FaAward />
-            <span>
-              {`₹${winningAmountPerFee}`}
-            </span>
-          </section>
-          <span className="h-3 border border-l border-white/50"></span>
+          {firstRankPrice && (
+            <>
+              <section className="flex gap-2 items-center  ">
+                <FaAward />
+                <span>{`₹${firstRankPrice}`}</span>
+              </section>
+              <span className="h-3 border border-l border-white/50"></span>
+            </>
+          )}
+
           <section className="flex gap-2 items-center ">
             <IoMdTrophy />
-            <span>
-              {winnerPercentage}
-            </span>
+            <span>{winnerPercentage}</span>
           </section>
           <span className="h-3 border border-l border-white/50"></span>
           <section className="flex gap-2 items-center ">

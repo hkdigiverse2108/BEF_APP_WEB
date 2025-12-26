@@ -47,6 +47,12 @@ export interface PayloadTime {
   startTime?: string;
   endTime?: string;
 }
+export interface contestRank {
+  endPlace: null;
+  price: number;
+  startPlace: string;
+  _id: string;
+}
 
 /* ---------- CORE CONTEST DATA ---------- */
 export interface ContestCore {
@@ -58,10 +64,13 @@ export interface ContestCore {
   fees?: number | string;
   winnerPercentage?: number | string;
   winningAmountPerFee?: number;
+
   status?: string;
   slots?: string[];
   endDate?: Dayjs;
-  ranks?: string[];
+  // ranks?: string[];
+  ranks?: contestRank[] | null;
+
   contestType?: ContestTypeInfo; // replaces "contest-type"
   payload?: PayloadTime;
 }
@@ -74,6 +83,7 @@ export interface ContestData {
   contestStartTime?: string;
   contestEndTime?: string;
   rank?: number | null;
+  ranks?: contestRank[] | null;
   winningPrice?: number;
   status?: string;
   subjectId?: SubjectInfo;

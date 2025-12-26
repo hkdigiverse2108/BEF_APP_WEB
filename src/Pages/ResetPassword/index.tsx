@@ -20,6 +20,7 @@ const ResetPasswordModal = () => {
       };
       const res = await PostApi({ url: URL_KEYS.AUTH.CHANGE_PASSWORD, data: Update });
       if (res?.data?.status === HTTP_STATUS.OK) {
+        form.resetFields();
         dispatch(setResetPasswordModal());
       } else {
         const err = res as { error: { data: { message: string } } };
