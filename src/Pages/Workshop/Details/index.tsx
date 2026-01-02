@@ -37,7 +37,6 @@ const WorkshopDetails = () => {
     url: `${URL_KEYS.WORKSHOP.ID}${id}`,
   });
   const workshop = workshopData?.data || {};
-  console.log("workshop--", workshop.syllabus === "Workshop");
 
   const { data: LectureData } = useGetApiQuery(
     {
