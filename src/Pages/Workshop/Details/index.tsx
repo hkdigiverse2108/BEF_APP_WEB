@@ -37,6 +37,7 @@ const WorkshopDetails = () => {
     url: `${URL_KEYS.WORKSHOP.ID}${id}`,
   });
   const workshop = workshopData?.data || {};
+  console.log("workshop--", workshop.syllabus === "Workshop");
 
   const { data: LectureData } = useGetApiQuery(
     {
@@ -157,6 +158,11 @@ const WorkshopDetails = () => {
                 <span className="text-base text-red-500 font-normal line-through decoration-2 ps-1">{workshop?.totalAmount}</span>
               </h1>
             </div>
+            {workshop.syllabus === "Workshop" && (
+              <div>
+                <p className="text-primary font-bold">Complete the workshop within 24 hours and your fee will be 100% REFUNDED.</p>
+              </div>
+            )}
 
             <div>
               <FormButton
