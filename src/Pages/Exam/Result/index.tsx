@@ -102,7 +102,7 @@ const Result = () => {
               <EliminationSkill data={eliminationReportTypeData} subjectName={ContestSubject?.name} TabIndex={tabIndex} />
             </div>
             <div hidden={tabIndex !== 5}>
-              <Leaderboard contest={Contest?.contest} />
+              <Leaderboard contest={Contest?.contestId} />
             </div>
           </div>
         </div>
