@@ -20,13 +20,19 @@ const SubtopicDrawer = () => {
   const [payloadTime, setPayloadTime] = useState<PayloadTime>({});
 
   const { contest }: { contest: ContestCore } = isSubtopicDrawer;
-
   const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
+
+  const getContestDurationInHours = (totalQuestions?: number) => {
+    if (!totalQuestions) return 1;  
+    return totalQuestions > 50 ? 2 : 1;
+  };
 
   const handleSelect = (time: string) => {
     setSelectedTime(time);
     const start = dayjs(time);
-    const end = start.add(1, "hour");
+    const durationInHours = getContestDurationInHours(contest?.totalQuestions);
+    const end = start.add(durationInHours, "hour");
+    // const end = start.add(1, "hour");
     setPayloadTime({
       startTime: start.toISOString(),
       endTime: end.toISOString(),
@@ -39,7 +45,7 @@ const SubtopicDrawer = () => {
     return `2x stack: ${list.join(", ")}`;
   };
 
-   useEffect(() => {
+  useEffect(() => {
     const stack = generateStack(0);
     form.setFieldValue("stack", stack);
   }, [form]);
@@ -167,11 +173,7 @@ const SubtopicDrawer = () => {
 
               <FormInput name="time" type="hidden" rules={[{ required: true, message: "Please select a time!" }]} />
             </div>
-            <FormButton
-              text="Next"
-              htmlType="submit"
-              className="custom-button button button--mimas text-center w-full !p-4 !h-14 uppercase flex items-end-safe"
-            />
+            <FormButton text="Next" htmlType="submit" className="custom-button button button--mimas text-center w-full !p-4 !h-14 uppercase flex items-end-safe" />
           </Form>
         </div>
       </Drawer>

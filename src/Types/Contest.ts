@@ -64,7 +64,7 @@ export interface ContestCore {
   fees?: number | string;
   winnerPercentage?: number | string;
   winningAmountPerFee?: number;
-
+  totalQuestions?: number;
   status?: string;
   slots?: string[];
   endDate?: Dayjs;
