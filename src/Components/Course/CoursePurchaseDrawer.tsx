@@ -1,28 +1,16 @@
 import { Drawer } from "antd";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import {
-  EARNING_TYPE,
-  HTTP_STATUS,
-  ImagePath,
-  PAYMENT_STATUS,
-  STORAGE_KEYS,
-  TRANSACTION_STATUS,
-  TRANSACTION_TYPE,
-  URL_KEYS,
-} from "../../Constants";
+import { EARNING_TYPE, HTTP_STATUS, ImagePath, PAYMENT_STATUS, STORAGE_KEYS, TRANSACTION_STATUS, TRANSACTION_TYPE, URL_KEYS } from "../../Constants";
 import { setCoursePurchaseDrawer } from "../../Store/Slices/DrawerSlice";
 import { BiSolidOffer } from "react-icons/bi";
 import { useState, type FC } from "react";
-import type {
-  PaymentStatusType,
-  PurchaseData,
-  RazorpayResponse,
-} from "../../Types";
+import type { PaymentStatusType, PurchaseData, RazorpayResponse } from "../../Types";
 import PaymentModal from "../Common/PaymentModal";
 import CouponCodeCheck from "../WorkshopCourseCommon/CouponCodeCheck";
 import { Storage } from "../../Utils";
-import { usePostApiMutation } from "../../Api/CommonApi";
+import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { AntMessage } from "../Common/AntMessage";
+import { FormButton } from "../../Attribute/FormFields";
 
 interface PurchaseDrawerProps {
   data: PurchaseData;
@@ -34,8 +22,10 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
   const [refferCode, setRefferCode] = useState("");
   const [isRefferLoading, setIsRefferLoading] = useState(false);
 
-  const [PostApi, { isLoading: isCoursePurchaseLoading }] =
-    usePostApiMutation();
+  const [PostApi, { isLoading: isCoursePurchaseLoading }] = usePostApiMutation();
+
+  const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
+  const isRazorpay = settingData?.data?.isRazorpay;
 
   const dispatch = useAppDispatch();
   const { isCoursePurchaseDrawer } = useAppSelector((state) => state.drawer);
@@ -55,10 +45,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
 
   const amountToPay = isRefferApplyed ? Number(payingPrice) : Number(price);
 
-  const handlePaymentComplete = async (
-    status: PaymentStatusType,
-    response: RazorpayResponse
-  ) => {
+  const handlePaymentComplete = async (status: PaymentStatusType, response: RazorpayResponse) => {
     try {
       const payload = {
         paymentId: response.razorpay_payment_id,
@@ -90,10 +77,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
           totalAmount: amountToPay,
           tdsAmount: amountToPay,
           title: data?.title,
-          transactionStatus:
-            res?.data?.status === PAYMENT_STATUS.COMPLETED
-              ? TRANSACTION_STATUS.SUCCESS
-              : TRANSACTION_STATUS.FAILED,
+          transactionStatus: res?.data?.status === PAYMENT_STATUS.COMPLETED ? TRANSACTION_STATUS.SUCCESS : TRANSACTION_STATUS.FAILED,
           transactionType: TRANSACTION_TYPE.DEPOSIT,
           earningType: EARNING_TYPE.COURSE,
         };
@@ -104,22 +88,52 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
         }).unwrap();
       }
     } catch (error) {
-      AntMessage(
-        "error",
-        "Oops! We couldn’t process your enrollment. Please try again."
-      );
+      AntMessage("error", "Oops! We couldn’t process your enrollment. Please try again.");
     }
   };
 
+    const handleStartPayment = async () => {
+      try {
+        const payload = {
+          courseId: id,
+          amount: amountToPay,
+          referralCode: refferCode,
+          name: fullName,
+          phone: mobile,
+          email,
+          city,
+        };
+  
+        const purchased = await PostApi({
+          url: URL_KEYS.COURSE.PURCHASE_ADD,
+          data: payload,
+        }).unwrap();
+  
+        const purchaseId = purchased?.data?._id;
+  
+        const res = await PostApi({
+          url: URL_KEYS.PHONEPE_ORDER.ADD,
+          data: {
+            amount: amountToPay,
+            orderId: purchaseId,
+            redirectUrl: window.location.href,
+          },
+        }).unwrap();
+        const paymentUrl = res?.data?.paymentUrl;
+  
+        if (paymentUrl) {
+          window.location.href = paymentUrl;
+        } else {
+          throw console.error("Payment URL not found");
+        }
+      } catch (error) {
+        AntMessage("error", "Oops! We couldn’t process your enrollment. Please try again.");
+      }
+    };
+
   return (
     <>
-      <Drawer
-        placement="right"
-        size="large"
-        onClose={() => dispatch(setCoursePurchaseDrawer())}
-        open={isCoursePurchaseDrawer}
-        className="p-0! purchase-Drawer"
-      >
+      <Drawer placement="right" size="large" onClose={() => dispatch(setCoursePurchaseDrawer())} open={isCoursePurchaseDrawer} className="p-0! purchase-Drawer">
         <div className="flex flex-col items-center justify-center min-h-full">
           <div
             className="max-w-140 rounded-lg overflow-hidden shadow-2xl bg-cover bg-top space-y-4 p-3 sm:p-6 "
@@ -133,18 +147,14 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                 {/* UPSC CSE - GS - Subscription */}
                 {data?.title}
               </h2>
-              <p className="mt-2 text-white text-xl font-semibold">
-                {data?.modulesData && "Module Name"}
-              </p>
+              <p className="mt-2 text-white text-xl font-semibold">{data?.modulesData && "Module Name"}</p>
               <div className="">
                 <ul className=" bg-white/20 py-3 px-3 w-full rounded-sm backdrop-blur-md  text-sm  grid grid-cols-1  sm:grid-cols-2 sm:flex-row gap-2 sm:gap-4">
-                  {data?.modulesData?.map(
-                    (module: { name: string }, i: number) => (
-                      <li key={i}>
-                        {i + 1}. {module.name}
-                      </li>
-                    )
-                  )}
+                  {data?.modulesData?.map((module: { name: string }, i: number) => (
+                    <li key={i}>
+                      {i + 1}. {module.name}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -156,14 +166,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                   <span className="max-sm:hidden">
                     <BiSolidOffer className="text-2xl text-success " />
                   </span>
-                  <CouponCodeCheck
-                    setIsRefferLoading={setIsRefferLoading}
-                    price={price}
-                    isRefferApplyed={isRefferApplyed}
-                    setIsRefferApplyed={setIsRefferApplyed}
-                    refferCode={refferCode}
-                    setRefferCode={setRefferCode}
-                  />
+                  <CouponCodeCheck setIsRefferLoading={setIsRefferLoading} price={price} isRefferApplyed={isRefferApplyed} setIsRefferApplyed={setIsRefferApplyed} refferCode={refferCode} setRefferCode={setRefferCode} />
                 </div>
               </section>
               {isRefferApplyed && data?.priceInStruction && (
@@ -188,9 +191,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
               <section className="bg-white rounded-lg p-3 space-y-3">
                 <div className="flex justify-between gap-3">
                   <p className="font-semibold">Enrollment Fee</p>
-                  <p className="font-semibold text-lg ">
-                    {isRefferApplyed ? payingPrice : price}
-                  </p>
+                  <p className="font-semibold text-lg ">{isRefferApplyed ? payingPrice : price}</p>
                 </div>
                 <span className="border-b border-primary flex" />
                 <div className="flex justify-between gap-3">
@@ -200,24 +201,14 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                       <>
                         {isDiscountPrice ? (
                           <>
-                            <span className="font-bold text-xl text-success">
-                              ₹{payingPrice}/
-                            </span>
-                            <span className="font-semibold text-md text-gray-600">
-                              {discountPrice}
-                            </span>
-                            <span className="font-semibold text-md line-through text-red-500 ">
-                              {price}
-                            </span>
+                            <span className="font-bold text-xl text-success">₹{payingPrice}/</span>
+                            <span className="font-semibold text-md text-gray-600">{discountPrice}</span>
+                            <span className="font-semibold text-md line-through text-red-500 ">{price}</span>
                           </>
                         ) : (
                           <h1 className="flex gap-0.5 items-end">
-                            <span className="font-bold text-xl text-success">
-                              ₹{payingPrice}
-                            </span>
-                            <span className="font-semibold text-lg text-red-500 ">
-                              {price}
-                            </span>
+                            <span className="font-bold text-xl text-success">₹{payingPrice}</span>
+                            <span className="font-semibold text-lg text-red-500 ">{price}</span>
                           </h1>
                         )}
                       </>
@@ -228,12 +219,11 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                 </div>
               </section>
               <div>
-                <PaymentModal
-                  btnText="Enroll Now"
-                  isLoading={isRefferLoading || isCoursePurchaseLoading}
-                  amount={amountToPay}
-                  onPaymentComplete={handlePaymentComplete}
-                />
+                {isRazorpay ?
+                <PaymentModal btnText="Enroll Now" isLoading={isRefferLoading || isCoursePurchaseLoading} amount={amountToPay} onPaymentComplete={handlePaymentComplete} />
+                :
+                <FormButton onClick={handleStartPayment} loading={isRefferLoading || isCoursePurchaseLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe" />
+                }
               </div>
             </div>
           </div>

@@ -99,6 +99,9 @@ export const URL_KEYS = {
     ID: "/course/",
     PURCHASE_ADD: "course-purchase/add",
   },
+  PHONEPE_ORDER: {
+    ADD: "/phonepe/order",
+  },
   MODULE: {
     ALL: "/module/all",
   },
