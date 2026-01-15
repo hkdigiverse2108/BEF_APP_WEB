@@ -32,8 +32,11 @@ const ConfirmationDrawer = () => {
   const totalGST = (baseAmount * gstRate).toFixed(2);
 
   const handleJoinButton = async () => {
+    console.log(UserData?.walletBalance);
+    console.log(totalAmount);
+    
     try {
-      if (Number(UserData?.walletBalance) >= baseAmount) {
+      if (Number(UserData?.walletBalance) >= Number(totalAmount)) {
         if (Number(amount) !== 0) {
           const balancePayload = {
             contestId: data._id,
@@ -63,7 +66,11 @@ const ConfirmationDrawer = () => {
           dispatch(setConfirmationDrawer({ open: false, data: {} }));
           navigate(ROUTES.CONTEST.MY_CONTEST);
         }
-      } 
+      } else {
+        console.log("aa");
+          AntdNotification(notification, "info", "Insufficient wallet balance to join this contest. Please add funds to your wallet.");
+        // navigate(ROUTES.RECHARGE.RECHARGE);
+      }
     } catch (error) {
       console.error(error);
     }

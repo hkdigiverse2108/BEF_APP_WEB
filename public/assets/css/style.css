@@ -481,3 +481,7 @@ input {
   /* background-color: var(--color-primary) !important; */
   @apply !bg-white/95;
 }
+
+.anticon.anticon-close.ant-notification-notice-close-icon{
+  @apply hidden!;
+}
