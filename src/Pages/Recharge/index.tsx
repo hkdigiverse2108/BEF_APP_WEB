@@ -1,7 +1,7 @@
 import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
-import { FormButton, FormInput } from "../../Attribute/FormFields";
+import { FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import PaymentModal from "../../Components/Common/PaymentModal";
 import { HTTP_STATUS, ImagePath, PAYMENT_STATUS, STORAGE_KEYS, TRANSACTION_STATUS, URL_KEYS } from "../../Constants";
@@ -24,8 +24,8 @@ const Recharge = () => {
     url: `${URL_KEYS.USER.ID}${user._id}`,
   });
 
-  const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
-  const isRazorpay = settingData?.data?.isRazorpay;
+  // const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
+  // const isRazorpay = settingData?.data?.isRazorpay;
 
   const userData = data?.data;
 
