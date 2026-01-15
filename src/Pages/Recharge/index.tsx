@@ -1,7 +1,7 @@
 import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
-import { FormInput } from "../../Attribute/FormFields";
+import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import PaymentModal from "../../Components/Common/PaymentModal";
 import { HTTP_STATUS, ImagePath, PAYMENT_STATUS, STORAGE_KEYS, TRANSACTION_STATUS, URL_KEYS } from "../../Constants";
@@ -24,8 +24,8 @@ const Recharge = () => {
     url: `${URL_KEYS.USER.ID}${user._id}`,
   });
 
-  // const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
-  // const isRazorpay = settingData?.data?.isRazorpay;
+  const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
+  const isRazorpay = settingData?.data?.isRazorpay;
 
   const userData = data?.data;
 
@@ -102,44 +102,45 @@ const Recharge = () => {
     } catch (error) {}
   };
 
-  // const handleStartPayment = async () => {
-  //   try {
-  //     const TdsAmount = 0;
-  //     const TotalAmount = Number(rechargeAmount) + Number(TdsAmount);
-  //     const RechargeData = {
-  //       userId: userData?._id,
-  //       name: `${userData?.firstName} ${userData?.lastName}`,
-  //       amount: rechargeAmount,
-  //       totalAmount: TotalAmount,
-  //       tdsAmount: TdsAmount,
-  //       status: "pending",
-  //       type: "deposit",
-  //     };
-  //     try {
-  //       const res = await PostApi({ url: URL_KEYS.BALANCE.ADD, data: RechargeData });
-  //       if (res?.data?.status === HTTP_STATUS.OK) {
-  //         refetch();
-  //       }
-  //     } catch (error) {
-  //       console.error("Upload failed:", error);
-  //     }
-  //     const res = await PostApi({
-  //       url: URL_KEYS.PHONEPE_ORDER.ADD,
-  //       data: {
-  //         amount: TotalAmount,
-  //         orderId: userData?._id,
-  //         redirectUrl: window.location.href,
-  //       },
-  //     }).unwrap();
-  //     const paymentUrl = res?.data?.paymentUrl;
+  const handleStartPayment = async () => {
+    try {
+      const TdsAmount = 0;
+      const TotalAmount = Number(rechargeAmount) + Number(TdsAmount);
 
-  //     if (paymentUrl) {
-  //       window.location.href = paymentUrl;
-  //     } else {
-  //       throw console.error("Payment URL not found");
-  //     }
-  //   } catch (error) {}
-  // };
+      const RechargeData = {
+        userId: userData?._id,
+        name: `${userData?.firstName} ${userData?.lastName}`,
+        amount: rechargeAmount,
+        totalAmount: TotalAmount,
+        tdsAmount: TdsAmount,
+        status: "pending",
+        type: "deposit",
+      };
+      try {
+        const balance = await PostApi({ url: URL_KEYS.BALANCE.ADD, data: RechargeData });
+        if (balance?.data?.status === HTTP_STATUS.OK) {
+          refetch();
+          const res = await PostApi({
+            url: URL_KEYS.PHONEPE_ORDER.ADD,
+            data: {
+              amount: TotalAmount,
+              orderId: balance?.data?.data?._id,
+              redirectUrl: window.location.href,
+            },
+          }).unwrap();
+          const paymentUrl = res?.data?.paymentUrl;
+    
+          if (paymentUrl) {
+            window.location.href = paymentUrl;
+          } else {
+            throw console.error("Payment URL not found");
+          }
+        }
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
+    } catch (error) {}
+  };
 
   const handleInputChange = (value: { balance: number }) => {
     setRechargeAmount(value?.balance);
@@ -195,9 +196,9 @@ const Recharge = () => {
 
           <hr className="border-t border-primary" />
           <div>
-            {/* {isRazorpay ? */}
+            {isRazorpay ?
            <PaymentModal btnText="Add Balance" isLoading={isUserLoading} amount={rechargeAmount} onPaymentComplete={handlePaymentComplete} /> 
-            {/* :<FormButton onClick={handleStartPayment} loading={isUserLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe" />} */}
+             :<FormButton onClick={handleStartPayment} loading={isUserLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe" />} 
            </div>
         </div>
       </div>
