@@ -232,7 +232,7 @@ const AiPowered: FC<{
     const correct = attempt?.correct ?? 0;
     const total = attempt?.total ?? 0;
     const wrong = total - correct;
-    const score = wrong * wrongWeight - correct * correctWeight;
+    const score = correct * correctWeight - wrong * wrongWeight;
     return Number(score.toFixed(2));
   };
 
