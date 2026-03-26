@@ -92,25 +92,41 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
     }
   };
 
-    const handleStartPayment = async () => {
-      try {
-        const payload = {
+  const handleStartPayment = async () => {
+    try {
+      const payload = {
+        courseId: id,
+        amount: amountToPay,
+        referralCode: refferCode,
+        name: fullName,
+        phone: mobile,
+        email,
+        city,
+      };
+
+      const purchased = await PostApi({
+        url: URL_KEYS.COURSE.PURCHASE_ADD,
+        data: payload,
+      }).unwrap();
+
+      const purchaseId = purchased?.data?._id;
+      if (amountToPay <= 0) {
+        const transactionPayload = {
           courseId: id,
           amount: amountToPay,
-          referralCode: refferCode,
-          name: fullName,
-          phone: mobile,
-          email,
-          city,
+          totalAmount: amountToPay,
+          tdsAmount: amountToPay,
+          title: data?.title,
+          transactionStatus: TRANSACTION_STATUS.SUCCESS,
+          transactionType: TRANSACTION_TYPE.DEPOSIT,
+          earningType: EARNING_TYPE.COURSE,
         };
-  
-        const purchased = await PostApi({
-          url: URL_KEYS.COURSE.PURCHASE_ADD,
-          data: payload,
+
+        await PostApi({
+          url: URL_KEYS.TRANSACTION.ADD,
+          data: transactionPayload,
         }).unwrap();
-  
-        const purchaseId = purchased?.data?._id;
-  
+      } else {
         const res = await PostApi({
           url: URL_KEYS.PHONEPE_ORDER.ADD,
           data: {
@@ -120,16 +136,17 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
           },
         }).unwrap();
         const paymentUrl = res?.data?.paymentUrl;
-  
+
         if (paymentUrl) {
           window.location.href = paymentUrl;
         } else {
           throw console.error("Payment URL not found");
         }
-      } catch (error) {
-        AntMessage("error", "Oops! We couldn’t process your enrollment. Please try again.");
       }
-    };
+    } catch (error) {
+      AntMessage("error", "Oops! We couldn’t process your enrollment. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -218,13 +235,7 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                   </div>
                 </div>
               </section>
-              <div>
-                {isRazorpay ?
-                <PaymentModal btnText="Enroll Now" isLoading={isRefferLoading || isCoursePurchaseLoading} amount={amountToPay} onPaymentComplete={handlePaymentComplete} />
-                :
-                <FormButton onClick={handleStartPayment} loading={isRefferLoading || isCoursePurchaseLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe" />
-                }
-              </div>
+              <div>{isRazorpay ? <PaymentModal btnText="Enroll Now" isLoading={isRefferLoading || isCoursePurchaseLoading} amount={amountToPay} onPaymentComplete={handlePaymentComplete} /> : <FormButton onClick={handleStartPayment} loading={isRefferLoading || isCoursePurchaseLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe" />}</div>
             </div>
           </div>
           {/* )} */}

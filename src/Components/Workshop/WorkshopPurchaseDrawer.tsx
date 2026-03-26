@@ -113,21 +113,38 @@ const WorkshopPurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
       }).unwrap();
 
       const registrationId = registered?.data?._id;
-
-      const res = await PostApi({
-        url: URL_KEYS.PHONEPE_ORDER.ADD,
-        data: {
+      if (price <= 0) {
+        const transactionPayload = {
+          workshopId: id,
           amount: amountToPay,
-          orderId: registrationId,
-          redirectUrl: window.location.href,
-        },
-      }).unwrap();
-      const paymentUrl = res?.data?.paymentUrl;
+          totalAmount: amountToPay,
+          tdsAmount: amountToPay,
+          title: data?.title,
+          transactionStatus: TRANSACTION_STATUS.SUCCESS,
+          transactionType: TRANSACTION_TYPE.DEPOSIT,
+          earningType: EARNING_TYPE.WORKSHOP,
+        };
 
-      if (paymentUrl) {
-        window.location.href = paymentUrl;
+        await PostApi({
+          url: URL_KEYS.TRANSACTION.ADD,
+          data: transactionPayload,
+        }).unwrap();
       } else {
-        throw console.error("Payment URL not found");
+        const res = await PostApi({
+          url: URL_KEYS.PHONEPE_ORDER.ADD,
+          data: {
+            amount: amountToPay,
+            orderId: registrationId,
+            redirectUrl: window.location.href,
+          },
+        }).unwrap();
+        const paymentUrl = res?.data?.paymentUrl;
+
+        if (paymentUrl) {
+          window.location.href = paymentUrl;
+        } else {
+          throw console.error("Payment URL not found");
+        }
       }
     } catch (error) {
       AntMessage("error", "Oops! We couldn’t process your enrollment. Please try again.");
