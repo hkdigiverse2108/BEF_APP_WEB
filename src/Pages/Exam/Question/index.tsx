@@ -347,6 +347,7 @@ const Question = () => {
 
     const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
     if (res?.data?.status === HTTP_STATUS.OK) {
+      const isLifetime = queryParam.get("isLifetime") === "true";
       queryParam.delete("contestId");
       Navigate(`${ROUTES.EXAM.QUESTION}${queryParam}`);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
@@ -358,7 +359,11 @@ const Question = () => {
       setSkip(false);
       setQAData(null);
       // document?.exitFullscreen();
-      Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || QaExamAnswers?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || QaExamAnswers?.contestEndDate || "" } });
+      if (isLifetime) {
+        Navigate(`${ROUTES.EXAM.RESULT}?contestId=${contestId}`);
+      } else {
+        Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || QaExamAnswers?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || QaExamAnswers?.contestEndDate || "" } });
+      }
     }
   };
 

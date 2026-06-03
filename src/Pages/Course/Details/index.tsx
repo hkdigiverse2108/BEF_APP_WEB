@@ -9,6 +9,7 @@ import CoursePurchaseDrawer from "../../../Components/Course/CoursePurchaseDrawe
 import CourseFaqsTab from "../../../Components/Course/Details/CourseFaqsTab";
 import CourseLecturesTab from "../../../Components/Course/Details/CourseLecturesTab";
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
+import CourseTestsTab from "../../../Components/Course/Details/CourseTestsTab";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
 import { ImagePath, ROUTES, URL_KEYS } from "../../../Constants";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
@@ -20,6 +21,7 @@ const TabsName = [
   { value: "about", label: "About" },
   { value: "lectures", label: "Lectures" },
   { value: "module", label: "Module" },
+  { value: "tests", label: "Tests" },
   { value: "faqs", label: "FAQS" },
 ];
 
@@ -130,13 +132,23 @@ const CourseDetails = () => {
             textColor="primary"
             orientation="horizontal"
             variant="scrollable"
-            // allowScrollButtonsMobile
+            scrollButtons="auto"
+            allowScrollButtonsMobile
             aria-label="primary tabs example"
-            className="about-tabs  w-full! flex! justify-between! sm:gap-4! border-b border-gray-300 mt-6 "
+            className="about-tabs w-full border-b border-gray-300 mt-6"
             sx={{
               "& .MuiTabs-flexContainer": {
-                justifyContent: "space-between",
+                justifyContent: { xs: "flex-start", sm: "space-between" },
+                flexWrap: "nowrap",
               },
+              "& .MuiTab-root": {
+                minWidth: "auto",
+                flexGrow: { xs: 1, sm: 0 },
+                padding: { xs: "6px 12px", sm: "12px 24px" },
+                fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" },
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+              }
             }}
           >
             {TabsName?.map(({ value, label }, index) => {
@@ -157,6 +169,7 @@ const CourseDetails = () => {
           )}
           {tabIndex === "lectures" && <CourseLecturesTab isUnlocked={CourseDetailsData?.isUnlocked} Modules={Modules} />}
           {tabIndex === "module" && <CourseModuleTab id={CourseDetailsData?._id} />}
+          {tabIndex === "tests" && <CourseTestsTab Modules={Modules} isUnlocked={CourseDetailsData?.isUnlocked} />}
           {tabIndex === "faqs" && <CourseFaqsTab />}
         </div>
       </section>

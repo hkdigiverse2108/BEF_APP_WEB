@@ -51,30 +51,58 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       <div className="flex flex-col lg:flex-row bg-primary! border border-primary px-2 md:px-4">
         <div className="flex flex-row max-sm:flex-col items-center gap-4 w-full h-full p-3">
           <div className="grid gap-1 w-full">
-            <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">{name}</h3>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">{name}</h3>
+              {contestData?.contestId?.isLifetime && (
+                <span className="bg-white text-primary text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">
+                  Lifetime Free
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
       {/* Body */}
       <div className="px-2 md:px-4 py-2">
         <div className="py-2 flex flex-col gap-2 text-black">
-          <div className="flex justify-between text-sm font-normal">
-            <section className="flex flex-col gap-2">
-              <h1>Get Scholarship</h1>
-              <p className="font-semibold text-lg">₹{pricePool}</p>
-            </section>
+          {contestData?.contestId?.isLifetime ? (
+            <div className="flex flex-col gap-1 py-1 text-sm font-semibold">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Entry Fee:</span>
+                <span className="text-green-600 font-bold">FREE</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Attempts:</span>
+                <span className="text-primary font-bold">Unlimited</span>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-gray-600">Validity: <span className="text-primary font-bold">Lifetime</span></span>
+                <section onClick={(e) => handleJoin(e)}>
+                  <p className="font-semibold text-base bg-success text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">Join</p>
+                </section>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-between text-sm font-normal">
+                <section className="flex flex-col gap-2">
+                  <h1>Get Scholarship</h1>
+                  <p className="font-semibold text-lg">₹{pricePool}</p>
+                </section>
 
-            <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
-              <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
-            </section>
-          </div>
+                <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
+                  <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
+                </section>
+              </div>
 
-          <Progress percent={progress} showInfo={false} strokeColor="green" />
+              <Progress percent={progress} showInfo={false} strokeColor="green" />
 
-          <section className="flex justify-between items-center font-normal">
-            <h1 className="text-gray-600">{filledSpots} Filled</h1>
-            <h1>{totalSpots} Total Spots</h1>
-          </section>
+              <section className="flex justify-between items-center font-normal">
+                <h1 className="text-gray-600">{filledSpots} Filled</h1>
+                <h1>{totalSpots} Total Spots</h1>
+              </section>
+            </>
+          )}
         </div>
       </div>
 

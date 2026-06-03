@@ -36,7 +36,7 @@ const ConfirmationDrawer = () => {
     console.log(totalAmount);
 
     try {
-      if (Number(UserData?.walletBalance) >= Number(totalAmount)) {
+      if (baseAmount === 0 || Number(UserData?.walletBalance) >= Number(totalAmount)) {
         if (Number(amount) !== 0) {
           const balancePayload = {
             contestId: data._id,

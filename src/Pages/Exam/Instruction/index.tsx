@@ -18,10 +18,18 @@ const ExamInstruction = () => {
   const location = useLocation();
 
   const contestStartDate = location?.state?.contestStartDate;
+  const isLifetime = location?.state?.isLifetime || new URLSearchParams(location.search).get("isLifetime") === "true";
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+  const isPractice = queryParam.get("isPractice") === "true";
 
   const handleNextButton = () => {
+    if (isPractice || isLifetime) {
+      // Practice or Lifetime mode bypasses live exam time checks!
+      navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}${isPractice ? "&isPractice=true" : ""}${isLifetime ? "&isLifetime=true" : ""}`);
+      return;
+    }
+
     const now = new Date();
     now.setSeconds(0, 0); // remove seconds + ms
 

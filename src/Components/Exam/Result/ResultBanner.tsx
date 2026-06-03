@@ -1,15 +1,18 @@
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { FormButton } from "../../../Attribute/FormFields";
 import { ImagePath, ROUTES } from "../../../Constants";
 import type { ContestData } from "../../../Types";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "antd";
+import ReattemptModal from "./ReattemptModal";
 
 const ResultBanner: FC<{ contest: ContestData; qaId: string; contestId: string; loading: boolean }> = ({ contest, qaId, contestId, loading }) => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="w-full sm:h-[380px] rounded-2xl p-6 shadow-sm lg:flex-row max-sm:bg-center flex justify-center sm:justify-end items-center" style={{ backgroundImage: `url(${ImagePath}result/Result-bg1.jpg)` }}>
-      <div className="max-sm:w-full h-fit bg-white rounded-2xl text-center p-4">
+      <div className="max-sm:w-full h-fit bg-white rounded-2xl text-center p-4 min-w-[280px]">
         <h2 className="text-xl font-semibold capitalize">{loading ? <Skeleton.Input active style={{ height: 30, borderRadius: 5 }} block /> : contest?.contestId?.name}</h2>
         <div className="border-y border-card-border p-4 my-5 ">
           <div className="flex flex-row max-sm:flex-col items-center sm:gap-4 w-full h-full">
@@ -25,8 +28,12 @@ const ResultBanner: FC<{ contest: ContestData; qaId: string; contestId: string; 
             )}
           </div>
         </div>
-        <FormButton onClick={() => navigate(`${ROUTES.EXAM.SOLUTION.replace(":id", qaId)}?contestId=${contestId}`)} text="view solution" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+        <div className="flex flex-col gap-2">
+          <FormButton onClick={() => navigate(`${ROUTES.EXAM.SOLUTION.replace(":id", qaId)}?contestId=${contestId}`)} text="view solution" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+          <FormButton onClick={() => setIsModalOpen(true)} text="Re-attempt / Practice History" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe bg-green-600 border-none" />
+        </div>
       </div>
+      <ReattemptModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} contest={contest} contestId={contestId} />
     </div>
   );
 };

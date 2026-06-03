@@ -48,26 +48,52 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, cont
       className="w-full h-fit bg-primary rounded-2xl overflow-hidden cursor-pointer"
     >
       <div className="flex flex-row px-2 md:px-4 relative">
-        <div className="flex flex-row max-sm:flex-col items-center gap-4 max-sm:gap-0 w-full h-full p-3   ">
+        <div className="flex flex-row max-sm:flex-col items-center gap-4 max-sm:gap-0 w-full h-full p-3">
           <div className="grid gap-0.5 w-full">
-            <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">{name}</h3>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">{name}</h3>
+              {contestData.isLifetime && (
+                <span className="bg-white text-primary text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">
+                  Lifetime Free
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       <div className="px-4 py-2 bg-white rounded-t-xl mx-0.5">
-        <div className=" py-2 flex flex-col gap-1">
-          <section className="flex justify-between text-sm md:text-lg  font-semibold flex-wrap ">
-            <h3 className="capitalize">Get Scholarship</h3>
-            <p>₹{pricePool}</p>
-          </section>
-          <section>
-            <Progress percent={progress} showInfo={false} strokeColor={"green"} />
-          </section>
-          <section className="flex justify-between flex-wrap ">
-            <h4>{filledSpots} Filled</h4>
-            <h4 className="font-semibold">{totalSpots} Total Student</h4>
-          </section>
+        <div className="py-2 flex flex-col gap-1.5 text-slate-700">
+          {contestData.isLifetime ? (
+            <div className="flex flex-col gap-1 py-1 text-sm font-semibold">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Entry Fee:</span>
+                <span className="text-green-600 font-bold">FREE</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Attempts Allowed:</span>
+                <span className="text-primary font-bold">Unlimited</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Validity:</span>
+                <span className="text-primary font-bold">Lifetime</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              <section className="flex justify-between text-sm md:text-lg  font-semibold flex-wrap ">
+                <h3 className="capitalize">Get Scholarship</h3>
+                <p>₹{pricePool}</p>
+              </section>
+              <section>
+                <Progress percent={progress} showInfo={false} strokeColor={"green"} />
+              </section>
+              <section className="flex justify-between flex-wrap ">
+                <h4>{filledSpots} Filled</h4>
+                <h4 className="font-semibold">{totalSpots} Total Student</h4>
+              </section>
+            </>
+          )}
         </div>
 
         <span className=" flex border border-gray-200 w-full my-2"></span>
