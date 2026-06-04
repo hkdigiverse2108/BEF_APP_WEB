@@ -67,7 +67,11 @@ export interface ContestCore {
   totalQuestions?: number;
   status?: string;
   slots?: string[];
+  startDate?: Dayjs | string;
   endDate?: Dayjs;
+  totalTime?: string;
+  totalMarks?: number;
+  isOfflineOMRAvailable?: boolean;
   // ranks?: string[];
   ranks?: contestRank[] | null;
   isLifetime?: boolean;

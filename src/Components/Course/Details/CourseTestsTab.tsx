@@ -176,7 +176,7 @@ const CourseTestsTab = ({ Modules, isUnlocked }: { Modules: ModuleType[]; isUnlo
                         <>
                           <Button
                             icon={<FilePdfOutlined />}
-                            onClick={() => handleDownloadOMRPDF(contest._id)}
+                            onClick={() => handleDownloadOMRPDF(contest._id || "")}
                             className="rounded-lg font-semibold border-red-200 text-red-500 hover:text-red-600 hover:border-red-400"
                           >
                             OMR Paper (PDF)
@@ -184,7 +184,7 @@ const CourseTestsTab = ({ Modules, isUnlocked }: { Modules: ModuleType[]; isUnlo
 
                           <Button
                             icon={<UploadOutlined />}
-                            onClick={() => handleUploadOMRClick(contest._id)}
+                            onClick={() => handleUploadOMRClick(contest._id || "")}
                             className="rounded-lg font-semibold border-green-200 text-green-600 hover:text-green-700 hover:border-green-400"
                           >
                             AI Scan OMR

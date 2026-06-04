@@ -67,7 +67,6 @@ const EliminationSkill: FC<{ data: Sec3Type; subjectName: string; TabIndex: numb
             />
             <p className="mt-2 font-normal">Your Correct Elimination Accuracy</p>
           </div>
-
           <div className="flex flex-col items-center">
             <ReactApexChart
               options={EliminationSkillRadialBarCharts("#288F66", {
@@ -84,7 +83,7 @@ const EliminationSkill: FC<{ data: Sec3Type; subjectName: string; TabIndex: numb
         <div className="pt-6">
           <div className="flex flex-col items-center w-full">
             <div className="w-full">
-              <ReactApexChart options={EliminationSkillBarChart} series={dynamicBarSeries} type={EliminationSkillBarChart.chart?.type} height={350} />
+              <ReactApexChart options={EliminationSkillBarChart} series={dynamicBarSeries} type="bar" height={350} />
             </div>
           </div>
         </div>

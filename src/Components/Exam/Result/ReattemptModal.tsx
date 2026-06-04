@@ -1,6 +1,6 @@
 import { Modal, Button, List, Spin, message } from "antd";
 import { useState, useEffect } from "react";
-import { useGetApiQuery, usePostApiMutation } from "../../../Api/CommonApi";
+import { usePostApiMutation } from "../../../Api/CommonApi";
 import { URL_KEYS, ROUTES, HTTP_STATUS } from "../../../Constants";
 import { PlayCircleOutlined, HistoryOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
