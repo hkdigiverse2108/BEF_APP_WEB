@@ -23,7 +23,7 @@ const SubtopicDrawer = () => {
   const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
 
   const getContestDurationInHours = (totalQuestions?: number) => {
-    if (!totalQuestions) return 1;  
+    if (!totalQuestions) return 1;
     return totalQuestions > 50 ? 2 : 1;
   };
 
@@ -63,8 +63,16 @@ const SubtopicDrawer = () => {
         JSON.stringify({
           ...existingLsData,
           contestId: contest?._id,
-        })
+        }),
       );
+      // console.log("payloadTime", {
+      //   ...isSubtopicDrawer.contest,
+      //   payload: {
+      //     stackNumber: selectedQuestion,
+      //     contestStartDate: payloadTime?.startTime,
+      //     contestEndDate: payloadTime?.endTime,
+      //   },
+      // });
 
       dispatch(
         setConfirmationDrawer({
@@ -77,7 +85,7 @@ const SubtopicDrawer = () => {
               contestEndDate: payloadTime?.endTime,
             },
           },
-        })
+        }),
       );
       dispatch(setSubtopicDrawer({ open: false, contest: {} }));
     } catch (error) {
@@ -86,12 +94,15 @@ const SubtopicDrawer = () => {
   };
 
   const groupedSlots =
-    contest?.slots?.reduce((acc, time) => {
-      const dateKey = dayjs(time).format("YYYY-MM-DD");
-      if (!acc[dateKey]) acc[dateKey] = [];
-      acc[dateKey].push(time);
-      return acc;
-    }, {} as Record<string, string[]>) ?? {};
+    contest?.slots?.reduce(
+      (acc, time) => {
+        const dateKey = dayjs(time).format("YYYY-MM-DD");
+        if (!acc[dateKey]) acc[dateKey] = [];
+        acc[dateKey].push(time);
+        return acc;
+      },
+      {} as Record<string, string[]>,
+    ) ?? {};
 
   return (
     <>
@@ -138,41 +149,43 @@ const SubtopicDrawer = () => {
               ]}
               className="!border-theme/40"
             />
-            <div className="p-4 bg-input-box border-1 rounded-md border-theme/40">
-              <p className="font-normal text-lg text-theme">
-                Selected:&nbsp;
-                <span>{selectedTime ? (dayjs(selectedTime).isValid() ? dayjs(selectedTime).format("dddd, MMM D • h:mm A") : selectedTime) : "No time selected"}</span>
-              </p>
-              <p className="text-base font-medium text-theme/60 mb-3">Pick Your Time For Playing Quiz</p>
-              <span className="border-t-2 border-theme/30 flex w-full my-4" />
-              <div className="space-y-6">
-                {Object.keys(groupedSlots).length > 0 ? (
-                  Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
-                    <div key={date}>
-                      {/* 🗓️ Date Header */}
-                      <p className="font-normal text-lg mb-2">{dayjs(date).format("dddd, MMM D")}</p>
-                      {/* 🕒 Time Buttons */}
-                      <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
-                        {times?.map((time) => {
-                          const displayTime = dayjs(time).format("h:mm A");
-                          return (
-                            <button type="button" key={time} onClick={() => handleSelect(time)} className={`p-2 text-sm font-normal rounded-lg ${selectedTime === time ? "bg-primary text-white" : "bg-white hover:bg-primary-light"}`}>
-                              {displayTime}
-                            </button>
-                          );
-                        })}
+            {!contest?.isLifetime && (
+              <div className="p-4 bg-input-box border-1 rounded-md border-theme/40">
+                <p className="font-normal text-lg text-theme">
+                  Selected:&nbsp;
+                  <span>{selectedTime ? (dayjs(selectedTime).isValid() ? dayjs(selectedTime).format("dddd, MMM D • h:mm A") : selectedTime) : "No time selected"}</span>
+                </p>
+                <p className="text-base font-medium text-theme/60 mb-3">Pick Your Time For Playing Quiz</p>
+                <span className="border-t-2 border-theme/30 flex w-full my-4" />
+                <div className="space-y-6">
+                  {Object.keys(groupedSlots).length > 0 ? (
+                    Object?.entries(groupedSlots ?? {})?.map(([date, times]) => (
+                      <div key={date}>
+                        {/* 🗓️ Date Header */}
+                        <p className="font-normal text-lg mb-2">{dayjs(date).format("dddd, MMM D")}</p>
+                        {/* 🕒 Time Buttons */}
+                        <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
+                          {times?.map((time) => {
+                            const displayTime = dayjs(time).format("h:mm A");
+                            return (
+                              <button type="button" key={time} onClick={() => handleSelect(time)} className={`p-2 text-sm font-normal rounded-lg ${selectedTime === time ? "bg-primary text-white" : "bg-white hover:bg-primary-light"}`}>
+                                {displayTime}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500 font-medium">
+                      <Empty />
                     </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-gray-500 font-medium">
-                    <Empty />
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
 
-              <FormInput name="time" type="hidden" rules={[{ required: true, message: "Please select a time!" }]} />
-            </div>
+                <FormInput name="time" type="hidden" rules={[{ required: contest?.isLifetime === true ? false : true, message: "Please select a time!" }]} />
+              </div>
+            )}
             <FormButton text="Next" htmlType="submit" className="custom-button button button--mimas text-center w-full !p-4 !h-14 uppercase flex items-end-safe" />
           </Form>
         </div>

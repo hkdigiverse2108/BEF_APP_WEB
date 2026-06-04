@@ -4,17 +4,21 @@ import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImagePath, ROUTES } from "../../Constants";
 import type { ContestDetailCardProps } from "../../Types";
+import { AntMessage } from "../Common/AntMessage";
 
 const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
 
-  const { contestId: { _id = "", name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1 } = {}, subjectId: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
+  const { contestId: { _id = "", name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1, isLifetime } = {}, subjectId: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
 
   const progress = (filledSpots / totalSpots) * 100;
 
   const handleJoin = (e: any) => {
     e.stopPropagation();
-    if (contestData?.contestStartTime && contestData?.contestEndTime) {
+    console.log("contestData", contestData);
+    if (contestData?.contestStartTime && contestData?.contestEndTime && !isLifetime) {
+      console.log("enter", contestData?.contestStartDate, contestData?.contestEndDate);
+
       navigate(ROUTES.EXAM.COUNT_DOWN, {
         state: {
           contestStartDate: contestData?.contestStartDate || "",
@@ -22,9 +26,19 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
         },
       });
     } else {
+      console.log("enter2----------", contestData);
       navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, {
         state: contestData,
       });
+    }
+  };
+
+  const handleResult = (e: any) => {
+    e.stopPropagation();
+    if (contestData?.answers?.length !== 0) {
+      navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${contestData?._id}&contestFilter=${_id}`);
+    } else {
+      AntMessage("error", "This Contest is Over And No One Is Participate.");
     }
   };
   const contestDataTime = {
@@ -53,11 +67,7 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           <div className="grid gap-1 w-full">
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="text-white text-lg max-sm:text-center text-left font-medium tracking-tight">{name}</h3>
-              {contestData?.contestId?.isLifetime && (
-                <span className="bg-white text-primary text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">
-                  Lifetime Free
-                </span>
-              )}
+              {contestData?.contestId?.isLifetime && <span className="bg-white text-primary text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">Lifetime Free</span>}
             </div>
           </div>
         </div>
@@ -75,8 +85,14 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
                 <span className="text-gray-600">Attempts:</span>
                 <span className="text-primary font-bold">Unlimited</span>
               </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Validity:</span>
+                <span className="text-primary font-bold">Lifetime</span>
+              </div>
               <div className="flex justify-between items-center mt-2">
-                <span className="text-gray-600">Validity: <span className="text-primary font-bold">Lifetime</span></span>
+                <section onClick={(e) => handleResult(e)}>
+                  <p className="font-semibold text-base bg-primary text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">Result</p>
+                </section>
                 <section onClick={(e) => handleJoin(e)}>
                   <p className="font-semibold text-base bg-success text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">Join</p>
                 </section>

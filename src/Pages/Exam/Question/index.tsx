@@ -48,6 +48,7 @@ const Question = () => {
 
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+  const isLifetime = queryParam.get("isLifetime") === "true";
 
   const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
   const MultiTabOpen = settingData?.data?.isMultiTabOpen;
@@ -163,9 +164,9 @@ const Question = () => {
     return () => {
       window.removeEventListener("popstate", handleBack);
       // window.removeEventListener("keydown", blockEsc);
-        document.removeEventListener("visibilitychange", handleLeaveScreen);
-        window.removeEventListener("blur", handleLeaveScreen);
-        window.removeEventListener("focusout", handleLeaveScreen);
+      document.removeEventListener("visibilitychange", handleLeaveScreen);
+      window.removeEventListener("blur", handleLeaveScreen);
+      window.removeEventListener("focusout", handleLeaveScreen);
       for (const evt of ["contextmenu", "keydown"]) {
         document.removeEventListener(evt, p);
       }
@@ -347,7 +348,6 @@ const Question = () => {
 
     const res = await PostApi({ url: URL_KEYS.QA.EDIT, data: QaExamAnswers });
     if (res?.data?.status === HTTP_STATUS.OK) {
-      const isLifetime = queryParam.get("isLifetime") === "true";
       queryParam.delete("contestId");
       Navigate(`${ROUTES.EXAM.QUESTION}${queryParam}`);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
@@ -360,7 +360,7 @@ const Question = () => {
       setQAData(null);
       // document?.exitFullscreen();
       if (isLifetime) {
-        Navigate(`${ROUTES.EXAM.RESULT}?contestId=${contestId}`);
+        Navigate(`${ROUTES.EXAM.RESULT}?contestId=${contestId}&qaFilter=${_id}`);
       } else {
         Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || QaExamAnswers?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || QaExamAnswers?.contestEndDate || "" } });
       }
@@ -502,7 +502,7 @@ const Question = () => {
     <>
       <div className="sub-container pt-4 md:pt-8 question-section">
         {/* Header */}
-        <CardHeader title={QAData?.subjectId?.name || "Question & answer"} icon={<BsFillAlarmFill />} time={isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
+        <CardHeader title={QAData?.subjectId?.name || "Question & answer"} icon={<BsFillAlarmFill />} time={isLifetime ? "No Time" : isFinished ? "Time Up!" : `${hours}:${minutes}:${seconds}`} />
         <div className="flex flex-col justify-center items-center">
           <p className="font-semibold mb-0 bg-input-box p-2 px-5 rounded mt-4 w-fit max-sm:text-center">
             Do not exit the test otherwise your test will end.<span className="block text-center"> Press the End Test button to lock your Test.</span>

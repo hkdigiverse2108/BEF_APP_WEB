@@ -27,7 +27,7 @@ const Result = () => {
     url: `${URL_KEYS.REPORT.REPORT}${search}`,
   });
   const { data: ContestData, isLoading: isLoadingContest } = useGetApiQuery({
-    url: `${URL_KEYS.QA.ALL}?page=1&limit=1&contestFilter=completed&qaFilter=${qaFilter}`,
+    url: `${URL_KEYS.QA.ALL}?page=1&limit=1` + (contestFilter ? `&contestFilter=${contestFilter}` : "") + (qaFilter ? `&qaFilter=${qaFilter}` : ""),
   });
 
   const Contest = ContestData?.data.contest_type_data[0];
@@ -90,7 +90,7 @@ const Result = () => {
               <Overview data={OverviewData} isLoading={isLoading} contest={Contest} />
             </div>
             <div hidden={tabIndex !== 1}>
-              <AiPowered data={OverviewData} subjectName={ContestSubject?.name} TabIndex={tabIndex}/>
+              <AiPowered data={OverviewData} subjectName={ContestSubject?.name} TabIndex={tabIndex} />
             </div>
             <div hidden={tabIndex !== 2}>
               <Summary data={SummaryData} subjectName={ContestSubject?.name} />

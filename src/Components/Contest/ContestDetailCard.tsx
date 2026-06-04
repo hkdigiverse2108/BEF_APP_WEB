@@ -52,11 +52,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, cont
           <div className="grid gap-0.5 w-full">
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="text-xl max-sm:text-center text-left font-semibold tracking-tight capitalize text-white">{name}</h3>
-              {contestData.isLifetime && (
-                <span className="bg-white text-primary text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">
-                  Lifetime Free
-                </span>
-              )}
+              {contestData.isLifetime && <span className="bg-white text-primary text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">Lifetime Free</span>}
             </div>
           </div>
         </div>

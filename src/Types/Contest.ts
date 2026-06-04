@@ -70,7 +70,7 @@ export interface ContestCore {
   endDate?: Dayjs;
   // ranks?: string[];
   ranks?: contestRank[] | null;
-
+  isLifetime?: boolean;
   contestType?: ContestTypeInfo; // replaces "contest-type"
   payload?: PayloadTime;
 }
@@ -89,6 +89,7 @@ export interface ContestData {
   subjectId?: SubjectInfo;
   contestId?: ContestCore;
   answers?: any[];
+  isLifetime?: boolean;
 }
 
 /* ---------- COMPONENT PROP ---------- */
@@ -107,6 +108,7 @@ export interface ContestItem {
   startDate?: string;
   endDate?: string;
   slots?: string[];
+  isLifetime?: boolean;
 }
 
 export interface ContestApiResponse {
