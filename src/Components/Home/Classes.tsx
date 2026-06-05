@@ -34,6 +34,7 @@ const Classes = () => {
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 5 }} />) : Classes?.slice(0, 3).map((item, index) => <ClassCard key={index} item={item} onClick={HandleClasses} />)}</div>
           </div>
           <SubjectDrawer />
+          <hr className="w-[95%] mx-auto text-theme mt-2 mb-4 sm:my-8 opacity-20" />
         </>
       )}
     </>

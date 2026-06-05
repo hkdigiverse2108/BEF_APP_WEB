@@ -94,6 +94,8 @@ export interface ContestData {
   contestId?: ContestCore;
   answers?: any[];
   isLifetime?: boolean;
+  classesId?: any;
+  createdAt?: string;
 }
 
 /* ---------- COMPONENT PROP ---------- */

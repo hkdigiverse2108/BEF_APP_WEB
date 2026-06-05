@@ -1,4 +1,5 @@
 import Classes from "../../Components/Home/Classes";
+import Contest from "../../Components/Home/Contest";
 import Course from "../../Components/Home/Course";
 import HeroBanner from "../../Components/Home/HeroBanner";
 import Workshop from "../../Components/Home/Workshop";
@@ -9,10 +10,9 @@ const Home = () => {
     <div className="sub-container">
       <HeroBanner />
       <Classes />
-      <hr className="w-[95%] mx-auto text-theme mt-2 mb-4 sm:my-8 opacity-20" />
+      <Contest />
       <Workshop />
       <Course />
-      <hr className="w-[95%] mx-auto text-theme mt-2 mb-4 sm:my-8 opacity-20" />
       <YoutubeValues />
     </div>
   );

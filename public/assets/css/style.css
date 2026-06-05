@@ -30,7 +30,7 @@ body {
 .ant-select-selector {
   @apply !bg-input-box !py-3;
 }
-.scholarship .ant-select-selector{
+.scholarship .ant-select-selector {
   @apply !bg-white !py-3;
 }
 input {
@@ -359,6 +359,13 @@ input {
   @apply !p-0 !rounded-2xl;
 }
 
+.feedback .ant-modal-close {
+  @apply !bg-black/5;
+}
+.feedback .ant-modal-close .ant-modal-close-icon {
+  @apply !text-black;
+}
+
 .card-body-gradient {
   background: linear-gradient(90deg, var(--color-primary), var(--color-success));
 }
@@ -482,6 +489,29 @@ input {
   @apply !bg-white/95;
 }
 
-.anticon.anticon-close.ant-notification-notice-close-icon{
+.anticon.anticon-close.ant-notification-notice-close-icon {
   @apply hidden!;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }

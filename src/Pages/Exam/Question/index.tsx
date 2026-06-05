@@ -367,6 +367,7 @@ const Question = () => {
       setAnswersType(["unanswered"]);
       setSkip(false);
       setQAData(null);
+      dispatch(setEndTestDrawer())
       // document?.exitFullscreen();
       if (isLifetime || isPractice) {
         Navigate(`${ROUTES.EXAM.RESULT}?contestId=${contestId}&qaFilter=${_id || qaId}`);
