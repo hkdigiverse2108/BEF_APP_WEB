@@ -269,6 +269,12 @@ input {
 .about-tabs .MuiTabs-list.MuiTabs-flexContainer button {
   @apply font-extrabold! max-sm:text-[10px]! max-sm:p-0!;
 }
+.course-tabs .MuiTabs-list.MuiTabs-flexContainer {
+  @apply flex sm:grid grid-cols-5 gap-0;
+}
+.course-tabs .MuiTabs-list.MuiTabs-flexContainer button {
+  @apply font-extrabold! max-sm:text-[10px]! max-sm:p-0!;
+}
 
 .LecturesTabs .MuiTabs-list.MuiTabs-flexContainer button {
   @apply !font-semibold;

@@ -103,6 +103,7 @@ export interface ContestDetailCardProps {
   contestData: ContestData;
   type?: string;
   contestDataTime?: ContestData;
+  isUnlocked?: boolean;
 }
 
 /* ---------- API RESPONSE STRUCTURES ---------- */

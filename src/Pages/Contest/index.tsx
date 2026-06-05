@@ -50,7 +50,7 @@ const Contest = () => {
   if (isContestFilters.prizePool?.max !== undefined) queryParams.append("pricePoolFilter[max]", String(isContestFilters.prizePool?.max));
   if (isContestFilters.contestType !== "") queryParams.append("contestTypeFilter", isContestFilters.contestType);
 
-  const { data: ContestData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.CONTEST.ALL}?${queryParams.toString()}` }, { skip: false });
+  const { data: ContestData, isLoading } = useGetApiQuery({ url: `${URL_KEYS.CONTEST.ALL}?withoutCourseFilter=true&${queryParams.toString()}` }, { skip: false });
 
   const Contest: ContestItem[] = ContestData?.data?.contest_data || [];
 

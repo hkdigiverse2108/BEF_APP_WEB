@@ -1,19 +1,19 @@
+import { Progress } from "antd";
+import type { FC } from "react";
 import { FaAward } from "react-icons/fa";
 import { HiCheckBadge } from "react-icons/hi2";
 import { IoMdTrophy } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import { FormButton } from "../../Attribute/FormFields";
-import { Progress } from "antd";
 import { ROUTES } from "../../Constants";
 import { useAppDispatch } from "../../Store/hooks";
 import { setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
 import type { ContestCore, ContestDetailCardProps, contestRank } from "../../Types";
-import { useNavigate } from "react-router-dom";
-import type { FC } from "react";
 
-const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, contestDataTime }) => {
+const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, contestDataTime, isUnlocked }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { _id, name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, ranks }: ContestCore = contestData;
+  const { _id, name, pricePool, filledSpots, totalSpots, fees = 0, winnerPercentage = 0, ranks, isLifetime }: ContestCore = contestData;
 
   const progress = ((filledSpots ?? 0) / (totalSpots ?? 1)) * 100;
 
@@ -41,9 +41,11 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, cont
   return (
     <div
       onClick={() =>
-        navigate(ROUTES.CONTEST.CONTEST_DETAILS, {
-          state: { contestData },
-        })
+        !isLifetime
+          ? navigate(ROUTES.CONTEST.CONTEST_DETAILS, {
+              state: { contestData },
+            })
+          : {}
       }
       className="w-full h-fit bg-primary rounded-2xl overflow-hidden cursor-pointer"
     >
@@ -93,8 +95,12 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, cont
         </div>
 
         <span className=" flex border border-gray-200 w-full my-2"></span>
-        <div className="py-1">
-          <FormButton htmlType="submit" text={`Join ${type === "myContest" ? "" : `- ₹${fees}`}`} onClick={(e) => handleSubtopicDrawer(e)} className="custom-button-light button button--mimas w-full !h-auto uppercase" />
+        <div className="py-1" onClick={(e) => e.stopPropagation()}>
+          {isUnlocked ? ( //
+            <FormButton htmlType="submit" text={`Join ${type === "myContest" ? "" : `- ₹${fees}`}`} onClick={(e) => handleSubtopicDrawer(e)} className="custom-button-light button button--mimas w-full !h-auto uppercase" />
+          ) : (
+            <FormButton htmlType="submit" disabled={true} text="Locked (Purchase Course" className="custom-button-light button button--mimas w-full !h-auto uppercase disabled !cursor-no-drop" />
+          )}
         </div>
       </div>
 

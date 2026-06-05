@@ -135,7 +135,7 @@ const CourseDetails = () => {
             scrollButtons="auto"
             allowScrollButtonsMobile
             aria-label="primary tabs example"
-            className="about-tabs w-full border-b border-gray-300 mt-6"
+            className="course-tabs w-full border-b border-gray-300 mt-6"
             sx={{
               "& .MuiTabs-flexContainer": {
                 justifyContent: { xs: "flex-start", sm: "space-between" },
@@ -148,7 +148,7 @@ const CourseDetails = () => {
                 fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" },
                 textTransform: "uppercase",
                 whiteSpace: "nowrap",
-              }
+              },
             }}
           >
             {TabsName?.map(({ value, label }, index) => {
