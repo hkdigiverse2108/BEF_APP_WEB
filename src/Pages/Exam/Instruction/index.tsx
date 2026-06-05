@@ -14,14 +14,16 @@ const ExamInstruction = () => {
   const location = useLocation();
 
   const contestStartDate = location?.state?.contestStartDate;
-  const isLifetime = location?.state?.contestId?.isLifetime;
+  const isLifetime = location?.state?.isLifetime || location?.state?.contestId?.isLifetime;
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+  const qaId = queryParam.get("qaId") || location?.state?.qaId || location?.state?._id;
+  const isPractice = queryParam.get("isPractice") === "true";
 
   const handleNextButton = () => {
-    if (isLifetime) {
+    if (isLifetime || isPractice) {
       // Practice or Lifetime mode bypasses live exam time checks!
-      navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}${isLifetime ? "&isLifetime=true" : ""}`);
+      navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}${isLifetime ? "&isLifetime=true" : ""}${isPractice ? "&isPractice=true" : ""}${qaId ? `&qaId=${qaId}` : ""}`);
       return;
     } else {
       const now = new Date();
@@ -44,7 +46,7 @@ const ExamInstruction = () => {
       });
 
       if (nowMs >= startMs && nowMs <= endLimit) {
-        navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}`);
+        navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}${qaId ? `&qaId=${qaId}` : ""}`);
       } else {
         if (nowMs < startMs) {
           AntMessage("error", `You can join after ${timeIST}`, {

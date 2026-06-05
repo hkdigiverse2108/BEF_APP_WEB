@@ -48,7 +48,9 @@ const Question = () => {
 
   const queryParam = new URLSearchParams(location.search);
   const contestId = queryParam.get("contestId");
+  const qaId = queryParam.get("qaId");
   const isLifetime = queryParam.get("isLifetime") === "true";
+  const isPractice = queryParam.get("isPractice") === "true";
 
   const { data: settingData } = useGetApiQuery({ url: URL_KEYS.SETTINGS.ALL });
   const MultiTabOpen = settingData?.data?.isMultiTabOpen;
@@ -58,8 +60,15 @@ const Question = () => {
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
       Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
       Navigate(ROUTES.CONTEST.MY_CONTEST);
+    } else {
+      const storedAnswers = JSON.parse(Storage.getItem(STORAGE_KEYS.EXAM_QA_ANSWERS) || "{}");
+      if (storedAnswers && storedAnswers.qaId && qaId && storedAnswers.qaId !== qaId) {
+        Storage.removeItem(STORAGE_KEYS.EXAM_QA_ALL);
+        Storage.removeItem(STORAGE_KEYS.EXAM_QA_ANSWERS);
+        window.location.reload();
+      }
     }
-  }, [contestId, Navigate]);
+  }, [contestId, qaId, Navigate]);
 
   useEffect(() => {
     // BLOCK BACK BUTTON
@@ -174,7 +183,7 @@ const Question = () => {
   }, [MultiTabOpen]);
 
   const { data: QAApiData, isLoading } = useGetApiQuery<QuestionApiResponse>({
-    url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}`,
+    url: `${URL_KEYS.QA.CONTEST_QUESTION}?contestFilter=${contestId}${qaId ? `&qaId=${qaId}` : ""}`,
   });
   const { hours, minutes, seconds, isFinished } = useCountDown(QAData?.contestStartDate || "", QAData?.contestEndDate || "");
 
@@ -359,8 +368,8 @@ const Question = () => {
       setSkip(false);
       setQAData(null);
       // document?.exitFullscreen();
-      if (isLifetime) {
-        Navigate(`${ROUTES.EXAM.RESULT}?contestId=${contestId}&qaFilter=${_id}`);
+      if (isLifetime || isPractice) {
+        Navigate(`${ROUTES.EXAM.RESULT}?contestId=${contestId}&qaFilter=${_id || qaId}`);
       } else {
         Navigate(ROUTES.EXAM.COUNT_DOWN, { state: { contestStartDate: QAData?.contestStartDate || QaExamAnswers?.contestStartDate || "", contestEndDate: QAData?.contestEndDate || QaExamAnswers?.contestEndDate || "" } });
       }

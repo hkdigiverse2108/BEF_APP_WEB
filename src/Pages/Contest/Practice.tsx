@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import { URL_KEYS } from "../../Constants";
+import { URL_KEYS, STORAGE_KEYS } from "../../Constants";
+import { Storage } from "../../Utils";
 import { Select, Progress, Button, Card, message } from "antd";
 import { PlayCircleOutlined, RightOutlined, LeftOutlined, CheckCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -54,14 +55,14 @@ const Practice = () => {
     }
     setLoading(true);
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Storage.getItem(STORAGE_KEYS.TOKEN) || "";
       let url = `${URL_KEYS.QUESTION.ID}all?subjectFilter=${selectedSubject}&limit=${limit}`;
       if (selectedSubtopic) {
         url += `&subtopicFilter=${selectedSubtopic}`;
       }
 
       const response = await axios.get(`/api${url}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { authorization: token }
       });
 
       const fetchedQs = response.data?.data?.question_data || [];

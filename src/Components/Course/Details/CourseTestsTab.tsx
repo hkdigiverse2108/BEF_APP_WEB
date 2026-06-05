@@ -1,7 +1,8 @@
 import { useState, type SyntheticEvent } from "react";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
-import { URL_KEYS, ROUTES } from "../../../Constants";
+import { URL_KEYS, ROUTES, STORAGE_KEYS } from "../../../Constants";
+import { Storage } from "../../../Utils";
 import type { ModuleType, ContestCore } from "../../../Types";
 import { Empty, Modal, Upload, Button, message } from "antd";
 import { FilePdfOutlined, UploadOutlined, PlayCircleOutlined, LockOutlined } from "@ant-design/icons";
@@ -67,11 +68,11 @@ const CourseTestsTab = ({ Modules, isUnlocked }: { Modules: ModuleType[]; isUnlo
     setUploading(true);
     try {
       // Direct axios call to the uploaded api
-      const token = localStorage.getItem("token") || "";
+      const token = Storage.getItem(STORAGE_KEYS.TOKEN) || "";
       const response = await axios.post("/api/qa/evaluate-omr", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`
+          authorization: token
         }
       });
 

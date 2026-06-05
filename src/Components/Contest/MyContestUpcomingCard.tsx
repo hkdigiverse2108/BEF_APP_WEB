@@ -1,21 +1,66 @@
 import { Progress } from "antd";
 import dayjs from "dayjs";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImagePath, ROUTES } from "../../Constants";
+import { ImagePath, ROUTES, URL_KEYS, STORAGE_KEYS } from "../../Constants";
 import type { ContestDetailCardProps } from "../../Types";
 import { AntMessage } from "../Common/AntMessage";
+import ReattemptModal from "../Exam/Result/ReattemptModal";
+import axios from "axios";
+import { Storage } from "../../Utils";
 
 const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [startingAttempt, setStartingAttempt] = useState(false);
 
   const { contestId: { _id = "", name = "Untitled Contest", pricePool = 0, filledSpots = 0, totalSpots = 1, isLifetime } = {}, subjectId: { image: subjectImage = "", name: subjectName = "" } = {}, contestStartDate = "" } = contestData ?? {};
 
   const progress = (filledSpots / totalSpots) * 100;
 
-  const handleJoin = (e: any) => {
+  const isCompleted = contestData && contestData._id && (contestData.status === "completed" || (contestData as any).result === true);
+
+  const handleJoin = async (e: any) => {
     e.stopPropagation();
     console.log("contestData", contestData);
+
+    const isLifetime = contestData?.contestId?.isLifetime || contestData?.isLifetime;
+
+    // If it's a lifetime contest and is already completed, start a new attempt
+    if (isLifetime && contestData?.status === "completed") {
+      if (startingAttempt) return;
+      setStartingAttempt(true);
+      try {
+        const token = Storage.getItem(STORAGE_KEYS.TOKEN) || "";
+        const payload = {
+          contestId: _id,
+          subjectId: contestData.subjectId?._id || contestData.subjectId,
+          classesId: contestData.classesId?._id || contestData.classesId,
+          contestStartDate: contestData.contestStartDate || contestData.contestId?.startDate,
+          contestEndDate: contestData.contestEndDate || contestData.contestId?.endDate,
+          isPractice: false
+        };
+        const res = await axios.post(`/api${URL_KEYS.QA.ADD}`, payload, {
+          headers: { authorization: token }
+        });
+        if (res.data?.status === 200) {
+          const newQaId = res.data?.data?.qa?._id;
+          AntMessage("success", "Started new exam attempt.");
+          navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}&isLifetime=true${newQaId ? `&qaId=${newQaId}` : ""}`, {
+            state: { contestStartDate: contestData.contestStartDate, isLifetime: true, qaId: newQaId }
+          });
+        } else {
+          AntMessage("error", res.data?.message || "Failed to start attempt.");
+        }
+      } catch (error) {
+        console.error(error);
+        AntMessage("error", "Error creating attempt.");
+      } finally {
+        setStartingAttempt(false);
+      }
+      return;
+    }
+
     if (contestData?.contestStartTime && contestData?.contestEndTime && !isLifetime) {
       console.log("enter", contestData?.contestStartDate, contestData?.contestEndDate);
 
@@ -27,18 +72,51 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       });
     } else {
       console.log("enter2----------", contestData);
-      navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}`, {
+      navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}${contestData?._id ? `&qaId=${contestData._id}` : ""}`, {
         state: contestData,
       });
     }
   };
 
-  const handleResult = (e: any) => {
+  const [checkingAttempts, setCheckingAttempts] = useState(false);
+
+  const handleResult = async (e: any) => {
     e.stopPropagation();
-    if (contestData?.answers?.length !== 0) {
-      navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${contestData?._id}&contestFilter=${_id}`);
-    } else {
-      AntMessage("error", "This Contest is Over And No One Is Participate.");
+    if (checkingAttempts) return;
+
+    setCheckingAttempts(true);
+    try {
+      const token = Storage.getItem(STORAGE_KEYS.TOKEN) || "";
+      const response = await axios.get(`/api${URL_KEYS.QA.ALL}?contestFilter=completed,ongoing,upcoming&contestId=${_id}`, {
+        headers: { authorization: token }
+      });
+      const allQAs = response.data?.data?.contest_type_data || [];
+      const matchingAttempts = allQAs.filter((qa: any) => {
+        const cId = qa.contestId?._id || qa.contestId;
+        return cId && cId.toString() === _id.toString();
+      });
+
+      if (matchingAttempts.length <= 1) {
+        // If 1 or 0 attempts, navigate directly to result page
+        const qaId = matchingAttempts[0]?._id || contestData?._id;
+        if (qaId) {
+          navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${qaId}&contestFilter=${_id}`);
+        } else {
+          AntMessage("error", "This Contest is Over And No One Is Participate.");
+        }
+      } else {
+        // If multiple attempts, open the pop-up modal
+        setIsModalOpen(true);
+      }
+    } catch (error) {
+      console.error("Error checking attempts:", error);
+      if (contestData?._id) {
+        navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${contestData._id}&contestFilter=${_id}`);
+      } else {
+        AntMessage("error", "Failed to retrieve results.");
+      }
+    } finally {
+      setCheckingAttempts(false);
     }
   };
   const contestDataTime = {
@@ -89,13 +167,19 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
                 <span className="text-gray-600">Validity:</span>
                 <span className="text-primary font-bold">Lifetime</span>
               </div>
-              <div className="flex justify-between items-center mt-2">
-                <section onClick={(e) => handleResult(e)}>
-                  <p className="font-semibold text-base bg-primary text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">Result</p>
-                </section>
+              <div className="flex justify-between items-center mt-2 gap-2">
                 <section onClick={(e) => handleJoin(e)}>
-                  <p className="font-semibold text-base bg-success text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">Join</p>
+                  <p className="font-semibold text-base bg-success text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">
+                    {startingAttempt ? "Loading..." : (contestData.status === "ongoing" ? "Resume" : "Join")}
+                  </p>
                 </section>
+                {((contestData as any).result === true || contestData.status === "completed") && (
+                  <section onClick={(e) => handleResult(e)}>
+                    <p className="font-semibold text-base bg-primary text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">
+                      {checkingAttempts ? "Loading..." : "Result"}
+                    </p>
+                  </section>
+                )}
               </div>
             </div>
           ) : (
@@ -106,9 +190,22 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
                   <p className="font-semibold text-lg">₹{pricePool}</p>
                 </section>
 
-                <section onClick={(e) => handleJoin(e)} className="flex flex-col justify-end items-end gap-2">
-                  <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded">Join</p>
-                </section>
+                <div className="flex items-center gap-2">
+                  {contestData.status !== "completed" && (
+                    <section onClick={(e) => handleJoin(e)}>
+                      <p className="font-semibold text-lg bg-success text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90">
+                        {contestData.status === "ongoing" ? "Resume" : "Join"}
+                      </p>
+                    </section>
+                  )}
+                  {(contestData.status === "completed" || (contestData as any).result === true) && (
+                    <section onClick={(e) => handleResult(e)}>
+                      <p className="font-semibold text-lg bg-primary text-white px-6 py-1 w-fit rounded cursor-pointer hover:opacity-90 text-center">
+                        {checkingAttempts ? "Loading..." : "Result"}
+                      </p>
+                    </section>
+                  )}
+                </div>
               </div>
 
               <Progress percent={progress} showInfo={false} strokeColor="green" />
@@ -133,6 +230,12 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           </div>
         </div>
       </div>
+      <ReattemptModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        contest={contestData}
+        contestId={_id}
+      />
     </div>
   );
 };

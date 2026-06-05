@@ -1,7 +1,8 @@
 import { Modal, Button, List, Spin, message } from "antd";
 import { useState, useEffect } from "react";
 import { usePostApiMutation } from "../../../Api/CommonApi";
-import { URL_KEYS, ROUTES, HTTP_STATUS } from "../../../Constants";
+import { URL_KEYS, ROUTES, HTTP_STATUS, STORAGE_KEYS } from "../../../Constants";
+import { Storage } from "../../../Utils";
 import { PlayCircleOutlined, HistoryOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,14 +23,17 @@ const ReattemptModal = ({ isOpen, onClose, contest, contestId }: ReattemptModalP
   const fetchAttempts = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token") || "";
+      const token = Storage.getItem(STORAGE_KEYS.TOKEN) || "";
       // Get all QA attempts for this contest for the logged in user
-      const response = await axios.get(`/api${URL_KEYS.QA.ALL}?contestFilter=completed,ongoing,upcoming`, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await axios.get(`/api${URL_KEYS.QA.ALL}?contestFilter=completed,ongoing,upcoming&contestId=${contestId}`, {
+        headers: { authorization: token }
       });
       const allQAs = response.data?.data?.contest_type_data || [];
       // Filter QAs matching this specific contest
-      const matchingAttempts = allQAs.filter((qa: any) => qa.contestId?._id === contestId);
+      const matchingAttempts = allQAs.filter((qa: any) => {
+        const cId = qa.contestId?._id || qa.contestId;
+        return cId && cId.toString() === contestId.toString();
+      });
       setAttempts(matchingAttempts);
     } catch (error) {
       console.error(error);
@@ -49,23 +53,24 @@ const ReattemptModal = ({ isOpen, onClose, contest, contestId }: ReattemptModalP
     if (!contest) return;
 
     try {
-      const isLifetime = contest.isLifetime === true || (contest as any).isLifetime === true;
+      const isLifetime = contest.contestId?.isLifetime === true || contest.isLifetime === true || (contest as any).isLifetime === true;
       const payload = {
         contestId: contestId,
         subjectId: contest.subjectId?._id || contest.subjectId,
-        classesId: contest.classesIds?.[0] || contest.classesId,
-        contestStartDate: contest.startDate,
-        contestEndDate: contest.endDate,
+        classesId: contest.classesId?._id || contest.classesIds?.[0] || contest.classesId,
+        contestStartDate: contest.contestId?.startDate || contest.startDate,
+        contestEndDate: contest.contestId?.endDate || contest.endDate,
         isPractice: isLifetime ? false : true
       };
 
       const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
 
       if (res?.data?.status === HTTP_STATUS.OK) {
+        const newQaId = res?.data?.data?.qa?._id;
         message.success(isLifetime ? "Started new exam attempt." : "Started new practice attempt.");
         onClose();
-        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${contestId}${isLifetime ? "&isLifetime=true" : "&isPractice=true"}`, {
-          state: { contestStartDate: contest.startDate, isLifetime }
+        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${contestId}${isLifetime ? "&isLifetime=true" : "&isPractice=true"}${newQaId ? `&qaId=${newQaId}` : ""}`, {
+          state: { contestStartDate: contest.contestId?.startDate || contest.startDate, isLifetime, qaId: newQaId }
         });
       } else {
         message.error(res?.data?.message || "Failed to start attempt.");
@@ -122,7 +127,14 @@ const ReattemptModal = ({ isOpen, onClose, contest, contestId }: ReattemptModalP
                 className="flex justify-between items-center py-3 hover:bg-gray-50 cursor-pointer transition-colors"
                 onClick={() => {
                   onClose();
-                  navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${item._id}&contestFilter=${contestId}`);
+                  if (item.status === "completed") {
+                    navigate(`${ROUTES.EXAM.RESULT}?qaFilter=${item._id}&contestFilter=${contestId}`);
+                  } else {
+                    const isLifetime = contest.contestId?.isLifetime === true || contest.isLifetime === true || (contest as any).isLifetime === true;
+                    navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${contestId}&qaId=${item._id}${isLifetime ? "&isLifetime=true" : "&isPractice=true"}`, {
+                      state: item
+                    });
+                  }
                 }}
               >
                 <div>
@@ -143,10 +155,18 @@ const ReattemptModal = ({ isOpen, onClose, contest, contestId }: ReattemptModalP
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-extrabold text-primary text-base">{item.totalPoints} Points</p>
-                  <p className="text-[10px] text-gray-400">
-                    R: {item.totalRightAnswer} | W: {item.totalWrongAnswer}
-                  </p>
+                  {item.status === "completed" ? (
+                    <>
+                      <p className="font-extrabold text-primary text-base">{item.totalPoints} Points</p>
+                      <p className="text-[10px] text-gray-400">
+                        R: {item.totalRightAnswer} | W: {item.totalWrongAnswer}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-xs text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-bold border border-amber-200 animate-pulse">
+                      In Progress
+                    </span>
+                  )}
                 </div>
               </List.Item>
             )}
