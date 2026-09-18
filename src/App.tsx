@@ -9,9 +9,9 @@ import { Store } from "./Store/Store";
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#FFB27C",
-      main: "#FE6E13",
-      dark: "#FE690B",
+      light: "#3b72c9",
+      main: "#124699",
+      dark: "#0e387a",
       contrastText: "#fff",
     },
   },
@@ -43,7 +43,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#FE6E13",
+          colorPrimary: "#124699",
         },
         components: {
           Avatar: {

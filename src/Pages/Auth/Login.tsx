@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(email && password) {
+    if (email && password) {
       form.setFieldsValue({ uniqueId: email, password: password });
     }
   }, [email, form, password]);
@@ -126,15 +126,15 @@ const Login = () => {
                       <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
                       {/* <button
   className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
-             bg-gradient-to-r from-orange-500 to-green-600
-             shadow-md transition-all duration-500 ease-out
-              hover:shadow-[0_0_25px_rgba(255,128,0,0.4)]"
->
-  <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-[-2px]">
-    NEXT
-  </span>
-  <span
-    className="absolute inset-0 bg-gradient-to-r from-green-600 to-orange-500 
+              bg-gradient-to-r from-[#124699] to-green-600
+              shadow-md transition-all duration-500 ease-out
+               hover:shadow-[0_0_25px_rgba(18,70,153,0.4)]"
+ >
+   <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-[-2px]">
+     NEXT
+   </span>
+   <span
+     className="absolute inset-0 bg-gradient-to-r from-green-600 to-[#124699] 
                opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
   ></span>
 </button> */}

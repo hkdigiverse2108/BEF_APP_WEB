@@ -36,7 +36,7 @@ const SupportModal = () => {
                 >
                   <p className="font-semibold text-black text-base flex items-center uppercase py-3">
                     <div className="me-3 text-2xl">
-                      <IoMdMail color="orange" />
+                      <IoMdMail color="#124699" />
                     </div>
                     Send Email
                   </p>
@@ -62,7 +62,7 @@ const SupportModal = () => {
                   to={`https://api.whatsapp.com/send?phone=${
                     CONTACT?.NUMBER
                   }&text=${encodeURIComponent(
-                    `I Need Help In Bharat Exam Fest Web`
+                    `I Need Help In Achiwon Web`
                   )}`}
                   target="_blank"
                   className="flex max-sm:flex-col justify-between border px-3 rounded-md cursor-pointer transition-colors duration-200 border-card-border hover:border-primary hover:text-primary"

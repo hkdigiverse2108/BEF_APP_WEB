@@ -19,7 +19,7 @@ const Overview: FC<{
     subValue,
   }) => (
     <div className="relative bg-input-box rounded-xl p-4 flex flex-col justify-between h-36">
-      <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0" />
+      <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0" />
       <div className="flex items-start justify-between">
         <div className="text-2xl">
           <img

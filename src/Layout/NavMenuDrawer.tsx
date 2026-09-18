@@ -32,13 +32,13 @@ const NavMenuDrawer = () => {
           <figure className="w-9 sm:w-15 h-full">
             <img
               src={`${ImagePath}logo/Logo.png`}
-              alt="BEF-Logo"
+              alt="Achiwon-Logo"
               className="w-full h-full object-contain"
             />
           </figure>
           <section className="flex flex-col justify-center">
             <h1 className="text-sm sm:text-xl text-primary font-bold">
-              Bharat Exam Fest
+              Achiwon
             </h1>
             <p className="text-xs sm:text-sm text-success font-medium">
               Learn & Earn

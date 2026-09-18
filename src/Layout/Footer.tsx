@@ -11,7 +11,7 @@ const Footer = () => {
           {SOCIAL_MEDIA?.map((item) => {
             const Icon = item?.icon;
             return (
-              <Link key={item?.title} to={item?.link} className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white hover:text-orange-500 transition">
+              <Link key={item?.title} to={item?.link} className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white hover:text-primary transition">
                 <Icon />
               </Link>
             );

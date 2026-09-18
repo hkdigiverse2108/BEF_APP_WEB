@@ -30,7 +30,7 @@ const ShareModal: FC<{ referralCode?: string }> = ({ referralCode }) => {
 
   const openShareLink = (platform: string) => {
     const encodedURl = encodeURIComponent(pageUrl);
-    const Message = `Join Bharat Exam Fest — India’s fastest-growing UPSC learning platform! Start your UPSC preparation here: ${encodedURl}.`;
+    const Message = `Join Achiwon — India’s fastest-growing UPSC learning platform! Start your UPSC preparation here: ${encodedURl}.`;
     const ShareMessage = referralCode ? `${Message} \n\n Use my referral code: ${referralCode} to unlock special benefits.` : Message;
     let shareUrl = "";
 

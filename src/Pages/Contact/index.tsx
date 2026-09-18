@@ -64,7 +64,7 @@ const Contact = () => {
           <div className="max-w-xl">
             <div className="flex flex-col gap-4 justify-between h-full">
               <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
-                <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
                 <div>
                   <IoCallSharp className="text-5xl text-primary" />
                 </div>
@@ -74,7 +74,7 @@ const Contact = () => {
                 </div>
               </div>
               <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
-                <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
                 <div>
                   <MdEmail className="text-5xl text-primary" />
                 </div>
@@ -86,7 +86,7 @@ const Contact = () => {
                 </div>
               </div>
               <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
-                <div className="w-1 h-[60%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+                <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
                 <div>
                   <FaRoute className="text-5xl text-primary" />
                 </div>

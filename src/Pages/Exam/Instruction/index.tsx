@@ -129,7 +129,7 @@ const ExamInstruction = () => {
             <h2 className="font-normal text-lg mb-3">4. "2X The Stakes, 2X The Thrill!"</h2>
             <div className="pt-4 flex items-center gap-3">
               <div className="flex max-sm:flex-col items-center gap-5">
-                <Badge count={"2X"} color="#FE6E13">
+                <Badge count={"2X"} color="#124699">
                   <div className="text-sm py-2 px-4 bg-input-box shadow-btn-shadow">
                     <span className="font-semibold rounded">Question : 01</span>
                   </div>

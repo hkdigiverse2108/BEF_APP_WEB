@@ -57,7 +57,7 @@ const EliminationSkill: FC<{ data: Sec3Type; subjectName: string; TabIndex: numb
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 pt-6">
           <div className="flex flex-col items-center">
             <ReactApexChart
-              options={EliminationSkillRadialBarCharts("#FE6E13", {
+              options={EliminationSkillRadialBarCharts("#124699", {
                 left: RightEliminatedYes,
                 right: TotalQuestions,
               })}

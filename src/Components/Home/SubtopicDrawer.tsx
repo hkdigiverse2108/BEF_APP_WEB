@@ -131,7 +131,7 @@ const SubtopicDrawer = () => {
             <p className="font-medium mb-2">Select Question No!</p>
             <div className="flex gap-2 flex-wrap">
               {Array.from({ length: 10 }, (_, i) => i)?.map((num) => (
-                <button key={num} type="button" onClick={() => handleQuestionClick(num)} className={`px-3 py-1 border rounded-md transition-all duration-200 ${selectedQuestion === num ? "bg-orange-500 text-white border-orange-500" : "border-orange-400 text-orange-500 hover:bg-orange-50"}`}>
+                <button key={num} type="button" onClick={() => handleQuestionClick(num)} className={`px-3 py-1 border rounded-md transition-all duration-200 ${selectedQuestion === num ? "bg-primary text-white border-primary" : "border-primary/40 text-primary hover:bg-primary/5"}`}>
                   {num}
                 </button>
               ))}

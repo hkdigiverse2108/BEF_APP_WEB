@@ -141,5 +141,5 @@ export const EliminationSkillBarChart: ApexOptions = {
     categories: ["100% Sure", "Logic Play", "Intuition Hit", "Blind fire"],
   },
   fill: {},
-  colors: ["#FE6E13", "#288F66"],
+  colors: ["#124699", "#288F66"],
 };

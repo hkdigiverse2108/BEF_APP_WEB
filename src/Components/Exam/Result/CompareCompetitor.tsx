@@ -159,7 +159,7 @@ const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string; TabIndex: num
                       <Progress percent={showChart ? item.you : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#288F66"} strokeWidth={20} />
                     </li>
                     <li>
-                      <Progress percent={showChart ?item.others : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#FE6E13"} strokeWidth={20} className="others" />
+                      <Progress percent={showChart ?item.others : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#124699"} strokeWidth={20} className="others" />
                     </li>
                     <li>
                       <Progress percent={showChart ?item.toppers : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#2d1067"} strokeWidth={20} />

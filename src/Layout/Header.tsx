@@ -66,10 +66,10 @@ const Header = () => {
           <div className="flex flex-wrap items-center justify-between max-sm:px-2 py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
             <Link to={ROUTES.HOME} className="flex max-sm:gap-1.5 gap-2.5 items-center">
               <figure className="w-9 sm:w-12 md:w-16 h-full">
-                <img src={`${ImagePath}logo/Logo.png`} alt="BEF-Logo" className="w-full h-full object-contain" />
+                <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon-Logo" className="w-full h-full object-contain" />
               </figure>
               <section className="flex flex-col justify-center">
-                <h1 className="text-[10px] md:text-lg text-primary font-bold sm:font-extrabold">Bharat Exam Fest</h1>
+                <h1 className="text-[10px] md:text-lg text-primary font-bold sm:font-extrabold">Achiwon</h1>
                 <p className="text-[10px] md:text-sm font-medium text-success ">Learn & Earn</p>
               </section>
             </Link>
@@ -79,10 +79,10 @@ const Header = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex gap-4 items-center">
                       <figure className="w-12 sm:w-18 h-full">
-                        <img src={`${ImagePath}logo/Logo.png`} alt="BEF-Logo" className="w-full h-full object-contain" />
+                        <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon-Logo" className="w-full h-full object-contain" />
                       </figure>
                       <section className="flex flex-col justify-center max-md:hidden">
-                        <h1 className="text-sm sm:text-xl text-primary font-bold">Bharat Exam Fest</h1>
+                        <h1 className="text-sm sm:text-xl text-primary font-bold">Achiwon</h1>
                         <p className="text-xs sm:text-sm text-success font-medium">Learn & Earn</p>
                       </section>
                     </div>

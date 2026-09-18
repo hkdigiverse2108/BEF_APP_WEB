@@ -29,7 +29,7 @@ const AIPoweredReportAnalysis: FC<{
   const SubjectReport: FC<{ item: FirstPoweredReportType; title: string; description: string }> = ({ item, title, description }) => (
     <div className="bg-input-box rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
       <div className="h-full relative py-6 ps-4 flex items-center gap-2">
-        <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+        <div className="w-1 h-[70%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
         <div className="text-left">
           <h3 className="text-2xl font-semibold">{title}</h3>
           <p className="text-sm font-medium mt-1 capitalize text-neutral-500">{description}</p>
@@ -80,7 +80,7 @@ const AIPoweredReportAnalysis: FC<{
             <Skeleton.Node active style={{ width: "100%", height: 45, borderRadius: 5 }} />
           ) : (
             <div className="h-full relative p-3 ps-5 bg-input-box rounded-xl">
-              <div className="w-1 h-[50%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+              <div className="w-1 h-[50%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
               <div className="text-left">
                 <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Math.abs(Number(SkipDareReport?.fiftyFifty.toFixed(2))))}</p>
               </div>
@@ -91,7 +91,7 @@ const AIPoweredReportAnalysis: FC<{
             <Skeleton.Node active style={{ width: "100%", height: 45, borderRadius: 5 }} />
           ) : (
             <div className="h-full relative p-3 ps-5 bg-input-box rounded-xl">
-              <div className="w-1 h-[50%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+              <div className="w-1 h-[50%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
               <div className="text-left">
                 <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Math.abs(Number(SkipDareReport?.direct.toFixed(2))))}</p>
               </div>
@@ -103,7 +103,7 @@ const AIPoweredReportAnalysis: FC<{
             <Skeleton.Node active style={{ width: "100%", height: 45, borderRadius: 5 }} />
           ) : (
             <div className="h-full relative p-3 ps-5 bg-input-box rounded-xl">
-              <div className="w-1 h-[50%] bg-orange-500 rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
+              <div className="w-1 h-[50%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
               <div className="text-left">
                 <p className="text-lg font-normal capitalize text-neutral-500">{SkipDareReportMessage(Math.abs(Number(SkipDareReport?.oneEliminate.toFixed(2))))}</p>
               </div>

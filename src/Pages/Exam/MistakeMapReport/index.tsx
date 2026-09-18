@@ -58,7 +58,7 @@ const MistakeMapReport = () => {
   const OverviewCard: FC<{ img: ReactNode; label: string; value: number }> = ({ img, label, value }) => (
     <div className="max-sm:py-3 sm:p-3 w-full sm:w-1/2  xl:w-1/3">
       <div className="h-full relative bg-input-box rounded-xl p-7 flex items-center gap-6">
-        <div className="w-1 h-[70%] bg-orange-500 rounded-r absolute left-0" />
+        <div className="w-1 h-[70%] bg-primary rounded-r absolute left-0" />
         <div>
           <img className="object-cover w-15 max-sm:w-10" src={`${ImagePath}${img}`} />
         </div>

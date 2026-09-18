@@ -82,7 +82,7 @@ const Referral = () => {
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold">Your Invited Referral</h2>
                 <div className="flex items-center gap-2">
-                  <Tooltip title={copied ? "Copied!" : "Copy"} color={copied ? "#288F66" : "#EB8844"} placement="topRight">
+                  <Tooltip title={copied ? "Copied!" : "Copy"} color={copied ? "#288F66" : "#124699"} placement="topRight">
                     <span onClick={handleCopy} className={`border border-input-box-dark px-3 py-1 rounded-md text-sm font-semibold flex items-center cursor-pointer transition ${copied ? "border-success text-success" : "hover:border-primary hover:text-primary"} `}>
                       {user.referralCode}
                       {copied ? <IoCheckmarkDoneSharp className="ms-3 text-success transition-transform duration-300 scale-110" /> : <IoCopyOutline className="ms-3 transition-transform duration-300 hover:scale-110" />}

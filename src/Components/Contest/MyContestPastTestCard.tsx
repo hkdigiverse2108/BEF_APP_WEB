@@ -72,7 +72,9 @@ const MyContestPastTestCard: FC<ContestDetailCardProps> = ({ contestData }) => {
               <img className="object-cover w-12 sm:w-11 sm:h-11 rounded-full border-2 border-white" src={subjectImage} alt={subjectName} />
               <div className="grid w-full">
                 <h3 className="text-lg text-left font-medium tracking-tight">{subjectName}</h3>
-                <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
+                {contestStartDate && dayjs(contestStartDate).isValid() && (
+                  <span className="text-sm font-bold">{dayjs(contestStartDate).format("MMM DD, YYYY h:mm A")}</span>
+                )}
               </div>
             </div>
           </div>

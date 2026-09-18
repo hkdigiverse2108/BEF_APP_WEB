@@ -96,7 +96,7 @@ const KYCRegister = () => {
                 <div className="flex items-center">
                   <div className="bg-input-box text-xl font-mono tracking-widest p-2.5 border border-card-border rounded-lg select-none flex mb-6">
                     <p>{captcha}</p>
-                    <button type="button" onClick={refreshCaptcha} className="text-orange-500 text-xl ms-2 cursor-pointer">
+                    <button type="button" onClick={refreshCaptcha} className="text-primary text-xl ms-2 cursor-pointer">
                       <BsArrowCounterclockwise />
                     </button>
                   </div>
