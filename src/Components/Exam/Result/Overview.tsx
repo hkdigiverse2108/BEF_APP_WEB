@@ -48,8 +48,10 @@ const Overview: FC<{
         <div className="w-1 h-[100%] bg-success rounded-full absolute left-0 top-0" />
         <h2 className="text-xl font-semibold ">Overview</h2>
         <span className="text-base font-semibold text-neutral-400">
-          Summary of marks scored in the test attempted on{" "}
-          {dayjs(contest?.contestStartTime || contest?.createdAt).format("MMM DD , h:mm A")}
+          Summary of marks scored in the test attempted
+          {(contest?.contestStartTime || contest?.createdAt || contest?.contestStartDate) && (
+            <> on {dayjs(contest?.contestStartTime || contest?.createdAt || contest?.contestStartDate).format("MMM DD , h:mm A")}</>
+          )}
         </span>
       </div>
       <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
