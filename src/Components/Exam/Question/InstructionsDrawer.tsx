@@ -39,7 +39,7 @@ const InstructionsDrawer = () => {
               <span className="flex-1 font-medium">1. Both Statement-1 and statement-2 are correct and Statement-2 explains Statement-1</span>
               <div className="flex justify-end max-sm:w-full">
                 <Tooltip title="Click if statement is True" color="#dcfce7" open={isOpen} placement="left">
-                  <CheckCircleFilled style={{ color: "#288F66" }} className="px-2" />
+                  <CheckCircleFilled style={{ color: "#F48224" }} className="px-2" />
                 </Tooltip>
                 <Tooltip title="Click if statement is False" color="#ffe2e2" open={isOpen} placement="bottom">
                   <CloseCircleFilled style={{ color: "red" }} className="px-2" />

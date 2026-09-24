@@ -12,7 +12,7 @@ const HeroBanner = () => {
   const Banners = BannersData?.data?.banner_data;
 
   return (
-    <div className="my-5 rounded-lg overflow-hidden">
+    <div className="mb-8 overflow-hidden rounded-xl border border-border bg-card shadow-box-shadow">
       <Swiper
         modules={[Pagination, Autoplay, EffectFade]}
         spaceBetween={50}
@@ -33,7 +33,7 @@ const HeroBanner = () => {
                 <img
                   src={item?.image}
                   alt="banner"
-                  className="w-full rounded-lg overflow-hidden"
+                  className="w-full overflow-hidden object-cover"
                 />
               </SwiperSlide>
             );

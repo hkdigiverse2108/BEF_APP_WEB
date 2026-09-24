@@ -98,14 +98,14 @@ const MenuDrawer = () => {
         className="menu-drawer relative overflow-hidden"
         onClose={() => dispatch(setMenuDrawer())}
         extra={
-          <div className="flex justify-between items-center rounded-xl h-10 sm:h-12 order-last" onClick={() => dispatch(setMenuDrawer())}>
-            <div className="flex justify-between items-center gap-3 cursor-pointer">
-              <img src={ProfileImage} alt="profile" className="w-12 h-12 rounded-xl" />
-              <div>
-                <span className="text-md font-semibold capitalize">
+          <div className="flex justify-between items-center rounded-xl order-last" onClick={() => dispatch(setMenuDrawer())}>
+            <div className="flex justify-between items-center gap-3 sm:gap-4 cursor-pointer">
+              <img src={ProfileImage} alt="profile" className="w-12 h-12 sm:h-14 sm:w-14 rounded-full object-cover ring-4 ring-secondary" />
+              <div className="min-w-0">
+                <span className="text-base sm:text-lg font-bold capitalize truncate block">
                   {UserData?.firstName} {UserData?.lastName}
                 </span>
-                <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
+                <p className="capitalize text-xs sm:text-sm font-medium text-tertiary">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
               </div>
             </div>
           </div>
@@ -113,11 +113,9 @@ const MenuDrawer = () => {
       >
         <ul className="grid grid-cols-1 gap-3 relative z-20">
           {MenuData?.map((item, i) => (
-            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme bg-input-box ${activeIndex === i ? "border-primary !text-primary !bg-bg-light" : "border-box-border hover:border-theme"}`}>
-              <p className="font-semibold text-base flex items-center uppercase">
-                <span className="me-3 text-2xl">{item.icon}</span>
-                {item.title}
-              </p>
+            <li key={i} onClick={() => handleClick(i, item.url, item.title)} className={`flex min-h-14 w-full items-center gap-4 rounded-xl border px-5 text-left font-semibold cursor-pointer transition-all duration-300 ${activeIndex === i ? "border-primary text-primary bg-bg-light" : "border-border bg-secondary hover:border-accent hover:bg-card hover:text-accent"}`}>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-card text-xl text-accent">{item.icon}</span>
+              <span className="font-semibold text-sm sm:text-base uppercase truncate">{item.title}</span>
             </li>
           ))}
         </ul>

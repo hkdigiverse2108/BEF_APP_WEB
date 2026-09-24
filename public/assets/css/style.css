@@ -9,19 +9,44 @@ body {
 }
 
 .container {
-  @apply max-w-[1920px] mx-auto;
+  @apply max-w-[1400px] mx-auto;
 }
 
 .container-p {
-  @apply px-4 md:px-6 xl:px-8;
+  @apply px-5 lg:px-8;
 }
 
 .sub-container {
-  @apply mx-4 md:mx-10 mb-4 md:mb-10;
+  @apply px-5 lg:px-8 py-6 lg:py-8 mb-2;
 }
 
 .active {
-  @apply relative text-primary after:absolute after:bg-theme after:w-full after:h-[2px] after:block after:-bottom-4 after:transition-all after:duration-300;
+  @apply relative text-primary after:absolute after:bg-accent after:w-full after:h-[2px] after:block after:-bottom-4 after:transition-all after:duration-300;
+}
+
+/* ************ BEF reference design system (shared atoms) *********** */
+@layer components {
+  .bef-card {
+    @apply overflow-hidden rounded-xl border border-border bg-card shadow-box-shadow;
+  }
+  .bef-card-strip {
+    @apply h-1.5 bg-gradient-to-r from-primary via-tertiary to-accent;
+  }
+  .bef-badge {
+    @apply inline-flex items-center rounded-full bg-secondary px-2 py-1 text-[9px] font-extrabold uppercase tracking-wide text-primary;
+  }
+  .bef-btn-primary {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-primary bg-primary px-5 text-xs font-bold text-white transition-all duration-300;
+  }
+  .bef-btn-primary:hover {
+    @apply -translate-y-0.5 border-accent bg-card text-accent;
+  }
+  .bef-section-bar {
+    @apply h-7 w-1 rounded-full bg-primary;
+  }
+  .bef-section-dot {
+    @apply ml-1 block h-1.5 w-1.5 rounded-full bg-accent;
+  }
 }
 
 /* ************ form input *********** */
@@ -299,6 +324,37 @@ input {
   @apply !rounded-r-lg !rounded-l-none;
 }
 
+/* ************ Full Fest Report reference pill tabs ************ */
+.fest-tabs .MuiTabs-indicator {
+  display: none;
+}
+.fest-tabs .MuiTabs-list.MuiTabs-flexContainer {
+  @apply pb-1;
+}
+.fest-tabs .MuiButtonBase-root.MuiTab-root {
+  @apply !min-h-11 !rounded-lg !border !border-transparent !bg-transparent !px-3 sm:!px-4 !py-2 !text-xs sm:!text-sm !font-semibold !text-muted-foreground !normal-case transition-all duration-300;
+}
+.fest-tabs .MuiButtonBase-root.MuiTab-root:hover {
+  @apply !border-accent !bg-card !text-primary !shadow-sm;
+}
+.fest-tabs .MuiButtonBase-root.MuiTab-root.Mui-selected {
+  @apply !border-primary !bg-primary !text-white !shadow-box-shadow;
+}
+
+/* ************ My Contest reference tabs (underline) ************ */
+.my-contest-tabs .MuiTabs-indicator {
+  @apply !bg-primary;
+}
+.my-contest-tabs .MuiTabs-list.MuiTabs-flexContainer {
+  @apply flex gap-7;
+}
+.my-contest-tabs .MuiButtonBase-root.MuiTab-root {
+  @apply !border-0 !bg-transparent !rounded-none !px-1 !pb-3 !min-w-0 !text-xs !font-bold !tracking-wide !text-muted-foreground uppercase;
+}
+.my-contest-tabs .MuiButtonBase-root.MuiTab-root.Mui-selected {
+  @apply !text-primary !font-extrabold;
+}
+
 /* ************ progress *********** */
 
 .others.ant-progress .ant-progress-bg.ant-progress-bg-inner .ant-progress-text-inner.ant-progress-text-bright {
@@ -408,18 +464,18 @@ input {
   @apply flex items-center gap-2;
 }
 .custom-pagination .ant-pagination-item {
-  @apply !border-theme/30 !text-theme !rounded-lg;
+  @apply !border-border !text-theme !rounded-xl;
 }
 
 .custom-pagination .ant-pagination-item-active {
-  @apply !opacity-100 !border-primary !text-primary !bg-bg-light;
+  @apply !opacity-100 !border-primary !text-white !bg-primary;
 }
 .ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover {
-  @apply !border-box-border hover:!border-theme;
+  @apply !border-accent hover:!border-accent;
 }
 .custom-pagination .ant-pagination-prev .ant-pagination-item-link,
 .custom-pagination .ant-pagination-next .ant-pagination-item-link {
-  @apply !rounded-lg !border-theme/30 !text-theme;
+  @apply !rounded-xl !border-border !text-theme;
 }
 
 .custom-pagination .ant-pagination-disabled .ant-pagination-item-link {
@@ -501,7 +557,7 @@ input {
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #9ca3af #f3f4f6;
+  scrollbar-color: #114598 #f1f6fd;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -509,15 +565,15 @@ input {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f3f4f6;
+  background: #f1f6fd;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #9ca3af;
+  background: #114598;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  background: #f68122;
 }

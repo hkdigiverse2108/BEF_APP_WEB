@@ -5,9 +5,9 @@ import { useGetApiQuery } from "../../Api/CommonApi";
 import { FormButton } from "../../Attribute/FormFields";
 import MyContestPastTestCard from "../../Components/Contest/MyContestPastTestCard";
 import MyContestUpcomingCard from "../../Components/Contest/MyContestUpcomingCard";
+import SectionHeader from "../../Components/Common/SectionHeader";
 import { URL_KEYS } from "../../Constants";
 import type { ContestData } from "../../Types";
-import { CardHeader } from "../../Components/Common/CardHeader";
 
 const MyContest = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -43,23 +43,26 @@ const MyContest = () => {
   const UpcomingContestTotalData = ContestData?.data?.totalData;
 
   return (
-    <div className="sub-container pt-4">
-      <CardHeader title="My Contest" />
-      <hr className="text-card-border my-4" />
+    <div className="sub-container">
+      <section className="mb-6 sm:mb-8">
+        <SectionHeader title="My Contest" />
+      </section>
       <div className="flex flex-col gap-6">
-        <div className="flex justify-center">
-          <Tabs className="horizontal-tabs w-fit  " orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
-            <Tab label="Upcoming Test" className="max-sm:p-0!" />
-            <Tab label="Past Test" className=" max-sm:p-0!" />
-          </Tabs>
+        <div className="border-b border-border">
+          <div className="flex gap-7">
+            <Tabs className="my-contest-tabs w-fit" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
+              <Tab label="Upcoming Test" />
+              <Tab label="Past Test" />
+            </Tabs>
+          </div>
         </div>
 
         <div hidden={tabIndex !== 0} className="flex flex-col gap-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
             {UpcomingContestLoading ? (
-              [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 10 }} />)
+              [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 12 }} />)
             ) : Contest?.length === 0 ? (
-              <div className="flex items-center justify-center w-full col-span-4">
+              <div className="flex items-center justify-center w-full col-span-full py-10">
                 <Empty />
               </div>
             ) : (
@@ -68,17 +71,17 @@ const MyContest = () => {
           </div>
           {UpcomingContestTotalData > tabOneLimit && (
             <div className="w-full flex justify-center">
-              <FormButton text="View More" loading={UpcomingContestLoading || UpcomingContestFetching} className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 12)} />
+              <FormButton text="View More" loading={UpcomingContestLoading || UpcomingContestFetching} className="bef-btn-primary text-center w-fit uppercase" onClick={() => setTabOneLimit(tabOneLimit + 12)} />
             </div>
           )}
         </div>
 
         <div hidden={tabIndex !== 1} className="flex flex-col gap-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
             {PastContestLoading ? (
-              [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 10 }} />)
+              [...Array(6)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 12 }} />)
             ) : PastContest?.length === 0 ? (
-              <div className="flex items-center justify-center w-full col-span-4">
+              <div className="flex items-center justify-center w-full col-span-full py-10">
                 <Empty />
               </div>
             ) : (
@@ -87,7 +90,7 @@ const MyContest = () => {
           </div>
           {PastContestTotalData > tabTwoLimit && (
             <div className="w-full flex justify-center">
-              <FormButton text="View More" loading={PastContestLoading || PastContestFetching} className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabTwoLimit(tabTwoLimit + 12)} />
+              <FormButton text="View More" loading={PastContestLoading || PastContestFetching} className="bef-btn-primary text-center w-fit uppercase" onClick={() => setTabTwoLimit(tabTwoLimit + 12)} />
             </div>
           )}
         </div>

@@ -6,7 +6,7 @@ import { GiTrophy } from "react-icons/gi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { TbBookmarkFilled } from "react-icons/tb";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import { CardHeader } from "../../Components/Common/CardHeader";
+import SectionHeader from "../../Components/Common/SectionHeader";
 import AIPoweredReportAnalysis from "../../Components/FullFestReport/AIPoweredReportAnalysis";
 import EliminationSkillReport from "../../Components/FullFestReport/EliminationSkillReport";
 import MistakeMapReport from "../../Components/FullFestReport/MistakeMapReport";
@@ -56,21 +56,24 @@ const FullFestReport = () => {
   ];
 
   return (
-    <div className="sub-container pt-4 pb-1">
-      <CardHeader title="Full Fest Report" />
-      <hr className="text-card-border my-4" />
+    <div className="sub-container">
+      <section className="mb-6 sm:mb-7">
+        <SectionHeader title="Full Fest Report" />
+        <p className="mt-2 max-w-xl text-xs sm:text-sm text-muted-foreground">Performance center</p>
+      </section>
       <div>
         <Tabs
           value={tabIndex}
           onChange={handleChange}
           variant="scrollable"
           orientation={isVerySmall ? "vertical" : "horizontal"}
+          className="fest-tabs"
           slotProps={{ indicator: { style: { display: "none" } } }}
           sx={{
             "& .MuiTabs-flexContainer": {
               flexDirection: isVerySmall ? "column" : "row",
               flexWrap: "wrap",
-              gap: "5px",
+              gap: "8px",
             },
           }}
         >
@@ -83,26 +86,13 @@ const FullFestReport = () => {
                 dispatch(setFullFestSubjectFilter(""));
               }}
               label={
-                <div>
-                  <div className="flex items-center gap-2">
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </div>
-
-                  <div
-                    style={{
-                      height: "3px",
-                      width: tabIndex === idx ? "100%" : "0px",
-                      background: "linear-gradient(to right, #f28c28, #0b8d41)",
-                      marginTop: "6px",
-                      transition: "0.3s",
-                    }}
-                  />
-                </div>
+                <span className="flex items-center gap-2">
+                  {item.icon}
+                  <span>{item.title}</span>
+                </span>
               }
               sx={{
                 textTransform: "none",
-                paddingBottom: "6px",
                 width: isVerySmall ? "100%" : isMedium ? "calc(50% - 16px)" : "auto",
               }}
             />

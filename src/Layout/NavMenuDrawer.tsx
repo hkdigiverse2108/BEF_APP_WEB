@@ -28,22 +28,15 @@ const NavMenuDrawer = () => {
       className="menu-drawer relative overflow-hidden"
       onClose={() => dispatch(setNavMenuDrawer(false))}
       extra={
-        <div className="flex gap-4 items-center">
-          <figure className="w-9 sm:w-15 h-full">
-            <img
-              src={`${ImagePath}logo/Logo.png`}
-              alt="Achiwon-Logo"
-              className="w-full h-full object-contain"
-            />
-          </figure>
-          <section className="flex flex-col justify-center">
-            <h1 className="text-sm sm:text-xl text-primary font-bold">
-              Achiwon
-            </h1>
-            <p className="text-xs sm:text-sm text-success font-medium">
-              Learn & Earn
-            </p>
-          </section>
+        <div className="flex flex-col items-start justify-center py-1">
+          <img
+            src={`${ImagePath}logo/Logo.png`}
+            alt="Achiwon"
+            className="h-8 sm:h-9 w-auto object-contain"
+          />
+          <p className="text-[10px] sm:text-xs text-success font-semibold tracking-wider leading-none mt-1">
+            UPSC & GPSC CSE
+          </p>
         </div>
       }
     >
@@ -52,13 +45,13 @@ const NavMenuDrawer = () => {
           <li
             key={i}
             onClick={() => handleClick(i, item.link)}
-            className={`border p-3 rounded-md cursor-pointer transition-colors duration-200 text-theme bg-input-box ${
+            className={`flex min-h-14 w-full items-center rounded-xl border px-5 text-left font-semibold cursor-pointer transition-all duration-300 ${
               activeIndex === i
-                ? "border-primary text-primary! bg-bg-light!"
-                : "border-box-border hover:border-theme"
+                ? "border-primary text-primary bg-bg-light"
+                : "border-border bg-secondary hover:border-accent hover:bg-card hover:text-accent"
             }`}
           >
-            <p className="font-semibold text-base flex items-center uppercase">
+            <p className="font-semibold text-sm sm:text-base uppercase truncate">
               {item.text}
             </p>
           </li>

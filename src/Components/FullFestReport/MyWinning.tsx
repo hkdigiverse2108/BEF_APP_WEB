@@ -7,7 +7,7 @@ import { PiBookOpenUserFill } from "react-icons/pi";
 import type { MyWinningListType } from "../../Types";
 import { useAppDispatch } from "../../Store/hooks";
 import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
-import { Skeleton } from "antd";
+import { Empty, Skeleton } from "antd";
 
 const MyWinning: FC<{ MyWinningData: MyWinningListType; tabIndex: number; isLoading: boolean }> = ({ MyWinningData, tabIndex, isLoading }) => {
   const dispatch = useAppDispatch();
@@ -17,79 +17,85 @@ const MyWinning: FC<{ MyWinningData: MyWinningListType; tabIndex: number; isLoad
   }, [dispatch, tabIndex]);
   return (
     <>
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
-        <div className="max-md:w-full max-lg:w-1/2 max-xl:w-1/3">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="w-full">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">My Winning</h2>
+            <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">My Winning</h2>
           </div>
           <div className="w-full skeleton">
             {isLoading ? (
-              <Skeleton.Node active style={{ width: "100%", height: 140, borderRadius: 10 }} />
+              <Skeleton.Node active style={{ width: "100%", height: 140, borderRadius: 12 }} />
             ) : (
-              <div className="h-full relative bg-input-box rounded-xl p-7 flex flex-col justify-center items-center gap-2">
-                <div className="w-[70%] h-1 bg-primary rounded-b absolute top-0 left-1/2 -translate-x-1/2" />
-                <GiWallet className="text-6xl text-success" />
-                <div className="text-left">
-                  <p className="text-base font-semibold mt-1 uppercase">Total Winning</p>
-                  <h3 className="text-2xl font-bold text-center">₹{MyWinningData?.totalWinning || 0}</h3>
+              <div className="bef-card">
+                <div className="bef-card-strip" />
+                <div className="p-6 sm:p-7 flex flex-col justify-center items-center gap-2 text-center">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-secondary">
+                    <GiWallet className="text-3xl text-primary" />
+                  </span>
+                  <p className="text-xs font-bold tracking-wide text-muted-foreground mt-3 uppercase">Total Winning</p>
+                  <h3 className="font-heading text-4xl font-bold text-primary">₹{MyWinningData?.totalWinning || 0}</h3>
                 </div>
               </div>
             )}
           </div>
         </div>
-        <div className="col-span-1 xl:col-span-4">
+        <div className="lg:col-span-2">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Previous Contest</h2>
+            <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">Previous Contest</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
             {isLoading ? (
-               [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 10 }} />)
-            ) : (
+               [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 140, borderRadius: 12 }} />)
+            ) : (MyWinningData?.contests?.length || 0) > 0 ? (
               MyWinningData?.contests?.map((referral, index) => (
-                <div key={index} className="rounded-xl overflow-hidden shadow-sm bg-primary">
-                  <div className="py-3 px-5">
-                    <h3 className="text-white font-bold text-xl">{referral.contestName}</h3>
+                <div key={index} className="bef-card overflow-hidden">
+                  <div className="py-3 px-5 bg-gradient-to-r from-primary to-tertiary">
+                    <h3 className="text-white font-heading font-bold text-base sm:text-lg truncate">{referral.contestName}</h3>
                   </div>
-                  <div className="p-4 bg-white border-x-2 rounded-t-xl border-primary">
+                  <div className="p-4 bg-card">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-lg font-semibold">TOTAL WIN</span>
-                      <span className="text-2xl font-bold">₹ {referral.totalWin}</span>
+                      <span className="text-xs font-bold tracking-wide text-muted-foreground uppercase">Total Win</span>
+                      <span className="font-heading text-2xl font-bold text-primary">₹ {referral.totalWin}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-base font-medium border-y border-card-border py-3">
-                      <PiBookOpenUserFill />
-                      {referral.subject}
+                    <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground border-y border-border py-3">
+                      <PiBookOpenUserFill className="shrink-0 text-primary" />
+                      <span className="truncate">{referral.subject}</span>
                     </div>
                   </div>
-                  <div className="bg-success py-4 text-white">
-                    <div className=" flex items-center text-xs sm:text-sm  justify-center gap-2 sm:gap-4 md:gap-8 ">
+                  <div className="border-t border-border px-4 sm:px-5 py-3">
+                    <div className=" flex items-center text-[11px] sm:text-xs font-semibold text-muted-foreground justify-center gap-2 sm:gap-4">
                       {referral?.ranks[0]?.price && referral?.ranks[0]?.price !== 0 && (
                         <>
-                          <section className="flex gap-2 items-center">
-                            <FaAward />
+                          <section className="flex gap-1.5 items-center">
+                            <FaAward className="text-primary" />
                             <span>₹ {referral?.ranks[0]?.price}</span>
                           </section>
-                          <span className="h-3 border border-l border-gray-300"></span>
+                          <span className="h-3 border-l border-border"></span>
                         </>
                       )}
                       {referral.winnerPercentage ? (
                         <>
-                          <section className="flex gap-2 items-center">
-                            <IoMdTrophy />
+                          <section className="flex gap-1.5 items-center">
+                            <IoMdTrophy className="text-primary" />
                             <span>{referral.winnerPercentage || 0}%</span>
                           </section>
-                          <span className="h-3 border border-l border-gray-300"></span>
+                          <span className="h-3 border-l border-border"></span>
                         </>
                       ) : (
                         ""
                       )}
-                      <section className="flex gap-2 items-center ">
-                        <HiCheckBadge />
+                      <section className="flex gap-1.5 items-center ">
+                        <HiCheckBadge className="text-primary" />
                         <span>Flexible</span>
                       </section>
                     </div>
                   </div>
                 </div>
               ))
+            ) : (
+              <div className="flex justify-center items-center w-full sm:col-span-2 py-10">
+                <Empty description="No winnings yet. Play a contest to earn rewards." />
+              </div>
             )}
           </div>
         </div>

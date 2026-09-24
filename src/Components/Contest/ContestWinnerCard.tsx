@@ -21,29 +21,30 @@ const ContestWinnerCard: FC<ContestWinnerCardProps> = ({ winner, rank }) => {
     };
 
   return (
-    <div className="flex flex-col bg-white rounded-xl shadow-sm w-full overflow-hidden">
+    <div className="bef-card flex flex-col w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-accent">
+      <div className="bef-card-strip" />
       {/* Header */}
-      <div className="border-t border-x border-primary rounded-t-xl">
-        <div className="flex justify-between items-center rounded-lg overflow-hidden m-3 p-4 relative" style={getBackgroundStyle()}>
-          <div className="flex items-center gap-3">
+      <div className="p-3">
+        <div className="flex justify-between items-center rounded-xl overflow-hidden p-4 relative bg-secondary border border-border" style={rank > 3 ? undefined : getBackgroundStyle()}>
+          <div className="flex items-center gap-3 min-w-0">
             <span className="absolute bg-primary left-0 h-[70%] w-1 rounded-r-2xl"></span>
-            <img src={winner?.profileImage || genderWiseProfileImage(winner?.gender?.toLocaleLowerCase())} alt={winner.firstName} className="w-12 h-12 rounded-full object-cover border border-gray-200" />
-            <div>
-              <h4 className="font-semibold text-gray-800">Rank #{rank}</h4>
-              <p className="text-sm text-gray-600 capitalize">{`${winner.firstName} ${winner.lastName}`}</p>
+            <img src={winner?.profileImage || genderWiseProfileImage(winner?.gender?.toLocaleLowerCase())} alt={winner.firstName} className="w-12 h-12 shrink-0 rounded-full object-cover border-2 border-card shadow-sm" />
+            <div className="min-w-0">
+              <h4 className="font-heading font-bold text-foreground truncate">Rank #{rank}</h4>
+              <p className="text-sm text-muted-foreground capitalize truncate">{`${winner.firstName} ${winner.lastName}`}</p>
             </div>
           </div>
 
-          <img src={`${ImagePath}/contest/Contest-Trophy-2.png`} alt="Trophy" className="h-full absolute right-0 top-0" />
+          <img src={`${ImagePath}/contest/Contest-Trophy-2.png`} alt="Trophy" className="h-12 sm:h-14 w-auto shrink-0" />
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center bg-success text-white px-4 py-2 text-sm font-normal">
+      <div className="flex justify-between items-center bg-gradient-to-r from-primary to-tertiary text-white px-4 sm:px-5 py-3 sm:py-4 text-sm font-semibold">
         <span className="flex items-center gap-2">
           <FaAward /> Achieved Scholarship
         </span>
-        <span className="text-lg">₹{winner.totalAmount}</span>
+        <span className="font-heading text-base sm:text-lg font-bold">₹{winner.totalAmount}</span>
       </div>
     </div>
   );

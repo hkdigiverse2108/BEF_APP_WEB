@@ -18,32 +18,40 @@ export const CardHeader: FC<CardHeaderType> = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <div className="w-full flex justify-between text-lg xl:text-2xl font-semibold items-center flex-wrap gap-3">
-      <section className="flex gap-2 flex-wrap">
+    <div className="w-full flex justify-between items-center flex-wrap gap-3">
+      <section className="flex items-center gap-3 min-w-0">
         {backButton && (
-          <button onClick={() => navigate(-1)}>
+          <button onClick={() => navigate(-1)} aria-label="Go back" className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary transition-all duration-300 hover:border hover:border-accent hover:text-accent">
             <IoMdArrowRoundBack />
           </button>
         )}
-        {title && <h1 className="capitalize">{title}</h1>}
+        {title && (
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="bef-section-bar shrink-0" />
+            <div className="min-w-0">
+              <h1 className="capitalize font-heading text-base sm:text-xl font-bold text-foreground truncate">{title}</h1>
+              <span className="bef-section-dot mt-1" />
+            </div>
+          </div>
+        )}
         {pricePool && (
-          <section className="flex  gap-2 bg-gradient-to-r from-[var(--primary)] to-[var(--success)] text-white text-sm items-center rounded-md font-normal  px-3 py-1">
-            <span className="text-xl">{pricePool.icon}</span>
+          <section className="flex gap-2 bg-secondary border border-border text-primary text-xs sm:text-sm items-center rounded-full font-bold px-3 py-1.5">
+            <span className="text-base text-accent">{pricePool.icon}</span>
             <span>{pricePool.price}</span>
           </section>
         )}
       </section>
-      <section className="flex gap-4 items-center justify-end  ">
+      <section className="flex gap-4 items-center justify-end">
         {icon && time && (
-          <section className="flex gap-1">
+          <section className="flex gap-1 items-center">
             <span className="text-primary">{icon}</span>
-            <span className="text-sm xl:text-lg font-normal ">
+            <span className="text-sm xl:text-lg font-normal text-muted-foreground">
               {time}
             </span>
           </section>
         )}
         {sliderButton && (
-          <div className="flex flex-nowrap   justify-end  ">
+          <div className="flex flex-nowrap justify-end gap-2">
             <FormButton
               text={<IoIosArrowBack />}
               onClick={() => {
@@ -55,7 +63,7 @@ export const CardHeader: FC<CardHeaderType> = ({
                   sliderButton.swiperRefs.current?.slidePrev();
                 }
               }}
-              className="!bg-input-box !border-none !rounded-r-none "
+              className="!bg-card !border !border-border !text-foreground !rounded-lg !h-11 !w-11 hover:!border-primary hover:!text-primary"
             />
             <FormButton
               text={<IoIosArrowForward />}
@@ -68,7 +76,7 @@ export const CardHeader: FC<CardHeaderType> = ({
                   sliderButton.swiperRefs.current?.slideNext();
                 }
               }}
-              className="!bg-black !text-white !rounded-l-none"
+              className="!bg-primary !text-white !border !border-primary !rounded-lg !h-11 !w-11 hover:!bg-tertiary"
             />
           </div>
         )}

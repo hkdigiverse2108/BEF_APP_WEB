@@ -2,6 +2,7 @@ import { Col, Form, Row } from "antd";
 import "react-international-phone/style.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
+import AuthLayout from "../../Components/Common/AuthLayout";
 import { ImagePath, ROUTES, URL_KEYS } from "../../Constants";
 import type { LoginForm } from "../../Types";
 import { usePostGlobalApiMutation } from "../../Api/CommonGlobalApi";
@@ -51,26 +52,15 @@ const Login = () => {
   }, [email, form, password]);
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden flex justify-center items-center">
-      <div className="flex justify-between h-screen items-center w-full ">
-        {/* Left side */}
-        <div className="relative hidden xl:block xl:w-1/2 2xl:w-2/5 w-full h-full z-10  border-r border-gray-100 overflow-hidden">
-          <img className="w-full h-full " alt="Group" src={`${ImagePath}auth/login.jpg`} />
-        </div>
-
-        {/* Right side */}
-        <div className="z-10 xl:w-1/2 2xl:w-3/5 w-full h-screen">
-          <div className="flex flex-col w-full h-full items-center justify-center p-4 sm:p-8 lg:p-12">
-            <div className="w-full max-w-xl space-y-8">
+    <AuthLayout image={`${ImagePath}auth/login.jpg`}>
+      <div className="w-full space-y-6 sm:space-y-8">
               {/* Header */}
-              <header className="space-y-6 lg:space-y-8">
-                <div className="space-y-3">
-                  <h2 className="font-semibold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">Create an Account</h2>
-                  <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">Create an account or log in to explore about our website</p>
-                </div>
-              </header>
+              <div className="mb-8">
+                <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground text-center lg:text-left">Create an Account</h1>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground text-center lg:text-left">Create an account or log in to explore about our website</p>
+              </div>
 
-              <span className="border-t border-primary flex w-full"></span>
+              <span className="h-px w-full bg-gradient-to-r from-primary to-accent"></span>
 
               <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
                 <Row gutter={16}>
@@ -110,11 +100,11 @@ const Login = () => {
                       </p>
                     </footer>
                   </Col>
-                  <span className="border-t border-primary flex w-full my-4" />
+                  <span className="h-px w-full bg-gradient-to-r from-primary to-accent my-4" />
                   <Col span={24}>
                     <footer className="space-y-6 lg:space-y-8 mb-4">
                       <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-black">ARE YOU NEW HERE ? </span>
+                        <span className="font-medium text-foreground">ARE YOU NEW HERE ? </span>
                         <NavLink to={ROUTES.AUTH.REGISTER} className="font-semibold cursor-pointer hover:!underline !text-primary">
                           SIGN UP
                         </NavLink>
@@ -123,7 +113,7 @@ const Login = () => {
                   </Col>
                   <Col span={24}>
                     <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="custom-button button button--mimas w-full !h-auto" />
+                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="bef-btn-primary w-full uppercase" />
                       {/* <button
   className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
               bg-gradient-to-r from-[#124699] to-green-600
@@ -142,17 +132,8 @@ const Login = () => {
                   </Col>
                 </Row>
               </Form>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute z-0 bottom-0 right-0">
-          <figure>
-            <img src="/assets/images/auth/FormLines.png" alt="" />
-          </figure>
-        </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
 

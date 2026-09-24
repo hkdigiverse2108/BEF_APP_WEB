@@ -44,9 +44,9 @@ const FullFestSubjectFilter = ({ title = "", filter = false }) => {
 
   return (
     <div className="flex justify-between items-center max-sm:flex-wrap gap-3">
-      <div className="relative px-4">
-        <div className="w-1 h-full bg-success rounded-full absolute left-0 top-0" />
-        <h2 className="text-xl font-semibold ">{title}</h2>
+      <div className="flex items-center gap-3">
+        <span className="bef-section-bar shrink-0" />
+        <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">{title}</h2>
       </div>
       {filter && (
         <div className="flex justify-end question-section items-center gap-1 max-sm:w-full">

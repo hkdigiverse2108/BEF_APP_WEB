@@ -30,7 +30,7 @@ const Header = () => {
 
   const updateSidebarBasedOnWidth = () => {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 1535) {
+    if (windowWidth >= 1024) {
       dispatch(setNavMenuDrawer(false));
     }
   };
@@ -62,67 +62,40 @@ const Header = () => {
       <div className="sticky top-0 w-full z-50">
         {/* Timer For Exam */}
         <ExamTimer />
-        <header className={`container min-h-[60px] tracking-wide relative z-50 ${isScrolled ? "bg-white/90 backdrop-blur-md" : ""}`}>
-          <div className="flex flex-wrap items-center justify-between max-sm:px-2 py-3 px-4 sm:px-10 2xl:gap-y-4 gap-y-6 gap-x-4">
-            <Link to={ROUTES.HOME} className="flex max-sm:gap-1.5 gap-2.5 items-center">
-              <figure className="w-9 sm:w-12 md:w-16 h-full">
-                <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon-Logo" className="w-full h-full object-contain" />
-              </figure>
-              <section className="flex flex-col justify-center">
-                <h1 className="text-[10px] md:text-lg text-primary font-bold sm:font-extrabold">Achiwon</h1>
-                <p className="text-[10px] md:text-sm font-medium text-success ">Learn & Earn</p>
-              </section>
+        <header className={`bg-card border-b border-border shadow-sm relative z-50 ${isScrolled ? "bg-card/90 backdrop-blur-md" : ""}`}>
+          <div className="container container-p mx-auto min-h-20 flex items-center justify-between gap-4 sm:gap-6 py-3">
+            <Link to={ROUTES.HOME} className="flex items-center gap-3 shrink-0 py-1">
+              {/* <span className="hidden sm:flex w-11 h-11 rounded-xl bg-secondary border border-border items-center justify-center shadow-sm overflow-hidden">
+                <img src={`${ImagePath}logo/Logo.png`} alt="Bharat Exam Fest" className="h-8 w-8 object-contain" />
+              </span> */}
+              <span className="flex flex-col items-start justify-center">
+                <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="h-6 sm:h-7 w-auto object-contain" />
+                <span className="text-[10px] font-semibold text-success tracking-wider leading-none mt-1">UPSC & GPSC CSE</span>
+              </span>
             </Link>
-            <div id="collapseMenu" className="max-2xl:hidden 2xl:flex! 2xl:items-center max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50">
-              <ul className="2xl:flex! 2xl:gap-x-10 max-2xl:space-y-3 max-2xl:fixed max-2xl:bg-theme-bg max-2xl:w-1/2 max-2xl:min-w-[300px] max-2xl:top-0 max-2xl:left-0 max-2xl:px-10 max-2xl:py-4 max-2xl:h-full max-2xl:shadow-md max-2xl:overflow-auto z-50">
-                <li className="mb-6 hidden max-2xl:block">
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <figure className="w-12 sm:w-18 h-full">
-                        <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon-Logo" className="w-full h-full object-contain" />
-                      </figure>
-                      <section className="flex flex-col justify-center max-md:hidden">
-                        <h1 className="text-sm sm:text-xl text-primary font-bold">Achiwon</h1>
-                        <p className="text-xs sm:text-sm text-success font-medium">Learn & Earn</p>
-                      </section>
-                    </div>
-                  </div>
-                </li>
-                <ul className="flex gap-8">
-                  {HeaderMenu?.map((item, index) => (
-                    <li key={index} className="max-2xl:py-3  relative hover:after:absolute after:bg-theme! after:w-0 hover:after:w-full hover:after:h-0.5 after:block after:-bottom-1 2xl:after:-bottom-4 after:transition-all after:duration-300">
-                      <NavLink to={item.link} className="block text-lg text-base capitalize ">
-                        {item.text}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-              </ul>
-            </div>
-            <div className="flex items-center max-sm:ml-auto">
-              <ul className="flex space-x-4 gap-2">
-                <li className="relative m-0 p-1 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-input-box group">
-                  <div className="flex items-center justify-center w-full h-full">
-                    <span className="inline-block transform-gpu transition-transform duration-200 ease-out group-hover:scale-110 group-hover:animate-pulse origin-center">
-                      <HiOutlineBellAlert className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </span>
-                  </div>
-                </li>
-                <li className="group relative py-1 px-1.5 sm:px-2.5 flex justify-between items-center rounded-xl h-10 sm:h-12 bg-input-box">
-                  <div className="flex justify-between items-center gap-3" onClick={() => dispatch(setMenuDrawer())}>
-                    <img src={ProfileImage} alt="profile" className="w-10 h-10 rounded-xl" />
-                    <div className="flex-1 hidden max-2xl:max-w-35 sm:block max-w-28 truncate">
-                      <span className="text-md font-semibold capitalize  ">
-                        {UserData?.firstName} {UserData?.lastName}
-                      </span>
-                      <p className="capitalize flex text-xs">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
-                    </div>
-                    <IoIosArrowDown className="hidden sm:block " />
-                  </div>
-                </li>
-              </ul>
-              <button id="toggleOpen" onClick={() => dispatch(setNavMenuDrawer(true))} className="2xl:hidden ml-2 cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
-                <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
+            <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+              {HeaderMenu?.map((item, index) => (
+                <NavLink key={index} to={item.link} className="py-7 border-b-2 border-transparent hover:text-accent transition-all duration-300 capitalize">
+                  {item.text}
+                </NavLink>
+              ))}
+            </nav>
+            <div className="flex items-center gap-3">
+              <button aria-label="Notifications" className="hidden sm:flex w-10 h-10 rounded-xl bg-secondary border border-transparent items-center justify-center text-primary transition-all duration-300 hover:border-accent hover:text-accent">
+                <HiOutlineBellAlert className="w-5 h-5" />
+              </button>
+              <button onClick={() => dispatch(setMenuDrawer())} className="flex items-center gap-2 rounded-xl bg-secondary border border-border py-2 px-3 transition-all duration-300 hover:border-accent">
+                <img src={ProfileImage} alt="profile" className="w-8 h-8 rounded-full object-cover" />
+                <span className="hidden md:block text-left">
+                  <span className="block text-xs font-bold leading-4 truncate max-w-28">
+                    {UserData?.firstName} {UserData?.lastName}
+                  </span>
+                  <span className="block text-[10px] text-muted-foreground capitalize">{UserData?.userType === "admin" ? "Admin" : "Student"}</span>
+                </span>
+                <IoIosArrowDown className="hidden md:block text-muted-foreground" />
+              </button>
+              <button id="toggleOpen" aria-label="Open menu" onClick={() => dispatch(setNavMenuDrawer(true))} className="lg:hidden cursor-pointer flex justify-center items-center rounded-xl w-10 h-10 bg-secondary text-primary transition-all duration-300 hover:border hover:border-accent">
+                <HiOutlineBars3BottomRight className="text-xl" />
               </button>
             </div>
           </div>

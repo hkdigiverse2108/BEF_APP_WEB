@@ -15,28 +15,29 @@ const WorkshopCard: FC<{ data: WorkshopItem }> = ({ data }) => {
   const subtitle = "Talk to a counsellor";
 
   return (
-    <div className="relative rounded-b-lg rounded-t-2xl  bg-input-box-dark overflow-hidden cursor-pointer shadow-xl flex flex-col justify-end">
-      <div className="w-full rounded-t-2xl overflow-hidden ">
+    <div className="bef-card relative cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-accent flex flex-col">
+      <div className="bef-card-strip" />
+      <div className="relative w-full overflow-hidden">
         <img
           src={data?.image}
           onLoad={() => setImageLoaded(true)}
-          className={`w-full h-full min-h-20 max-h-100 md:max-h-85 transition-opacity duration-300 ${
+          className={`w-full h-52 sm:h-56 object-cover transition-all duration-500 hover:scale-105 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
         />
-        <div className="p-2 rounded-t-xl flex justify-between gap-7 mb-0.5 absolute top-0 left-0 w-full z-10">
-          <span className="bg-white/20 text-white font-semibold text-sm p-1 px-1.5 rounded backdrop-blur-md">
+        <div className="flex justify-between gap-2 absolute top-3 left-3 right-3 z-10">
+          <span className="rounded-full bg-card/90 px-3 py-1 text-[11px] font-bold text-foreground backdrop-blur-md">
             {data?.language}
           </span>
-          <span className="bg-white/20 text-white font-semibold text-sm p-1 px-1.5 rounded backdrop-blur-md">
+          <span className="rounded-full bg-card/90 px-3 py-1 text-[11px] font-bold text-foreground backdrop-blur-md">
             {data?.syllabus}
           </span>
         </div>
       </div>
 
-      <div className="bg-white p-4 grid gap-3">
-        <div className="flex flex-nowrap items-center text-xs sm:text-sm justify-between gap-2">
-          <span className="font-normal text-xs  sm:text-sm  ">{title}</span>
+      <div className="bg-card p-4 sm:p-5 grid gap-3">
+        <div className="flex flex-wrap items-center text-xs sm:text-sm justify-between gap-2">
+          <span className="font-semibold text-muted-foreground">{title}</span>
           <div
             onClick={(e) => {
               e.preventDefault();
@@ -45,9 +46,9 @@ const WorkshopCard: FC<{ data: WorkshopItem }> = ({ data }) => {
             <Popover
               content={ContactContent}
               trigger="click"
-              className="w-fit text-nowrap transition-colors hover:bg-input-box-dark/60 border border-input-box-dark  font-normal text-xs p-1 px-3 rounded-sm capitalize flex items-center cursor-pointer"
+              className="w-fit text-nowrap transition-all duration-300 hover:border-accent hover:text-accent border border-border bg-secondary font-semibold text-xs px-3 py-2 rounded-xl capitalize flex items-center cursor-pointer"
             >
-              <TbPhoneCall className="me-2 text-lg text-success" />
+              <TbPhoneCall className="me-2 text-base text-accent" />
               {subtitle}
             </Popover>
           </div>
@@ -59,7 +60,7 @@ const WorkshopCard: FC<{ data: WorkshopItem }> = ({ data }) => {
           onClick={() =>
             navigate(ROUTES.WORKSHOP.DETAILS.replace(":id", data?._id))
           }
-          className="font-semibold! custom-button light button button--mimas w-full h-auto! uppercase"
+          className="bef-btn-primary w-full uppercase"
         />
       </div>
     </div>

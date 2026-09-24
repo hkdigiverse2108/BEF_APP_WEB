@@ -4,6 +4,7 @@ import { Swiper as SwiperType } from "swiper";
 import { A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetApiQuery } from "../../Api/CommonApi";
+import SectionHeader from "../../Components/Common/SectionHeader";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import ContestWinnerCard from "../../Components/Contest/ContestWinnerCard";
 import { URL_KEYS } from "../../Constants";
@@ -19,7 +20,7 @@ const ContestWinner = () => {
   const Winners = ({ ListData, title, index }: WinnersBox) => {
     return (
       <div className="flex flex-col gap-3">
-        <span className="border border-b border-gray-100 flex w-full mt-6 mb-2"></span>
+        <div className="border-t border-border w-full mt-6 mb-2"></div>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row justify-between gap-3">
             <CardHeader
@@ -53,20 +54,11 @@ const ContestWinner = () => {
   };
 
   return (
-    <div className="sub-container pt-4">
-      <div className="flex justify-between flex-wrap">
-        <h2 className="text-sm sm:text-xl md:text-2xl font-semibold">
-          Mega Contest Winners
-        </h2>
-        {/* <div className="question-section">
-          <FormSelect
-            name="Filter By"
-            placeholder="Filter By"
-            options={[{ label: "1", value: "one" }]}
-            className="!m-0"
-          />
-        </div> */}
-      </div>
+    <div className="sub-container">
+      <section className="mb-2">
+        <SectionHeader title="Mega Contest Winners" />
+        <p className="mt-2 max-w-xl text-sm text-muted-foreground">Celebrating students whose dedication turned ambition into achievement.</p>
+      </section>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-100">

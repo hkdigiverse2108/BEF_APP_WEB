@@ -58,27 +58,27 @@ const Contest = () => {
     <div className="sub-container contestPage">
       <HeroBanner />
 
-      <div className="flex justify-between items-center h-fit rounded-md border border-theme/50">
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 h-fit rounded-xl border border-border bg-card p-2 sm:p-3 shadow-box-shadow">
         <span className="h-fit w-full">
           <Space.Compact size="large" className="w-full">
-            <Input addonBefore={<SearchOutlined className="!text-theme" />} value={params.search} onChange={(e) => handleSetSearch(e.target.value)} placeholder="Search By Contest" className="!w-full" />
+            <Input addonBefore={<SearchOutlined className="!text-primary" />} value={params.search} onChange={(e) => handleSetSearch(e.target.value)} placeholder="Search By Contest" className="!w-full" />
           </Space.Compact>
         </span>
-        <span onClick={() => dispatch(setContestFilterDrawer({ open: true }))} className="bg-input-box font-semibold text-sm p-2 px-4 rounded w-24 flex flex-col cursor-pointer">
+        <span onClick={() => dispatch(setContestFilterDrawer({ open: true }))} className="bef-btn-primary w-full sm:w-28 shrink-0 cursor-pointer">
           Filter By
         </span>
       </div>
 
-      <hr className="text-theme my-8 opacity-20" />
+      <div className="border-t border-border my-6 sm:my-8" />
 
       <div className="mb-12 flex flex-col gap-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
           {isLoading ? (
-            [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 15 }} />)
+            [...Array(4)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 12 }} />)
           ) : Contest?.length > 0 ? (
             Contest?.map((item, i) => <ContestDetailCard key={i} contestData={item} />)
           ) : (
-            <div className="flex items-center justify-center w-full col-span-4">
+            <div className="flex items-center justify-center w-full col-span-full py-10">
               <Empty />
             </div>
           )}

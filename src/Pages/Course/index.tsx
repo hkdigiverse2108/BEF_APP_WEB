@@ -1,11 +1,11 @@
 import { Skeleton } from "antd";
+import { useState } from "react";
+import { FormButton } from "../../Attribute/FormFields";
 import { useGetApiQuery } from "../../Api/CommonApi";
-import { CardHeader } from "../../Components/Common/CardHeader";
+import SectionHeader from "../../Components/Common/SectionHeader";
 import CourseCard from "../../Components/Course/CourseCard";
 import { URL_KEYS } from "../../Constants";
 import type { CourseApiResponse } from "../../Types";
-import { useState } from "react";
-import { FormButton } from "../../Attribute/FormFields";
 
 const Course = () => {
   const [myCourseLimit, setMyCourseLimit] = useState(6);
@@ -28,17 +28,16 @@ const Course = () => {
       <div className="sub-container">
         {MyCourse?.length !== 0 && (
           <>
-            <div className="flex justify-between items-center py-2 md:py-5">
-              <CardHeader title="My Course" />
+            <div className="py-2 md:py-4">
+              <SectionHeader title="My Course" />
             </div>
-            <hr className="text-card-border mb-5" />
-            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
               {isLoading
                 ? [...Array(3)]?.map((_, i) => (
                     <Skeleton.Node
                       key={i}
                       active
-                      style={{ width: "100%", height: 300, borderRadius: 15 }}
+                      style={{ width: "100%", height: 300, borderRadius: 12 }}
                     />
                   ))
                 : MyCourse?.filter(
@@ -49,11 +48,11 @@ const Course = () => {
             </div>
 
             {MyCourse?.length >= myCourseLimit && (
-              <div className="w-full flex justify-center pt-10">
+              <div className="w-full flex justify-center pt-8 sm:pt-10">
                 <FormButton
                   loading={isLoading}
                   text="View More"
-                  className="custom-button-light button button--mimas text-center w-fit p-4! px-8! h-12! uppercase flex items-end-safe"
+                  className="bef-btn-primary text-center w-fit uppercase"
                   onClick={() => setMyCourseLimit(myCourseLimit + 6)}
                 />
               </div>
@@ -62,17 +61,16 @@ const Course = () => {
         )}
         {AllCourse?.length !== 0 && (
           <>
-            <div className="flex justify-between items-center py-2 md:py-5">
-              <CardHeader title="All Course" />
+            <div className="py-2 md:py-4">
+              <SectionHeader title="All Course" />
             </div>
-            <hr className="text-card-border mb-5" />
-            <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
               {isLoading
                 ? [...Array(3)]?.map((_, i) => (
                     <Skeleton.Node
                       key={i}
                       active
-                      style={{ width: "100%", height: 300, borderRadius: 15 }}
+                      style={{ width: "100%", height: 300, borderRadius: 12 }}
                     />
                   ))
                 : AllCourse?.map((item, index) => (

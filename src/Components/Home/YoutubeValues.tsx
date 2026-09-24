@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { ROUTES, URL_KEYS } from "../../Constants";
 import YouTubeCard from "../YoutubeValues/YouTubeCard";
+import SectionHeader from "../Common/SectionHeader";
 import { useGetApiQuery } from "../../Api/CommonApi";
 import { Skeleton } from "antd";
 
@@ -10,15 +10,8 @@ const YoutubeValues = () => {
 
   return (
     <div className="pb-5">
-      <div className="flex justify-between items-center pb-5">
-        <p className="text-lg font-semibold">Youtube Values</p>
-        {(YoutubeValuesData?.length || 0) > 3 && (
-        <Link to={ROUTES.YOUTUBE_VALUES.YOUTUBE_VALUES} className="text-base font-semibold bg-primary m-0 py-1 px-3 rounded text-white">
-          View All
-        </Link>
-        )}
-      </div>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 5 }} />) : YoutubeValuesData?.map((video: { thumbnail: string; title: string ,link: string}, index: number) => <YouTubeCard key={index} videoId={video.link} title={video.title} thumbnail={video.thumbnail} />)}</div>
+      <SectionHeader title="Youtube Values" link={ROUTES.YOUTUBE_VALUES.YOUTUBE_VALUES} showViewAll={(YoutubeValuesData?.length || 0) > 3} />
+      <div className="grid gap-4 sm:gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">{isLoading ? [...Array(3)].map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 300, borderRadius: 12 }} />) : YoutubeValuesData?.map((video: { thumbnail: string; title: string ,link: string}, index: number) => <YouTubeCard key={index} videoId={video.link} title={video.title} thumbnail={video.thumbnail} />)}</div>
     </div>
   );
 };

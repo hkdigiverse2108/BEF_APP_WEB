@@ -9,18 +9,27 @@ import { Store } from "./Store/Store";
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#3b72c9",
-      main: "#124699",
+      light: "#2b63b8",
+      main: "#114598",
       dark: "#0e387a",
       contrastText: "#fff",
+    },
+    secondary: {
+      light: "#f1f6fd",
+      main: "#f68122",
+      dark: "#c15000",
+      contrastText: "#14213d",
+    },
+    text: {
+      primary: "#14213d",
+      secondary: "#5b6577",
     },
   },
   components: {
     MuiTabs: {
       styleOverrides: {
         indicator: {
-          background:
-            "linear-gradient(90deg, var(--color-primary), var(--color-success))",
+          background: "#114598",
           height: "2px",
         },
       },
@@ -43,7 +52,9 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#124699",
+          colorPrimary: "#114598",
+          borderRadius: 12,
+          fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
         },
         components: {
           Avatar: {

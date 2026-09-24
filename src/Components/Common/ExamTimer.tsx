@@ -7,7 +7,7 @@ type TimeLeft = {
   seconds: number;
 };
 
-const TARGET_DATE: Date = new Date("2026-05-24T09:30:00");
+const TARGET_DATE: Date = new Date("2027-05-23T09:30:00");
 
 const ExamTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(getTimeRemaining());
@@ -37,19 +37,20 @@ const ExamTimer: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative bg-primary text-white py-2">
-      <div className="container  container-p  flex max-sm:flex-col gap-1  justify-center sm:justify-between items-center   ">
-        <h1 className="max-sm:order-1  md:text-lg px-4 font-bold flex-nowrap text-nowrap ">
-          Let’s Celebrate this <span className=" ">Exam Festival</span>
-        </h1>
-        <div className="flex">
-          <TimeBox label="Days" value={timeLeft.days} />
+    <div className="bg-gradient-to-r from-primary via-primary to-tertiary text-white">
+      <div className="container container-p mx-auto min-h-11 flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-2 text-xs font-semibold">
+        <div className="flex items-center justify-center sm:justify-start gap-2">
+          <span className="h-2 w-2 rounded-full bg-accent" />
+          <span>Let&apos;s Celebrate this Exam Festival</span>
+        </div>
+        <div className="flex items-center justify-center sm:justify-end gap-2">
+          <span className="text-white/80">{String(timeLeft.days).padStart(2, "0")} Days</span>
           <TimeBox label="Hrs" value={timeLeft.hours} />
           <TimeBox label="Min" value={timeLeft.minutes} />
           <TimeBox label="Sec" value={timeLeft.seconds} />
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
@@ -60,10 +61,9 @@ type TimeBoxProps = {
 
 const TimeBox: React.FC<TimeBoxProps> = ({ label, value }) => {
   return (
-    <div className="flex gap-1 px-2 ">
-      <div className=" sm:text-xl font-semibold sm:font-bold ">{String(value).padStart(2, "0")}</div>
-      <div className="text-xs text-center flex items-end  sm:font-semibold  ">{label}</div>
-    </div>
+    <span className="rounded-md bg-white/15 px-2 py-1 transition-transform duration-300 hover:-translate-y-0.5">
+      {String(value).padStart(2, "0")} {label}
+    </span>
   );
 };
 

@@ -34,85 +34,84 @@ const Referral = () => {
 
   return (
     <div className="sub-container">
-      <div className="my-5 rounded-md overflow-hidden">
+      <div className="mb-8 overflow-hidden rounded-xl border border-border bg-card shadow-box-shadow">
         <Swiper modules={[Pagination, Autoplay, EffectFade]} spaceBetween={50} slidesPerView={1} loop={true} effect={"fade"} autoplay={{ delay: 10000 }} pagination={{ clickable: true }}>
           <SwiperSlide>
-            <img src={`${ImagePath}referral/Referral.jpg`} alt="banner" className="w-full rounded-md overflow-hidden" />
+            <img src={`${ImagePath}referral/Referral.jpg`} alt="banner" className="w-full overflow-hidden object-cover" />
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="pt-6">
-        <div className="flex flex-col md:flex-row justify-between gap-6 md:items-center mb-6">
-          <div className="relative pl-4">
-            <div className="w-1 h-full bg-success-light rounded-full absolute left-0 top-0" />
-            <h2 className="text-xl font-semibold">They play, you collect</h2>
-            <p className="text-sm text-gray-500 font-medium">One of your friends has joined by your referral code. Do more invitations to earn more.</p>
+      <div className="pt-2 sm:pt-4">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 sm:items-center mb-6">
+          <div className="flex items-start gap-3">
+            <span className="bef-section-bar shrink-0" />
+            <div>
+              <h2 className="font-heading text-base sm:text-xl font-bold text-foreground">They play, you collect</h2>
+              <p className="mt-1 text-xs sm:text-sm text-muted-foreground">One of your friends has joined by your referral code. Do more invitations to earn more.</p>
+            </div>
           </div>
-          <div>
-            <p className="text-base font-semibold">
-              Total Referral: <span className="text-primary">+ ₹{totalAmountReferrals}</span>
+          <div className="shrink-0">
+            <p className="rounded-full bg-secondary px-3 py-1.5 text-sm font-bold text-primary whitespace-nowrap">
+              Total Referral: <span>+ ₹{totalAmountReferrals}</span>
             </p>
           </div>
         </div>
 
-        <hr className="border-gray-200 mb-6" />
+        <div className="border-t border-border mb-6" />
 
         {/* Referral Cards */}
         <div>
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="text-xl font-semibold">Your Invited Referral</h2>
-          </div>
-          <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
-            <div className="max-md:w-full max-lg:w-1/2 max-xl:w-1/3">
-              <div className="flex justify-between items-center mb-5">
-                <h2 className="text-lg font-semibold">My Winning</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+            <div className="w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">My Winning</h2>
               </div>
-              <div className="w-full">
-                <div className="h-full relative bg-input-box rounded-xl p-7 flex flex-col justify-center items-center gap-2">
-                  <div className="w-[70%] h-1 bg-primary rounded-b absolute top-0 left-1/2 -translate-x-1/2" />
-                  <FaUsers className="text-6xl text-success" />
-                  <div className="text-left">
-                    <p className="text-base font-semibold mt-1 uppercase">Total Referral</p>
-                    <h3 className="text-2xl font-bold text-center">+ ₹{totalAmountReferrals}</h3>
-                  </div>
+              <div className="bef-card w-full">
+                <div className="bef-card-strip" />
+                <div className="p-6 sm:p-7 flex flex-col justify-center items-center gap-2 text-center">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-secondary">
+                    <FaUsers className="text-3xl text-primary" />
+                  </span>
+                  <p className="text-xs font-bold tracking-wide text-muted-foreground mt-3 uppercase">Total Referral</p>
+                  <h3 className="font-heading text-4xl font-bold text-primary">+ ₹{totalAmountReferrals}</h3>
                 </div>
               </div>
             </div>
-            <div className="col-span-1 xl:col-span-4">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Your Invited Referral</h2>
+            <div className="lg:col-span-2">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+                <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">Your Invited Referral</h2>
                 <div className="flex items-center gap-2">
-                  <Tooltip title={copied ? "Copied!" : "Copy"} color={copied ? "#288F66" : "#124699"} placement="topRight">
-                    <span onClick={handleCopy} className={`border border-input-box-dark px-3 py-1 rounded-md text-sm font-semibold flex items-center cursor-pointer transition ${copied ? "border-success text-success" : "hover:border-primary hover:text-primary"} `}>
-                      {user.referralCode}
-                      {copied ? <IoCheckmarkDoneSharp className="ms-3 text-success transition-transform duration-300 scale-110" /> : <IoCopyOutline className="ms-3 transition-transform duration-300 hover:scale-110" />}
+                  <Tooltip title={copied ? "Copied!" : "Copy"} color={copied ? "#F68122" : "#114598"} placement="topRight">
+                    <span onClick={handleCopy} className={`rounded-xl border bg-card px-3 py-2 min-h-11 text-sm font-bold flex items-center cursor-pointer transition-all duration-300 ${copied ? "border-accent text-accent" : "border-border hover:border-accent hover:text-accent"} `}>
+                      <span className="font-mono">{user.referralCode}</span>
+                      {copied ? <IoCheckmarkDoneSharp className="ms-3 text-accent transition-transform duration-300 scale-110" /> : <IoCopyOutline className="ms-3 transition-transform duration-300 hover:scale-110" />}
                     </span>
                   </Tooltip>
                   <ShareModal referralCode={user.referralCode} />
                 </div>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                 {isLoading
-                  ? [...Array(3)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 200, borderRadius: 10 }} />)
+                  ? [...Array(3)]?.map((_, i) => <Skeleton.Node key={i} active style={{ width: "100%", height: 200, borderRadius: 12 }} />)
                   : referralsData?.map((referral, index) => (
-                      <div key={index} className="rounded-xl overflow-hidden shadow-sm bg-primary">
-                        <div className="py-3 px-5">
-                          <h3 className="text-white font-bold text-xl">
+                      <div key={index} className="bef-card overflow-hidden">
+                        <div className="py-3 px-5 bg-gradient-to-r from-primary to-tertiary">
+                          <h3 className="text-white font-heading font-bold text-base sm:text-lg truncate">
                             {referral?.firstName} {referral?.lastName}
                           </h3>
                         </div>
-                        <div className="p-4 bg-white border-x-2 rounded-t-xl border-primary">
+                        <div className="p-4 bg-card">
                           <div className="flex justify-between items-center mb-3">
-                            <span className="text-lg font-semibold">AMOUNT</span>
-                            <span className="text-2xl font-bold">+ ₹{referral?.amount}</span>
+                            <span className="text-xs font-bold tracking-wide text-muted-foreground uppercase">Amount</span>
+                            <span className="font-heading text-2xl font-bold text-primary">+ ₹{referral?.amount}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-base font-medium border-y border-card-border py-3">
-                            <MdEmail />
-                            {referral?.email}
+                          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground border-y border-border py-3 truncate">
+                            <MdEmail className="shrink-0 text-primary" />
+                            <span className="truncate">{referral?.email}</span>
                           </div>
                         </div>
-                        <div className="bg-success text-white text-base font-normal py-3 px-5 flex items-center gap-2">
-                          <FaCalendarAlt className="text-white" />
+                        <div className="text-muted-foreground text-xs font-semibold py-3 px-5 flex items-center gap-2 border-t border-border">
+                          <FaCalendarAlt className="text-primary shrink-0" />
                           <span>{SecondFormatDate(referral?.createdAt)}</span>
                         </div>
                       </div>
@@ -120,7 +119,7 @@ const Referral = () => {
               </div>
               {(referralsData?.length || 0) < tabOneLimit && (
                 <div className="w-full flex justify-center pt-5">
-                  <FormButton text="View More" className="custom-button button button--mimas text-center w-fit !p-4 !px-8 !h-12 uppercase flex items-end-safe" onClick={() => setTabOneLimit(tabOneLimit + 6)} />
+                  <FormButton text="View More" className="bef-btn-primary text-center w-fit uppercase" onClick={() => setTabOneLimit(tabOneLimit + 6)} />
                 </div>
               )}
             </div>

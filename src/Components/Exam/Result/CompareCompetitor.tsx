@@ -156,7 +156,7 @@ const CompareCompetitor: FC<{ data: Sec2Type; subjectName: string; TabIndex: num
                 <div className="px-4 py-4 rounded-b-lg">
                   <ul className="space-y-2">
                     <li>
-                      <Progress percent={showChart ? item.you : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#288F66"} strokeWidth={20} />
+                      <Progress percent={showChart ? item.you : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#F48224"} strokeWidth={20} />
                     </li>
                     <li>
                       <Progress percent={showChart ?item.others : 0} percentPosition={{ align: "center", type: "inner" }} strokeColor={"#124699"} strokeWidth={20} className="others" />

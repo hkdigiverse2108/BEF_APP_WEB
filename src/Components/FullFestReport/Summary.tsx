@@ -1,5 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
 import { useState, type FC } from "react";
+import { Empty } from "antd";
 import type { SubjectSummaryItem, SubjectSummaryType } from "../../Types";
 import FullFestSubjectFilter from "./FullFestSubjectFilter";
 import { Skeleton } from "antd";
@@ -47,25 +48,31 @@ const Summary: FC<{
     { title: "Very Strong", color: "bg-success-light", range: "80% - 100%", items: AttemptingStrategyWise?.["Very Strong"]?.map((item) => item?.subjectName) },
   ];
   const currentSections = tabIndex === 0 ? Sections : aiSections;
+  const totalItems = currentSections.reduce((sum, s) => sum + (s.items?.length || 0), 0);
 
   return (
     <div>
       <FullFestSubjectFilter title="Summary" filter={true} />
       <div className="pt-5">
-        <Tabs className="horizontal-tabs xl:w-1/2 mx-auto" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
+        <Tabs className="fest-tabs w-fit" orientation="horizontal" variant="scrollable" value={tabIndex} onChange={handleChange}>
           <Tab label="Sub wise" />
           <Tab label="Attempting Strategy wise" />
         </Tabs>
         <div className="tab-panels w-full">
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 pt-6">
+          {totalItems === 0 && !isLoading ? (
+            <div className="flex justify-center items-center w-full py-10">
+              <Empty description="No summary data yet. Play a contest to generate your report." />
+            </div>
+          ) : (
+          <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 pt-6">
             {currentSections.map(({ title, color, range, items }, i) => (
-              <div key={i} className="rounded-lg shadow-lg ">
-                <div className={`${color} px-4 py-2 rounded-t-lg text-lg text-white flex justify-between`}>
-                  <h3>{title}</h3>
-                  <p>{range}</p>
+              <div key={i} className="bef-card">
+                <div className={`${color} px-4 py-2.5 text-base sm:text-lg text-white flex justify-between gap-2`}>
+                  <h3 className="font-heading font-bold truncate">{title}</h3>
+                  <p className="text-xs sm:text-sm font-semibold whitespace-nowrap">{range}</p>
                 </div>
-                <div className="px-8 py-4 rounded-b-lg">
-                  <ul className="list-disc space-y-2 skeleton">
+                <div className="px-6 sm:px-8 py-4">
+                  <ul className="list-disc space-y-2 skeleton text-sm text-muted-foreground">
                     {isLoading ? (
                       <Skeleton active paragraph={{ rows: 1 }}/>
                     ) : (
@@ -80,6 +87,7 @@ const Summary: FC<{
               </div>
             ))}
           </div>
+          )}
         </div>
       </div>
     </div>

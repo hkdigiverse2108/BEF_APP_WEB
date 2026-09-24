@@ -18,6 +18,7 @@ import { RemoveEmptyFields } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
 import { SetUser } from "../../Store/Slices/AuthSlice";
 import type { RegisterForm, RegisterPayload } from "../../Types";
+import AuthLayout from "../../Components/Common/AuthLayout";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { SerializedError } from "@reduxjs/toolkit";
 import { useGetApiQuery } from "../../Api/CommonApi";
@@ -271,7 +272,7 @@ const Register = () => {
                         contact: { countryCode: `+${country.dialCode}` },
                       });
                     }}
-                    className="w-[130px] p-2 border border-gray-300 rounded-s-lg bg-input-box"
+                    className="w-[130px] p-2 border border-border rounded-s-lg bg-input-box"
                   />
                 </Form.Item>
                 <Form.Item
@@ -369,19 +370,8 @@ const Register = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white relative flex">
-      {/* Left Illustration */}
-      <div className="hidden xl:flex xl:w-1/2 2xl:w-2/5 h-screen sticky top-0 z-10 overflow-hidden border-r border-gray-100">
-        <img
-          className="w-full"
-          alt="Group"
-          src={`${ImagePath}auth/Register.jpg`}
-        />
-      </div>
-
-      {/* Right Form */}
-      <div className="flex xl:w-1/2 2xl:w-3/5 w-full overflow-y-auto justify-center items-center p-4 sm:p-8 lg:p-12 z-10">
-        <div className="w-full max-w-2xl mx-auto ">
+    <AuthLayout image={`${ImagePath}auth/Register.jpg`}>
+      <div className="w-full max-w-2xl mx-auto">
           <Steps
             current={current}
             direction="horizontal"
@@ -389,17 +379,15 @@ const Register = () => {
             className="space-y-2 lg:space-y-4"
           />
 
-          <header className="mb-3">
-            <div className="space-y-1">
-              <h2 className="font-bold text-2xl sm:text-3xl xl:text-3xl text-black text-center xl:text-left">
-                Get Started Now
-              </h2>
-              <p className="font-medium text-sm sm:text-base xl:text-sm text-black text-center xl:text-left opacity-80">
-                Create an account or explore about our website
-              </p>
-            </div>
-          </header>
-          <span className="border-t border-primary flex w-full" />
+          <div className="mb-6 sm:mb-8">
+            <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground text-center lg:text-left">
+              Get Started Now
+            </h1>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground text-center lg:text-left">
+              Create an account or explore about our website
+            </p>
+          </div>
+          <span className="h-px w-full bg-gradient-to-r from-primary to-accent" />
 
           <Form
             form={form}
@@ -409,13 +397,13 @@ const Register = () => {
           >
             <div className="mt-4">{steps[current].content}</div>
             <Col span={24}>
-              <span className="border-t border-primary flex w-full col-span-2 mb-4" />
+              <span className="h-px w-full bg-gradient-to-r from-primary to-accent col-span-2 mb-4" />
             </Col>
             <Col span={24}>
               {/* Footer */}
               <footer className="space-y-6 lg:space-y-8 col-span-2 mb-4">
                 <p className="text-center text-sm lg:text-base">
-                  <span className="font-medium text-black pe-2">
+                  <span className="font-medium text-foreground pe-2">
                     Already have an account?
                   </span>
                   <NavLink
@@ -436,7 +424,7 @@ const Register = () => {
                     e.preventDefault();
                     prev();
                   }}
-                  className="custom-button button button--mimas w-full !h-auto"
+                  className="bef-btn-primary w-full uppercase"
                 />
               )}
 
@@ -448,26 +436,21 @@ const Register = () => {
                     e.preventDefault();
                     next();
                   }}
-                  className="custom-button button button--mimas w-full !h-auto"
+                  className="bef-btn-primary w-full uppercase"
                 />
               ) : (
                 <FormButton
                   loading={isPostApiLoading || isCouponLoading}
                   htmlType="submit"
                   text="Submit"
-                  className="custom-button button button--mimas w-full !h-auto"
+                  className="bef-btn-primary w-full uppercase"
                 />
               )}
             </div>
           </Form>
         </div>
-      </div>
 
-      {/* Background */}
-      <div className="absolute z-0 bottom-0 right-0">
-        <img src="/assets/images/auth/FormLines.png" alt="" />
-      </div>
-    </div>
+    </AuthLayout>
   );
 };
 

@@ -4,7 +4,6 @@ import { IoCallSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { usePostApiMutation } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
-import { CardHeader } from "../../Components/Common/CardHeader";
 import { CONTACT, HTTP_STATUS, URL_KEYS } from "../../Constants";
 import type { ContactFormData } from "../../Types";
 
@@ -30,69 +29,78 @@ const Contact = () => {
   };
   return (
     <div className="sub-container">
-      <div className="flex justify-between items-center py-2 md:py-5">
-        <CardHeader title="Contact" />
+      <div className="border-b-2 border-primary pb-5">
+        <p className="mb-2 text-xs sm:text-sm font-medium text-accent">Support centre</p>
+        <h1 className="font-heading text-xl sm:text-2xl font-bold text-foreground">Contact</h1>
       </div>
-      <hr className="text-card-border mb-5" />
       <section id="contact" className="flex justify-center">
-        <div className="flex flex-col lg:flex-row justify-center gap-12 lg:gap-24 items-center !overflow-hidden py-10  rounded-2xl w-[1240px]">
-          <div className="bg-white transition-all duration-100 rounded-2xl p-5 sm:p-10 w-full max-w-lg border border-card-border">
-            <Form layout="vertical" form={form} onFinish={onFinish} className="space-y-4">
-              <FormInput name="name" placeholder="name*" rules={[{ required: true, message: "Please enter your name" }]} />
-              <FormInput
-                name="email"
-                placeholder="email*"
-                rules={[
-                  { required: true, message: "Please enter your email" },
-                  { type: "email", message: "Please enter a valid email" },
-                ]}
-              />
-              <FormInput name="company" placeholder="Company Name*" rules={[{ required: true, message: "Please enter Company Name" }]} />
-              <FormInput
-                name="phone"
-                placeholder="Phone*"
-                rules={[
-                  { required: true, message: "Please enter your phone number" },
-                  { len: 10, message: "Phone number must be 10 digits" },
-                ]}
-              />
-              <FormInput name="website" placeholder="website*" rules={[{ required: true, message: "Please enter your name" }]} />
-              <FormInput name="message" placeholder="Your message*" type="textArea" rules={[{ required: true, message: "Please enter your message" }]} />
-              <FormButton htmlType="submit" text="submit" className="custom-button button button--mimas w-full !h-auto" />
-            </Form>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 py-8 sm:py-10 w-full max-w-5xl">
+          <div className="rounded-xl bg-gradient-to-r from-primary to-accent p-px shadow-box-shadow">
+            <div className="h-full rounded-xl bg-card p-6 md:p-10">
+              <div className="mb-6 sm:mb-7">
+                <h2 className="font-heading text-base sm:text-lg font-semibold text-foreground">Send us a message</h2>
+                <p className="mt-2 text-xs sm:text-sm text-muted-foreground">Share your query and our Bharat Exam Fest team will get back to you.</p>
+              </div>
+              <Form layout="vertical" form={form} onFinish={onFinish} className="space-y-4">
+                <FormInput name="name" placeholder="Name*" rules={[{ required: true, message: "Please enter your name" }]} />
+                <FormInput
+                  name="email"
+                  placeholder="Email*"
+                  rules={[
+                    { required: true, message: "Please enter your email" },
+                    { type: "email", message: "Please enter a valid email" },
+                  ]}
+                />
+                <FormInput name="company" placeholder="Company Name*" rules={[{ required: true, message: "Please enter Company Name" }]} />
+                <FormInput
+                  name="phone"
+                  placeholder="Phone*"
+                  rules={[
+                    { required: true, message: "Please enter your phone number" },
+                    { len: 10, message: "Phone number must be 10 digits" },
+                  ]}
+                />
+                <FormInput name="website" placeholder="Website*" rules={[{ required: true, message: "Please enter your name" }]} />
+                <FormInput name="message" placeholder="Your message*" type="textArea" rules={[{ required: true, message: "Please enter your message" }]} />
+                <FormButton htmlType="submit" text="SUBMIT" className="bef-btn-primary w-full uppercase" />
+              </Form>
+            </div>
           </div>
-          <div className="max-w-xl">
-            <div className="flex flex-col gap-4 justify-between h-full">
-              <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
-                <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-                <div>
-                  <IoCallSharp className="text-5xl text-primary" />
-                </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-semibold">Emergency Number</h3>
-                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.NUMBER}</p>
-                </div>
-              </div>
-              <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
-                <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-                <div>
-                  <MdEmail className="text-5xl text-primary" />
-                </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-semibold">Email Address</h3>
-                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.EMAILHELP}</p>
-                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.EMAILINFO}</p>
-                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.EMAILSALES}</p>
+          <div className="w-full">
+            <div className="flex flex-col gap-4 sm:gap-5 justify-between h-full">
+              <div className="bef-card p-6">
+                <div className="flex items-center gap-4 sm:gap-5">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                    <IoCallSharp className="text-2xl text-primary" />
+                  </span>
+                  <div className="min-w-0 text-center sm:text-left">
+                    <h3 className="font-heading text-base sm:text-lg font-semibold text-foreground">Emergency Number</h3>
+                    <p className="text-xs sm:text-sm font-normal mt-1 text-muted-foreground">{CONTACT?.NUMBER}</p>
+                  </div>
                 </div>
               </div>
-              <div className="h-full relative bg-input-box rounded-xl p-7 flex max-sm:flex-col max-sm:justify-center items-center gap-6">
-                <div className="w-1 h-[60%] bg-primary rounded-r absolute left-0 top-1/2 -translate-y-1/2" />
-                <div>
-                  <FaRoute className="text-5xl text-primary" />
+              <div className="bef-card p-6">
+                <div className="flex items-start gap-4 sm:gap-5">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                    <MdEmail className="text-2xl text-primary" />
+                  </span>
+                  <div className="min-w-0 text-center sm:text-left">
+                    <h3 className="font-heading text-base sm:text-lg font-semibold text-foreground">Email Address</h3>
+                    <p className="text-xs sm:text-sm font-normal mt-1 text-muted-foreground break-all">{CONTACT?.EMAILHELP}</p>
+                    <p className="text-xs sm:text-sm font-normal mt-1 text-muted-foreground break-all">{CONTACT?.EMAILINFO}</p>
+                    <p className="text-xs sm:text-sm font-normal mt-1 text-muted-foreground break-all">{CONTACT?.EMAILSALES}</p>
+                  </div>
                 </div>
-                <div className="text-center sm:text-left">
-                  <h3 className="text-xl font-semibold">Address</h3>
-                  <p className="text-base font-normal mt-1 text-neutral-500">{CONTACT?.ADDRESS}</p>
+              </div>
+              <div className="bef-card p-6">
+                <div className="flex items-start gap-4 sm:gap-5">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                    <FaRoute className="text-2xl text-primary" />
+                  </span>
+                  <div className="min-w-0 text-center sm:text-left">
+                    <h3 className="font-heading text-base sm:text-lg font-semibold text-foreground">Address</h3>
+                    <p className="text-xs sm:text-sm font-normal mt-1 text-muted-foreground">{CONTACT?.ADDRESS}</p>
+                  </div>
                 </div>
               </div>
             </div>
