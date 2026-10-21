@@ -29,16 +29,17 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
 
     const isLifetime = contestData?.contestId?.isLifetime || contestData?.isLifetime;
 
-    // If it's a lifetime contest and is already completed, start a new attempt
-    if (isLifetime && contestData?.status === "completed") {
+    // If it's a lifetime contest and is not currently ongoing with a real QA, start a new attempt
+    const isOngoing = contestData?.status === "ongoing" && !(contestData as any)?.isSimulated && contestData?._id;
+    if (isLifetime && !isOngoing) {
       if (startingAttempt) return;
       setStartingAttempt(true);
       try {
         const token = Storage.getItem(STORAGE_KEYS.TOKEN) || "";
         const payload = {
-          contestId: _id,
-          subjectId: contestData.subjectId?._id || contestData.subjectId,
-          classesId: contestData.classesId?._id || contestData.classesId,
+          contestId: _id || contestData?.contestId?._id || contestData?.contestId,
+          subjectId: contestData.subjectId?._id || contestData.subjectId || (contestData.contestId as any)?.subjectId,
+          classesId: contestData.classesId?._id || contestData.classesId || (contestData.contestId as any)?.classesIds?.[0],
           contestStartDate: contestData.contestStartDate || contestData.contestId?.startDate,
           contestEndDate: contestData.contestEndDate || contestData.contestId?.endDate,
           isPractice: false,
@@ -50,14 +51,18 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
           const newQaId = res.data?.data?.qa?._id;
           AntMessage("success", "Started new exam attempt.");
           navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}&isLifetime=true${newQaId ? `&qaId=${newQaId}` : ""}`, {
-            state: { contestStartDate: contestData.contestStartDate, isLifetime: true, qaId: newQaId },
+            state: { contestStartDate: contestData.contestStartDate, isLifetime: true, qaId: newQaId, ...res.data?.data?.qa },
           });
         } else {
-          AntMessage("error", res.data?.message || "Failed to start attempt.");
+          navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}&isLifetime=true`, {
+            state: { contestStartDate: contestData.contestStartDate, isLifetime: true },
+          });
         }
       } catch (error) {
         console.error(error);
-        AntMessage("error", "Error creating attempt.");
+        navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}&isLifetime=true`, {
+          state: { contestStartDate: contestData.contestStartDate, isLifetime: true },
+        });
       } finally {
         setStartingAttempt(false);
       }
@@ -75,8 +80,8 @@ const MyContestUpcomingCard: FC<ContestDetailCardProps> = ({ contestData }) => {
       });
     } else {
       console.log("enter2----------", contestData);
-      navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}${contestData?._id ? `&qaId=${contestData._id}` : ""}`, {
-        state: contestData,
+      navigate(`${ROUTES.EXAM.INSTRUCTION}?contestId=${_id}${isLifetime ? "&isLifetime=true" : ""}${contestData?._id && !(contestData as any)?.isSimulated ? `&qaId=${contestData._id}` : ""}`, {
+        state: { ...contestData, isLifetime },
       });
     }
   };

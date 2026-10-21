@@ -1,6 +1,4 @@
-import { CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
-import { Checkbox } from "antd";
-import { FaRegCircle } from "react-icons/fa";
+import { LuRefreshCw, LuX } from "react-icons/lu";
 
 export interface NormalQuestionProps {
   id: number;
@@ -12,54 +10,75 @@ export interface NormalQuestionProps {
 
 export const NormalQuestion = ({ id, opt, text, answers, onCheck }: NormalQuestionProps) => {
   const isImage = (value: string) => {
-    return value.startsWith("http") && (value.endsWith(".jpg") || value.endsWith(".jpeg") || value.endsWith(".png") || value.endsWith(".webp") || value.endsWith(".gif"));
+    return (
+      value.startsWith("http") &&
+      (value.endsWith(".jpg") ||
+        value.endsWith(".jpeg") ||
+        value.endsWith(".png") ||
+        value.endsWith(".webp") ||
+        value.endsWith(".gif"))
+    );
   };
   const showImage = isImage(text);
+  const isSelected = answers[id] === 1;
+  const isExcluded = answers[id] === 0;
+
+  if (isExcluded) {
+    return (
+      <div
+        className="modern-opt-btn excluded flex min-h-16 w-full items-center gap-3 rounded-xl border border-[#CBD5E1] bg-[#F1F5F9] px-4 py-3 text-left opacity-65 transition-all duration-200"
+      >
+        <span className="modern-opt-letter !bg-[#94A3B8] !text-white !border-transparent">
+          {opt}
+        </span>
+        <div className="flex-1 text-xs sm:text-sm font-semibold text-[#64748B] line-through">
+          {showImage ? <img src={text} className="transparent-img max-h-20 object-contain opacity-50" alt="option" /> : text}
+        </div>
+        <span className="rounded-md bg-white border border-[#CBD5E1] px-2 py-0.5 text-[11px] font-bold text-[#64748B] shrink-0">
+          Excluded
+        </span>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCheck(id, "false");
+          }}
+          title="Restore this option"
+          className="modern-opt-exclude text-[#124699] hover:!bg-[#EFF6FF] hover:!text-[#124699] hover:!border-[#124699] cursor-pointer"
+        >
+          <LuRefreshCw className="text-sm" />
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex max-sm:flex-col justify-center items-center w-full question" onClick={() => onCheck(id, "true")}>
-      {/* Desktop True Checkbox */}
-      <div className="flex w-full py-4 px-4 max-sm:pe-4">
-        <div onClick={(e) => e.stopPropagation()} className="flex items-center">
-          <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")} className="">
-            <div className="relative">
-              {answers[id] === 1 ? <FaRegCircle style={{ color: "green", width: "21px", height: "21px" }} /> : <FaRegCircle style={{ color: "gray", width: "21px", height: "21px" }} />}
-              <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${answers[id] === 1 ? "text-success" : ""}`}>{opt}</span>
-            </div>
-          </Checkbox>
-        </div>
+    <div
+      onClick={() => onCheck(id, "true")}
+      className={`modern-opt-btn ${isSelected ? "selected" : ""}`}
+    >
+      {/* Option letter pill with hover scaling */}
+      <span className="modern-opt-letter">
+        {opt}
+      </span>
 
-        {/* Text */}
-        {/* <span className={`flex-1 font-medium capitalize ${answers[id] === 0 ? "line-through" : ""}`}>{text}</span> */}
-        <div className="flex-1 font-normal capitalize">
-          {showImage ? (
-            <div className={`${answers[id] === 0 ? "img-strike" : ""}`}>
-              <img src={text} className="transparent-img" alt="question" />
-            </div>
-          ) : (
-            <span className={`${answers[id] === 0 ? "line-through" : ""}`}>{text}</span>
-          )}
-        </div>
-        {/* </div> */}
-
-        {/* Mobile True + False */}
-        {/* <div className="flex justify-end max-sm:w-full max-sm:gap-2"> */}
-        {/* <div className="sm:hidden max-sm:pb-3 sm:!py-4">
-          <div onClick={(e) => e.stopPropagation()}>
-            <Checkbox checked={answers[id] === 1} onChange={() => onCheck(id, "true")}>
-              <div className="relative">
-                {answers[id] === 1 ? <FaRegCircle style={{ color: "green" }} /> : <FaRegCircle style={{ color: "gray" }} />}
-                <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs ${answers[id] === 1 ? "text-success" : ""}`}>{opt}</span>
-              </div>
-            </Checkbox>
-          </div>
-        </div> */}
-        <div onClick={(e) => e.stopPropagation()} className="flex items-center">
-          <Checkbox checked={answers[id] === 0} onChange={() => onCheck(id, "false")}>
-            {answers[id] === 0 ? <CloseCircleFilled style={{ color: "red" }} className="icon" /> : <CloseCircleOutlined style={{ color: "red" }} className="icon" />}
-          </Checkbox>
-        </div>
+      {/* Option Text */}
+      <div className="flex-1 text-xs sm:text-sm font-semibold text-[#0F172A] leading-relaxed">
+        {showImage ? <img src={text} className="transparent-img max-h-24 object-contain" alt="option" /> : text}
       </div>
+
+      {/* Eliminate (X) button */}
+      <span
+        onClick={(e) => {
+          e.stopPropagation();
+          onCheck(id, "false");
+        }}
+        title="Eliminate this option"
+        className="modern-opt-exclude cursor-pointer"
+      >
+        <LuX className="text-base" />
+      </span>
     </div>
   );
 };
+

@@ -1,69 +1,163 @@
-import { useState, type FC } from "react";
-import { TbPhoneCall } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
-import { FormButton } from "../../Attribute/FormFields";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Popover } from "antd";
+import {
+  LuPhone,
+  LuLayers,
+  LuChevronDown,
+  LuChevronUp,
+  LuShieldCheck,
+  LuArrowRight,
+  LuCheck,
+} from "react-icons/lu";
 import { ROUTES } from "../../Constants";
 import type { CourseItem } from "../../Types";
-import { Popover } from "antd";
 import ContactContent from "../WorkshopCourseCommon/ContactContent";
 
-const CourseCard: FC<{ data: CourseItem }> = ({ data }) => {
+export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
+  const [isModuleOpen, setIsModuleOpen] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const navigate = useNavigate();
 
-  const title = "Have questions about this Course?";
-  const subtitle = "Talk to a counsellor";
+  const {
+    _id = "",
+    title = "Sure Shot Prelims",
+    image = "",
+    language = "English",
+    syllabus: { subjectLevel = "" } = {},
+    courseMoneyBack = "",
+    totalLecture,
+    totalTest,
+    isUnlocked = false,
+  } = data || {};
+
+  const targetUrl = _id ? ROUTES.COURSE.DETAILS.replace(":id", _id) : ROUTES.COURSE.COURSE;
 
   return (
-    <div className="bef-card relative cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-accent flex flex-col">
-      <div className="bef-card-strip" />
-      <div className="relative w-full overflow-hidden">
-        <img
-          src={data?.image}
-          onLoad={() => setImageLoaded(true)}
-          className={`w-full h-52 sm:h-56 object-cover transition-all duration-500 hover:scale-105 ${
-            imageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        <div className="flex justify-between gap-2 absolute top-3 left-3 right-3 z-10">
-          <span className="rounded-full bg-card/90 px-3 py-1 text-[11px] font-bold text-foreground backdrop-blur-md">
-            {data?.language}
-          </span>
-          <span className="rounded-full bg-card/90 px-3 py-1 text-[11px] font-bold text-foreground backdrop-blur-md">
-            {data?.syllabus?.subjectLevel}
-          </span>
-        </div>
-      </div>
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+      {/* Top Course Image with rounded top corners */}
+      <div className="relative w-full aspect-16/10 rounded-t-2xl overflow-hidden bg-gray-200">
+        <NavLink to={targetUrl} className="block w-full h-full">
+          <img
+            src={image}
+            alt={title || "Course Banner"}
+            onLoad={() => setImageLoaded(true)}
+            className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-102 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        </NavLink>
 
-      <div className="bg-card p-4 sm:p-5 grid gap-3">
-        <div className="flex flex-wrap items-center text-xs sm:text-sm justify-between gap-2">
-          <span className="font-semibold text-muted-foreground">{title}</span>
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <Popover
-              content={ContactContent}
-              trigger="click"
-              className="w-fit text-nowrap transition-all duration-300 hover:border-accent hover:text-accent border border-border bg-secondary font-semibold text-xs px-3 py-2 rounded-xl capitalize flex items-center cursor-pointer"
-            >
-              <TbPhoneCall className="me-2 text-base text-accent" />
-              {subtitle}
-            </Popover>
+        {/* Top Badges (Language & Level, and Unlocked status) */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {language && (
+              <span className="rounded-full bg-white/90 backdrop-blur-md px-3 py-1 text-xs font-bold text-[#0F172A] shadow-xs">
+                {language}
+              </span>
+            )}
+            {subjectLevel && (
+              <span className="rounded-full bg-black/40 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/20 shadow-xs">
+                {subjectLevel}
+              </span>
+            )}
           </div>
+
+          {isUnlocked && (
+            <span className="flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">
+              <LuCheck className="text-xs" /> Unlocked
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Card Body */}
+      <div className="flex flex-1 flex-col p-5">
+        {/* Course Support Row */}
+        <div className="flex items-center justify-between pb-3 border-b border-[#F1F5F9]">
+          <div>
+            <p className="text-xs sm:text-sm font-semibold text-[#0F172A]">Course support</p>
+            <p className="text-[11px] text-[#64748B]">Talk to an academic counsellor</p>
+          </div>
+          <Popover
+            content={<ContactContent />}
+            trigger="click"
+            placement="bottomRight"
+          >
+            <button
+              type="button"
+              aria-label="Call a counsellor"
+              title="Call a counsellor"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFF3EA] text-[#F48224] transition-all duration-200 hover:scale-110 hover:bg-[#F48224] hover:text-white shadow-xs cursor-pointer"
+            >
+              <LuPhone className="text-lg" />
+            </button>
+          </Popover>
         </div>
 
-        <FormButton
-          htmlType="button"
-          text={"VIEW BATCH DETAILS"}
-          onClick={() =>
-            navigate(ROUTES.COURSE.DETAILS.replace(":id", data?._id))
-          }
-          className="bef-btn-primary w-full uppercase"
-        />
+        {/* Expandable Module Accordion */}
+        <div className="mt-4 overflow-hidden rounded-xl border border-[#E2E8F0] transition-all">
+          <button
+            type="button"
+            onClick={() => setIsModuleOpen((prev) => !prev)}
+            className="flex w-full items-center justify-between bg-[#F8FAFC] px-4 py-3 text-left transition-colors hover:bg-[#F1F5F9] cursor-pointer"
+          >
+            <span className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#124699]">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-white text-[#F48224] shadow-xs">
+                <LuLayers className="text-sm" />
+              </span>
+              Module Details
+            </span>
+            {isModuleOpen ? (
+              <LuChevronUp className="text-base text-[#F48224]" />
+            ) : (
+              <LuChevronDown className="text-base text-[#64748B]" />
+            )}
+          </button>
+
+          {isModuleOpen && (
+            <div className="divide-y divide-[#F1F5F9] border-t border-[#E2E8F0] bg-white p-3 text-xs">
+              <div className="flex items-center justify-between py-1.5 font-semibold text-[#0F172A]">
+                <span>GS Foundation</span>
+                <span className="text-[#64748B] font-mono">
+                  {totalLecture ? `${totalLecture} lessons` : "24 lessons"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between py-1.5 font-semibold text-[#0F172A]">
+                <span>Prelims Test Series</span>
+                <span className="text-[#64748B] font-mono">
+                  {totalTest ? `${totalTest} tests` : "18 tests"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between py-1.5 font-semibold text-[#0F172A]">
+                <span>Current Affairs &amp; Review</span>
+                <span className="text-[#64748B] font-mono">Weekly</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Guarantee Callout Banner */}
+        <div className="mt-4 flex items-center gap-3 rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-3 text-[#1E40AF]">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[#124699] shadow-xs">
+            <LuShieldCheck className="text-lg" />
+          </span>
+          <p className="text-[11px] sm:text-xs font-bold leading-tight text-[#1E3A8A]">
+            {courseMoneyBack || "Minimum 60-Marks Direct Hit Guarantee, otherwise 100% refund"}
+          </p>
+        </div>
+
+        {/* Bottom CTA Button */}
+        <div className="mt-5 pt-2">
+          <NavLink
+            to={targetUrl}
+            className="group flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border-2 border-[#F48224] bg-white text-xs sm:text-sm font-bold text-[#0F172A] shadow-xs transition-all duration-200 hover:bg-[#F48224] hover:text-white hover:shadow-md cursor-pointer"
+          >
+            <span>{isUnlocked ? "GO TO COURSE" : "VIEW BATCH DETAILS"}</span>
+            <LuArrowRight className="text-base text-[#F48224] transition-transform group-hover:translate-x-1 group-hover:text-white" />
+          </NavLink>
+        </div>
       </div>
-    </div>
+    </article>
   );
 };
 

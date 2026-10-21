@@ -25,6 +25,8 @@ const Layout = () => {
   const FooterHide = (isCourseDetails && !CourseFooterShow) || (isWorkshopDetails && !WorkshopFooterShow);
 
   const isQuestionPage = pathname.includes("question");
+  const isInstructionPage = pathname.includes("instruction");
+  const isExamFlow = isQuestionPage || isInstructionPage;
 
   useEffect(() => {
     Aos.init({
@@ -53,12 +55,12 @@ const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <AntMessageHolder />
-      {!isQuestionPage && <Header />}
-      <div className="flex-1 container">
+      {!isExamFlow && <Header />}
+      <div className={isInstructionPage ? "flex-1 w-full" : isQuestionPage ? "flex-1" : "flex-1 container"}>
         <Outlet />
       </div>
-      {!isQuestionPage && !FooterHide && <Footer />}
-      <WhatsappIcon />
+      {!isExamFlow && !FooterHide && <Footer />}
+      {!isExamFlow && <WhatsappIcon />}
       <VideoModal playVideo={modalVideoPlay} videoLink={modalVideoLink} />
     </div>
   );

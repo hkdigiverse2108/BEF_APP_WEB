@@ -121,7 +121,7 @@ const ContestDetailCard: FC<ContestDetailCardProps> = ({ contestData, type, cont
             <span>Flexible</span>
           </section>
         </div>
-      </div>
+      </div>  
     </div>
   );
 };

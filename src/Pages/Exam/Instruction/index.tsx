@@ -1,29 +1,31 @@
-import { CheckCircleFilled, CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
-import { Badge, Tooltip } from "antd";
-import { FaRegCircle } from "react-icons/fa";
-import { IoLanguage } from "react-icons/io5";
-import { FormButton } from "../../../Attribute/FormFields";
-import { CardHeader } from "../../../Components/Common/CardHeader";
-import { InstructionButtons } from "../../../Data";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../Constants";
 import { AntMessage } from "../../../Components/Common/AntMessage";
+import { ExamInstructionScreen } from "../../../Components/Exam/ExamInstructionScreen";
+import { useAppSelector } from "../../../Store/hooks";
 
 const ExamInstruction = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAppSelector((state) => state.auth);
 
   const contestStartDate = location?.state?.contestStartDate;
-  const isLifetime = location?.state?.isLifetime || location?.state?.contestId?.isLifetime;
   const queryParam = new URLSearchParams(location.search);
+  const isLifetime = location?.state?.isLifetime || location?.state?.contestId?.isLifetime || queryParam.get("isLifetime") === "true";
   const contestId = queryParam.get("contestId");
-  const qaId = queryParam.get("qaId") || location?.state?.qaId || location?.state?._id;
+  const qaId = queryParam.get("qaId") || location?.state?.qaId || (location?.state?._id && !location?.state?.isSimulated ? location?.state?._id : null);
   const isPractice = queryParam.get("isPractice") === "true";
 
-  const handleNextButton = () => {
+  const handleNextButton = (lang: "English" | "Hindi" = "English") => {
+    const langParam = lang === "Hindi" ? "hindi" : "english";
+    const langKey = lang === "Hindi" ? "hindiQuestion" : "englishQuestion";
+
     if (isLifetime || isPractice) {
       // Practice or Lifetime mode bypasses live exam time checks!
-      navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}${isLifetime ? "&isLifetime=true" : ""}${isPractice ? "&isPractice=true" : ""}${qaId ? `&qaId=${qaId}` : ""}`);
+      navigate(
+        `${ROUTES.EXAM.QUESTION}?contestId=${contestId}${isLifetime ? "&isLifetime=true" : ""}${isPractice ? "&isPractice=true" : ""}${qaId ? `&qaId=${qaId}` : ""}&lang=${langParam}`,
+        { state: { ...location.state, lang: langKey, language: langKey } }
+      );
       return;
     } else {
       const now = new Date();
@@ -46,7 +48,10 @@ const ExamInstruction = () => {
       });
 
       if (nowMs >= startMs && nowMs <= endLimit) {
-        navigate(`${ROUTES.EXAM.QUESTION}?contestId=${contestId}${qaId ? `&qaId=${qaId}` : ""}`);
+        navigate(
+          `${ROUTES.EXAM.QUESTION}?contestId=${contestId}${qaId ? `&qaId=${qaId}` : ""}&lang=${langParam}`,
+          { state: { ...location.state, lang: langKey, language: langKey } }
+        );
       } else {
         if (nowMs < startMs) {
           AntMessage("error", `You can join after ${timeIST}`, {
@@ -59,107 +64,21 @@ const ExamInstruction = () => {
     }
   };
 
+  const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(" ") || "Student";
+
   return (
-    <>
-      <div className="sub-container pt-8">
-        <CardHeader title="Exam Instructions" />
-        <hr className="text-card-border my-4" />
-
-        <div className="flex flex-col gap-10 mt-6">
-          <div>
-            <h2 className="font-normal text-lg mb-3">1. Practice Actively Label Each Statement True Or False!</h2>
-            <div className="grid grid-cols-1 2xl:grid-cols-2">
-              <div className="border border-card-border p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
-                <span className="flex-1 font-medium">1. Both Statement-1 and statement-2 are correct and Statement-2 explains Statement-1</span>
-                <div className="flex justify-end max-sm:w-full">
-                  <Tooltip title="Click if statement is True" color="#dcfce7" open placement="left" zIndex={40}>
-                    <CheckCircleFilled style={{ color: "#F48224" }} className="px-2" />
-                  </Tooltip>
-                  <Tooltip title="Click if statement is False" color="#ffe2e2" open placement="bottom" zIndex={40}>
-                    <CloseCircleFilled style={{ color: "red" }} className="px-2" />
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
-          </div>
-          <span className="border-t border-card-border flex w-full" />
-          <div>
-            <h2 className="font-normal text-lg mb-3">2. Improve accuracy : use the elimination icon for 50-50 or 33-33-33!</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-              <div className="border border-card-border p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
-                <div className="flex items-center w-full">
-                  <FaRegCircle style={{ color: "gray" }} />
-                  <span className="flex-1 font-medium px-2">Both Statement-1 and statement-2 are correct and Statement-2 explains Statement-1</span>
-                  <Tooltip title="Click if you want to eliminate option" color="#ffe2e2" open zIndex={40}>
-                    <CloseCircleOutlined style={{ color: "red" }} className="px-2" />
-                  </Tooltip>
-                </div>
-              </div>
-              <div className="border border-red-500 bg-red-50 p-4 shadow-sm rounded-lg flex max-sm:flex-col justify-center items-center w-full gap-3 question">
-                <div className="flex items-center w-full">
-                  <FaRegCircle style={{ color: "gray" }} />
-                  <span className="flex-1 font-medium px-2">Statement-1 is incorrect, but statement-2 is correct</span>
-                  <CloseCircleFilled style={{ color: "red" }} className="px-2" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <span className="border-t border-card-border flex w-full" />
-          <div className="min-h-48">
-            <h2 className="font-normal text-lg mb-3">3. Strategize Your Answers: Button Actions Explained</h2>
-            <div className="flex justify-center">
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {InstructionButtons?.map((btn, i) => (
-                  <div key={i} className="grid grid-cols-1 xl:grid-cols-3 xl:items-center gap-5">
-                    <button className={`flex justify-center items-center gap-3 shadow-btn-shadow py-3 px-4 h-fit text-sm font-normal text-white rounded-xl transition-all duration-200 hover:scale-105 ${btn.color}`}>
-                      {btn.icon}
-                      {btn.label}
-                    </button>
-                    <div className="xl:col-span-2 relative bg-input-box p-3 rounded-lg shadow-md">
-                      <div className="absolute block w-4 h-4 bg-input-box rotate-45 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 xl:top-1/2 xl:-left-0 xl:-translate-x-1/2 xl:-translate-y-1/2" />
-                      <p className="text-sm text-center xl:text-left">{btn.tooltipLabel}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <span className="border-t border-card-border flex w-full" />
-          <div>
-            <h2 className="font-normal text-lg mb-3">4. "2X The Stakes, 2X The Thrill!"</h2>
-            <div className="pt-4 flex items-center gap-3">
-              <div className="flex max-sm:flex-col items-center gap-5">
-                <Badge count={"2X"} color="#124699">
-                  <div className="text-sm py-2 px-4 bg-input-box shadow-btn-shadow">
-                    <span className="font-semibold rounded">Question : 01</span>
-                  </div>
-                </Badge>
-                <div className="sm:col-span-2 relative bg-input-box p-3 rounded-lg shadow-md">
-                  <div className="absolute block w-4 h-4 bg-input-box rotate-45 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:top-1/2 sm:-left-0 sm:-translate-x-1/2 sm:-translate-y-1/2" />
-                  <p className="text-sm text-center sm:text-left">Answer correctly: Earn double marks. Answer wrong: Lose double marks.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <span className="border-t border-card-border flex w-full" />
-
-          <div>
-            <h2 className="font-normal text-lg mb-3">5. You Can Change Language</h2>
-            <div className="flex items-center gap-3">
-              <Tooltip title="English / Hindi" color="#ffe2e2" open placement="right" zIndex={40}>
-                <span className="text-sm font-semibold  flex flex-nowrap gap-2">
-                  <IoLanguage className="text-xl" />
-                  Language
-                </span>
-              </Tooltip>
-            </div>
-          </div>
-        </div>
-        <div className="w-full flex justify-end mt-8">
-          <FormButton onClick={handleNextButton} text="NEXT" className="custom-button w-full sm:w-40 button button--mimas text-center !p-4 !h-12 uppercase" />
-        </div>
-      </div>
-    </>
+    <div className="w-full">
+      <ExamInstructionScreen
+        onStartExam={handleNextButton}
+        showHeader={false}
+        showFooter={false}
+        showStrip={false}
+        userName={fullName}
+        userRole={user?.userType === "admin" ? "Admin" : "Student"}
+        examTitle="Exam Instructions"
+        actionButtonText="Start Exam"
+      />
+    </div>
   );
 };
 
