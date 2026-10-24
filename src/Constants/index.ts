@@ -9,9 +9,9 @@ export const HK_DIGIVERSE_URL = "https://hkdigiverse.com/";
 
 export const CONTACT = {
   NUMBER: "+91 84604 64463",
-  EMAILINFO: "info@bharatexamfest.com",
-  EMAILHELP: "help@bharatexamfest.com",
-  EMAILSALES: "sales@bharatexamfest.com",
+  EMAILINFO: "info@achiwon.com",
+  EMAILHELP: "help@achiwon.com",
+  EMAILSALES: "sales@achiwon.com",
   ADDRESS: "501-502, Silver Trade Center, Mota Varachhha, Surat, Gujarat, India-394101.",
 } as const;
 
