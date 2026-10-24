@@ -66,7 +66,7 @@ const Header = () => {
           <div className="container container-p mx-auto min-h-20 flex items-center justify-between gap-4 sm:gap-6 py-3">
             <Link to={ROUTES.HOME} className="flex items-center gap-3 shrink-0 py-1">
               {/* <span className="hidden sm:flex w-11 h-11 rounded-xl bg-secondary border border-border items-center justify-center shadow-sm overflow-hidden">
-                <img src={`${ImagePath}logo/Logo.png`} alt="Bharat Exam Fest" className="h-8 w-8 object-contain" />
+                <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="h-8 w-8 object-contain" />
               </span> */}
               <span className="flex flex-col items-start justify-center">
                 <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="h-6 sm:h-7 w-auto object-contain" />

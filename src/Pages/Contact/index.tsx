@@ -39,7 +39,7 @@ const Contact = () => {
             <div className="h-full rounded-xl bg-card p-6 md:p-10">
               <div className="mb-6 sm:mb-7">
                 <h2 className="font-heading text-base sm:text-lg font-semibold text-foreground">Send us a message</h2>
-                <p className="mt-2 text-xs sm:text-sm text-muted-foreground">Share your query and our Bharat Exam Fest team will get back to you.</p>
+                <p className="mt-2 text-xs sm:text-sm text-muted-foreground">Share your query and our Achiwon team will get back to you.</p>
               </div>
               <Form layout="vertical" form={form} onFinish={onFinish} className="space-y-4">
                 <FormInput name="name" placeholder="Name*" rules={[{ required: true, message: "Please enter your name" }]} />

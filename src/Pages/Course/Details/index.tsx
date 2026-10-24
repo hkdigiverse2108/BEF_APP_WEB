@@ -96,8 +96,8 @@ const CourseDetails = () => {
       "description": CourseDetailsData.description?.replace(/<[^>]+>/g, "") || "UPSC Prelims Victory Course",
       "provider": {
         "@type": "Organization",
-        "name": "Bharat Exam Fest (BEF)",
-        "sameAs": "https://bharatexamfest.com",
+        "name": "Achiwon",
+        "sameAs": "https://achiwon.com",
       },
       "hasCourseInstance": {
         "@type": "CourseInstance",

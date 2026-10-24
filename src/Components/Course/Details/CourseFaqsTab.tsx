@@ -7,7 +7,7 @@ import { URL_KEYS } from "../../../Constants";
 const DEFAULT_COURSE_FAQS: Array<{ question: string; answer: string }> = [
   {
     question: "REFUND POLICY",
-    answer: "We do not offer any refund for any course, workshop, test, or test series under Bharat Exam Fest.",
+    answer: "We do not offer any refund for any course, workshop, test, or test series under Achiwon.",
   },
   {
     question: "What does “Pay Full Fee Only After You Clear Prelims” mean?",

@@ -15,9 +15,9 @@ const AuthLayout: FC<AuthLayoutProps> = ({ image, children }) => {
           <img className="h-full w-full object-cover object-left" alt="auth visual" src={image} />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/10 to-transparent" />
           <div className="absolute left-6 xl:left-10 top-6 xl:top-10 flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 shadow-box-shadow">
-            <img src={`${ImagePath}logo/Logo.png`} alt="Bharat Exam Fest" className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary object-contain p-1" />
+            <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary object-contain p-1" />
             <div>
-              <p className="font-heading text-sm font-bold text-foreground">Bharat Exam Fest</p>
+              <p className="font-heading text-sm font-bold text-foreground">Achiwon</p>
               <p className="text-xs text-muted-foreground">UPSC & GPSC CSE</p>
             </div>
           </div>
@@ -28,9 +28,9 @@ const AuthLayout: FC<AuthLayoutProps> = ({ image, children }) => {
           <div aria-hidden className="absolute -bottom-10 -right-10 h-64 w-64 rounded-full border border-border" />
           <div className="relative z-10 w-full max-w-xl">
             <div className="mb-8 flex items-center gap-3 lg:hidden">
-              <img src={`${ImagePath}logo/Logo.png`} alt="Bharat Exam Fest" className="h-10 w-10 rounded-lg bg-secondary object-contain p-1" />
+              <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="h-10 w-10 rounded-lg bg-secondary object-contain p-1" />
               <div>
-                <p className="font-heading text-sm font-bold text-foreground">Bharat Exam Fest</p>
+                <p className="font-heading text-sm font-bold text-foreground">Achiwon</p>
                 <p className="text-xs text-muted-foreground">UPSC & GPSC CSE</p>
               </div>
             </div>
