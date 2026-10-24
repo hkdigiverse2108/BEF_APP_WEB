@@ -72,30 +72,8 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
 
       {/* Card Body */}
       <div className="flex flex-1 flex-col p-5">
-        {/* Course Support Row */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#F1F5F9]">
-          <div>
-            <p className="text-xs sm:text-sm font-semibold text-[#0F172A]">Course support</p>
-            <p className="text-[11px] text-[#64748B]">Talk to an academic counsellor</p>
-          </div>
-          <Popover
-            content={<ContactContent />}
-            trigger="click"
-            placement="bottomRight"
-          >
-            <button
-              type="button"
-              aria-label="Call a counsellor"
-              title="Call a counsellor"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FFF3EA] text-[#F48224] transition-all duration-200 hover:scale-110 hover:bg-[#F48224] hover:text-white shadow-xs cursor-pointer"
-            >
-              <LuPhone className="text-lg" />
-            </button>
-          </Popover>
-        </div>
-
         {/* Expandable Module Accordion */}
-        <div className="mt-4 overflow-hidden rounded-xl border border-[#E2E8F0] transition-all">
+        <div className="overflow-hidden rounded-xl border border-[#E2E8F0] transition-all">
           <button
             type="button"
             onClick={() => setIsModuleOpen((prev) => !prev)}
@@ -146,15 +124,29 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
           </p>
         </div>
 
-        {/* Bottom CTA Button */}
-        <div className="mt-5 pt-2">
+        {/* Bottom CTA Button & Call Support Button */}
+        <div className="mt-5 pt-2 flex items-center gap-2.5">
           <NavLink
             to={targetUrl}
-            className="group flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border-2 border-[#F48224] bg-white text-xs sm:text-sm font-bold text-[#0F172A] shadow-xs transition-all duration-200 hover:bg-[#F48224] hover:text-white hover:shadow-md cursor-pointer"
+            className="group flex flex-1 min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-[#F48224] bg-white text-xs sm:text-sm font-bold text-[#0F172A] shadow-xs transition-all duration-200 hover:bg-[#F48224] hover:text-white hover:shadow-md cursor-pointer"
           >
             <span>{isUnlocked ? "GO TO COURSE" : "VIEW BATCH DETAILS"}</span>
             <LuArrowRight className="text-base text-[#F48224] transition-transform group-hover:translate-x-1 group-hover:text-white" />
           </NavLink>
+          <Popover
+            content={<ContactContent />}
+            trigger="click"
+            placement="topRight"
+          >
+            <button
+              type="button"
+              aria-label="Call a counsellor"
+              title="Call counsellor"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border-2 border-[#F48224] bg-[#FFF3EA] text-[#F48224] transition-all duration-200 hover:scale-105 hover:bg-[#F48224] hover:text-white shadow-xs cursor-pointer"
+            >
+              <LuPhone className="text-lg" />
+            </button>
+          </Popover>
         </div>
       </div>
     </article>
