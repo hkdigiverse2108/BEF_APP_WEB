@@ -3,9 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Popover } from "antd";
 import {
   LuPhone,
-  LuLayers,
-  LuChevronDown,
-  LuChevronUp,
   LuShieldCheck,
   LuArrowRight,
   LuCheck,
@@ -15,7 +12,6 @@ import type { CourseItem } from "../../Types";
 import ContactContent from "../WorkshopCourseCommon/ContactContent";
 
 export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
-  const [isModuleOpen, setIsModuleOpen] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const {
@@ -25,12 +21,11 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
     language = "English",
     syllabus: { subjectLevel = "" } = {},
     courseMoneyBack = "",
-    totalLecture,
-    totalTest,
     isUnlocked = false,
   } = data || {};
 
   const targetUrl = _id ? ROUTES.COURSE.DETAILS.replace(":id", _id) : ROUTES.COURSE.COURSE;
+  const moduleUrl = _id ? `${ROUTES.COURSE.DETAILS.replace(":id", _id)}?tab=module#modules` : ROUTES.COURSE.COURSE;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -72,50 +67,24 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
 
       {/* Card Body */}
       <div className="flex flex-1 flex-col p-5">
-        {/* Expandable Module Accordion */}
-        <div className="overflow-hidden rounded-xl border border-[#E2E8F0] transition-all">
-          <button
-            type="button"
-            onClick={() => setIsModuleOpen((prev) => !prev)}
-            className="flex w-full items-center justify-between bg-[#F8FAFC] px-4 py-3 text-left transition-colors hover:bg-[#F1F5F9] cursor-pointer"
-          >
-            <span className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#124699]">
-              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-white text-[#F48224] shadow-xs">
-                <LuLayers className="text-sm" />
-              </span>
-              Module Details
-            </span>
-            {isModuleOpen ? (
-              <LuChevronUp className="text-base text-[#F48224]" />
-            ) : (
-              <LuChevronDown className="text-base text-[#64748B]" />
-            )}
-          </button>
-
-          {isModuleOpen && (
-            <div className="divide-y divide-[#F1F5F9] border-t border-[#E2E8F0] bg-white p-3 text-xs">
-              <div className="flex items-center justify-between py-1.5 font-semibold text-[#0F172A]">
-                <span>GS Foundation</span>
-                <span className="text-[#64748B] font-mono">
-                  {totalLecture ? `${totalLecture} lessons` : "24 lessons"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-1.5 font-semibold text-[#0F172A]">
-                <span>Prelims Test Series</span>
-                <span className="text-[#64748B] font-mono">
-                  {totalTest ? `${totalTest} tests` : "18 tests"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-1.5 font-semibold text-[#0F172A]">
-                <span>Current Affairs &amp; Review</span>
-                <span className="text-[#64748B] font-mono">Weekly</span>
-              </div>
-            </div>
-          )}
-        </div>
+        {/* Module Details Direct Link (Opens Course Details with Module Tab) */}
+        <NavLink
+          to={moduleUrl}
+          state={{ activeTab: "module" }}
+          className="group/module flex w-full items-center justify-between rounded-xl border border-[#E8EDF5] bg-[#F8FAFF] px-3.5 py-2.5 text-xs font-extrabold text-[#27538F] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B8D2FF] hover:bg-[#EAF3FF] hover:text-[#124699] cursor-pointer"
+          title="Click to view all modules and syllabus in course"
+        >
+          <span className="flex items-center gap-1.5">
+            <span>⚙</span>
+            <span>Module Details</span>
+          </span>
+          <span className="text-[11px] font-extrabold text-[#ED8538] transition-transform duration-200 group-hover/module:translate-x-0.5">
+            View modules →
+          </span>
+        </NavLink>
 
         {/* Guarantee Callout Banner */}
-        <div className="mt-4 flex items-center gap-3 rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-3 text-[#1E40AF]">
+        <div className="mt-3 flex items-center gap-3 rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-3 text-[#1E40AF]">
           <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[#124699] shadow-xs">
             <LuShieldCheck className="text-lg" />
           </span>

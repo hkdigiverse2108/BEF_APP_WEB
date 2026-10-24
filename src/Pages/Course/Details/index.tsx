@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useEffect, useState, useMemo, useRef } from "react";
+import { Navigate, useParams, useLocation } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { FormButton } from "../../../Attribute/FormFields";
 import MainLoader from "../../../Components/Common/MainLoader";
@@ -37,8 +37,23 @@ const TabsList = [
 ];
 
 const CourseDetails = () => {
-  const [tabIndex, setTabIndex] = useState("about");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const queryTab = searchParams.get("tab");
+  const isModuleRequested =
+    queryTab === "module" ||
+    (location.state as any)?.activeTab === "module" ||
+    location.hash === "#modules";
+
+  const [tabIndex, setTabIndex] = useState(() => (isModuleRequested ? "module" : "about"));
   const [imageLoaded, setImageLoaded] = useState(false);
+  const hasAutoScrolledRef = useRef(false);
+
+  useEffect(() => {
+    if (isModuleRequested) {
+      setTabIndex("module");
+    }
+  }, [isModuleRequested, location.search, location.hash, location.state]);
 
   const dispatch = useAppDispatch();
   const { CourseFooterShow } = useAppSelector((state) => state.FooterShow);
@@ -82,6 +97,24 @@ const CourseDetails = () => {
       dispatch(setCourseFooterShow(isFooterShow));
     }
   }, [courseLoading, CourseDetailsData?.isUnlocked, dispatch]);
+
+  // When module tab is requested, scroll directly to modules section once data loads
+  useEffect(() => {
+    if (hasAutoScrolledRef.current) return;
+    if (courseLoading) return;
+
+    if (isModuleRequested) {
+      hasAutoScrolledRef.current = true;
+      setTabIndex("module");
+      const timer = setTimeout(() => {
+        const el = document.getElementById("modules-section");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [courseLoading, isModuleRequested]);
 
   // VideoObject Schema Injection for Google SEO Video Indexing (Audio transcript Line 330-333)
   useEffect(() => {
@@ -142,7 +175,7 @@ const CourseDetails = () => {
   }
 
   return (
-    <div className={`sub-container space-y-8 pt-6 sm:pt-8 bg-white rounded-2xl ${!CourseFooterShow ? "pb-36 sm:pb-24" : "pb-12"}`}>
+    <div className={`sub-container space-y-8 pt-6 sm:pt-8 bg-white rounded-2xl ${!CourseFooterShow ? "pb-20 sm:pb-16" : "pb-12"}`}>
       {/* 1. TOP HERO / BANNER SECTION */}
       <section className="relative overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-xs">
         {/* Mobile Share Action */}
@@ -266,7 +299,7 @@ const CourseDetails = () => {
       </section>
 
       {/* 3. 5-TAB HORIZONTAL HEADER NAVIGATION */}
-      <section className="border-b border-gray-200">
+      <section id="modules-section" className="border-b border-gray-200 scroll-mt-24">
         <div className="flex overflow-x-auto scrollbar-none gap-2 pb-px">
           {TabsList.map(({ value, label, icon: Icon }) => {
             const isActive = tabIndex === value;
@@ -364,63 +397,65 @@ const CourseDetails = () => {
       </section>
 
       {/* 5. FLOATING COUNSELLOR CALL POPUP BUTTON */}
-      <div className="fixed bottom-24 right-5 z-40">
+      <div className="fixed bottom-18 sm:bottom-16 right-4 sm:right-6 z-40">
         <Popover content={<ContactContent />} trigger="click" placement="topLeft">
           <button
             type="button"
             aria-label="Talk to counsellor"
             title="Talk to an academic counsellor"
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-[#124699] text-white shadow-xl transition-all duration-300 hover:scale-110 hover:bg-[#0E3678] cursor-pointer"
+            className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-[#124699] text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[#0E3678] cursor-pointer"
           >
-            <LuPhone className="text-2xl" />
+            <LuPhone className="text-lg sm:text-xl" />
           </button>
         </Popover>
       </div>
 
-      {/* 6. FIXED BOTTOM JOIN NOW / PRICING SECTION */}
+      {/* 6. FIXED BOTTOM JOIN NOW / PRICING SECTION (Compact & Sleek) */}
       {!CourseDetailsData?.isUnlocked && (
-        <section className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl">
-          <div className="sub-container py-3 flex max-sm:flex-col gap-2 sm:gap-4 justify-between sm:items-center">
+        <section className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 flex items-center justify-between gap-3 sm:gap-6">
             <div>
-              <p className="text-xs font-semibold text-[#64748B]">Enrollment Fees</p>
+              <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#64748B] leading-none mb-0.5">
+                Enrollment Fees
+              </p>
               {CourseDetailsData?.discountPrice ? (
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-xl sm:text-2xl font-black text-[#124699]">
+                <div className="flex items-baseline gap-1 sm:gap-1.5 leading-none">
+                  <span className="text-base sm:text-lg font-black text-[#124699]">
                     ₹{CourseDetailsData?.payingPrice?.toLocaleString()}
                   </span>
-                  <span className="text-xs text-gray-500 font-semibold">
+                  <span className="text-[11px] text-gray-500 font-semibold">
                     / ₹{CourseDetailsData?.discountPrice?.toLocaleString()}
                   </span>
-                  <span className="text-xs text-red-500 line-through">
+                  <span className="text-[10px] text-red-500 line-through">
                     ₹{CourseDetailsData?.price?.toLocaleString()}
                   </span>
                 </div>
               ) : (
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-xl sm:text-2xl font-black text-[#124699]">
+                <div className="flex items-baseline gap-1 sm:gap-1.5 leading-none">
+                  <span className="text-base sm:text-lg font-black text-[#124699]">
                     ₹{CourseDetailsData?.payingPrice?.toLocaleString()}
                   </span>
-                  <span className="text-xs text-red-500 line-through">
+                  <span className="text-[10px] text-red-500 line-through">
                     ₹{CourseDetailsData?.price?.toLocaleString()}
                   </span>
                 </div>
               )}
             </div>
 
-            <div>
-              <p className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+            <div className="hidden md:block">
+              <p className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                 {CourseDetailsData?.priceInStruction || "Pay remaining full fee only after clearing Prelims!"}
               </p>
             </div>
 
-            <div className="w-full sm:w-auto">
+            <div className="shrink-0">
               <FormButton
                 onClick={() => {
                   dispatch(setCoursePurchaseDrawer());
                 }}
                 htmlType="submit"
                 text="Join Now"
-                className="custom-button button button--mimas w-full sm:w-44 h-11! font-bold"
+                className="custom-button button button--mimas !h-9 sm:!h-10 !px-6 sm:!px-8 !text-xs sm:!text-sm !font-bold"
               />
             </div>
           </div>
