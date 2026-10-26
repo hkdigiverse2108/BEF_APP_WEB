@@ -8,7 +8,7 @@ export const ImagePath: string = "/assets/images/";
 export const HK_DIGIVERSE_URL = "https://hkdigiverse.com/";
 
 export const CONTACT = {
-  NUMBER: "+91 84604 64463",
+  NUMBER: "+91 91063 60330",
   EMAILINFO: "info@achiwon.com",
   EMAILHELP: "help@achiwon.com",
   EMAILSALES: "sales@achiwon.com",
@@ -41,3 +41,4 @@ export const EARNING_TYPE = {
 } as const;
 
 export { ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS };
+export * from "./reportVideosData";

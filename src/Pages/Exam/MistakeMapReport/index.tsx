@@ -2,7 +2,8 @@ import { Empty } from "antd";
 import { useLocation, useParams } from "react-router-dom";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import { CardHeader } from "../../../Components/Common/CardHeader";
-import { ImagePath, URL_KEYS } from "../../../Constants";
+import ModernVideoPlayer from "../../../Components/Common/ModernVideoPlayer";
+import { ImagePath, URL_KEYS, REPORT_VIDEOS } from "../../../Constants";
 import { useEffect, type FC, type ReactNode } from "react";
 import type { AttemptType, MistakeMapReportApiResponse, ResultApiResponse } from "../../../Types";
 
@@ -78,6 +79,16 @@ const MistakeMapReport = () => {
   return (
     <div className="sub-container pt-4 md:pt-8 result">
       <CardHeader title="Mistake Map Report" />
+      <div className="my-5">
+        <ModernVideoPlayer
+          src={REPORT_VIDEOS.mistakemap.src}
+          title={REPORT_VIDEOS.mistakemap.title}
+          subtitle={REPORT_VIDEOS.mistakemap.subtitle}
+          badge={REPORT_VIDEOS.mistakemap.badge}
+          points={REPORT_VIDEOS.mistakemap.points}
+          bannerMode={true}
+        />
+      </div>
       <p className="text-base font-normal">
         Please, first fill <span className="text-primary">Why false</span> Reason in Each question...
       </p>

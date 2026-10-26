@@ -12,7 +12,8 @@ import { CardHeader } from "../../../Components/Common/CardHeader";
 import { PairTable } from "../../../Components/Common/PairHeader";
 import { StatementQuestion } from "../../../Components/Common/StatementQuestion";
 import ReportModal from "../../../Components/Exam/Question/ReportModal";
-import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS } from "../../../Constants";
+import { HTTP_STATUS, ROUTES, STORAGE_KEYS, URL_KEYS, REPORT_VIDEOS } from "../../../Constants";
+import ModernVideoPlayer from "../../../Components/Common/ModernVideoPlayer";
 import { SolutionsOptions, WhyFalseOptions } from "../../../Data";
 import { LANGUAGES, QUE_TYPE } from "../../../Data/Question";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
@@ -172,6 +173,17 @@ const Solution = () => {
         {/* Header */}
         <CardHeader title="Solution" />
         <span className="border-t border-card-border flex w-full mt-4 mb-6" />
+
+        <div className="mb-6">
+          <ModernVideoPlayer
+            src={REPORT_VIDEOS.solution.src}
+            title={REPORT_VIDEOS.solution.title}
+            subtitle={REPORT_VIDEOS.solution.subtitle}
+            badge={REPORT_VIDEOS.solution.badge}
+            points={REPORT_VIDEOS.solution.points}
+            bannerMode={true}
+          />
+        </div>
 
         <div className="grid grid-cols-1 2xl:grid-cols-6 gap-6 w-full">
           {/* Left Panel */}

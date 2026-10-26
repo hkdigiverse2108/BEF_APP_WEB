@@ -214,19 +214,12 @@ const CourseDetails = () => {
 
         {/* Course Meta Info Bar */}
         <div className="p-4 sm:p-6 bg-white">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              {CourseDetailsData?.language && (
-                <span className="rounded-md border border-gray-200 bg-gray-50 px-3 py-1 text-xs sm:text-sm font-semibold text-[#0F172A]">
-                  {CourseDetailsData.language}
-                </span>
-              )}
-              {CourseDetailsData?.syllabus?.subjectLevel && (
-                <span className="rounded-md bg-[#EDF4FF] px-3 py-1 text-xs sm:text-sm font-bold text-[#124699] uppercase">
-                  {CourseDetailsData.syllabus.subjectLevel}
-                </span>
-              )}
-            </div>
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            {CourseDetailsData?.language && (
+              <span className="rounded-md border border-gray-200 bg-gray-50 px-3 py-1 text-xs sm:text-sm font-semibold text-[#0F172A]">
+                {CourseDetailsData.language}
+              </span>
+            )}
 
             <div className="hidden sm:block">
               <ShareModal />
@@ -286,14 +279,25 @@ const CourseDetails = () => {
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#124699] shadow-xs">
             <LuShieldCheck className="text-3xl text-[#124699]" />
           </div>
-          <div>
+          <div className="flex-1">
             <span className="rounded-md bg-white px-2.5 py-0.5 text-[11px] font-extrabold text-[#124699] uppercase shadow-2xs">
               Confidence Promise
             </span>
-            <p className="mt-1 text-sm sm:text-base font-extrabold leading-snug text-[#1E3A8A]">
-              {CourseDetailsData?.courseMoneyBack ||
-                "Minimum 60-Marks Direct Hit Guarantee otherwise 100% Refund"}
-            </p>
+            <div className="mt-1 space-y-1 text-sm sm:text-base font-extrabold leading-snug text-[#1E3A8A]">
+              {CourseDetailsData?.courseMoneyBack ? (
+                String(CourseDetailsData.courseMoneyBack)
+                  .split(",")
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((line, idx) => (
+                    <p key={idx} className="leading-snug">
+                      {line}
+                    </p>
+                  ))
+              ) : (
+                <p>Minimum 60-Marks Direct Hit Guarantee Enjoy 100% Free COURSE</p>
+              )}
+            </div>
           </div>
         </article>
       </section>

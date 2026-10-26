@@ -19,7 +19,6 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
     title = "Sure Shot Prelims",
     image = "",
     language = "English",
-    syllabus: { subjectLevel = "" } = {},
     courseMoneyBack = "",
     isUnlocked = false,
   } = data || {};
@@ -42,27 +41,23 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
           />
         </NavLink>
 
-        {/* Top Badges (Language & Level, and Unlocked status) */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {language && (
-              <span className="rounded-full bg-white/90 backdrop-blur-md px-3 py-1 text-xs font-bold text-[#0F172A] shadow-xs">
-                {language}
-              </span>
-            )}
-            {subjectLevel && (
-              <span className="rounded-full bg-black/40 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/20 shadow-xs">
-                {subjectLevel}
-              </span>
-            )}
+        {/* Right Corner: Language Badge */}
+        {language && (
+          <div className="absolute top-2.5 right-2.5 z-10 pointer-events-none">
+            <span className="rounded-full bg-white/95 backdrop-blur-md px-3 py-1 text-xs font-bold text-[#0F172A] shadow-xs border border-black/5">
+              {language}
+            </span>
           </div>
+        )}
 
-          {isUnlocked && (
+        {/* Left Corner: Unlocked status */}
+        {isUnlocked && (
+          <div className="absolute top-2.5 left-2.5 z-10 pointer-events-none">
             <span className="flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">
               <LuCheck className="text-xs" /> Unlocked
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Card Body */}
@@ -88,9 +83,19 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
           <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[#124699] shadow-xs">
             <LuShieldCheck className="text-lg" />
           </span>
-          <p className="text-[11px] sm:text-xs font-bold leading-tight text-[#1E3A8A]">
-            {courseMoneyBack || "Minimum 60-Marks Direct Hit Guarantee, otherwise 100% refund"}
-          </p>
+          <div className="text-[11px] sm:text-xs font-bold leading-tight text-[#1E3A8A] space-y-0.5">
+            {courseMoneyBack ? (
+              String(courseMoneyBack)
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean)
+                .map((line, idx) => (
+                  <p key={idx}>{line}</p>
+                ))
+            ) : (
+              <p>Minimum 60-Marks Direct Hit Guarantee, otherwise 100% refund</p>
+            )}
+          </div>
         </div>
 
         {/* Bottom CTA Button & Call Support Button */}

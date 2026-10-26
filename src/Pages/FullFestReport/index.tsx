@@ -12,7 +12,8 @@ import EliminationSkillReport from "../../Components/FullFestReport/EliminationS
 import MistakeMapReport from "../../Components/FullFestReport/MistakeMapReport";
 import MyWinning from "../../Components/FullFestReport/MyWinning";
 import Summary from "../../Components/FullFestReport/Summary";
-import { URL_KEYS } from "../../Constants";
+import { URL_KEYS, REPORT_VIDEOS } from "../../Constants";
+import ModernVideoPlayer from "../../Components/Common/ModernVideoPlayer";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setFullFestSubjectFilter } from "../../Store/Slices/FilterSlice";
 import type { FullFestReportApiResponse } from "../../Types";
@@ -103,15 +104,59 @@ const FullFestReport = () => {
             <MyWinning MyWinningData={Sec3?.myWinningList} tabIndex={tabIndex} isLoading={isLoading || isFetching} />
           </div>
           <div hidden={tabIndex !== 1}>
+            <div className="mb-6">
+              <ModernVideoPlayer
+                key="ai"
+                src={REPORT_VIDEOS.ai.src}
+                title={REPORT_VIDEOS.ai.title}
+                subtitle={REPORT_VIDEOS.ai.subtitle}
+                badge={REPORT_VIDEOS.ai.badge}
+                points={REPORT_VIDEOS.ai.points}
+                bannerMode={true}
+              />
+            </div>
             <AIPoweredReportAnalysis data={Sec1} isLoading={isLoading || isFetching} TabIndex={tabIndex} />
           </div>
           <div hidden={tabIndex !== 2}>
+            <div className="mb-6">
+              <ModernVideoPlayer
+                key="summary"
+                src={REPORT_VIDEOS.summary.src}
+                title={REPORT_VIDEOS.summary.title}
+                subtitle={REPORT_VIDEOS.summary.subtitle}
+                badge={REPORT_VIDEOS.summary.badge}
+                points={REPORT_VIDEOS.summary.points}
+                bannerMode={true}
+              />
+            </div>
             <Summary AttemptingStrategyWise={Sec1?.subjectSummary} SubWise={Sec2?.qaTypeSummary} isLoading={isLoading || isFetching} />
           </div>
           <div hidden={tabIndex !== 3}>
+            <div className="mb-6">
+              <ModernVideoPlayer
+                key="elimination"
+                src={REPORT_VIDEOS.elimination.src}
+                title={REPORT_VIDEOS.elimination.title}
+                subtitle={REPORT_VIDEOS.elimination.subtitle}
+                badge={REPORT_VIDEOS.elimination.badge}
+                points={REPORT_VIDEOS.elimination.points}
+                bannerMode={true}
+              />
+            </div>
             <EliminationSkillReport EliminationSkill={Sec2?.firstPoweredReport} TabIndex={tabIndex} isLoading={isLoading || isFetching} />
           </div>
           <div hidden={tabIndex !== 4}>
+            <div className="mb-6">
+              <ModernVideoPlayer
+                key="mistakemap"
+                src={REPORT_VIDEOS.mistakemap.src}
+                title={REPORT_VIDEOS.mistakemap.title}
+                subtitle={REPORT_VIDEOS.mistakemap.subtitle}
+                badge={REPORT_VIDEOS.mistakemap.badge}
+                points={REPORT_VIDEOS.mistakemap.points}
+                bannerMode={true}
+              />
+            </div>
             <MistakeMapReport MistakeMapReport={Sec3?.mistakeMapReport} isLoading={isLoading || isFetching} />
           </div>
         </div>

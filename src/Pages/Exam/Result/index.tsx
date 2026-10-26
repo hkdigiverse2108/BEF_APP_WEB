@@ -12,7 +12,8 @@ import Leaderboard from "../../../Components/Exam/Result/Leaderboard";
 import Overview from "../../../Components/Exam/Result/Overview";
 import ResultBanner from "../../../Components/Exam/Result/ResultBanner";
 import Summary from "../../../Components/Exam/Result/Summary";
-import { URL_KEYS } from "../../../Constants";
+import { URL_KEYS, REPORT_VIDEOS } from "../../../Constants";
+import ModernVideoPlayer from "../../../Components/Common/ModernVideoPlayer";
 import type { ResultApiResponse } from "../../../Types";
 
 const Result = () => {
@@ -90,15 +91,59 @@ const Result = () => {
               <Overview data={OverviewData} isLoading={isLoading} contest={Contest} />
             </div>
             <div hidden={tabIndex !== 1}>
+              <div className="mb-6">
+                <ModernVideoPlayer
+                  key="ai"
+                  src={REPORT_VIDEOS.ai.src}
+                  title={REPORT_VIDEOS.ai.title}
+                  subtitle={REPORT_VIDEOS.ai.subtitle}
+                  badge={REPORT_VIDEOS.ai.badge}
+                  points={REPORT_VIDEOS.ai.points}
+                  bannerMode={true}
+                />
+              </div>
               <AiPowered data={OverviewData} subjectName={ContestSubject?.name} TabIndex={tabIndex} />
             </div>
             <div hidden={tabIndex !== 2}>
+              <div className="mb-6">
+                <ModernVideoPlayer
+                  key="summary"
+                  src={REPORT_VIDEOS.summary.src}
+                  title={REPORT_VIDEOS.summary.title}
+                  subtitle={REPORT_VIDEOS.summary.subtitle}
+                  badge={REPORT_VIDEOS.summary.badge}
+                  points={REPORT_VIDEOS.summary.points}
+                  bannerMode={true}
+                />
+              </div>
               <Summary data={SummaryData} subjectName={ContestSubject?.name} />
             </div>
             <div hidden={tabIndex !== 3}>
+              <div className="mb-6">
+                <ModernVideoPlayer
+                  key="compare"
+                  src={REPORT_VIDEOS.compare.src}
+                  title={REPORT_VIDEOS.compare.title}
+                  subtitle={REPORT_VIDEOS.compare.subtitle}
+                  badge={REPORT_VIDEOS.compare.badge}
+                  points={REPORT_VIDEOS.compare.points}
+                  bannerMode={true}
+                />
+              </div>
               <CompareCompetitor data={compareWithCompetitorData} subjectName={ContestSubject?.name} TabIndex={tabIndex} />
             </div>
             <div hidden={tabIndex !== 4}>
+              <div className="mb-6">
+                <ModernVideoPlayer
+                  key="elimination"
+                  src={REPORT_VIDEOS.elimination.src}
+                  title={REPORT_VIDEOS.elimination.title}
+                  subtitle={REPORT_VIDEOS.elimination.subtitle}
+                  badge={REPORT_VIDEOS.elimination.badge}
+                  points={REPORT_VIDEOS.elimination.points}
+                  bannerMode={true}
+                />
+              </div>
               <EliminationSkill data={eliminationReportTypeData} subjectName={ContestSubject?.name} TabIndex={tabIndex} />
             </div>
             <div hidden={tabIndex !== 5}>
