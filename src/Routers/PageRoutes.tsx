@@ -75,7 +75,8 @@ export const PageRoutes = [
   },
   { path: ROUTES.CLASSES.CLASSES, element: <Classes /> },
   { path: ROUTES.COURSE.COURSE, element: <Course /> },
-{ path: ROUTES.COURSE.DETAILS, element: <CourseDetails /> },
+  { path: ROUTES.COURSE.DETAILS, element: <CourseDetails /> },
+  { path: ROUTES.COURSE.SLUG, element: <CourseDetails /> },
   { path: ROUTES.YOUTUBE_VALUES.YOUTUBE_VALUES, element: <YoutubeValues /> },
   {
     path: ROUTES.SOCIAL_MEDIA_ENGAGE.SOCIAL_MEDIA_ENGAGE,
@@ -84,6 +85,7 @@ export const PageRoutes = [
   { path: ROUTES.CONTACT.CONTACT, element: <Contact /> },
   { path: ROUTES.WORKSHOP.WORKSHOP, element: <Workshop /> },
   { path: ROUTES.WORKSHOP.DETAILS, element: <WorkshopDetails /> },
+  { path: ROUTES.WORKSHOP.SLUG, element: <WorkshopDetails /> },
 ];
 
 export const AuthRoutes = [

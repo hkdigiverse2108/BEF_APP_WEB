@@ -22,7 +22,7 @@ import {
   LuDownload,
   LuPhone,
 } from "react-icons/lu";
-import { ROUTES, URL_KEYS } from "../../../Constants";
+import { ROUTES, URL_KEYS, resolveCourseId, getCourseSeo } from "../../../Constants";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
 import { setCourseFooterShow } from "../../../Store/Slices/FooterShowSlice";
 import { useAppDispatch, useAppSelector } from "../../../Store/hooks";
@@ -58,16 +58,27 @@ const CourseDetails = () => {
   const dispatch = useAppDispatch();
   const { CourseFooterShow } = useAppSelector((state) => state.FooterShow);
 
-  const { id }: { id?: string } = useParams();
+  const { id, slug } = useParams<{ id?: string; slug?: string }>();
+  const rawIdentifier = id || slug || "";
+  const resolvedId = resolveCourseId(rawIdentifier);
+  const courseSeo = getCourseSeo(rawIdentifier);
 
   const {
     data: courseData,
     isLoading: courseLoading,
     refetch,
   } = useGetApiQuery<CourseDetailsApiResponse>({
-    url: `${URL_KEYS.COURSE.ID}${id}`,
+    url: `${URL_KEYS.COURSE.ID}${resolvedId}`,
   });
   const CourseDetailsData = courseData?.data;
+
+  useEffect(() => {
+    if (courseSeo?.metaTitle) {
+      document.title = courseSeo.metaTitle;
+    } else if (CourseDetailsData?.title) {
+      document.title = `${CourseDetailsData.title} | Achiwon`;
+    }
+  }, [courseSeo, CourseDetailsData?.title]);
 
   const { data: modulesData } = useGetApiQuery(
     { url: `${URL_KEYS.MODULE.ALL}?courseFilter=${CourseDetailsData?._id}` },
@@ -198,7 +209,7 @@ const CourseDetails = () => {
           /* Fallback Rich Victory Fest Hero Banner */
           <div className="flex min-h-[260px] sm:min-h-[380px] flex-col items-center justify-center bg-[#0F172A] px-4 py-8 text-center text-white">
             <span className="rounded-full bg-white px-4 py-1 text-xs sm:text-sm font-black text-[#0F172A]">
-              MIN 60 MARKS DIRECT HIT GUARANTEE
+              MINIMUM 60+ MARKS DIRECT HIT GUARANTEE
             </span>
             <h2 className="mt-3 text-xl sm:text-3xl font-extrabold text-white">
               PRELIMS VICTORY FEST 2K26
@@ -227,9 +238,15 @@ const CourseDetails = () => {
           </div>
 
           <div className="mt-3 flex items-center justify-between border-b border-gray-100 pb-4">
-            <h1 className="text-xl sm:text-3xl font-extrabold text-[#0F172A]">
-              {CourseDetailsData.title}
-            </h1>
+            {CourseDetailsData?.image ? (
+              <h1 className="text-xl sm:text-3xl font-extrabold text-[#0F172A]">
+                {CourseDetailsData.title}
+              </h1>
+            ) : (
+              <h2 className="text-xl sm:text-3xl font-extrabold text-[#0F172A]">
+                {CourseDetailsData.title}
+              </h2>
+            )}
           </div>
         </div>
       </section>

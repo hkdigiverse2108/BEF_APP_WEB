@@ -7,11 +7,14 @@ import {
   LuArrowRight,
   LuCheck,
 } from "react-icons/lu";
-import { ROUTES } from "../../Constants";
+import { ROUTES, getCourseUrl } from "../../Constants";
 import type { CourseItem } from "../../Types";
 import ContactContent from "../WorkshopCourseCommon/ContactContent";
 
-export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
+export const CourseCard: React.FC<{ data: CourseItem; showEnrolledBadge?: boolean }> = ({
+  data,
+  showEnrolledBadge = true,
+}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const {
@@ -23,8 +26,8 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
     isUnlocked = false,
   } = data || {};
 
-  const targetUrl = _id ? ROUTES.COURSE.DETAILS.replace(":id", _id) : ROUTES.COURSE.COURSE;
-  const moduleUrl = _id ? `${ROUTES.COURSE.DETAILS.replace(":id", _id)}?tab=module#modules` : ROUTES.COURSE.COURSE;
+  const targetUrl = _id ? getCourseUrl(_id) : ROUTES.COURSE.COURSE;
+  const moduleUrl = _id ? `${getCourseUrl(_id)}?tab=module#modules` : ROUTES.COURSE.COURSE;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -50,11 +53,11 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
           </div>
         )}
 
-        {/* Left Corner: Unlocked status */}
-        {isUnlocked && (
+        {/* Left Corner: Enrolled / Unlocked status */}
+        {isUnlocked && showEnrolledBadge && (
           <div className="absolute top-2.5 left-2.5 z-10 pointer-events-none">
             <span className="flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">
-              <LuCheck className="text-xs" /> Unlocked
+              <LuCheck className="text-xs" /> Enrolled
             </span>
           </div>
         )}
@@ -86,6 +89,7 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
           <div className="text-[11px] sm:text-xs font-bold leading-tight text-[#1E3A8A] space-y-0.5">
             {courseMoneyBack ? (
               String(courseMoneyBack)
+                .replace(/60-\s*Marks/gi, "60+ Marks")
                 .split(",")
                 .map((t) => t.trim())
                 .filter(Boolean)
@@ -93,7 +97,7 @@ export const CourseCard: React.FC<{ data: CourseItem }> = ({ data }) => {
                   <p key={idx}>{line}</p>
                 ))
             ) : (
-              <p>Minimum 60-Marks Direct Hit Guarantee, otherwise 100% refund</p>
+              <p>Minimum 60+ Marks Direct Hit Guarantee, otherwise 100% refund</p>
             )}
           </div>
         </div>

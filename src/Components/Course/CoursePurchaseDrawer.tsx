@@ -164,16 +164,36 @@ const CoursePurchaseDrawer: FC<PurchaseDrawerProps> = ({ data, refetch }) => {
                 {/* UPSC CSE - GS - Subscription */}
                 {data?.title}
               </h2>
-              <p className="mt-2 text-white text-xl font-semibold">{data?.modulesData && "Module Name"}</p>
-              <div className="">
-                <ul className=" bg-white/20 py-3 px-3 w-full rounded-sm backdrop-blur-md  text-sm  grid grid-cols-1  sm:grid-cols-2 sm:flex-row gap-2 sm:gap-4">
-                  {data?.modulesData?.map((module: { name: string }, i: number) => (
-                    <li key={i}>
-                      {i + 1}. {module.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {data?.modulesData && data.modulesData.length > 0 && (
+                <div className="mt-3 rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-md">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs">📚</span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+                        Course Modules
+                      </span>
+                    </div>
+                    <span className="rounded-full bg-white/25 px-2.5 py-0.5 text-[11px] font-bold text-white shadow-2xs">
+                      {data.modulesData.length} Modules Included
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                    {data.modulesData.map((module: { name: string }, i: number) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-medium text-white shadow-2xs hover:bg-white/25 transition"
+                      >
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/25 text-[10px] font-bold text-white">
+                          {i + 1}
+                        </span>
+                        <span className="truncate" title={module.name}>
+                          {module.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             <span className="border-b border-white/50 flex" />
             {/* Body */}

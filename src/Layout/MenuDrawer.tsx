@@ -5,7 +5,7 @@ import { FaRegCircleQuestion } from "react-icons/fa6";
 import { IoMailOutline, IoSchoolOutline, IoSettingsOutline } from "react-icons/io5";
 import { LuTvMinimalPlay } from "react-icons/lu";
 import { MdOutlineGavel, MdOutlineLock, MdOutlinePrivacyTip, MdOutlineVerified } from "react-icons/md";
-import { TbPasswordFingerprint, TbWallet } from "react-icons/tb";
+import { TbLogout, TbPasswordFingerprint, TbWallet } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { Href, ImagePath, ROUTES, URL_KEYS } from "../Constants";
 import FeedbackModal from "../Pages/Feedback";
@@ -15,6 +15,7 @@ import { setFeedbackModal, setMenuDrawer, setSupportModal } from "../Store/Slice
 import { useGetApiQuery } from "../Api/CommonApi";
 import { setResetPasswordModal } from "../Store/Slices/AuthSlice";
 import ResetPasswordModal from "../Pages/ResetPassword";
+import LogoutConfirmModal from "../Components/MyInfo/LogoutConfirmModal";
 
 const MenuDrawer = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ const MenuDrawer = () => {
   const UserData = data?.data;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const MenuData = [
     { icon: <TbWallet />, title: "Recharge", url: ROUTES.RECHARGE.RECHARGE },
@@ -76,12 +78,22 @@ const MenuDrawer = () => {
       title: "legality",
       url: ROUTES.LEGALITY.LEGALITY,
     },
+    {
+      icon: <TbLogout className="text-red-500" />,
+      title: "Logout",
+      url: Href,
+    },
   ];
   const handleClick = (i: number, url: string, title: string) => {
     setActiveIndex(i);
     if (title === "Feedback") dispatch(setFeedbackModal());
     else if (title === "Support") dispatch(setSupportModal());
     else if (title === "Reset Password") dispatch(setResetPasswordModal());
+    else if (title === "Logout") {
+      setLogoutModalOpen(true);
+      dispatch(setMenuDrawer());
+      return;
+    }
     else navigate(url);
     dispatch(setMenuDrawer());
   };
@@ -123,6 +135,7 @@ const MenuDrawer = () => {
       <FeedbackModal />
       <SupportModal />
       <ResetPasswordModal />
+      <LogoutConfirmModal logoutModalOpen={logoutModalOpen} setLogoutModalOpen={setLogoutModalOpen} />
     </>
   );
 };

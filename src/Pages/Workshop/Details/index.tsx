@@ -1,6 +1,6 @@
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { Tab, Tabs } from "@mui/material";
-import { ImagePath, ROUTES, URL_KEYS } from "../../../Constants";
+import { ImagePath, ROUTES, URL_KEYS, getWorkshopSeo } from "../../../Constants";
 import { FormButton } from "../../../Attribute/FormFields";
 import { useGetApiQuery } from "../../../Api/CommonApi";
 import ShareModal from "../../../Components/Common/ShareModal";
@@ -26,7 +26,11 @@ const WorkshopDetails = () => {
   const [tabIndex, setTabIndex] = useState("about");
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const { id }: { id?: string } = useParams();
+  const { id, slug } = useParams<{ id?: string; slug?: string }>();
+  const rawIdentifier = id || slug || "";
+  const workshopSeo = getWorkshopSeo(rawIdentifier);
+  const resolvedId = workshopSeo?.id || rawIdentifier;
+
   const dispatch = useAppDispatch();
   const { WorkshopFooterShow } = useAppSelector((state) => state.FooterShow);
   const {
@@ -34,9 +38,17 @@ const WorkshopDetails = () => {
     isLoading: workshopLoading,
     refetch,
   } = useGetApiQuery({
-    url: `${URL_KEYS.WORKSHOP.ID}${id}`,
+    url: `${URL_KEYS.WORKSHOP.ID}${resolvedId}`,
   });
   const workshop = workshopData?.data || {};
+
+  useEffect(() => {
+    if (workshopSeo?.metaTitle) {
+      document.title = workshopSeo.metaTitle;
+    } else if (workshop?.title) {
+      document.title = `${workshop.title} | Achiwon`;
+    }
+  }, [workshopSeo, workshop?.title]);
 
   const { data: LectureData } = useGetApiQuery(
     {
@@ -152,10 +164,10 @@ const WorkshopDetails = () => {
           <div className=" container-p py-2 sm:py-3 flex max-md:flex-col gap-2 md:gap-4 justify-between md:items-end">
             <div>
               <p className="text-gray-600 font-medium">Price</p>
-              <h1 className=" sm:text-xl font-semibold flex gap-0.5 items-end">
+              <div className=" sm:text-xl font-semibold flex gap-0.5 items-end">
                 <span>₹{workshop?.discountAmount}</span>
                 <span className="text-base text-red-500 font-normal line-through decoration-2 ps-1">{workshop?.totalAmount}</span>
-              </h1>
+              </div>
             </div>
             {workshop.syllabus === "Workshop" && (
               <div>

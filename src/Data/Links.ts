@@ -13,7 +13,7 @@ export const SOCIAL_MEDIA = [
     link: "https://www.instagram.com/achiwoncse/",
     icon: FaInstagram,
   },
-  { title: "x", link: "https://x.com/Bharatexamfest", icon: FaXTwitter },
+  { title: "x", link: "https://x.com/achiwoncse", icon: FaXTwitter },
   {
     title: "youtube",
     link: "https://www.youtube.com/@achiwon",
@@ -26,7 +26,7 @@ export const SOCIAL_MEDIA = [
   },
   {
     title: "linkedIn",
-    link: "https://www.linkedin.com/company/bharat-exam-fest/",
+    link: "https://www.linkedin.com/company/achiwon/",
     icon: FaLinkedin,
   },
   {

@@ -51,15 +51,32 @@ const Result = () => {
       <span className="border-t border-card-border flex w-full my-4" />
       <ResultBanner contest={Contest} qaId={qaFilter ?? ""} contestId={contestId} loading={isLoadingContest} />
 
-      {/* Mobile Toggle Button */}
-      <div className="flex justify-start mt-3">
-        <button onClick={() => setOpen(!isOpen)} className="2xl:hidden cursor-pointer p-1 flex justify-center items-center rounded-xl w-10 sm:w-12 h-10 sm:h-12 bg-input-box">
-          <HiOutlineBars3BottomRight className="text-xl sm:text-2xl" />
+      {/* Mobile Toggle & Jump to Report Row */}
+      <div className="flex items-center gap-3 mt-3 2xl:hidden">
+        <button
+          type="button"
+          onClick={() => setOpen(!isOpen)}
+          title="Open Report Navigation Menu"
+          aria-label="Open Report Navigation Menu"
+          className="cursor-pointer flex justify-center items-center rounded-xl w-11 h-11 bg-[#124699] text-white shadow-md border border-[#124699] hover:bg-[#0e377a] active:scale-95 transition-all"
+        >
+          <HiOutlineBars3BottomRight className="text-2xl text-white" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            document.getElementById("report-content-tabs")?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#124699] to-[#F48224] text-white text-xs sm:text-sm font-bold shadow-md hover:opacity-95 active:scale-98 transition-all cursor-pointer"
+        >
+          <span>View Detailed Report</span>
+          <span className="text-base">↓</span>
         </button>
       </div>
 
       {/* Sidebar Drawer / Tab Section */}
-      <div className="mx-auto pt-6">
+      <div id="report-content-tabs" className="mx-auto pt-6 scroll-mt-20">
         <div className="flex flex-col md:flex-row 2xl:gap-7">
           <div className="!sticky !top-32 !self-start max-2xl:z-50">
             <div onClick={() => setOpen(false)} className="max-2xl:hidden 2xl:!flex 2xl:items-start max-2xl:before:fixed max-2xl:before:bg-black max-2xl:before:opacity-40 max-2xl:before:inset-0 max-2xl:before:z-50" style={{ display: isOpen ? "block" : "none" }}>
@@ -73,7 +90,29 @@ const Result = () => {
                   </div>
                   <span className="border-t border-card-border flex w-full my-4" />
                 </div>
-                <Tabs orientation="vertical" variant="scrollable" value={tabIndex} onChange={handleChange}>
+                <Tabs
+                  orientation="vertical"
+                  variant="scrollable"
+                  value={tabIndex}
+                  onChange={handleChange}
+                  sx={{
+                    "& .MuiTab-root": {
+                      alignItems: "flex-start !important",
+                      textAlign: "left !important",
+                      justifyContent: "flex-start !important",
+                      paddingLeft: "16px !important",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                      fontSize: "13px",
+                    },
+                    "& .MuiTabs-indicator": {
+                      left: 0,
+                      width: "4px",
+                      borderRadius: "0 4px 4px 0",
+                      backgroundColor: "#124699",
+                    },
+                  }}
+                >
                   <Tab label="Overview" />
                   <Tab label="AI Powered Report Analysis" />
                   <Tab label="Summary" />

@@ -97,7 +97,7 @@ const ShareModal: FC<{ referralCode?: string }> = ({ referralCode }) => {
           </div>
 
           {/* Copy Link */}
-          <p className=" text-gray-700 font-medium"> {referralCode ? "Copy Reffer Code" : " Copy Link"}</p>
+          <p className=" text-gray-700 font-medium"> {referralCode ? "Copy Refer Code" : " Copy Link"}</p>
 
           <div
             className={`flex items-center justify-between border rounded-lg px-3 py-3  cursor-pointer 
@@ -113,7 +113,7 @@ const ShareModal: FC<{ referralCode?: string }> = ({ referralCode }) => {
           </div>
 
           {/* Copy Button */}
-          <FormButton htmlType="button" text={referralCode ? "Copy Reffer Code" : " Copy URL"} className="custom-button button button--mimas !w-full sm:w-fit h-auto!" />
+          <FormButton htmlType="button" onClick={handleCopyLink} text={referralCode ? "Copy Refer Code" : " Copy URL"} className="custom-button button button--mimas !w-full sm:w-fit h-auto!" />
         </div>
       </Modal>
     </>

@@ -42,3 +42,4 @@ export const EARNING_TYPE = {
 
 export { ROUTES, HTTP_STATUS, URL_KEYS, STORAGE_KEYS };
 export * from "./reportVideosData";
+export * from "./CourseSeoData";

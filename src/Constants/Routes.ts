@@ -49,10 +49,12 @@ export const ROUTES = {
   COURSE: {
     COURSE: "/course",
     DETAILS: "/course/details/:id",
+    SLUG: "/course/:slug",
   },
   WORKSHOP: {
     WORKSHOP: "/workshop" as string,
     DETAILS: "/workshop/details/:id",
+    SLUG: "/workshop/:slug",
   },
   YOUTUBE_VALUES: { YOUTUBE_VALUES: "/youtube-values" },
   SOCIAL_MEDIA_ENGAGE: { SOCIAL_MEDIA_ENGAGE: "/social-media-engage" },
