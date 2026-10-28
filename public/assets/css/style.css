@@ -1,7 +1,9 @@
+html,
 body {
   background-color: var(--theme-bg-color) !important;
   /* font-size: var(--body-font-size) !important; */
   overflow-x: hidden;
+  max-width: 100vw;
   font-family: var(--font-poppins) !important;
 
   /* font-family: var(--font-nunito), var(--font-serif) !important; */

@@ -53,85 +53,73 @@ const Login = () => {
 
   return (
     <AuthLayout image={`${ImagePath}auth/login.jpg`}>
-      <div className="w-full space-y-6 sm:space-y-8">
-              {/* Header */}
-              <div className="mb-8">
-                <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground text-center lg:text-left">Create an Account</h1>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground text-center lg:text-left">Create an account or log in to explore about our website</p>
-              </div>
+      <div className="w-full space-y-3 sm:space-y-4">
+        {/* Header */}
+        <div className="mb-2 sm:mb-4">
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-foreground text-center lg:text-left">Welcome Back</h1>
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground text-center lg:text-left">Log in to explore your courses and tests</p>
+        </div>
 
-              <span className="h-px w-full bg-gradient-to-r from-primary to-accent"></span>
+        <div className="h-px w-full bg-gradient-to-r from-primary to-accent" />
 
-              <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-8 lg:space-y-10">
-                <Row gutter={16}>
-                  <Col span={24}>
-                    <FormInput
-                      name="uniqueId"
-                      label="Email"
-                      rules={[
-                        {
-                          required: true,
-                          type: "email",
-                          message: "Invalid email",
-                        },
-                      ]}
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <FormInput
-                      name="password"
-                      label="password"
-                      type="password"
-                      rules={[
-                        {
-                          required: true,
-                          min: 6,
-                          message: "Password must be at least 6 characters",
-                        },
-                      ]}
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <footer className="mb-1">
-                      <p className="text-end text-sm lg:text-base">
-                        <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-semibold cursor-pointer hover:!underline !text-primary">
-                          Forgot password ?
-                        </NavLink>
-                      </p>
-                    </footer>
-                  </Col>
-                  <span className="h-px w-full bg-gradient-to-r from-primary to-accent my-4" />
-                  <Col span={24}>
-                    <footer className="space-y-6 lg:space-y-8 mb-4">
-                      <p className="text-center text-sm lg:text-base">
-                        <span className="font-medium text-foreground">ARE YOU NEW HERE ? </span>
-                        <NavLink to={ROUTES.AUTH.REGISTER} className="font-semibold cursor-pointer hover:!underline !text-primary">
-                          SIGN UP
-                        </NavLink>
-                      </p>
-                    </footer>
-                  </Col>
-                  <Col span={24}>
-                    <Form.Item label={null} className="col-span-2 text-center">
-                      <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="bef-btn-primary w-full uppercase" />
-                      {/* <button
-  className="w-full group relative px-10 py-3 rounded-full font-semibold text-white overflow-hidden
-              bg-gradient-to-r from-[#124699] to-green-600
-              shadow-md transition-all duration-500 ease-out
-               hover:shadow-[0_0_25px_rgba(18,70,153,0.4)]"
- >
-   <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-[-2px]">
-     NEXT
-   </span>
-   <span
-     className="absolute inset-0 bg-gradient-to-r from-green-600 to-[#124699] 
-               opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
-  ></span>
-</button> */}
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Form>
+        <Form form={form} layout="vertical" onFinish={handleFormSubmit} className="space-y-2 sm:space-y-3">
+          <Row gutter={[16, 4]}>
+            <Col span={24}>
+              <FormInput
+                name="uniqueId"
+                label="Email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Invalid email",
+                  },
+                ]}
+              />
+            </Col>
+            <Col span={24}>
+              <FormInput
+                name="password"
+                label="Password"
+                type="password"
+                rules={[
+                  {
+                    required: true,
+                    min: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                ]}
+              />
+            </Col>
+            <Col span={24}>
+              <footer className="mb-0">
+                <p className="text-end text-xs sm:text-sm">
+                  <NavLink to={ROUTES.AUTH.FORGOT_PASSWORD} className="font-semibold cursor-pointer hover:!underline !text-primary">
+                    Forgot password ?
+                  </NavLink>
+                </p>
+              </footer>
+            </Col>
+            <Col span={24}>
+              <div className="h-px w-full bg-gradient-to-r from-primary to-accent my-2" />
+            </Col>
+            <Col span={24}>
+              <footer className="my-1">
+                <p className="text-center text-xs sm:text-sm">
+                  <span className="font-medium text-foreground">ARE YOU NEW HERE ? </span>
+                  <NavLink to={ROUTES.AUTH.REGISTER} className="font-semibold cursor-pointer hover:!underline !text-primary">
+                    SIGN UP
+                  </NavLink>
+                </p>
+              </footer>
+            </Col>
+            <Col span={24}>
+              <Form.Item label={null} className="col-span-2 text-center mb-0 mt-1">
+                <FormButton loading={isLoading} htmlType="submit" text="LOGIN" className="bef-btn-primary w-full uppercase !h-11 sm:!h-12 !rounded-xl font-bold" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
       </div>
     </AuthLayout>
   );
