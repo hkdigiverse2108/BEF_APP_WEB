@@ -47,11 +47,19 @@ const CourseModuleTab = ({ id }: { id?: string }) => {
                 }}
               >
                 {module.image ? (
-                  <img
-                    src={module.image}
-                    alt={module.name}
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                  />
+                  <>
+                    <img
+                      src={module.image}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 h-full w-full object-cover blur-sm opacity-35 scale-110 pointer-events-none"
+                    />
+                    <img
+                      src={module.image}
+                      alt={module.name}
+                      className="relative z-1 h-full w-full object-contain transition duration-300"
+                    />
+                  </>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#124699]/10 to-[#F48224]/10 text-[#124699]">
                     <LuLayers className="text-3xl opacity-50" />

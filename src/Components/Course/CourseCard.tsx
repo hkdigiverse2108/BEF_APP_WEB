@@ -16,6 +16,7 @@ export const CourseCard: React.FC<{ data: CourseItem; showEnrolledBadge?: boolea
   showEnrolledBadge = true,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const {
     _id = "",
@@ -31,17 +32,38 @@ export const CourseCard: React.FC<{ data: CourseItem; showEnrolledBadge?: boolea
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      {/* Top Course Image with rounded top corners */}
-      <div className="relative w-full aspect-16/10 rounded-t-2xl overflow-hidden bg-gray-200">
-        <NavLink to={targetUrl} className="block w-full h-full">
-          <img
-            src={image}
-            alt={title || "Course Banner"}
-            onLoad={() => setImageLoaded(true)}
-            className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-102 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          />
+      {/* Top Course Image with rounded top corners - fixed to prevent cropping */}
+      <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden bg-slate-900">
+        <NavLink to={targetUrl} className="relative block w-full h-full overflow-hidden">
+          {image && !imageError ? (
+            <>
+              {/* Blurred ambient backdrop so any aspect ratio blends seamlessly without empty borders */}
+              <img
+                src={image}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-110 pointer-events-none"
+              />
+              <img
+                src={image}
+                alt={title || "Course Banner"}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageError(true)}
+                className={`relative z-1 w-full h-full object-contain transition-opacity duration-300 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#123b85] to-[#1d55b7] text-white p-4 text-center">
+              <span className="text-xs uppercase tracking-wider font-semibold text-orange-300 mb-1">
+                Achiwon Course
+              </span>
+              <h3 className="font-extrabold text-sm sm:text-base line-clamp-2">
+                {title || "Course Details"}
+              </h3>
+            </div>
+          )}
         </NavLink>
 
         {/* Right Corner: Language Badge */}

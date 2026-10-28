@@ -47,6 +47,7 @@ const CourseDetails = () => {
 
   const [tabIndex, setTabIndex] = useState(() => (isModuleRequested ? "module" : "about"));
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const hasAutoScrolledRef = useRef(false);
 
   useEffect(() => {
@@ -194,13 +195,22 @@ const CourseDetails = () => {
           <ShareModal />
         </div>
 
-        {CourseDetailsData?.image ? (
-          <div className="relative aspect-16/9 sm:aspect-21/9 w-full overflow-hidden bg-gray-900">
+        {CourseDetailsData?.image && !imageError ? (
+          <div className="relative w-full overflow-hidden rounded-t-2xl bg-gradient-to-b from-slate-900 to-slate-950 flex items-center justify-center min-h-[220px] sm:min-h-[320px] md:min-h-[380px]">
+            {/* Ambient blurred backdrop so any aspect ratio fills beautifully without harsh empty borders */}
+            <img
+              src={CourseDetailsData.image}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-30 scale-110 pointer-events-none"
+            />
+            {/* Main Course Banner - Always fully displayed without any cropping */}
             <img
               src={CourseDetailsData.image}
               alt={CourseDetailsData.title}
               onLoad={() => setImageLoaded(true)}
-              className={`h-full w-full object-cover transition-opacity duration-300 ${
+              onError={() => setImageError(true)}
+              className={`relative z-1 w-full h-auto max-h-[520px] object-contain mx-auto transition-opacity duration-300 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
               }`}
             />
