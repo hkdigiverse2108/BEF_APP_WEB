@@ -63,10 +63,10 @@ const WhatsappIcon = () => {
       trigger="click"
     >
       <div
-        className={`fixed bottom-15  right-5 z-10 bg-primary p-3 sm:p-4 rounded-full group ${
+        className={`fixed right-4 sm:right-6 z-20 bg-primary p-3 sm:p-4 rounded-full group ${
           isCourseDetails || isWorkshopDetails
-            ? "bottom-33 sm:bottom-20"
-            : "bottom-0"
+            ? "bottom-28 sm:bottom-36"
+            : "bottom-5 sm:bottom-6"
         }`}
       >
         <IoCall className="text-xl sm:text-3xl group-hover:animate-spin text-white! cursor-pointer  transition-transform" />

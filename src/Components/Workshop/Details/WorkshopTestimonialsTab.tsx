@@ -1,3 +1,7 @@
+const sanitizeAchiwonText = (str?: string) => {
+  if (!str || typeof str !== "string") return str || "";
+  return str.replace(/Bharat\s*Exam\s*Fest/gi, "Achiwon").replace(/\bBEF\b/g, "Achiwon");
+};
 import { Empty, Rate } from "antd";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import type { TestimonialType } from "../../../Types";
@@ -24,11 +28,11 @@ const WorkshopTestimonialsTab = () => {
                 <RiDoubleQuotesL />
               </div>
 
-              <p className="sm:text-lg mb-6 font-semibold">{description}</p>
+              <p className="sm:text-lg mb-6 font-semibold">{sanitizeAchiwonText(description)}</p>
 
               <div>
                 <span className="flex max-sm:flex-col sm:gap-3 gap-1">
-                  <p className="font-semibold ">{name}</p>
+                  <p className="font-semibold ">{sanitizeAchiwonText(name)}</p>
                   <span className="max-sm:hidden border-0.5 border-e border-gray-300  " />
                   <p className="text-sm capitalize ">{designation}</p>
                 </span>
