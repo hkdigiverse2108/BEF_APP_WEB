@@ -10,8 +10,6 @@ import CourseLecturesTab from "../../../Components/Course/Details/CourseLectures
 import CourseModuleTab from "../../../Components/Course/Details/CourseModuleTab";
 import CourseTestsTab from "../../../Components/Course/Details/CourseTestsTab";
 import DetailsAboutTab from "../../../Components/WorkshopCourseCommon/DetailsAboutTab";
-import ContactContent from "../../../Components/WorkshopCourseCommon/ContactContent";
-import { Popover } from "antd";
 import {
   LuLayers,
   LuShieldCheck,
@@ -20,7 +18,6 @@ import {
   LuClipboardCheck,
   LuCircleHelp,
   LuDownload,
-  LuPhone,
 } from "react-icons/lu";
 import { ROUTES, URL_KEYS, resolveCourseId, getCourseSeo } from "../../../Constants";
 import { setCoursePurchaseDrawer } from "../../../Store/Slices/DrawerSlice";
@@ -187,7 +184,7 @@ const CourseDetails = () => {
   }
 
   return (
-    <div className={`sub-container space-y-8 pt-6 sm:pt-8 bg-white rounded-2xl ${!CourseFooterShow ? "pb-20 sm:pb-16" : "pb-12"}`}>
+    <div className={`sub-container space-y-5 sm:space-y-8 pt-2 sm:pt-8 bg-white rounded-2xl ${!CourseFooterShow ? "pb-20 sm:pb-16" : "pb-12"}`}>
       {/* 1. TOP HERO / BANNER SECTION */}
       <section className="relative overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-xs">
         {/* Mobile Share Action */}
@@ -235,28 +232,22 @@ const CourseDetails = () => {
 
         {/* Course Meta Info Bar */}
         <div className="p-4 sm:p-6 bg-white">
-          <div className="flex flex-wrap items-center justify-end gap-3">
-            {CourseDetailsData?.language && (
-              <span className="rounded-md border border-gray-200 bg-gray-50 px-3 py-1 text-xs sm:text-sm font-semibold text-[#0F172A]">
-                {CourseDetailsData.language}
-              </span>
-            )}
-
-            <div className="hidden sm:block">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+            <h1 className="text-xl sm:text-3xl font-extrabold text-[#0F172A]">
+              {CourseDetailsData.title}
+            </h1>
+            <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-auto">
+              {CourseDetailsData?.language && (
+                <div
+                  className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-600 select-none cursor-default"
+                  title="Course language is bilingual (Hindi + English)"
+                >
+                  <span className="text-slate-400">🌐</span>
+                  <span>Language: <strong className="font-semibold text-slate-800">{CourseDetailsData.language}</strong></span>
+                </div>
+              )}
               <ShareModal />
             </div>
-          </div>
-
-          <div className="mt-3 flex items-center justify-between border-b border-gray-100 pb-4">
-            {CourseDetailsData?.image ? (
-              <h1 className="text-xl sm:text-3xl font-extrabold text-[#0F172A]">
-                {CourseDetailsData.title}
-              </h1>
-            ) : (
-              <h2 className="text-xl sm:text-3xl font-extrabold text-[#0F172A]">
-                {CourseDetailsData.title}
-              </h2>
-            )}
           </div>
         </div>
       </section>
@@ -330,7 +321,7 @@ const CourseDetails = () => {
       </section>
 
       {/* 3. 5-TAB HORIZONTAL HEADER NAVIGATION */}
-      <section id="modules-section" className="border-b border-gray-200 scroll-mt-24">
+      <section id="modules-section" className="border-b border-gray-200 scroll-mt-24 lg:hidden">
         <div className="flex overflow-x-auto scrollbar-none gap-2 pb-px">
           {TabsList.map(({ value, label, icon: Icon }) => {
             const isActive = tabIndex === value;
@@ -357,7 +348,7 @@ const CourseDetails = () => {
       <section className="py-2">
         <div className="flex flex-col gap-6 lg:flex-row">
           {/* Desktop Left Sticky Navigation Sidebar (matching reference frames) */}
-          <aside className="h-fit shrink-0 rounded-2xl border border-gray-200 bg-white p-3 lg:sticky lg:top-24 lg:w-60 shadow-2xs">
+          <aside className="hidden lg:block h-fit shrink-0 rounded-2xl border border-gray-200 bg-white p-3 lg:sticky lg:top-24 lg:w-60 shadow-2xs">
             <div className="flex gap-1 overflow-x-auto lg:flex-col">
               {TabsList.map(({ value, label, icon: Icon }) => {
                 const isActive = tabIndex === value;
@@ -427,19 +418,7 @@ const CourseDetails = () => {
         )}
       </section>
 
-      {/* 5. FLOATING COUNSELLOR CALL POPUP BUTTON */}
-      <div className="fixed bottom-18 sm:bottom-16 right-4 sm:right-6 z-40">
-        <Popover content={<ContactContent />} trigger="click" placement="topLeft">
-          <button
-            type="button"
-            aria-label="Talk to counsellor"
-            title="Talk to an academic counsellor"
-            className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-[#124699] text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-[#0E3678] cursor-pointer"
-          >
-            <LuPhone className="text-lg sm:text-xl" />
-          </button>
-        </Popover>
-      </div>
+      
 
       {/* 6. FIXED BOTTOM JOIN NOW / PRICING SECTION (Compact & Sleek) */}
       {!CourseDetailsData?.isUnlocked && (
