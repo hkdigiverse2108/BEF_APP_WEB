@@ -17,11 +17,12 @@ const WorkshopCard: FC<{ data: WorkshopItem }> = ({ data }) => {
   return (
     <div className="bef-card relative cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-accent flex flex-col">
       <div className="bef-card-strip" />
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden bg-slate-50">
         <img
           src={data?.image}
+          alt={data?.title || "Workshop Banner"}
           onLoad={() => setImageLoaded(true)}
-          className={`w-full h-52 sm:h-56 object-cover transition-all duration-500 hover:scale-105 ${
+          className={`w-full h-full object-contain transition-all duration-300 hover:scale-105 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
         />

@@ -193,21 +193,13 @@ const CourseDetails = () => {
         </div>
 
         {CourseDetailsData?.image && !imageError ? (
-          <div className="relative w-full overflow-hidden rounded-t-2xl bg-gradient-to-b from-slate-900 to-slate-950 flex items-center justify-center min-h-[220px] sm:min-h-[320px] md:min-h-[380px]">
-            {/* Ambient blurred backdrop so any aspect ratio fills beautifully without harsh empty borders */}
+          <div className="relative w-full rounded-t-2xl overflow-hidden bg-white">
             <img
               src={CourseDetailsData.image}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-30 scale-110 pointer-events-none"
-            />
-            {/* Main Course Banner - Always fully displayed without any cropping */}
-            <img
-              src={CourseDetailsData.image}
-              alt={CourseDetailsData.title}
+              alt={CourseDetailsData.title || "Course Banner"}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
-              className={`relative z-1 w-full h-auto max-h-[520px] object-contain mx-auto transition-opacity duration-300 ${
+              className={`w-full h-auto block object-contain mx-auto transition-opacity duration-300 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
               }`}
             />

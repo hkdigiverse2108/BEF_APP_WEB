@@ -81,7 +81,7 @@ const WorkshopDetails = () => {
           <ShareModal />
         </div>
         <figure>
-          <img src={workshop?.image} alt={workshop?.image} onLoad={() => setImageLoaded(true)} className={`w-full h-full rounded-lg transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`} />
+          <img src={workshop?.image} alt={workshop?.image} onLoad={() => setImageLoaded(true)} className={`w-full h-auto block object-contain rounded-lg transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"}`} />
         </figure>
       </section>
       <section>
