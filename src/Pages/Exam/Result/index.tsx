@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import { useState, type SyntheticEvent } from "react";
+import { useState, useEffect, type SyntheticEvent } from "react";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
@@ -17,6 +17,12 @@ import ModernVideoPlayer from "../../../Components/Common/ModernVideoPlayer";
 import type { ResultApiResponse } from "../../../Types";
 
 const Result = () => {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  }, []);
+
   const [isOpen, setOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const { search } = useLocation();

@@ -30,7 +30,6 @@ export const CardHeader: FC<CardHeaderType> = ({
             <span className="bef-section-bar shrink-0" />
             <div className="min-w-0">
               <h1 className="capitalize font-heading text-base sm:text-xl font-bold text-foreground truncate">{title}</h1>
-              <span className="bef-section-dot mt-1" />
             </div>
           </div>
         )}

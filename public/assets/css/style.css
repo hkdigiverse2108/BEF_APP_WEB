@@ -47,7 +47,7 @@ body {
     @apply h-7 w-1 rounded-full bg-primary;
   }
   .bef-section-dot {
-    @apply ml-1 block h-1.5 w-1.5 rounded-full bg-accent;
+    display: none !important;
   }
 }
 
