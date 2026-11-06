@@ -71,7 +71,7 @@ const ContestSuccess: FC = () => {
           });
         }
 
-        // Push conversion event for Success Page
+        // Push conversion event for Success Page (GTM DataLayer)
         win.dataLayer.push({
           event: isRechargeOnly ? "payment_recharge_success" : "contest_join_success",
           contest_id: contest?._id,
@@ -81,6 +81,17 @@ const ContestSuccess: FC = () => {
           transaction_id: transactionId,
           payment_method: paymentMethod,
         });
+
+        // Track Meta Pixel Conversion Event
+        const winWithFbq = window as unknown as { fbq?: (...args: unknown[]) => void };
+        if (typeof winWithFbq.fbq === "function") {
+          winWithFbq.fbq("track", isRechargeOnly ? "AddPaymentInfo" : "Purchase", {
+            content_name: contestName,
+            content_ids: contest?._id ? [contest._id] : [],
+            value: Number(amountPaid) || 0,
+            currency: "INR",
+          });
+        }
       }
     } catch (e) {
       console.error("Marketing tracking error:", e);

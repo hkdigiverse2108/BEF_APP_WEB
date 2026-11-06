@@ -62,6 +62,16 @@ const Layout = () => {
     if (user?._id) refetch();
   }, [pathname]);
 
+  // Track Single-Page Application (SPA) route changes in Meta Pixel
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const win = window as unknown as { fbq?: (...args: unknown[]) => void };
+      if (typeof win.fbq === "function") {
+        win.fbq("track", "PageView");
+      }
+    }
+  }, [pathname]);
+
   useEffect(() => {
     if (data?.data) {
       updateStorage(STORAGE_KEYS.USER, data.data);
