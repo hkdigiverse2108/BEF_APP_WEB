@@ -82,6 +82,25 @@ const ContestSuccess: FC = () => {
           payment_method: paymentMethod,
         });
 
+        // Google Ads Conversion Tracking for Success Page
+        // Only track on success page and ensure gtag is available
+        if (typeof window !== "undefined") {
+          const gtagWindow = window as unknown as { gtag?: (...args: unknown[]) => void };
+          try {
+            if (typeof gtagWindow.gtag === "function") {
+              gtagWindow.gtag('event', 'conversion', {
+                'send_to': 'AW-16926994683/hjJiCKy5p7MdEPvhtYc_',
+                'transaction_id': transactionId || '',
+                'value': Number(amountPaid) || 0,
+                'currency': 'INR',
+                'new_customer': false /* calculate dynamically based on user session */,
+              });
+            }
+          } catch (e) {
+            console.error("Google Ads conversion tracking error:", e);
+          }
+        }
+
         // Track Meta Pixel Conversion Event
         const winWithFbq = window as unknown as { fbq?: (...args: unknown[]) => void };
         if (typeof winWithFbq.fbq === "function") {
