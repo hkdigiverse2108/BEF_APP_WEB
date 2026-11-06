@@ -44,12 +44,34 @@ const ContestSuccess: FC = () => {
   const transactionId = state.transactionId || `TXN-${Math.floor(100000 + Math.random() * 900000)}`;
   const displayDate = state.joinedAt ? dayjs(state.joinedAt).format("DD MMM YYYY, hh:mm A") : dayjs().format("DD MMM YYYY, hh:mm A");
 
-  // Push tracking conversion event for Marketing / Analytics (GTM / Meta Pixel)
+  // Google Tag Manager Setup & Conversion Tracking for Marketing
   useEffect(() => {
     try {
+      // Ensure Google Tag Manager GTM-N9RQMC7C is loaded
       if (typeof window !== "undefined") {
-        const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
+        const win = window as unknown as {
+          dataLayer?: Record<string, unknown>[];
+        };
         win.dataLayer = win.dataLayer || [];
+
+        if (!document.getElementById("gtm-container-n9rqmc7c")) {
+          const script = document.createElement("script");
+          script.id = "gtm-container-n9rqmc7c";
+          script.async = true;
+          script.src = "https://www.googletagmanager.com/gtm.js?id=GTM-N9RQMC7C";
+          const firstScript = document.getElementsByTagName("script")[0];
+          if (firstScript && firstScript.parentNode) {
+            firstScript.parentNode.insertBefore(script, firstScript);
+          } else {
+            document.head.appendChild(script);
+          }
+          win.dataLayer.push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js",
+          });
+        }
+
+        // Push conversion event for Success Page
         win.dataLayer.push({
           event: isRechargeOnly ? "payment_recharge_success" : "contest_join_success",
           contest_id: contest?._id,
@@ -67,6 +89,17 @@ const ContestSuccess: FC = () => {
 
   return (
     <div id="contest-success-page" data-page="contest_success" className="sub-container py-8 sm:py-14 min-h-[75vh] flex items-center justify-center">
+      {/* Google Tag Manager (noscript) */}
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-N9RQMC7C"
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+          title="Google Tag Manager"
+        />
+      </noscript>
+
       <div className="w-full max-w-2xl bg-white rounded-3xl border border-border shadow-xl overflow-hidden relative">
         {/* Top Decorative Header Wave with Mascot Theme Accent */}
         <div className="relative bg-gradient-to-r from-[#114598] via-[#1766d4] to-[#f48224] p-8 sm:p-10 text-white text-center overflow-hidden">
