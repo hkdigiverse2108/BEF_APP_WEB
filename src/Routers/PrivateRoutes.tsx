@@ -17,12 +17,16 @@ export const PrivateRoutes = () => {
     location.pathname === ROUTES.PRIVACY_POLICY.PRIVACY_POLICY ||
     location.pathname === ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS;
 
-  // If guest lands on root '/', send them directly to Classes page
+  // If guest lands on root '/', send them directly to Classes page, preserving query params (e.g. ?gtm_debug, ?utm_...)
   if (!isAuthenticated && location.pathname === ROUTES.HOME) {
-    return <Navigate to={ROUTES.CLASSES.CLASSES} replace />;
+    return <Navigate to={{ pathname: ROUTES.CLASSES.CLASSES, search: location.search }} replace />;
   }
 
-  return isAuthenticated || isPublicRoute ? <Outlet /> : <Navigate to={ROUTES.AUTH.LOGIN} replace />;
+  return isAuthenticated || isPublicRoute ? (
+    <Outlet />
+  ) : (
+    <Navigate to={{ pathname: ROUTES.AUTH.LOGIN, search: location.search }} replace />
+  );
 };
 
 export default PrivateRoutes;
