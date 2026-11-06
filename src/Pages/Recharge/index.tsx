@@ -1,17 +1,22 @@
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useGetApiQuery, usePostApiMutation } from "../../Api/CommonApi";
 import { FormButton, FormInput } from "../../Attribute/FormFields";
 import { CardHeader } from "../../Components/Common/CardHeader";
 import PaymentModal from "../../Components/Common/PaymentModal";
-import { HTTP_STATUS, ImagePath, PAYMENT_STATUS, STORAGE_KEYS, TRANSACTION_STATUS, URL_KEYS } from "../../Constants";
-import { useAppSelector } from "../../Store/hooks";
+import { HTTP_STATUS, ImagePath, PAYMENT_STATUS, ROUTES, STORAGE_KEYS, TRANSACTION_STATUS, URL_KEYS } from "../../Constants";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { setConfirmationDrawer } from "../../Store/Slices/DrawerSlice";
 import type { PaymentStatusType, RazorpayResponse } from "../../Types";
-import { updateStorage } from "../../Utils";
+import { AntdNotification, Storage, updateStorage } from "../../Utils";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Recharge = () => {
-  const MinAmount = 50;
+  const MinAmount = 69;
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [PostApi] = usePostApiMutation();
   const [rechargeAmount, setRechargeAmount] = useState(MinAmount);
 
@@ -29,6 +34,85 @@ const Recharge = () => {
 
   const userData = data?.data;
 
+  const handleRedirectAfterRecharge = async () => {
+    const pending = Storage.getItem("pending_contest_join");
+    if (pending) {
+      try {
+        const contestData = JSON.parse(pending);
+        const baseAmount = Number(contestData?.fees || 0);
+        const payableAmount = baseAmount.toFixed(2);
+
+        if (Number(payableAmount) !== 0) {
+          const balancePayload = {
+            contestId: contestData?._id,
+            amount: Number(payableAmount),
+            title: contestData?.name,
+            transactionStatus: "success",
+            transactionType: "withdraw",
+            earningType: "contestPaidUser",
+          };
+          await PostApi({
+            url: URL_KEYS.TRANSACTION.ADD,
+            data: balancePayload,
+          });
+        }
+
+        const existingLsData = JSON.parse(Storage.getItem(STORAGE_KEYS.CONTEST_QA) || "{}");
+        const payload = {
+          ...(contestData?.payload || {}),
+          ...existingLsData,
+        };
+
+        const res = await PostApi({ url: URL_KEYS.QA.ADD, data: payload });
+        Storage.removeItem(STORAGE_KEYS.CONTEST_QA);
+        Storage.removeItem("pending_contest_join");
+
+        if (res?.data?.status === HTTP_STATUS.OK) {
+          AntdNotification(notification, "success", "Contest joined successfully!");
+          navigate(ROUTES.CONTEST.SUCCESS, {
+            state: {
+              contest: contestData,
+              payableAmount,
+              paymentMethod: "Online Payment",
+              transactionId: res?.data?.data?._id || `TXN-${Date.now().toString().slice(-6)}`,
+              joinedAt: new Date().toISOString(),
+            },
+          });
+          return;
+        }
+      } catch (e) {
+        console.error("Error auto-joining contest after recharge:", e);
+      }
+
+      // Fallback: open confirmation drawer
+      try {
+        const contestData = JSON.parse(pending);
+        Storage.removeItem("pending_contest_join");
+        dispatch(setConfirmationDrawer({ open: true, data: contestData }));
+        navigate(ROUTES.HOME);
+        return;
+      } catch (e) {}
+    }
+
+    if (location?.state?.returnToContest && location?.state?.contestData) {
+      dispatch(setConfirmationDrawer({ open: true, data: location.state.contestData }));
+      navigate(ROUTES.HOME);
+      return;
+    }
+
+    // Direct recharge success
+    AntdNotification(notification, "success", "Wallet recharged successfully!");
+    navigate(ROUTES.PAYMENT.SUCCESS, {
+      state: {
+        isRechargeOnly: true,
+        payableAmount: rechargeAmount,
+        paymentMethod: "Online Payment",
+        transactionId: `TXN-${Date.now().toString().slice(-6)}`,
+        joinedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   useEffect(() => {
     if (document.getElementById("razorpay-script")) return;
     const script = document.createElement("script");
@@ -40,6 +124,17 @@ const Recharge = () => {
 
   useEffect(() => {
     form.setFieldsValue({ balance: MinAmount });
+  }, []);
+
+  // Check if returning from PhonePe or external payment redirect
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const hasPaymentReturn = query.has("orderId") || query.has("code") || query.has("transactionId");
+    if (hasPaymentReturn) {
+      refetch().then(() => {
+        handleRedirectAfterRecharge();
+      });
+    }
   }, []);
 
   const handlePaymentComplete = async (status: PaymentStatusType, response: RazorpayResponse) => {
@@ -94,7 +189,8 @@ const Recharge = () => {
           data: RechargeData,
         });
         if (res?.data?.status === HTTP_STATUS.OK) {
-          refetch();
+          await refetch();
+          handleRedirectAfterRecharge();
         }
       } catch (error) {
         console.error("Upload failed:", error);
@@ -129,7 +225,7 @@ const Recharge = () => {
             },
           }).unwrap();
           const paymentUrl = res?.data?.paymentUrl;
-    
+
           if (paymentUrl) {
             window.location.href = paymentUrl;
           } else {
@@ -168,17 +264,20 @@ const Recharge = () => {
           {/* BALANCE DISPLAY */}
           <div className="w-full relative bg-input-box rounded-xl p-7 flex justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-primary rounded-r absolute left-0" />
-            <img className="object-cover w-10" src={`${ImagePath}recharge/Wallet.png`} />
+            <img className="object-cover w-10" src={`${ImagePath}recharge/Wallet.png`} alt="Wallet" />
             <div className="text-left">
               <p className="text-base font-semibold mt-1 capitalize">Available Balance</p>
-              <h3 className="text-2xl font-extrabold">₹ {userData?.walletBalance.toFixed(2) || 0}</h3>
+              <h3 className="text-2xl font-extrabold">₹ {userData?.walletBalance?.toFixed(2) || 0}</h3>
             </div>
           </div>
 
           {/* FORM */}
           <div className="w-full relative bg-input-box rounded-xl p-5 flex flex-wrap justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-primary rounded-r absolute left-0" />
-            <span className="font-normal">Add Amount</span>
+            <div className="flex items-center gap-2">
+              <span className="font-normal">Add Amount</span>
+              <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GST Included</span>
+            </div>
 
             <Form form={form} onValuesChange={(_, allValues) => handleInputChange(allValues)} className="flex justify-center">
               <FormInput
@@ -196,10 +295,12 @@ const Recharge = () => {
 
           <hr className="border-t border-primary" />
           <div>
-            {isRazorpay ?
-           <PaymentModal btnText="Add Balance" isLoading={isUserLoading} amount={rechargeAmount} onPaymentComplete={handlePaymentComplete} /> 
-             :<FormButton onClick={handleStartPayment} loading={isUserLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full! p-4! h-12! uppercase flex items-end-safe" />} 
-           </div>
+            {isRazorpay ? (
+              <PaymentModal btnText="Add Balance" isLoading={isUserLoading} amount={rechargeAmount} onPaymentComplete={handlePaymentComplete} />
+            ) : (
+              <FormButton onClick={handleStartPayment} loading={isUserLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+            )}
+          </div>
         </div>
       </div>
     </div>

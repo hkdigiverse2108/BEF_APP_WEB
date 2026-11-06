@@ -23,7 +23,7 @@ const MenuDrawer = () => {
   const { isMenuDrawer } = useAppSelector((state) => state.drawer);
   const { user } = useAppSelector((state) => state.auth);
 
-  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` });
+  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` }, { skip: !user?._id });
   const UserData = data?.data;
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -115,9 +115,9 @@ const MenuDrawer = () => {
               <img src={ProfileImage} alt="profile" className="w-12 h-12 sm:h-14 sm:w-14 rounded-full object-cover ring-4 ring-secondary" />
               <div className="min-w-0">
                 <span className="text-base sm:text-lg font-bold capitalize truncate block">
-                  {UserData?.firstName} {UserData?.lastName}
+                  {currentUser?.firstName ? `${currentUser.firstName} ${currentUser?.lastName || ""}` : "Guest User"}
                 </span>
-                <p className="capitalize text-xs sm:text-sm font-medium text-tertiary">{UserData?.userType === "admin" ? "Admin" : "Student"}</p>
+                <p className="capitalize text-xs sm:text-sm font-medium text-tertiary">{currentUser?.userType === "admin" ? "Admin" : currentUser ? "Student" : "Guest"}</p>
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ const Header = () => {
 
   const { genderWiseProfileImage, user } = useAppSelector((state) => state.auth);
 
-  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` });
+  const { data } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` }, { skip: !user?._id });
   const UserData = data?.data;
 
   const { data: workshopData, isLoading: workshopLoading } = useGetApiQuery({
@@ -65,9 +65,6 @@ const Header = () => {
         <header className={`bg-card border-b border-border shadow-sm relative z-50 ${isScrolled ? "bg-card/90 backdrop-blur-md" : ""}`}>
           <div className="container container-p mx-auto min-h-20 flex items-center justify-between gap-4 sm:gap-6 py-3">
             <Link to={ROUTES.HOME} className="flex items-center gap-3 shrink-0 py-1">
-              {/* <span className="hidden sm:flex w-11 h-11 rounded-xl bg-secondary border border-border items-center justify-center shadow-sm overflow-hidden">
-                <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="h-8 w-8 object-contain" />
-              </span> */}
               <span className="flex flex-col items-start justify-center">
                 <img src={`${ImagePath}logo/Logo.png`} alt="Achiwon" className="h-6 sm:h-7 w-auto object-contain" />
                 <span className="text-[10px] font-semibold text-success tracking-wider leading-none mt-1">UPSC & GPSC CSE</span>
@@ -80,24 +77,38 @@ const Header = () => {
                 </NavLink>
               ))}
             </nav>
-            <div className="flex items-center gap-3">
-              <button aria-label="Notifications" className="hidden sm:flex w-10 h-10 rounded-xl bg-secondary border border-transparent items-center justify-center text-primary transition-all duration-300 hover:border-accent hover:text-accent">
-                <HiOutlineBellAlert className="w-5 h-5" />
-              </button>
-              <button onClick={() => dispatch(setMenuDrawer())} className="flex items-center gap-2 rounded-xl bg-secondary border border-border py-2 px-3 transition-all duration-300 hover:border-accent">
-                <img src={ProfileImage} alt="profile" className="w-8 h-8 rounded-full object-cover" />
-                <span className="hidden md:block text-left">
-                  <span className="block text-xs font-bold leading-4 truncate max-w-28">
-                    {UserData?.firstName} {UserData?.lastName}
+            {user?._id ? (
+              <div className="flex items-center gap-3">
+                <button aria-label="Notifications" className="hidden sm:flex w-10 h-10 rounded-xl bg-secondary border border-transparent items-center justify-center text-primary transition-all duration-300 hover:border-accent hover:text-accent">
+                  <HiOutlineBellAlert className="w-5 h-5" />
+                </button>
+                <button onClick={() => dispatch(setMenuDrawer())} className="flex items-center gap-2 rounded-xl bg-secondary border border-border py-2 px-3 transition-all duration-300 hover:border-accent">
+                  <img src={ProfileImage} alt="profile" className="w-8 h-8 rounded-full object-cover" />
+                  <span className="hidden md:block text-left">
+                    <span className="block text-xs font-bold leading-4 truncate max-w-28">
+                      {UserData?.firstName} {UserData?.lastName}
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground capitalize">{UserData?.userType === "admin" ? "Admin" : "Student"}</span>
                   </span>
-                  <span className="block text-[10px] text-muted-foreground capitalize">{UserData?.userType === "admin" ? "Admin" : "Student"}</span>
-                </span>
-                <IoIosArrowDown className="hidden md:block text-muted-foreground" />
-              </button>
-              <button id="toggleOpen" aria-label="Open menu" onClick={() => dispatch(setNavMenuDrawer(true))} className="lg:hidden cursor-pointer flex justify-center items-center rounded-xl w-10 h-10 bg-secondary text-primary transition-all duration-300 hover:border hover:border-accent">
-                <HiOutlineBars3BottomRight className="text-xl" />
-              </button>
-            </div>
+                  <IoIosArrowDown className="hidden md:block text-muted-foreground" />
+                </button>
+                <button id="toggleOpen" aria-label="Open menu" onClick={() => dispatch(setNavMenuDrawer(true))} className="lg:hidden cursor-pointer flex justify-center items-center rounded-xl w-10 h-10 bg-secondary text-primary transition-all duration-300 hover:border hover:border-accent">
+                  <HiOutlineBars3BottomRight className="text-xl" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Link to={ROUTES.AUTH.LOGIN} className="bef-btn-primary !px-4 !py-2 text-xs sm:text-sm font-bold uppercase rounded-xl">
+                  Login
+                </Link>
+                <Link to={ROUTES.AUTH.REGISTER} className="hidden sm:inline-flex border border-primary text-primary hover:bg-primary hover:text-white transition-all px-4 py-2 text-xs sm:text-sm font-bold uppercase rounded-xl">
+                  Sign Up
+                </Link>
+                <button id="toggleOpen" aria-label="Open menu" onClick={() => dispatch(setNavMenuDrawer(true))} className="lg:hidden cursor-pointer flex justify-center items-center rounded-xl w-10 h-10 bg-secondary text-primary transition-all duration-300 hover:border hover:border-accent">
+                  <HiOutlineBars3BottomRight className="text-xl" />
+                </button>
+              </div>
+            )}
           </div>
         </header>
       </div>

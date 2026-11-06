@@ -13,6 +13,10 @@ export const ROUTES = {
     CONTEST_DETAILS: "/contest/details",
     CONTEST_WINNERS: "/contest/winners",
     PRACTICE: "/practice",
+    SUCCESS: "/contest/success",
+  },
+  PAYMENT: {
+    SUCCESS: "/payment/success",
   },
   EXAM: {
     INSTRUCTION: "/exam/instruction",

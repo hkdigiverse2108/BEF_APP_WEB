@@ -137,10 +137,10 @@ const InstructionsDrawer = () => {
               <div key={i} className="border border-gray-100 bg-gray-50/80 rounded-xl p-3 flex flex-col gap-2">
                 <button
                   type="button"
-                  className={`flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-white rounded-lg shadow-xs pointer-events-none ${btn.color}`}
+                  className={`flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-white rounded-lg shadow-xs pointer-events-none shrink-0 whitespace-nowrap ${btn.color}`}
                 >
-                  {btn.icon}
-                  {btn.label}
+                  <span className="shrink-0 text-sm">{btn.icon}</span>
+                  <span className="whitespace-nowrap">{btn.label}</span>
                 </button>
                 <p className="text-[11px] text-gray-600 text-center m-0 leading-tight">
                   {btn.tooltipLabel}

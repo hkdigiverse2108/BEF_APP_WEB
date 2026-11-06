@@ -4,7 +4,6 @@ import { PhoneInput } from "react-international-phone";
 import { Link, NavLink } from "react-router-dom";
 import {
   FormButton,
-  FormDatePicker,
   FormInput,
   FormSelect,
 } from "../../Attribute/FormFields";
@@ -13,7 +12,6 @@ import {
   usePostGlobalApiMutation,
 } from "../../Api/CommonGlobalApi";
 import { HTTP_STATUS, ImagePath, ROUTES, URL_KEYS } from "../../Constants";
-import { GenderOptions, LanguageOptions } from "../../Data";
 import { RemoveEmptyFields } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
 import { SetUser } from "../../Store/Slices/AuthSlice";
@@ -204,7 +202,7 @@ const Register = () => {
   const steps = [
     {
       title: "Your Details",
-      fields: ["firstName", "lastName", "email", "gender"],
+      fields: ["firstName", "lastName", "email"],
       content: (
         <Row gutter={16}>
           <Col span={24}>
@@ -222,37 +220,17 @@ const Register = () => {
               ]}
             />
           </Col>
-          <Col span={24}>
-            <FormSelect name="gender" label="Gender" options={GenderOptions} />
-          </Col>
         </Row>
       ),
     },
     {
-      title: "Verity Number",
+      title: "Verify Number",
       fields: [
         ["contact", "countryCode"],
         ["contact", "mobile"],
-        "language",
-        "dob",
-        "city",
       ],
       content: (
         <Row gutter={16}>
-          <Col span={24}>
-            <FormDatePicker name="dob" label="Date of Birth" />
-          </Col>
-          <Col span={24}>
-            <FormInput name="city" label="City" />
-          </Col>
-          <Col span={24}>
-            <FormSelect
-              name="language"
-              label="Language"
-              required
-              options={LanguageOptions}
-            />
-          </Col>
           <Col span={24}>
             {/* Phone Number */}
             <Form.Item label="Phone Number" required>
@@ -305,7 +283,7 @@ const Register = () => {
     },
     {
       title: "Finish Up",
-      fields: ["password", "examTypeId", "upscNumber", "referralCode"],
+      fields: ["password", "examTypeId", "referralCode"],
       content: (
         <Row gutter={16}>
           <Col span={24}>
@@ -324,14 +302,6 @@ const Register = () => {
                 label: type?.name,
                 value: type?._id,
               }))}
-            />
-          </Col>
-          <Col span={24}>
-            <FormInput
-              name="upscNumber"
-              type="number"
-              label="Attempt number UPSC"
-              required
             />
           </Col>
           <Col span={24}>

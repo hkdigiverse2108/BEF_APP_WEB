@@ -39,6 +39,7 @@ import CourseDetails from "../Pages/Course/Details";
 import CountDown from "../Pages/Exam/CountDown";
 import WorkshopDetails from "../Pages/Workshop/Details";
 import Legality from "../Pages/Illegality";
+import ContestSuccess from "../Pages/Contest/ContestSuccess";
 
 export const PageRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
@@ -47,6 +48,8 @@ export const PageRoutes = [
   { path: ROUTES.CONTEST.CONTEST_DETAILS, element: <ContestDetails /> },
   { path: ROUTES.CONTEST.CONTEST_WINNERS, element: <ContestWinner /> },
   { path: ROUTES.CONTEST.PRACTICE, element: <Practice /> },
+  { path: ROUTES.CONTEST.SUCCESS, element: <ContestSuccess /> },
+  { path: ROUTES.PAYMENT.SUCCESS, element: <ContestSuccess /> },
   { path: ROUTES.EXAM.INSTRUCTION, element: <Instruction /> },
   { path: ROUTES.EXAM.QUESTION, element: <Question /> },
   { path: ROUTES.EXAM.RESULT, element: <Result /> },

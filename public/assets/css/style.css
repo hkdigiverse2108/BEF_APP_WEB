@@ -579,3 +579,223 @@ input {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #f68122;
 }
+
+
+/* ================ My Classes Mascot Cards (Achiwon 3D Lion Theme) ================ */
+.achiwon-class-card {
+  --mascot-accent: #1766d4;
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+  min-height: 156px !important;
+  height: 156px !important;
+  padding: 16px 22px 16px 184px !important;
+  border: 2px solid var(--mascot-accent) !important;
+  border-radius: 28px !important;
+  background:
+    radial-gradient(ellipse at 88% 112%, rgba(70, 151, 239, 0.19) 0%, rgba(70, 151, 239, 0.08) 30%, transparent 57%),
+    linear-gradient(135deg, #ffffff 0%, #f8fbff 66%, #edf5ff 100%) !important;
+  box-shadow: 0 9px 24px rgba(22, 68, 132, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+.achiwon-class-card.is-alternate {
+  --mascot-accent: #f48224;
+  background:
+    radial-gradient(ellipse at 88% 112%, rgba(244, 130, 36, 0.18) 0%, rgba(244, 130, 36, 0.07) 31%, transparent 58%),
+    linear-gradient(135deg, #ffffff 0%, #fffdfb 66%, #fff4e9 100%) !important;
+  box-shadow: 0 9px 24px rgba(244, 130, 36, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+/* Bottom right soft glow sweep */
+.achiwon-class-card::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  right: 12px !important;
+  bottom: 8px !important;
+  width: 38% !important;
+  height: 38% !important;
+  border: 0 !important;
+  border-radius: 100% 0 26px 0 !important;
+  background: linear-gradient(145deg, transparent 8%, rgba(54, 135, 224, 0.055) 52%, rgba(54, 135, 224, 0.11) 100%) !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  opacity: 0.72 !important;
+}
+
+.achiwon-class-card.is-alternate::after {
+  background: linear-gradient(145deg, transparent 8%, rgba(244, 130, 36, 0.045) 52%, rgba(244, 130, 36, 0.105) 100%) !important;
+}
+
+/* Mascot Image Pop-Out Anchored to Bottom-Left */
+.achiwon-class-card > img.mascot {
+  position: absolute !important;
+  display: block !important;
+  width: 160px !important;
+  height: auto !important;
+  max-width: none !important;
+  left: 0 !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: -1px !important;
+  object-fit: contain !important;
+  object-position: left bottom !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 5px 7px rgba(20, 42, 75, 0.14)) !important;
+  z-index: 50 !important;
+  pointer-events: none !important;
+  transform: translateZ(0);
+  transition: transform 0.28s ease !important;
+}
+
+/* Card Hover Lifts */
+.achiwon-class-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 16px 32px rgba(22, 68, 132, 0.15) !important;
+}
+
+.achiwon-class-card.is-alternate:hover {
+  box-shadow: 0 16px 32px rgba(244, 130, 36, 0.15) !important;
+}
+
+.achiwon-class-card:hover > img.mascot {
+  transform: scale(1.03) translateZ(0);
+}
+
+/* Inner content alignment */
+.achiwon-class-card .card-content {
+  position: relative !important;
+  z-index: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-height: 118px !important;
+  height: 100% !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+/* Bold Prominent Class Title */
+.achiwon-class-card .card-title {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  max-width: calc(100% - 64px) !important;
+  font-size: clamp(17px, 1.4vw, 22px) !important;
+  line-height: 1.25 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: #0842a3 !important;
+  word-break: break-word !important;
+}
+
+.achiwon-class-card.is-alternate .card-title {
+  color: #0d2a52 !important;
+}
+
+/* 52px Circular Action Button */
+.achiwon-class-card .card-circle-btn {
+  display: flex !important;
+  flex: 0 0 52px !important;
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  min-height: 52px !important;
+  border-radius: 50% !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #ffffff !important;
+  color: #0842a3 !important;
+  box-shadow: 0 6px 18px rgba(20, 50, 90, 0.13) !important;
+  font-size: 20px !important;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.achiwon-class-card.is-alternate .card-circle-btn {
+  color: #f48224 !important;
+}
+
+.achiwon-class-card:hover .card-circle-btn {
+  transform: translateX(4px) !important;
+  background: #0842a3 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(8, 66, 163, 0.3) !important;
+}
+
+.achiwon-class-card.is-alternate:hover .card-circle-btn {
+  background: #f48224 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(244, 130, 36, 0.3) !important;
+}
+
+/* Tablet Breakpoint (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .achiwon-class-card {
+    min-height: 150px !important;
+    height: 150px !important;
+    padding: 14px 16px 14px 154px !important;
+  }
+  .achiwon-class-card > img.mascot {
+    width: 145px !important;
+  }
+  .achiwon-class-card .card-content {
+    min-height: 112px !important;
+  }
+  .achiwon-class-card .card-title {
+    font-size: 18px !important;
+  }
+}
+
+/* Mobile Breakpoint (max-width: 640px) */
+@media (max-width: 640px) {
+  .achiwon-class-card {
+    min-height: 136px !important;
+    height: 136px !important;
+    padding: 12px 14px 12px 126px !important;
+    border-radius: 20px !important;
+  }
+  .achiwon-class-card > img.mascot {
+    width: 120px !important;
+  }
+  .achiwon-class-card .card-content {
+    min-height: 104px !important;
+    gap: 8px !important;
+  }
+  .achiwon-class-card .card-title {
+    font-size: 15px !important;
+    max-width: calc(100% - 44px) !important;
+    line-height: 1.2 !important;
+  }
+  .achiwon-class-card .card-circle-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    flex: 0 0 38px !important;
+    font-size: 16px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .achiwon-class-card,
+  .achiwon-class-card > img.mascot,
+  .achiwon-class-card .card-circle-btn {
+    transition: none !important;
+  }
+}

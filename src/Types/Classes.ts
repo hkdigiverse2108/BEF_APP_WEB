@@ -16,4 +16,5 @@ export interface ClassCardProps {
   item: ClassItem;
   onClick?: (item: ClassItem) => void;
   className?: string;
+  index?: number
 }
