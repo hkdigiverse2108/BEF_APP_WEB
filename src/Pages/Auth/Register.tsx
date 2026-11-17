@@ -123,13 +123,14 @@ const Register = () => {
       await form.validateFields(steps[current].fields);
 
       const values = form.getFieldsValue(true);
-      const email = values.email.toLowerCase();
+      const email = values.email ? String(values.email).trim().toLowerCase() : undefined;
       const contact = values.contact;
 
       const errors: any[] = [];
       let hasError = false;
 
-      if (email) {
+      // Step 0: Validate email uniqueness only when on Your Details step
+      if (current === 0 && email) {
         const resEmail:
           | { data: any }
           | { error: FetchBaseQueryError | SerializedError } =
@@ -144,16 +145,21 @@ const Register = () => {
           };
 
           if (errorData?.status === HTTP_STATUS.NOT_FOUND) {
-            errors.push({
-              name: "email",
-              errors: [errorData?.message || "Email already exists"],
-            });
-            hasError = true;
+            const msg = errorData?.message || "";
+            // Ensure error assigned to email is actually an email error, not a phone error
+            if (msg.toLowerCase().includes("email") || !msg.toLowerCase().includes("phone")) {
+              errors.push({
+                name: "email",
+                errors: [msg || "Email already exists"],
+              });
+              hasError = true;
+            }
           }
         }
       }
 
-      if (contact?.mobile) {
+      // Step 1: Validate phone number uniqueness only when on Verify Number step
+      if (current === 1 && contact?.mobile) {
         const resPhone = await PostGlobalApi({
           url: URL_KEYS.USER.CHECK,
           data: { contact },
@@ -166,11 +172,14 @@ const Register = () => {
           };
 
           if (errorData?.status === HTTP_STATUS.NOT_FOUND) {
-            errors.push({
-              name: ["contact", "mobile"],
-              errors: [errorData?.message || "Phone already exists"],
-            });
-            hasError = true;
+            const msg = errorData?.message || "";
+            if (msg.toLowerCase().includes("phone") || msg.toLowerCase().includes("mobile") || !msg.toLowerCase().includes("email")) {
+              errors.push({
+                name: ["contact", "mobile"],
+                errors: [msg || "Phone already exists"],
+              });
+              hasError = true;
+            }
           }
         }
       }

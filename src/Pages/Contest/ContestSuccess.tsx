@@ -85,17 +85,20 @@ const ContestSuccess: FC = () => {
         // Google Ads Conversion Tracking for Success Page
         // Only track on success page and ensure gtag is available
         if (typeof window !== "undefined") {
-          const gtagWindow = window as unknown as { gtag?: (...args: unknown[]) => void };
           try {
-            if (typeof gtagWindow.gtag === "function") {
-              gtagWindow.gtag('event', 'conversion', {
-                'send_to': 'AW-16926994683/hjJiCKy5p7MdEPvhtYc_',
-                'transaction_id': transactionId || '',
-                'value': Number(amountPaid) || 0,
-                'currency': 'INR',
-                'new_customer': false /* calculate dynamically based on user session */,
-              });
+            const winAny = window as any;
+            winAny.dataLayer = winAny.dataLayer || [];
+            if (typeof winAny.gtag !== "function") {
+              winAny.gtag = function () {
+                winAny.dataLayer.push(arguments);
+              };
             }
+            winAny.gtag('event', 'conversion', {
+              'send_to': 'AW-16926994683/hjJiCKy5p7MdEPvhtYc_',
+              'transaction_id': transactionId || '',
+              'value': Number(amountPaid) || 0,
+              'currency': 'INR',
+            });
           } catch (e) {
             console.error("Google Ads conversion tracking error:", e);
           }
