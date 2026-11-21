@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { setConfirmationDrawer, setSubtopicDrawer } from "../../Store/Slices/DrawerSlice";
 import type { ContestCore, PayloadTime } from "../../Types";
 import { Storage } from "../../Utils";
-import ConfirmationDrawer from "../Common/ConfirmationDrawer";
 
 const SubtopicDrawer = () => {
   const [form] = Form.useForm();
@@ -74,17 +73,21 @@ const SubtopicDrawer = () => {
       //   },
       // });
 
+      const contestData = {
+        ...isSubtopicDrawer.contest,
+        payload: {
+          stackNumber: selectedQuestion,
+          contestStartDate: payloadTime?.startTime,
+          contestEndDate: payloadTime?.endTime,
+        },
+      };
+
+      Storage.setItem("pending_contest_join", JSON.stringify(contestData));
+
       dispatch(
         setConfirmationDrawer({
           open: true,
-          data: {
-            ...isSubtopicDrawer.contest,
-            payload: {
-              stackNumber: selectedQuestion,
-              contestStartDate: payloadTime?.startTime,
-              contestEndDate: payloadTime?.endTime,
-            },
-          },
+          data: contestData,
         }),
       );
       dispatch(setSubtopicDrawer({ open: false, contest: {} }));
@@ -190,7 +193,6 @@ const SubtopicDrawer = () => {
           </Form>
         </div>
       </Drawer>
-      <ConfirmationDrawer />
     </>
   );
 };

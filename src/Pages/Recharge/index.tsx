@@ -34,6 +34,19 @@ const Recharge = () => {
 
   const userData = data?.data;
 
+  const pendingContest = (() => {
+    const raw = Storage.getItem("pending_contest_join");
+    if (raw) {
+      try {
+        return JSON.parse(raw);
+      } catch (e) {}
+    }
+    return location?.state?.contestData || null;
+  })();
+
+  const contestFee = Number(pendingContest?.fees || 0);
+  const effectiveMinAmount = pendingContest && contestFee > 0 ? contestFee : MinAmount;
+
   const handleRedirectAfterRecharge = async () => {
     const pending = Storage.getItem("pending_contest_join");
     if (pending) {
@@ -123,8 +136,16 @@ const Recharge = () => {
   }, []);
 
   useEffect(() => {
-    form.setFieldsValue({ balance: MinAmount });
-  }, []);
+    let fee = MinAmount;
+    if (pendingContest) {
+      const contestFee = Number(pendingContest?.fees || 0);
+      if (contestFee > 0) {
+        fee = contestFee;
+      }
+    }
+    setRechargeAmount(fee);
+    form.setFieldsValue({ balance: fee });
+  }, [pendingContest]);
 
   // Check if returning from PhonePe or external payment redirect
   useEffect(() => {
@@ -261,6 +282,27 @@ const Recharge = () => {
 
         {/* RIGHT */}
         <div className="flex flex-col gap-6 pb-4">
+          {pendingContest && (
+            <div className="w-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/5 border border-primary/20 rounded-xl p-4 flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary bg-white px-2.5 py-1 rounded-md shadow-xs">
+                  Contest Entry Payment
+                </span>
+                {pendingContest?.fees !== undefined && (
+                  <span className="text-sm font-bold text-gray-800">
+                    Fee: ₹{pendingContest.fees}
+                  </span>
+                )}
+              </div>
+              <h4 className="text-base font-bold text-gray-900 mt-1">
+                {pendingContest?.name || "Selected Contest"}
+              </h4>
+              <p className="text-xs text-gray-600">
+                Your selected time slot and question set are reserved. Complete payment to automatically join!
+              </p>
+            </div>
+          )}
+
           {/* BALANCE DISPLAY */}
           <div className="w-full relative bg-input-box rounded-xl p-7 flex justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-primary rounded-r absolute left-0" />
@@ -275,7 +317,7 @@ const Recharge = () => {
           <div className="w-full relative bg-input-box rounded-xl p-5 flex flex-wrap justify-between items-center gap-6">
             <div className="w-1 h-[70%] bg-primary rounded-r absolute left-0" />
             <div className="flex items-center gap-2">
-              <span className="font-normal">Add Amount</span>
+              <span className="font-normal">{pendingContest ? "Payable Amount" : "Add Amount"}</span>
               <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">GST Included</span>
             </div>
 
@@ -284,9 +326,9 @@ const Recharge = () => {
                 name="balance"
                 type="number"
                 rules={[
-                  { required: true, message: `Enter minimum ₹${MinAmount}` },
+                  { required: true, message: `Enter minimum ₹${effectiveMinAmount}` },
                   {
-                    validator: (_: any, value: any) => (value >= MinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${MinAmount}`)),
+                    validator: (_: any, value: any) => (value >= effectiveMinAmount ? Promise.resolve() : Promise.reject(`Minimum recharge amount is ₹${effectiveMinAmount}`)),
                   },
                 ]}
               />
@@ -296,9 +338,19 @@ const Recharge = () => {
           <hr className="border-t border-primary" />
           <div>
             {isRazorpay ? (
-              <PaymentModal btnText="Add Balance" isLoading={isUserLoading} amount={rechargeAmount} onPaymentComplete={handlePaymentComplete} />
+              <PaymentModal
+                btnText={pendingContest ? `Pay ₹${rechargeAmount} & Join Contest` : "Add Balance"}
+                isLoading={isUserLoading}
+                amount={rechargeAmount}
+                onPaymentComplete={handlePaymentComplete}
+              />
             ) : (
-              <FormButton onClick={handleStartPayment} loading={isUserLoading} text="Enroll Now" className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe" />
+              <FormButton
+                onClick={handleStartPayment}
+                loading={isUserLoading}
+                text={pendingContest ? `Pay ₹${rechargeAmount} & Join Contest` : "Enroll Now"}
+                className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe"
+              />
             )}
           </div>
         </div>

@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../Store/hooks";
 import { setConfirmationDrawer } from "../Store/Slices/DrawerSlice";
 import { useGetApiQuery } from "../Api/CommonApi";
 import VideoModal from "../Components/Common/VideoModal";
+import ConfirmationDrawer from "../Components/Common/ConfirmationDrawer";
 
 const Layout = () => {
   const dispatch = useAppDispatch();
@@ -21,20 +22,24 @@ const Layout = () => {
   const { data, refetch } = useGetApiQuery({ url: `${URL_KEYS.USER.ID}${user?._id}` }, { skip: !user?._id });
   const { modalVideoLink, modalVideoPlay } = useAppSelector((state) => state.VideoModal);
 
-  // If returning to contest after login
+  // If returning to contest after login and has sufficient balance
   useEffect(() => {
-    if (user?._id) {
+    if (user?._id && !pathname.includes("recharge")) {
       const pending = Storage.getItem("pending_contest_join");
       if (pending) {
         try {
           const contestData = JSON.parse(pending);
-          dispatch(setConfirmationDrawer({ open: true, data: contestData }));
+          const fees = Number(contestData?.fees || 0);
+          const walletBalance = Number(user?.walletBalance || 0);
+          if (fees === 0 || walletBalance >= fees) {
+            dispatch(setConfirmationDrawer({ open: true, data: contestData }));
+          }
         } catch (e) {
           console.error(e);
         }
       }
     }
-  }, [user?._id]);
+  }, [user?._id, pathname]);
 
   const isCourseDetails = pathname.startsWith(ROUTES.COURSE.DETAILS.replace(":id", ""));
   const isWorkshopDetails = pathname.startsWith(ROUTES.WORKSHOP.DETAILS.replace(":id", ""));
@@ -88,6 +93,7 @@ const Layout = () => {
       {!isExamFlow && !FooterHide && <Footer />}
       {!isExamFlow && <WhatsappIcon />}
       <VideoModal playVideo={modalVideoPlay} videoLink={modalVideoLink} />
+      <ConfirmationDrawer />
     </div>
   );
 };
