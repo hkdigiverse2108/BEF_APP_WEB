@@ -12,7 +12,7 @@ import {
   usePostGlobalApiMutation,
 } from "../../Api/CommonGlobalApi";
 import { HTTP_STATUS, ImagePath, ROUTES, URL_KEYS } from "../../Constants";
-import { RemoveEmptyFields } from "../../Utils";
+import { RemoveEmptyFields, Storage } from "../../Utils";
 import { useAppDispatch } from "../../Store/hooks";
 import { SetUser } from "../../Store/Slices/AuthSlice";
 import type { RegisterForm, RegisterPayload } from "../../Types";
@@ -65,6 +65,7 @@ const Register = () => {
         data: cleaned,
       }).unwrap();
 
+      Storage.setItem("just_registered", "true");
       dispatch(SetUser(res?.data));
     } catch (error) {
       console.error(error);
@@ -295,6 +296,27 @@ const Register = () => {
       fields: ["password", "examTypeId", "referralCode"],
       content: (
         <Row gutter={16}>
+          {/* Signup Fee / Recharge Notice */}
+          {/* <Col span={24}>
+            <div className="mb-4 p-4 rounded-xl border border-primary/20 bg-primary/5 flex items-center justify-between">
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-foreground text-sm">
+                    Signup Wallet Recharge
+                  </span>
+                  <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                    GST Included
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Initial recharge required to activate account & participate in contests.
+                </p>
+              </div>
+              <div className="text-right">
+                <span className="text-xl font-bold text-primary">₹69</span>
+              </div>
+            </div>
+          </Col> */}
           <Col span={24}>
             <FormInput
               name="referralCode"
@@ -421,7 +443,7 @@ const Register = () => {
                 <FormButton
                   loading={isPostApiLoading || isCouponLoading}
                   htmlType="submit"
-                  text="Submit"
+                  text="Sign Up"
                   className="bef-btn-primary w-full uppercase"
                 />
               )}

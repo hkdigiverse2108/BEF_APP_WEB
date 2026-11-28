@@ -8,19 +8,19 @@ export const PrivateRoutes = () => {
 
   // Publicly accessible pages without login (Guest Mode)
   const isPublicRoute =
+    location.pathname === ROUTES.HOME ||
     location.pathname === ROUTES.CLASSES.CLASSES ||
     location.pathname === ROUTES.CONTEST.CONTEST ||
     location.pathname === ROUTES.CONTEST.CONTEST_DETAILS ||
+    location.pathname === ROUTES.COURSE.COURSE ||
+    location.pathname.startsWith("/course") ||
+    location.pathname === ROUTES.WORKSHOP.WORKSHOP ||
+    location.pathname.startsWith("/workshop") ||
     location.pathname === ROUTES.HOW_IT_WORK.HOW_IT_WORK ||
     location.pathname === ROUTES.ABOUT_US.ABOUT_US ||
     location.pathname === ROUTES.LEGALITY.LEGALITY ||
     location.pathname === ROUTES.PRIVACY_POLICY.PRIVACY_POLICY ||
     location.pathname === ROUTES.TERMS_CONDITIONS.TERMS_CONDITIONS;
-
-  // If guest lands on root '/', send them directly to Classes page, preserving query params (e.g. ?gtm_debug, ?utm_...)
-  if (!isAuthenticated && location.pathname === ROUTES.HOME) {
-    return <Navigate to={{ pathname: ROUTES.CLASSES.CLASSES, search: location.search }} replace />;
-  }
 
   return isAuthenticated || isPublicRoute ? (
     <Outlet />

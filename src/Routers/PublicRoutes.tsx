@@ -7,6 +7,18 @@ export const PublicRoutes = () => {
   const { isAuthenticated, user } = useAppSelector((store) => store.auth);
 
   if (isAuthenticated) {
+    const justRegistered = Storage.getItem("just_registered");
+    if (justRegistered === "true") {
+      Storage.removeItem("just_registered");
+      return (
+        <Navigate
+          to={ROUTES.RECHARGE.RECHARGE}
+          state={{ fromSignup: true, signupAmount: 69 }}
+          replace
+        />
+      );
+    }
+
     const pending = Storage.getItem("pending_contest_join");
     if (pending) {
       try {

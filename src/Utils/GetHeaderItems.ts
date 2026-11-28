@@ -24,6 +24,7 @@ export const getHeaderItems = () => {
     { link: ROUTES.REFERRAL.REFERRAL, text: "Referral" },
     { link: ROUTES.CONTEST.CONTEST_WINNERS, text: "Winner" },
     { link: workshopLink, text: "Workshop" },
+    { link: ROUTES.COURSE.COURSE, text: "Course" },
     { link: ROUTES.CONTACT.CONTACT, text: "Contact" },
   ];
 };

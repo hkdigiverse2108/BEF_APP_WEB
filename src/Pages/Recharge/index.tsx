@@ -33,6 +33,7 @@ const Recharge = () => {
   const isRazorpay = settingData?.data?.isRazorpay;
 
   const userData = data?.data;
+  const isFromSignup = Boolean(location?.state?.fromSignup);
 
   const pendingContest = (() => {
     const raw = Storage.getItem("pending_contest_join");
@@ -110,6 +111,12 @@ const Recharge = () => {
     if (location?.state?.returnToContest && location?.state?.contestData) {
       dispatch(setConfirmationDrawer({ open: true, data: location.state.contestData }));
       navigate(ROUTES.HOME);
+      return;
+    }
+
+    if (isFromSignup) {
+      AntdNotification(notification, "success", "Account activated and wallet recharged successfully!");
+      navigate(ROUTES.CLASSES.CLASSES);
       return;
     }
 
@@ -282,6 +289,25 @@ const Recharge = () => {
 
         {/* RIGHT */}
         <div className="flex flex-col gap-6 pb-4">
+          {isFromSignup && (
+            <div className="w-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/5 border border-primary/20 rounded-xl p-4 flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary bg-white px-2.5 py-1 rounded-md shadow-xs">
+                  Account Activation
+                </span>
+                <span className="text-sm font-bold text-gray-800">
+                  Initial Recharge: ₹69
+                </span>
+              </div>
+              <h4 className="text-base font-bold text-gray-900 mt-1">
+                Welcome to Achiwon!
+              </h4>
+              <p className="text-xs text-gray-600">
+                Complete your initial signup recharge of ₹69 (GST Included) to activate your account and start competing in tests & contests.
+              </p>
+            </div>
+          )}
+
           {pendingContest && (
             <div className="w-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/5 border border-primary/20 rounded-xl p-4 flex flex-col gap-2">
               <div className="flex items-center justify-between">
@@ -339,7 +365,13 @@ const Recharge = () => {
           <div>
             {isRazorpay ? (
               <PaymentModal
-                btnText={pendingContest ? `Pay ₹${rechargeAmount} & Join Contest` : "Add Balance"}
+                btnText={
+                  isFromSignup
+                    ? `Pay ₹${rechargeAmount} & Activate Account`
+                    : pendingContest
+                    ? `Pay ₹${rechargeAmount} & Join Contest`
+                    : "Add Balance"
+                }
                 isLoading={isUserLoading}
                 amount={rechargeAmount}
                 onPaymentComplete={handlePaymentComplete}
@@ -348,7 +380,13 @@ const Recharge = () => {
               <FormButton
                 onClick={handleStartPayment}
                 loading={isUserLoading}
-                text={pendingContest ? `Pay ₹${rechargeAmount} & Join Contest` : "Enroll Now"}
+                text={
+                  isFromSignup
+                    ? `Pay ₹${rechargeAmount} & Activate Account`
+                    : pendingContest
+                    ? `Pay ₹${rechargeAmount} & Join Contest`
+                    : "Enroll Now"
+                }
                 className="custom-button button button--mimas text-center w-full !p-4 !h-12 uppercase flex items-end-safe"
               />
             )}
